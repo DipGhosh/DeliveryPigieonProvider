@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Delivery Pigieon Partner</string>
+    <string name="phone_number">Phone number *</string>
+    <string name="otp">OTP code *</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">Don`t have an account? <b>Signup</b></string>
+    <string name="getOtp">Get Otp</string>
+    <string name="chekbox_str">By Resending I agree with Terms of use of Delivery Pigeon</string>
+    <string name="otp_receive">You will receive a 4 digit OTP code.</string>
+    <string name="registration">Registration</string>
+    <string name="submit">SUBMIT</string>
+    <string name="provider_details">Provider details</string>
+    <string name="upload_photo">Upload a photo</string>
+    <string name="upload_info">Full facial features must be clearly visible</string>
+    <string name="full_name">Full name*</string>
+    <string name="email">Email</string>
+    <string name="document_uplaod">Address proof upload*</string>
+    <string name="front_side_info">Front side of Aadhar card/Votar ID/ Driving License </string>
+    <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License </string>
+    <string name="others_document">Other documents*</string>
+    <string name="add_bankdetails">Add Bank Details</string>
+</resources>

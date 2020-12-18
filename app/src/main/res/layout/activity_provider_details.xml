@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProviderDetails"
+    android:background="@color/loginBackcolor">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/provider_details"
+            android:id="@+id/tv_header"
+            android:layout_marginTop="@dimen/margin_15"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textsize_20"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+           >
+
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_140"
+            android:layout_marginTop="@dimen/margine_top">
+
+        <RelativeLayout android:layout_width="120dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circleshape"
+            android:gravity="center"
+            android:layout_height="@dimen/height_120">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/user_pic"
+                android:layout_width="@dimen/height_120"
+                android:layout_height="@dimen/height_120"
+                android:src="@drawable/provider_profile"
+                app:civ_border_color="@android:color/white"
+
+                />
+
+
+        </RelativeLayout>
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/edit_pic"
+                android:layout_width="@dimen/size_35"
+                android:layout_height="@dimen/size_35"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/circleshape"
+                />
+            <ImageView
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/size_5"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_img">
+
+            </ImageView>
+
+
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/tv_uploadphoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_5"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/upload_photo"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_20"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_uploadInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_5"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/upload_info"
+            android:textColor="@color/fadeBlack"
+            android:gravity="center"
+            android:textSize="@dimen/text_size"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_uploadphoto">
+
+        </TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_field_height"
+            android:id="@+id/et_fullName"
+            android:text="@string/full_name"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginRight="@dimen/margine_size"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/input_text_field"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_uploadInfo"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_field_height"
+            android:id="@+id/et_email"
+            android:text="@string/email"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginRight="@dimen/margine_size"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/input_text_field"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/size_10"
+            app:layout_constraintTop_toBottomOf="@id/et_fullName"
+            />
+        <TextView
+            android:id="@+id/tv_docupload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/document_uplaod"
+            android:textColor="@android:color/black"
+            android:gravity="center|left"
+            android:textSize="@dimen/text_size"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_email">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_90"
+            android:id="@+id/ll_addressproof"
+            android:weightSum="2"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/margine_size"
+            app:layout_constraintTop_toBottomOf="@id/tv_docupload">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/size_5">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:siRadius="8dp"
+                        app:siBorderWidth="0.5dp"
+                        android:background="@drawable/imageupload_shape">
+
+                    </com.github.siyamed.shapeimageview.RoundedImageView>
+                    <ImageView
+                        android:layout_width="@dimen/size_35"
+                        android:layout_height="@dimen/size_35"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/size_25"
+                        android:layout_height="@dimen/size_25"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_img">
+
+                    </ImageView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:siRadius="8dp"
+                        app:siBorderWidth="0.5dp"
+                        android:background="@drawable/imageupload_shape">
+
+                    </com.github.siyamed.shapeimageview.RoundedImageView>
+                    <ImageView
+                        android:layout_width="@dimen/size_35"
+                        android:layout_height="@dimen/size_35"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/size_25"
+                        android:layout_height="@dimen/size_25"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/image_add_icon">
+                    </ImageView>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_addressproof"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            android:layout_marginRight="@dimen/margine_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_addressproof">
+
+            <TextView
+                android:id="@+id/tv_adharfontSide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="210dp"
+                android:text="@string/front_side_info"
+                android:textColor="@color/fadeBlack"
+                android:textSize="@dimen/text_size"
+                android:fontFamily="@font/montserrat"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_adharbackSide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/size_200"
+                android:text="@string/back_side_info"
+                android:textColor="@color/fadeBlack"
+                android:textSize="@dimen/text_size"
+                android:fontFamily="@font/montserrat"
+                >
+
+            </TextView>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_othersdocument"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/others_document"
+            android:textColor="@android:color/black"
+            android:gravity="center|left"
+            android:textSize="@dimen/text_size"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_email">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_90"
+            android:weightSum="2"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/margine_size"
+            app:layout_constraintTop_toBottomOf="@id/tv_docupload">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/size_5">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:siRadius="8dp"
+                        app:siBorderWidth="0.5dp"
+                        android:background="@drawable/imageupload_shape">
+
+                    </com.github.siyamed.shapeimageview.RoundedImageView>
+                    <ImageView
+                        android:layout_width="@dimen/size_35"
+                        android:layout_height="@dimen/size_35"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/size_25"
+                        android:layout_height="@dimen/size_25"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/image_add_icon">
+
+                    </ImageView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/size_5"
+                android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:siRadius="8dp"
+                        app:siBorderWidth="0.5dp"
+                        android:background="@drawable/imageupload_shape">
+
+                    </com.github.siyamed.shapeimageview.RoundedImageView>
+                    <ImageView
+                        android:layout_width="@dimen/size_35"
+                        android:layout_height="@dimen/size_35"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/size_25"
+                        android:layout_height="@dimen/size_25"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/image_add_icon">
+                    </ImageView>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/textsize_20"
+            android:gravity="center"
+            android:id="@+id/ll_changepassword"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/otptextColor"
+                android:textSize="@dimen/textsize_20"
+                android:paddingLeft="16dp"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/add_bankdetails">
+
+            </TextView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <ImageView
+                    android:layout_width="@dimen/size_30"
+                    android:layout_height="@dimen/size_30"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circleshape"
+                    />
+                <ImageView
+                    android:layout_width="@dimen/textsize_20"
+                    android:layout_height="@dimen/textsize_20"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/right_arrow">
+
+                </ImageView>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_field_height"
+            android:background="@drawable/login_button"
+            android:text="@string/submit"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginRight="@dimen/margine_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margine_top"
+            android:layout_marginBottom="@dimen/size_30"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintTop_toBottomOf="@id/rl_addressproof">
+
+        </Button>
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

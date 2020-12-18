@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="input_field_height">55dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="margine_size">20dp</dimen>
+    <dimen name="margine_top">20dp</dimen>
+    <dimen name="donthaveacnt_margine_top">30dp</dimen>
+    <dimen name="phonenumber_margin_top">120dp</dimen>
+    <dimen name="otpReceive_marginTop">10dp</dimen>
+    <dimen name="textsize_20">20dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="height_120">120dp</dimen>
+    <dimen name="height_140">140dp</dimen>
+    <dimen name="size_35">35dp</dimen>
+    <dimen name="size_25">25dp</dimen>
+    <dimen name="size_5">5dp</dimen>
+    <dimen name="size_10">10dp</dimen>
+    <dimen name="size_90">90dp</dimen>
+    <dimen name="size_200">200dp</dimen>
+    <dimen name="size_30">30dp</dimen>
+
+
+</resources>
