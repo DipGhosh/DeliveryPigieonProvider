@@ -17,7 +17,13 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField "String", "SERVER_URL", "\"http://3.136.37.47\""
+        }
+
         release {
+            buildConfigField "String", "SERVER_URL", "\"http://3.136.37.47\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -38,4 +44,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
 }

@@ -1,10 +1,9 @@
 package com.dev.pigeonproviderapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import com.dev.pigeonproviderapp.activity.BaseActivity;
 
-public class ProviderDetails extends AppCompatActivity {
+public class ProviderDetails extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
