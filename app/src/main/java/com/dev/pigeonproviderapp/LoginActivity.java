@@ -18,9 +18,9 @@ public class LoginActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
-    et_otp = (EditText) findViewById(R.id.et_otp);
-    providerLogin = (Button) findViewById(R.id.btn_providerlogin);
+    et_phoneNumber = findViewById(R.id.et_phoneNumber);
+    et_otp =findViewById(R.id.et_otp);
+    providerLogin = findViewById(R.id.btn_providerlogin);
 
 
     providerLogin.setOnClickListener(new View.OnClickListener() {

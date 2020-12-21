@@ -19,4 +19,6 @@
     <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License </string>
     <string name="others_document">Other documents*</string>
     <string name="add_bankdetails">Add Bank Details</string>
+    <string name="pan_card">Front side of PAN Card</string>
+    <string name="other">Other(Optional)</string>
 </resources>
