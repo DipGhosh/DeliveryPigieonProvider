@@ -119,37 +119,47 @@
             app:layout_constraintTop_toBottomOf="@id/tv_uploadphoto">
 
         </TextView>
-
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/et_fullName"
-            android:text="@string/full_name"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/margine_size"
-            android:layout_marginRight="@dimen/margine_size"
-            android:fontFamily="@font/montserrat"
-            android:background="@drawable/input_text_field"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="40dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_uploadInfo"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/et_email"
-            android:text="@string/email"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/margine_size"
-            android:layout_marginRight="@dimen/margine_size"
-            android:fontFamily="@font/montserrat"
-            android:background="@drawable/input_text_field"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_height="wrap_content"
+            android:background="@color/deepColor"
             android:layout_marginTop="@dimen/size_10"
-            app:layout_constraintTop_toBottomOf="@id/et_fullName"
-            />
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/et_fullName"
+                android:hint="@string/full_name"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margine_size"
+                android:layout_marginRight="@dimen/margine_size"
+                android:fontFamily="@font/montserrat"
+                android:background="@drawable/input_text_field"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/textsize_20"
+
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/et_email"
+                android:hint="@string/email"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margine_size"
+                android:layout_marginRight="@dimen/margine_size"
+                android:fontFamily="@font/montserrat"
+                android:background="@drawable/input_text_field"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/size_10"
+                android:layout_marginBottom="@dimen/textsize_20"
+                />
+
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/tv_docupload"
             android:layout_width="match_parent"
@@ -170,19 +180,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_90"
+            android:layout_height="wrap_content"
             android:id="@+id/ll_addressproof"
+            android:background="@color/deepColor"
             android:weightSum="2"
-            android:layout_marginLeft="@dimen/margine_size"
             android:layout_marginTop="@dimen/size_10"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="@dimen/margine_size"
             app:layout_constraintTop_toBottomOf="@id/tv_docupload">
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_marginBottom="@dimen/textsize_20"
+                android:layout_height="@dimen/size_90"
                 android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margine_size"
                 android:layout_marginRight="@dimen/size_5">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -216,8 +228,10 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/size_90"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_marginRight="@dimen/margine_size"
                 android:layout_weight="1">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -252,9 +266,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rl_addressproof"
-            android:layout_marginLeft="@dimen/margine_size"
-            android:layout_marginTop="@dimen/size_10"
-            android:layout_marginRight="@dimen/margine_size"
+            android:background="@color/deepColor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_addressproof">
 
@@ -263,6 +275,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="210dp"
+                android:layout_marginLeft="@dimen/margine_size"
                 android:text="@string/front_side_info"
                 android:textColor="@color/fadeBlack"
                 android:textSize="@dimen/text_size"
@@ -279,6 +292,8 @@
                 android:text="@string/back_side_info"
                 android:textColor="@color/fadeBlack"
                 android:textSize="@dimen/text_size"
+                android:layout_marginBottom="@dimen/textsize_20"
+                android:layout_marginRight="@dimen/margine_size"
                 android:fontFamily="@font/montserrat"
                 >
 
@@ -306,18 +321,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_90"
+            android:layout_height="wrap_content"
             android:weightSum="2"
-            android:layout_marginLeft="@dimen/margine_size"
+            android:background="@color/deepColor"
             android:layout_marginTop="@dimen/size_10"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="@dimen/margine_size"
             app:layout_constraintTop_toBottomOf="@id/tv_docupload">
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/size_90"
                 android:layout_weight="1"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_marginLeft="@dimen/margine_size"
                 android:layout_marginRight="@dimen/size_5">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -351,8 +367,10 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/size_90"
                 android:layout_marginLeft="@dimen/size_5"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_marginRight="@dimen/textsize_20"
                 android:layout_weight="1">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -382,6 +400,51 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:background="@color/deepColor"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/textsize_20"
+                android:layout_marginLeft="@dimen/margine_size">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pan_card"
+                    android:textColor="@color/fadeBlack"
+                    android:textSize="@dimen/text_size"
+                    android:fontFamily="@font/montserrat"
+                    >
+
+                </TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/textsize_20"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/textsize_20"
+                android:layout_marginRight="@dimen/margine_size">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other"
+                    android:textColor="@color/fadeBlack"
+                    android:textSize="@dimen/text_size"
+                    android:fontFamily="@font/montserrat"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
