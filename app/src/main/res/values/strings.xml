@@ -21,4 +21,6 @@
     <string name="add_bankdetails">Add Bank Details</string>
     <string name="pan_card">Front side of PAN Card</string>
     <string name="other">Other(Optional)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
