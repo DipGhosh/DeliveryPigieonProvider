@@ -13,4 +13,7 @@
     <color name="otptextColor">#1FA7D1</color>
     <color name="fadeBlack">#525051</color>
     <color name="deepColor">#93E1F8</color>
+    <color name="tabselect_color">#21A6D1</color>
+    <color name="header_color">#1FA7D1</color>
+
 </resources>

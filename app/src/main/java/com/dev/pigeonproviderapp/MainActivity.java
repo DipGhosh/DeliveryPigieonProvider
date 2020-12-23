@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.dev.pigeonproviderapp.Fragment.OrdersFrag;
+import com.dev.pigeonproviderapp.Fragment.ProfileFrag;
+import com.dev.pigeonproviderapp.Fragment.SupportFrag;
 import com.dev.pigeonproviderapp.activity.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -21,19 +23,18 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    TextView trainer_main_header;
+    //TextView trainer_main_header;
     private int[] tabIcons = {
             R.drawable.tab_order,
             R.drawable.tab_support,
             R.drawable.tab_profile,
-            R.drawable.tab_settings
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager_trainer);
-        trainer_main_header=(TextView)findViewById(R.id.tv_dashboard);
+        //trainer_main_header=(TextView)findViewById(R.id.tv_dashboard);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -49,10 +50,10 @@ public class MainActivity extends BaseActivity {
                     {
                         super.onTabSelected(tab);
                         viewPager.setCurrentItem(tab.getPosition());
-                        int tabIconColor = ContextCompat.getColor(MainActivity.this, R.color.inputBorderColor);
+                        int tabIconColor = ContextCompat.getColor(MainActivity.this, R.color.otptextColor);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
 
-                        if (viewPager.getCurrentItem()==0)
+                       /* if (viewPager.getCurrentItem()==0)
                         {
                             trainer_main_header.setText("Orders");
                         }
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity {
                         {
                             trainer_main_header.setText("Setting");
 
-                        }
+                        }*/
 
                     }
 
@@ -98,14 +99,14 @@ public class MainActivity extends BaseActivity {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
 
 
 
         tabLayout.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.inputBorderColor), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
+
 
 
 
@@ -115,9 +116,9 @@ public class MainActivity extends BaseActivity {
     {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new OrdersFrag(), "Orders");
-        adapter.addFrag(new OrdersFrag(), "Support");
-        adapter.addFrag(new OrdersFrag(), "Profile");
-        adapter.addFrag(new OrdersFrag(), "Settings");
+        adapter.addFrag(new SupportFrag(), "Support");
+        adapter.addFrag(new ProfileFrag(), "Profile");
+
 
 
         viewPager.setAdapter(adapter);
