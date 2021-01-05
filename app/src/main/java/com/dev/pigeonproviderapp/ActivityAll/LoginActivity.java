@@ -1,10 +1,13 @@
-package com.dev.pigeonproviderapp;
+package com.dev.pigeonproviderapp.ActivityAll;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
+import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.activity.BaseActivity;
 
 public class LoginActivity extends BaseActivity {

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.OrdersFrag">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.OrdersFrag"
+    android:background="@color/background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,7 +13,7 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_45sdp"
             android:background="@color/header_color"
             android:id="@+id/relative_header">
 
@@ -30,17 +32,55 @@
 
             <ImageView
                 android:layout_width="28dp"
-                android:layout_height="24dp"
+                android:layout_height="28dp"
                 android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:id="@+id/img_noti"
+                android:background="@drawable/notification_icon"
                 />
 
 
         </RelativeLayout>
 
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
+            android:id="@+id/tablayout"
+            android:background="@color/otptextColor"
+            android:minHeight="?attr/actionBarSize"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/tab_selected_color">
 
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/active_orders"
+                android:textSize="@dimen/_10sdp"
+                android:id="@+id/tabActiveOrder"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_orders"
+                android:textSize="@dimen/_10sdp"
+                android:id="@+id/tabCurrentOrders"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/past_orders"
+                android:textSize="@dimen/_10sdp"
+                android:id="@+id/tabPastOrders"/>
+
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager">
+
+        </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
 
 

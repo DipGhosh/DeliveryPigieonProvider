@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.dev.pigeonproviderapp.ProfileEdit;
-import com.dev.pigeonproviderapp.ProviderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.R;
 
 

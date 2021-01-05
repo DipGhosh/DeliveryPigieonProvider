@@ -1,8 +1,10 @@
-package com.dev.pigeonproviderapp;
+package com.dev.pigeonproviderapp.ActivityAll;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.dev.pigeonproviderapp.R;
 
 public class ProfileEdit extends AppCompatActivity {
 
