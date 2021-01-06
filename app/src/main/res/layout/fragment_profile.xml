@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ProfileFrag">
+    tools:context=".Fragment.ProfileFrag"
+    android:background="@color/background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,151 +39,158 @@
                 android:background="@drawable/edit_img"
                 />
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:orientation="horizontal">
-
-            <RelativeLayout android:layout_width="@dimen/_60sdp"
-                android:layout_centerInParent="true"
-                android:id="@+id/rl_upperr"
-                android:background="@drawable/circleshape"
-                android:gravity="center"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:layout_height="@dimen/_60sdp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/user_image"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_60sdp"
-                    android:src="@drawable/provider_profile"
-                    app:civ_border_color="@android:color/white"
-
-                    />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_userName"
+         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/margine_size"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center|left"
-                android:text="John Doe"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/_12sdp">
+                android:background="@drawable/white_shadowshape"
+                android:gravity="center"
+                android:orientation="vertical">
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center"
+                 android:layout_marginTop="@dimen/_25sdp"
+                 android:orientation="horizontal">
 
-            </TextView>
-        </LinearLayout>
+                 <RelativeLayout android:layout_width="@dimen/_60sdp"
+                     android:layout_centerInParent="true"
+                     android:id="@+id/rl_upperr"
+                     android:background="@drawable/circleshape"
+                     android:gravity="center"
+                     android:layout_marginLeft="@dimen/_15sdp"
+                     android:layout_marginRight="@dimen/_15sdp"
+                     android:layout_height="@dimen/_60sdp">
+                     <de.hdodenhof.circleimageview.CircleImageView
+                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                         android:id="@+id/user_image"
+                         android:layout_width="@dimen/_60sdp"
+                         android:layout_height="@dimen/_60sdp"
+                         android:src="@drawable/provider_profile"
+                         app:civ_border_color="@android:color/white"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:weightSum="2">
+                         />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.3"
-                android:gravity="center|left"
-                android:orientation="horizontal">
+                 </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="@dimen/_21sdp"
-                    android:layout_height="@dimen/_23sdp"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/call_icon"
-                    />
+                 <TextView
+                     android:id="@+id/tv_userName"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="@dimen/_5sdp"
+                     android:layout_marginRight="@dimen/margine_size"
+                     android:fontFamily="@font/montserrat_bold"
+                     android:gravity="center|left"
+                     android:text="John Doe"
+                     android:textColor="@android:color/black"
+                     android:textSize="@dimen/_12sdp">
 
+                 </TextView>
+             </LinearLayout>
 
-            </LinearLayout>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="@dimen/_15sdp"
+                 android:layout_marginLeft="@dimen/_10sdp"
+                 android:layout_marginRight="@dimen/_10sdp"
+                 android:layout_marginBottom="@dimen/_5sdp"
+                 android:weightSum="2">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center|left"
-                android:paddingLeft="@dimen/_5sdp"
-                android:orientation="vertical"
-                android:layout_weight="1.7">
+                 <LinearLayout
+                     android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:layout_weight="0.3"
+                     android:gravity="center|left"
+                     android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_phoneNumber"
-                    android:text="+9647525656"
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/montserrat"
-                    android:textColor="@color/otptextColor">
-
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.3"
-                android:gravity="center|left"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/_21sdp"
-                    android:layout_height="@dimen/_23sdp"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/mail_icon"
-                    />
+                     <ImageView
+                         android:layout_width="@dimen/_21sdp"
+                         android:layout_height="@dimen/_23sdp"
+                         android:layout_marginLeft="15dp"
+                         android:src="@drawable/call_icon_profile"
+                         />
 
 
-            </LinearLayout>
+                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center|left"
-                android:paddingLeft="@dimen/_5sdp"
-                android:orientation="vertical"
-                android:layout_weight="1.7">
+                 <LinearLayout
+                     android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:gravity="center|left"
+                     android:paddingLeft="@dimen/_5sdp"
+                     android:orientation="vertical"
+                     android:layout_weight="1.7">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_emailId"
-                    android:text="john.do@gmail.com"
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/montserrat"
-                    android:textColor="@android:color/black">
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/tv_phoneNumber"
+                         android:text="+9647525656"
+                         android:textSize="@dimen/_12sdp"
+                         android:fontFamily="@font/montserrat"
+                         android:textColor="@color/otptextColor">
 
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
+                     </TextView>
+                 </LinearLayout>
+             </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@android:color/darker_gray">
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginLeft="@dimen/_10sdp"
+                 android:layout_marginRight="@dimen/_10sdp"
+                 android:layout_marginBottom="@dimen/_15sdp"
+                 android:weightSum="2">
 
-        </View>
+                 <LinearLayout
+                     android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:layout_weight="0.3"
+                     android:gravity="center|left"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="@dimen/_21sdp"
+                         android:layout_height="@dimen/_23sdp"
+                         android:layout_marginLeft="15dp"
+                         android:src="@drawable/mail_icon"
+                         />
+
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:gravity="center|left"
+                     android:paddingLeft="@dimen/_5sdp"
+                     android:orientation="vertical"
+                     android:layout_weight="1.7">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/tv_emailId"
+                         android:text="john.do@gmail.com"
+                         android:textSize="@dimen/_12sdp"
+                         android:fontFamily="@font/montserrat"
+                         android:textColor="@android:color/black">
+
+                     </TextView>
+                 </LinearLayout>
+             </LinearLayout>
+         </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_shadowshape"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -321,32 +329,20 @@
             </LinearLayout>
 
         </LinearLayout>
+    </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray">
 
-        </View>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/_55sdp"
-            android:background="@android:color/darker_gray">
 
-        </View>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_40sdp"
             android:orientation="horizontal"
             android:id="@+id/ll_logout"
+            android:background="@drawable/white_shadowshape"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             >
 
 

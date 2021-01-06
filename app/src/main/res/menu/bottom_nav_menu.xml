@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_order"
+        android:title="@string/tab_order"
+        android:icon="@drawable/tab_order"/>
+
+    <item
+        android:id="@+id/navigation_suport"
+        android:title="@string/tab_support"
+        android:icon="@drawable/tab_support"/>
+    <item
+        android:id="@+id/navigation_profile"
+        android:title="@string/tab_profile"
+        android:icon="@drawable/tab_profile"/>
+
+</menu>

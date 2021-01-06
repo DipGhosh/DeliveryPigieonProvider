@@ -1,10 +1,13 @@
-package com.dev.pigeonproviderapp;
+package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
+import com.dev.pigeonproviderapp.MainActivity;
+import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.activity.BaseActivity;
 
 public class ProviderDetails extends BaseActivity {
@@ -19,7 +22,7 @@ public class ProviderDetails extends BaseActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ProviderDetails.this,MainActivity.class);
+                Intent intent=new Intent(ProviderDetails.this, ProviderDashboard.class);
                 startActivity(intent);
             }
         });

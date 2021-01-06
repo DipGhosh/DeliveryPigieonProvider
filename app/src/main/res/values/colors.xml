@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#1FA7D1</color>
+    <color name="colorPrimaryDark">#1FA7D1</color>
+    <color name="colorAccent">#1FA7D1</color>
     <color name="purple_200">#23B0DB</color>
     <color name="purple_500">#23B0DB</color>
     <color name="purple_700">#23B0DB</color>
@@ -15,5 +18,7 @@
     <color name="deepColor">#93E1F8</color>
     <color name="tabselect_color">#21A6D1</color>
     <color name="header_color">#1FA7D1</color>
+    <color name="background_color">#f2f2f2</color>
+    <color name="tab_selected_color">#BADFF2</color>
 
 </resources>

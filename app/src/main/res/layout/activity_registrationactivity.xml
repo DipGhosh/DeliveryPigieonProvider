@@ -4,10 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registrationactivity"
+    tools:context=".ActivityAll.ProviderRegistration.Registrationactivity"
     android:background="@color/loginBackcolor">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/login_top_img">
 
-    <TextView
+    </ImageView>
+
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/registration"
@@ -19,7 +28,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </TextView>
+    </TextView>-->
 
     <EditText
         android:layout_width="match_parent"
