@@ -35,4 +35,16 @@
     <string name="dummy_example">122 Regent Street, Kolkata 700014</string>
     <string name="view_details">View Details</string>
     <string name="price_text">₹40</string>
+    <string name="order_details">Order Details</string>
+    <string name="start_order">Start Order</string>
+    <string name="accept_payment">Accept Payment</string>
+    <string name="rate_order">Rate this order</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="add_signature">Add Signature</string>
+    <string name="complete">Complete</string>
+    <string name="comments">Comments</string>
+    <string name="rating">Rating &amp; Comment</string>
+    <string name="give_rating">Give Your Rating</string>
+    <string name="accept_order">Accept Order</string>
+    <string name="cancle">Cancel</string>
 </resources>

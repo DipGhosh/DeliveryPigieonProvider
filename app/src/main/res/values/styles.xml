@@ -26,5 +26,9 @@
   <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
     <item name="textAllCaps">false</item>
   </style>
+  <style name="CustomRatingBar" parent="Theme.AppCompat">
+    <item name="colorControlNormal">@color/otptextColor</item>
+    <item name="colorControlActivated">@color/otptextColor</item>
+  </style>
 
 </resources>
