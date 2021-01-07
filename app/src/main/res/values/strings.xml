@@ -5,6 +5,7 @@
     <string name="login">LOGIN</string>
     <string name="signup">Don`t have an account? <b>Signup</b></string>
     <string name="getOtp">Get Otp</string>
+    <string name="reserOtp">Resend OTP</string>
     <string name="chekbox_str">By Resending I agree with Terms of use of Delivery Pigeon</string>
     <string name="otp_receive">You will receive a 4 digit OTP code.</string>
     <string name="registration">Registration</string>
@@ -47,4 +48,7 @@
     <string name="give_rating">Give Your Rating</string>
     <string name="accept_order">Accept Order</string>
     <string name="cancle">Cancel</string>
+    <string name="label_ok">Ok</string>
+    <string name="alert_no_data_message">No data available to show.</string>
+    <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
 </resources>

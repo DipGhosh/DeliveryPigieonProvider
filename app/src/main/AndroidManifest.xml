@@ -55,9 +55,6 @@
             android:name=".ActivityAll.ProviderRegistration.Registrationactivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ActivityAll.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
