@@ -3,14 +3,11 @@ package com.dev.pigeonproviderapp.httpRequest;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterBody {
+public class OTPSendAPI {
 
-  @SerializedName("name")
+  @SerializedName("device_name")
   @Expose
-  private String name;
-  @SerializedName("email")
-  @Expose
-  private String email;
+  private String deviceName;
   @SerializedName("phone")
   @Expose
   private String phone;
@@ -18,20 +15,12 @@ public class RegisterBody {
   @Expose
   private Integer userType;
 
-  public String getName() {
-    return name;
+  public String getDeviceName() {
+    return deviceName;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
+  public void setDeviceName(String deviceName) {
+    this.deviceName = deviceName;
   }
 
   public String getPhone() {
@@ -49,5 +38,4 @@ public class RegisterBody {
   public void setUserType(Integer userType) {
     this.userType = userType;
   }
-
 }
