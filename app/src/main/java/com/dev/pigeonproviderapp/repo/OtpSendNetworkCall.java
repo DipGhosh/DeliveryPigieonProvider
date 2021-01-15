@@ -2,27 +2,27 @@ package com.dev.pigeonproviderapp.repo;
 
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
-import com.dev.pigeonproviderapp.datamodel.OTPSendDataModel;
-import com.dev.pigeonproviderapp.httpRequest.OTPSendAPI;
+import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.network.APIClient;
 import com.dev.pigeonproviderapp.network.APIInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkCall {
+public class OtpSendNetworkCall {
 
   protected APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
 
-  public MutableLiveData<OTPSendDataModel> callSendOTP(OTPSendAPI otpSendAPI) {
+  public MutableLiveData<OTPSendResponseDataModel> callSendOTP(OTPSendAPIModel otpSendAPIModel) {
 
-    MutableLiveData<OTPSendDataModel> otpSendDataModelLiveData = new MutableLiveData<OTPSendDataModel>();
+    MutableLiveData<OTPSendResponseDataModel> otpSendDataModelLiveData = new MutableLiveData<OTPSendResponseDataModel>();
 
-    Call<OTPSendDataModel> registerAPI = apiInterface.OTPSendAPICall(otpSendAPI);
+    Call<OTPSendResponseDataModel> registerAPI = apiInterface.OTPSendAPICall(otpSendAPIModel);
 
-    registerAPI.enqueue(new Callback<OTPSendDataModel>() {
+    registerAPI.enqueue(new Callback<OTPSendResponseDataModel>() {
       @Override
-      public void onResponse(Call<OTPSendDataModel> call, Response<OTPSendDataModel> response) {
+      public void onResponse(Call<OTPSendResponseDataModel> call, Response<OTPSendResponseDataModel> response) {
 
         if (response.isSuccessful()) {
           otpSendDataModelLiveData.postValue(response.body());
@@ -34,7 +34,7 @@ public class NetworkCall {
       }
 
       @Override
-      public void onFailure(Call<OTPSendDataModel> call, Throwable t) {
+      public void onFailure(Call<OTPSendResponseDataModel> call, Throwable t) {
 
       }
     });
