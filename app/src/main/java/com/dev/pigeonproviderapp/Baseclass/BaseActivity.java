@@ -1,10 +1,9 @@
-package com.dev.pigeonproviderapp.activity;
+package com.dev.pigeonproviderapp.Baseclass;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.dev.pigeonproviderapp.network.APIInterface;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

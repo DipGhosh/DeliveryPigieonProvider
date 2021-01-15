@@ -14,14 +14,12 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.PermissionUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
-import com.dev.pigeonproviderapp.activity.BaseActivity;
+import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.VerifyOtpResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
-import com.dev.pigeonproviderapp.storage.K;
 import com.dev.pigeonproviderapp.storage.ShareP;
-import com.dev.pigeonproviderapp.storage.SharedPreferenceUtils;
 import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.VerifyOtpViewModel;
 

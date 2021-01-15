@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
-import com.dev.pigeonproviderapp.MainActivity;
 import com.dev.pigeonproviderapp.R;
-import com.dev.pigeonproviderapp.activity.BaseActivity;
+import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 
 public class ProviderDetails extends BaseActivity implements View.OnClickListener{
     private Button btnSubmit;
