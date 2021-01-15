@@ -1,5 +1,6 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,24 +15,32 @@ import com.dev.pigeonproviderapp.Utility.PermissionUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.activity.BaseActivity;
-import com.dev.pigeonproviderapp.datamodel.OTPSendDataModel;
-import com.dev.pigeonproviderapp.httpRequest.OTPSendAPI;
-import com.dev.pigeonproviderapp.viewmodel.RegisterationActivityViewModel;
+import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.VerifyOtpResponseDataModel;
+import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
+import com.dev.pigeonproviderapp.storage.K;
+import com.dev.pigeonproviderapp.storage.ShareP;
+import com.dev.pigeonproviderapp.storage.SharedPreferenceUtils;
+import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
+import com.dev.pigeonproviderapp.viewmodel.VerifyOtpViewModel;
 
 public class Registrationactivity extends BaseActivity implements View.OnClickListener {
 
   String MobilePattern = "[0-9]{5}";
-  RegisterationActivityViewModel registerViewModel;
+  OtpSendViewModel otpSendViewModel;
+  VerifyOtpViewModel verifyOtpViewModel;
   private Button btnRegistration;
   private EditText providerPhoneNumber, otpField;
   private TextView getOtp, setOtp;
   private CheckBox checkTerms;
+  private ShareP shareP;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_registrationactivity);
-
+    shareP=new ShareP(Registrationactivity.this);
     //Check the location permission
     final PermissionUtils permissionUtils = new PermissionUtils(this);
     permissionUtils.checkPermissions();
@@ -44,7 +53,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     setOtp = findViewById(R.id.tv_resendOtp);
     checkTerms = findViewById(R.id.checkTerms);
 
-    registerViewModel = ViewModelProviders.of(this).get(RegisterationActivityViewModel.class);
+    otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
+    verifyOtpViewModel =ViewModelProviders.of(this).get(VerifyOtpViewModel.class);
 
     //Registered click listener
     btnRegistration.setOnClickListener(this);
@@ -64,7 +74,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         CallGetOTP();
         break;
       case R.id.btn_registration:
-        // TODO
+        CallVerifyOTP();
         break;
       default:
         break;
@@ -72,20 +82,21 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   }
 
 
+
   public void CallGetOTP() {
 
     if (isValid()) {
 
-      OTPSendAPI otpSendAPI = new OTPSendAPI();
-      otpSendAPI.setPhone(providerPhoneNumber.getText().toString());
-      otpSendAPI.setUserType(1);
-      otpSendAPI.setDeviceName(Utility.DEVICE_NAME);
+      OTPSendAPIModel otpSendAPIModel = new OTPSendAPIModel();
+      otpSendAPIModel.setPhone(providerPhoneNumber.getText().toString());
+      otpSendAPIModel.setUserType(2);
+      otpSendAPIModel.setDeviceName(Utility.DEVICE_NAME);
 
-      registerViewModel.getRegisterData(otpSendAPI).observe(this, new Observer<OTPSendDataModel>() {
+      otpSendViewModel.getRegisterData(otpSendAPIModel).observe(this, new Observer<OTPSendResponseDataModel>() {
         @Override
-        public void onChanged(OTPSendDataModel otpSendDataModel) {
+        public void onChanged(OTPSendResponseDataModel otpSendResponseDataModel) {
 
-          int data = otpSendDataModel.getData();
+          int data = otpSendResponseDataModel.getData();
           if (data > 0) {
             otpField.setText(""+data);
           }
@@ -96,6 +107,31 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   }
 
 
+
+  public void CallVerifyOTP(){
+     if (isotpVerifiedValidation())
+     {
+       VerifyOtpAPIModel verifyOtpAPIModel=new VerifyOtpAPIModel();
+       verifyOtpAPIModel.setPhone(providerPhoneNumber.getText().toString());
+       verifyOtpAPIModel.setDeviceName(Utility.DEVICE_NAME);
+       verifyOtpAPIModel.setOtp(otpField.getText().toString());
+       verifyOtpViewModel.getVerifyOtpData(verifyOtpAPIModel).observe(this, new Observer<VerifyOtpResponseDataModel>() {
+         @Override
+         public void onChanged(VerifyOtpResponseDataModel verifyOtpResponseDataModel) {
+             if (verifyOtpResponseDataModel.getStatus()==200)
+             {
+               shareP.SetIsloogedIn(true);
+               shareP.SetUsertoken(verifyOtpResponseDataModel.getData().getToken());
+               Intent providerDetails=new Intent(Registrationactivity.this,ProviderDetails.class);
+               startActivity(providerDetails);
+             }
+
+         }
+       });
+     }
+
+  }
+
   // method will validate the fields
   private boolean isValid() {
     if (TextUtils.isEmpty(providerPhoneNumber.getText().toString())) {
@@ -105,6 +141,19 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
       UiUtils.showToast(this, getString(R.string.alert_create_phone));
       return false;
     }*/ else {
+      return true;
+    }
+  }
+
+  // method will validate the fields
+  private boolean isotpVerifiedValidation() {
+    if (TextUtils.isEmpty(providerPhoneNumber.getText().toString())) {
+      UiUtils.showToast(this, getString(R.string.alert_create_phone));
+      return false;
+    }else if(TextUtils.isEmpty(otpField.getText().toString())) {
+      UiUtils.showToast(this, getString(R.string.alert_create_otpvalidation));
+      return false;
+    } else {
       return true;
     }
   }

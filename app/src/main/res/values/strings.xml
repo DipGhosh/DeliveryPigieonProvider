@@ -51,4 +51,5 @@
     <string name="label_ok">Ok</string>
     <string name="alert_no_data_message">No data available to show.</string>
     <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
+    <string name="alert_create_otpvalidation">OTP field should not empty.</string>
 </resources>

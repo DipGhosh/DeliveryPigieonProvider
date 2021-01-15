@@ -3,7 +3,7 @@ package com.dev.pigeonproviderapp.httpRequest;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OTPSendAPI {
+public class OTPSendAPIModel {
 
   @SerializedName("device_name")
   @Expose
