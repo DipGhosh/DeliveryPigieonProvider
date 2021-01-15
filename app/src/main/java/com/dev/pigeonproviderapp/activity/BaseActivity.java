@@ -8,8 +8,6 @@ import com.dev.pigeonproviderapp.network.APIInterface;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-  protected APIInterface apiInterface;
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState,
       @Nullable PersistableBundle persistentState) {
