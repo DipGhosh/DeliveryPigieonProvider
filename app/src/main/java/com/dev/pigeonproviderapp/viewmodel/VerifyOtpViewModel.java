@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.dev.pigeonproviderapp.datamodel.VerifyOtpResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
-import com.dev.pigeonproviderapp.repo.VerifyOtpNetworkCall;
+import com.dev.pigeonproviderapp.repo.NetworkCall;
+
 
 
 public class VerifyOtpViewModel extends ViewModel {
@@ -20,7 +21,7 @@ public class VerifyOtpViewModel extends ViewModel {
   public LiveData<VerifyOtpResponseDataModel> getVerifyOtpData(VerifyOtpAPIModel verifyOtpAPIModel) {
 
     if (otpResponseDataModelMutableLiveData == null) {
-      otpResponseDataModelMutableLiveData = new VerifyOtpNetworkCall().callverifyOTP(verifyOtpAPIModel);
+      otpResponseDataModelMutableLiveData = new NetworkCall().callverifyOTP(verifyOtpAPIModel);
     }
     return otpResponseDataModelMutableLiveData;
   }

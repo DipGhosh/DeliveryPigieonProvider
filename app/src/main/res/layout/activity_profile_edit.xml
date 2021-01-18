@@ -41,19 +41,19 @@
                 android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:id="@+id/img_edit"
+                android:id="@+id/ic_profile_edit"
                 android:background="@drawable/save_icon"
                 />
 
 
         </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
 
-                >
+            >
 
             <RelativeLayout android:layout_width="@dimen/_60sdp"
                 android:layout_centerInParent="true"
@@ -62,9 +62,9 @@
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_height="@dimen/_60sdp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/user_image"
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/ic_profileedit_imageupload"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
                     android:src="@drawable/provider_profile"
@@ -73,29 +73,29 @@
                     />
 
             </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_upperr"
-                    >
-                    <ImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/edit_pic"
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/circleshape"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/size_5"
-                        android:background="@drawable/edit_img">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_upperr"
+                >
+                <ImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/ic_edit_pic"
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circleshape"
+                    />
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/edit_img">
 
-                    </ImageView>
-                </RelativeLayout>
+                </ImageView>
             </RelativeLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_uploadInfo"
@@ -108,7 +108,7 @@
             android:textColor="@color/fadeBlack"
             android:textSize="@dimen/_12sdp"
             android:fontFamily="@font/montserrat"
-          >
+            >
 
         </TextView>
 
@@ -123,6 +123,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_userName_profileEdit"
             android:text="John Do"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingRight="@dimen/_10sdp"
@@ -132,7 +133,7 @@
             android:textSize="@dimen/_12sdp"
             android:fontFamily="@font/montserrat"
             android:background="@drawable/white_shadowshape"
-           >
+            >
 
         </EditText>
 
@@ -162,6 +163,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_email_profileEdit"
             android:text="john.do@gmail.com"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingRight="@dimen/_10sdp"

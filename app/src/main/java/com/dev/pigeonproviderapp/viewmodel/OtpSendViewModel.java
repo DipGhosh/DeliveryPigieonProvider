@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
-import com.dev.pigeonproviderapp.repo.OtpSendNetworkCall;
+import com.dev.pigeonproviderapp.repo.NetworkCall;
 
 public class OtpSendViewModel extends ViewModel {
 
@@ -19,7 +19,7 @@ public class OtpSendViewModel extends ViewModel {
   public LiveData<OTPSendResponseDataModel> getRegisterData(OTPSendAPIModel otpSendAPIModel) {
 
     if (otpSendDataModelMutableLiveData == null) {
-      otpSendDataModelMutableLiveData = new OtpSendNetworkCall().callSendOTP(otpSendAPIModel);
+      otpSendDataModelMutableLiveData = new NetworkCall().callSendOTP(otpSendAPIModel);
     }
     return otpSendDataModelMutableLiveData;
   }
