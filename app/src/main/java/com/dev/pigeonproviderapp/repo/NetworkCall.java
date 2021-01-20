@@ -2,10 +2,15 @@ package com.dev.pigeonproviderapp.repo;
 
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
+
+import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
+import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.datamodel.VerifyOtpResponseDataModel;
+import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
@@ -170,5 +175,101 @@ public class NetworkCall {
     return updateProfilePIctureDataModelMutableLiveData;
   }
 
+//Upload document Image
+
+  public MutableLiveData<UploadDocumentImageResponseModel> uploadDocumentPicture(
+          @Part MultipartBody.Part profile_picture) {
+
+    MutableLiveData<UploadDocumentImageResponseModel> uploadDocumentImageDataModelMutableLiveData = new MutableLiveData<UploadDocumentImageResponseModel>();
+
+    Call<UploadDocumentImageResponseModel> uploadDocumentImage = apiInterface
+            .uploadDocumentImage(Singleton.getInstance().getTOKEN(), profile_picture);
+
+    uploadDocumentImage.enqueue(new Callback<UploadDocumentImageResponseModel>() {
+      @Override
+      public void onResponse(Call<UploadDocumentImageResponseModel> call,
+                             Response<UploadDocumentImageResponseModel> response) {
+
+        if (response.isSuccessful()) {
+          Log.d("Aslam", "Successfull" + response.message());
+          uploadDocumentImageDataModelMutableLiveData.postValue(response.body());
+        } else {
+          Log.d("Aslam", "Fail " + response.message());
+          uploadDocumentImageDataModelMutableLiveData.postValue(response.body());
+        }
+      }
+
+      @Override
+      public void onFailure(Call<UploadDocumentImageResponseModel> call, Throwable t) {
+
+      }
+    });
+
+    return uploadDocumentImageDataModelMutableLiveData;
+  }
+
+  //Add document Image
+
+  public MutableLiveData<AddDocumentResponseModel> callAddDocuments(AddDocumentAPIModel addDocumentAPIModel) {
+
+    MutableLiveData<AddDocumentResponseModel> addDocumentDataModelLiveData = new MutableLiveData<AddDocumentResponseModel>();
+
+    Call<AddDocumentResponseModel> addDocumentAPI = apiInterface.addDocumentImage(Singleton.getInstance().getTOKEN(),addDocumentAPIModel);
+
+    addDocumentAPI.enqueue(new Callback<AddDocumentResponseModel>() {
+      @Override
+      public void onResponse(Call<AddDocumentResponseModel> call, Response<AddDocumentResponseModel> response) {
+
+        if (response.isSuccessful()) {
+          addDocumentDataModelLiveData.postValue(response.body());
+          Log.d("Mangal", response.body().toString());
+        } else {
+          Log.d("Mangal", response.errorBody().toString());
+          addDocumentDataModelLiveData.postValue(response.body());
+        }
+      }
+
+      @Override
+      public void onFailure(Call<AddDocumentResponseModel> call, Throwable t) {
+
+      }
+    });
+
+    return addDocumentDataModelLiveData;
+
+  }
+
+  //Profile Get
+
+  public MutableLiveData<ProfileGetResponseDataModel> getProfileData() {
+
+    MutableLiveData<ProfileGetResponseDataModel> getProfileModelMutableLiveData = new MutableLiveData<ProfileGetResponseDataModel>();
+
+    Call<ProfileGetResponseDataModel> getProfileCall = apiInterface
+            .getProfile(Singleton.getInstance().getTOKEN());
+
+    getProfileCall.enqueue(new Callback<ProfileGetResponseDataModel>() {
+      @Override
+      public void onResponse(Call<ProfileGetResponseDataModel> call,
+                             Response<ProfileGetResponseDataModel> response) {
+
+        if (response.isSuccessful()) {
+          getProfileModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          getProfileModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<ProfileGetResponseDataModel> call, Throwable t) {
+
+      }
+    });
+
+    return getProfileModelMutableLiveData;
+  }
 
 }

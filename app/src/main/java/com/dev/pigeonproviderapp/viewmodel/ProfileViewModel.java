@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
@@ -18,6 +19,7 @@ public class ProfileViewModel extends ViewModel {
     MutableLiveData<ProfileUpdateResponseDataModel> profileUploadDataModelMutableLiveData;
     MutableLiveData<ProfileUpdateResponseDataModel> profileUpdateDataModelMutableLiveData;
     MutableLiveData<UpdateProfilePIctureDataModel> updateProfilePIctureDataModelMutableLiveData;
+    MutableLiveData<ProfileGetResponseDataModel> profileGetDataModelMutableLiveData;
 
     @Override
     protected void onCleared() {
@@ -47,5 +49,13 @@ public class ProfileViewModel extends ViewModel {
             updateProfilePIctureDataModelMutableLiveData = new NetworkCall().uploadProfilePicture(part);
         }
         return updateProfilePIctureDataModelMutableLiveData;
+    }
+
+    public LiveData<ProfileGetResponseDataModel> gerProfile() {
+
+        if (profileGetDataModelMutableLiveData == null) {
+            profileGetDataModelMutableLiveData = new NetworkCall().getProfileData();
+        }
+        return profileGetDataModelMutableLiveData;
     }
 }
