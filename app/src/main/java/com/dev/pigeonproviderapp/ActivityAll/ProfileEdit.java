@@ -15,21 +15,36 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.BuildConfig;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.GlideApp;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 
+import java.io.File;
+import java.io.IOException;
+
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
+
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.Route;
 
 public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
@@ -129,9 +144,21 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                                     .getProfilePicture();
                             Log.d("Aslam", "Filename: " + filename);
 
-                            Picasso.with(ProfileEdit.this).load(BuildConfig.SERVER_URL + "/" + filename)
-                                    .resize(200, 200)
-                                    .into(profileEditImageUpload);
+                            OkHttpClient client = new OkHttpClient.Builder()
+                                    .addInterceptor(new Interceptor() {
+                                        @Override
+                                        public Response intercept(Chain chain) throws IOException {
+                                            Request newRequest = chain.request().newBuilder()
+                                                    .build();
+                                            return chain.proceed(newRequest);
+                                        }
+                                    })
+                                    .build();
+
+                            Picasso picasso = new Picasso.Builder(ProfileEdit.this)
+                                    .downloader(new OkHttp3Downloader(client))
+                                    .build();
+                            picasso.load(filename).into(profileEditImageUpload);
 
                         }
                     });
