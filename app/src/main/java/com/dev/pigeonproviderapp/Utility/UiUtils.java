@@ -2,12 +2,16 @@ package com.dev.pigeonproviderapp.Utility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -15,7 +19,9 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dev.pigeonproviderapp.R;
@@ -194,6 +200,20 @@ public class UiUtils {
             e.printStackTrace();
         }
         return bmpUri;
+    }
+
+
+    // progress bar handling
+    public static Dialog showProgress(Activity activity) {
+        Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(0));
+        dialog.setContentView(R.layout.dialog_progress);
+        ProgressBar progressBar = dialog.findViewById(R.id.progressBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+        dialog.setCancelable(false);
+        return dialog;
     }
 
 

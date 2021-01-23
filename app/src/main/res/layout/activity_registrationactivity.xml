@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ConstraintLayoutRoot"
     tools:context=".ActivityAll.ProviderRegistration.Registrationactivity"
     android:background="@color/loginBackcolor">
     <ImageView
@@ -137,5 +138,7 @@
         app:layout_constraintTop_toBottomOf="@id/checkTerms">
 
     </Button>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
