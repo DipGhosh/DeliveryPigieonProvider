@@ -119,11 +119,11 @@ public class OrdersFrag extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new ActiveOrdersFrag();
+                    return activeOrdersFrag;
                 case 1:
-                    return new CurrentOrderFrag();
+                    return currentOrderFrag;
                 case 2:
-                    return new PastOrderFrag();
+                    return pastOrderFrag;
                 default:
                     return null;
             }
