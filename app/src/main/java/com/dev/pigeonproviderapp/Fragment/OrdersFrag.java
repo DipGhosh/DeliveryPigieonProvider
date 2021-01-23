@@ -96,9 +96,9 @@ public class OrdersFrag extends Fragment {
                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
                 // set data
-                if (listOrderDataModel.getData().getCurrent()!=null)
+                if (listOrderDataModel.getData().getAvailable()!=null)
                 {
-                    activeOrdersFrag.setData(listOrderDataModel.getData().getCurrent());
+                    activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                 }
 
 

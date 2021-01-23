@@ -64,19 +64,19 @@ public class ActiveOrdersFrag extends BaseFragment {
         activeorderlist_recyclerview.setAdapter(adapter);
     }
 
-    public void setData(List<ListOrderResponseDataModel.Current> currents) {
+    public void setData(List<ListOrderResponseDataModel.Available> availableList) {
 
-        for (ListOrderResponseDataModel.Current current : currents) {
+        for (ListOrderResponseDataModel.Available available : availableList) {
 
             OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
 
             orderActiveDatamodel.activeorder_type = "Local";
-            orderActiveDatamodel.activeorder_pickup_address = current.getPickupPoint();
-            orderActiveDatamodel.activeorder_delivery_address = current.getDropPoint();
-            orderActiveDatamodel.activeorder_total_ammount = "₹" + current.getAmount();
+            orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
+            orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
+            orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
 
             active_order_arraylist.add(orderActiveDatamodel);
-            System.out.println("Arralist"+active_order_arraylist);
+
 
 
         }
