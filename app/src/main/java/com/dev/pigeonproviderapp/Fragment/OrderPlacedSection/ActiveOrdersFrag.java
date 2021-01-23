@@ -76,7 +76,7 @@ public class ActiveOrdersFrag extends BaseFragment {
             orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
 
             active_order_arraylist.add(orderActiveDatamodel);
-            System.out.println("Arralist"+active_order_arraylist);
+
 
 
         }
