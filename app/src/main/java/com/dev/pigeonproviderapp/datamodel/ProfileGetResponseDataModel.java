@@ -51,41 +51,15 @@ public class ProfileGetResponseDataModel {
     public void setErrors(List<Object> errors) {
         this.errors = errors;
     }
+
     public class Data {
-
-        @SerializedName("user")
-        @Expose
-        private User user;
-        @SerializedName("loyalty_points")
-        @Expose
-        private Integer loyaltyPoints;
-
-        public User getUser() {
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public Integer getLoyaltyPoints() {
-            return loyaltyPoints;
-        }
-
-        public void setLoyaltyPoints(Integer loyaltyPoints) {
-            this.loyaltyPoints = loyaltyPoints;
-        }
-
-    }
-
-    public class User {
 
         @SerializedName("isValid")
         @Expose
         private Boolean isValid;
         @SerializedName("user")
         @Expose
-        private User_ user;
+        private User user;
 
         public Boolean getIsValid() {
             return isValid;
@@ -95,17 +69,17 @@ public class ProfileGetResponseDataModel {
             this.isValid = isValid;
         }
 
-        public User_ getUser() {
+        public User getUser() {
             return user;
         }
 
-        public void setUser(User_ user) {
+        public void setUser(User user) {
             this.user = user;
         }
 
     }
 
-    public class UserType {
+    public class User {
 
         @SerializedName("id")
         @Expose
@@ -113,107 +87,21 @@ public class ProfileGetResponseDataModel {
         @SerializedName("name")
         @Expose
         private String name;
-        @SerializedName("description")
-        @Expose
-        private Object description;
-        @SerializedName("created_at")
-        @Expose
-        private String createdAt;
-        @SerializedName("updated_at")
-        @Expose
-        private String updatedAt;
-        @SerializedName("deleted_at")
-        @Expose
-        private Object deletedAt;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Object getDescription() {
-            return description;
-        }
-
-        public void setDescription(Object description) {
-            this.description = description;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-        public Object getDeletedAt() {
-            return deletedAt;
-        }
-
-        public void setDeletedAt(Object deletedAt) {
-            this.deletedAt = deletedAt;
-        }
-
-    }
-
-    public class User_ {
-
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("name")
-        @Expose
-        private String name;
-        @SerializedName("first_name")
-        @Expose
-        private Object firstName;
-        @SerializedName("last_name")
-        @Expose
-        private Object lastName;
-        @SerializedName("middle_name")
-        @Expose
-        private Object middleName;
         @SerializedName("profile_picture")
         @Expose
         private String profilePicture;
         @SerializedName("email")
         @Expose
         private String email;
-        @SerializedName("email_verified_at")
-        @Expose
-        private Object emailVerifiedAt;
         @SerializedName("phone")
         @Expose
         private Integer phone;
+        @SerializedName("user_type_id")
+        @Expose
+        private Integer userTypeId;
         @SerializedName("user_type")
         @Expose
-        private UserType userType;
-        @SerializedName("created_at")
-        @Expose
-        private String createdAt;
-        @SerializedName("updated_at")
-        @Expose
-        private String updatedAt;
+        private String userType;
         @SerializedName("first_login_at")
         @Expose
         private String firstLoginAt;
@@ -223,15 +111,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("phone_verified_at")
         @Expose
         private String phoneVerifiedAt;
-        @SerializedName("is_available")
+        @SerializedName("loyalty_points")
         @Expose
-        private Integer isAvailable;
-        @SerializedName("deleted_at")
-        @Expose
-        private Object deletedAt;
-        @SerializedName("addresses")
-        @Expose
-        private List<Object> addresses = null;
+        private Integer loyaltyPoints;
 
         public Integer getId() {
             return id;
@@ -247,30 +129,6 @@ public class ProfileGetResponseDataModel {
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public Object getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(Object firstName) {
-            this.firstName = firstName;
-        }
-
-        public Object getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(Object lastName) {
-            this.lastName = lastName;
-        }
-
-        public Object getMiddleName() {
-            return middleName;
-        }
-
-        public void setMiddleName(Object middleName) {
-            this.middleName = middleName;
         }
 
         public String getProfilePicture() {
@@ -289,14 +147,6 @@ public class ProfileGetResponseDataModel {
             this.email = email;
         }
 
-        public Object getEmailVerifiedAt() {
-            return emailVerifiedAt;
-        }
-
-        public void setEmailVerifiedAt(Object emailVerifiedAt) {
-            this.emailVerifiedAt = emailVerifiedAt;
-        }
-
         public Integer getPhone() {
             return phone;
         }
@@ -305,28 +155,20 @@ public class ProfileGetResponseDataModel {
             this.phone = phone;
         }
 
-        public UserType getUserType() {
+        public Integer getUserTypeId() {
+            return userTypeId;
+        }
+
+        public void setUserTypeId(Integer userTypeId) {
+            this.userTypeId = userTypeId;
+        }
+
+        public String getUserType() {
             return userType;
         }
 
-        public void setUserType(UserType userType) {
+        public void setUserType(String userType) {
             this.userType = userType;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
         }
 
         public String getFirstLoginAt() {
@@ -353,28 +195,12 @@ public class ProfileGetResponseDataModel {
             this.phoneVerifiedAt = phoneVerifiedAt;
         }
 
-        public Integer getIsAvailable() {
-            return isAvailable;
+        public Integer getLoyaltyPoints() {
+            return loyaltyPoints;
         }
 
-        public void setIsAvailable(Integer isAvailable) {
-            this.isAvailable = isAvailable;
-        }
-
-        public Object getDeletedAt() {
-            return deletedAt;
-        }
-
-        public void setDeletedAt(Object deletedAt) {
-            this.deletedAt = deletedAt;
-        }
-
-        public List<Object> getAddresses() {
-            return addresses;
-        }
-
-        public void setAddresses(List<Object> addresses) {
-            this.addresses = addresses;
+        public void setLoyaltyPoints(Integer loyaltyPoints) {
+            this.loyaltyPoints = loyaltyPoints;
         }
 
     }

@@ -28,17 +28,19 @@ public class DocumentsUploadViewModel extends ViewModel {
     public LiveData<UploadDocumentImageResponseModel> uploadDocumentPicture(
             @Part MultipartBody.Part part) {
 
-        if (documentsPIctureUploadDataModelMutableLiveData == null) {
+        /*if (documentsPIctureUploadDataModelMutableLiveData == null) {
             documentsPIctureUploadDataModelMutableLiveData = new NetworkCall().uploadDocumentPicture(part);
-        }
+        }*/
+        documentsPIctureUploadDataModelMutableLiveData = new NetworkCall().uploadDocumentPicture(part);
         return documentsPIctureUploadDataModelMutableLiveData;
     }
 
     public LiveData<AddDocumentResponseModel> sendaddDocumentImage(AddDocumentAPIModel addDocumentAPIModel) {
 
-        if (addDocumentDataModelMutableLiveData == null) {
+       /* if (addDocumentDataModelMutableLiveData == null) {
             addDocumentDataModelMutableLiveData = new NetworkCall().callAddDocuments(addDocumentAPIModel);
-        }
+        }*/
+        addDocumentDataModelMutableLiveData = new NetworkCall().callAddDocuments(addDocumentAPIModel);
         return addDocumentDataModelMutableLiveData;
     }
 }

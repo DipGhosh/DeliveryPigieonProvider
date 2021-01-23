@@ -34,7 +34,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     VerifyOtpViewModel verifyOtpViewModel;
     private Button btnRegistration;
     private EditText providerPhoneNumber, otpField;
-    private TextView getOtp, setOtp;
+    private TextView getOtp, resendOtp;
     private CheckBox checkTerms;
 
 
@@ -52,7 +52,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         providerPhoneNumber = findViewById(R.id.et_phoneNumber);
         otpField = findViewById(R.id.et_otp);
         getOtp = findViewById(R.id.tv_getOtp);
-        setOtp = findViewById(R.id.tv_resendOtp);
+        resendOtp = findViewById(R.id.tv_resendOtp);
         checkTerms = findViewById(R.id.checkTerms);
 
         otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
@@ -62,7 +62,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         //Registered click listener
         btnRegistration.setOnClickListener(this);
         getOtp.setOnClickListener(this);
-        setOtp.setOnClickListener(this);
+        resendOtp.setOnClickListener(this);
     }
 
 
@@ -100,6 +100,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
                     int data = otpSendResponseDataModel.getData();
                     if (data > 0) {
+                        getOtp.setVisibility(View.GONE);
+                        resendOtp.setVisibility(View.VISIBLE);
                         otpField.setText("" + data);
                     }
 
@@ -126,7 +128,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
                         Singleton.getInstance().setTOKEN(token);
 
-                        Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
+                        Intent providerDetails = new Intent(Registrationactivity.this, ProviderDashboard.class);
                         startActivity(providerDetails);
                     }
                 }

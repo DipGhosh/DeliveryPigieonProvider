@@ -18,9 +18,10 @@ public class OtpSendViewModel extends ViewModel {
 
   public LiveData<OTPSendResponseDataModel> getRegisterData(OTPSendAPIModel otpSendAPIModel) {
 
-    if (otpSendDataModelMutableLiveData == null) {
+   /* if (otpSendDataModelMutableLiveData == null) {
       otpSendDataModelMutableLiveData = new NetworkCall().callSendOTP(otpSendAPIModel);
-    }
+    }*/
+    otpSendDataModelMutableLiveData = new NetworkCall().callSendOTP(otpSendAPIModel);
     return otpSendDataModelMutableLiveData;
   }
 
