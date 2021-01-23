@@ -28,34 +28,38 @@ public class ProfileViewModel extends ViewModel {
 
     public LiveData<ProfileUpdateResponseDataModel> getProfileUploaddata(ProfileUpdateAPI profileUpdateAPI) {
 
-        if (profileUploadDataModelMutableLiveData == null) {
+        /*if (profileUploadDataModelMutableLiveData == null) {
             profileUploadDataModelMutableLiveData = new NetworkCall().callprofileInfo(profileUpdateAPI);
-        }
+        }*/
+        profileUploadDataModelMutableLiveData = new NetworkCall().callprofileInfo(profileUpdateAPI);
         return profileUploadDataModelMutableLiveData;
     }
 
     public LiveData<ProfileUpdateResponseDataModel> getProfileUpdatedata(ProfileUpdateAPI profileUpdateAPI) {
 
-        if (profileUpdateDataModelMutableLiveData == null) {
+       /* if (profileUpdateDataModelMutableLiveData == null) {
             profileUpdateDataModelMutableLiveData = new NetworkCall().callupdateprofileInfo(profileUpdateAPI);
-        }
+        }*/
+        profileUpdateDataModelMutableLiveData = new NetworkCall().callupdateprofileInfo(profileUpdateAPI);
         return profileUpdateDataModelMutableLiveData;
     }
 
     public LiveData<UpdateProfilePIctureDataModel> uploadProfilePicture(
             @Part MultipartBody.Part part) {
 
-        if (updateProfilePIctureDataModelMutableLiveData == null) {
+        /*if (updateProfilePIctureDataModelMutableLiveData == null) {
             updateProfilePIctureDataModelMutableLiveData = new NetworkCall().uploadProfilePicture(part);
-        }
+        }*/
+        updateProfilePIctureDataModelMutableLiveData = new NetworkCall().uploadProfilePicture(part);
         return updateProfilePIctureDataModelMutableLiveData;
     }
 
     public LiveData<ProfileGetResponseDataModel> gerProfile() {
 
-        if (profileGetDataModelMutableLiveData == null) {
+        /*if (profileGetDataModelMutableLiveData == null) {
             profileGetDataModelMutableLiveData = new NetworkCall().getProfileData();
-        }
+        }*/
+        profileGetDataModelMutableLiveData = new NetworkCall().getProfileData();
         return profileGetDataModelMutableLiveData;
     }
 }

@@ -40,17 +40,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margine_top">
 
-        <RelativeLayout android:layout_width="@dimen/_100sdp"
+        <RelativeLayout android:layout_width="@dimen/_80sdp"
             android:layout_centerInParent="true"
             android:id="@+id/rl_upperr"
             android:background="@drawable/circleshape"
             android:gravity="center"
-            android:layout_height="@dimen/_100sdp">
+            android:layout_height="@dimen/_80sdp">
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/ic_providerImage_upload"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:src="@drawable/provider_profile"
                 app:civ_border_color="@android:color/white"
 
@@ -220,19 +220,46 @@
                         android:background="@drawable/imageupload_shape">
 
                     </com.github.siyamed.shapeimageview.RoundedImageView>
-                    <ImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/circleshape"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/edit_img">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_adarfont_upload"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/image_add_icon">
 
-                    </ImageView>
+                        </ImageView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_adarfont_edit"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/edit_img">
+
+                        </ImageView>
+                    </RelativeLayout>
+
 
                 </RelativeLayout>
 
@@ -258,18 +285,45 @@
                         android:background="@drawable/imageupload_shape">
 
                     </com.github.siyamed.shapeimageview.RoundedImageView>
-                    <ImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/circleshape"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/image_add_icon">
-                    </ImageView>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_adarback_upload"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/image_add_icon">
+
+                        </ImageView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_adarback_edit"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/edit_img">
+
+                        </ImageView>
+                    </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -350,19 +404,45 @@
                         android:background="@drawable/imageupload_shape">
 
                     </com.github.siyamed.shapeimageview.RoundedImageView>
-                    <ImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/circleshape"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/image_add_icon">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_pancard_upload"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/image_add_icon">
 
-                    </ImageView>
+                        </ImageView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_pancard_edit"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/edit_img">
+
+                        </ImageView>
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -388,18 +468,45 @@
                         android:background="@drawable/imageupload_shape">
 
                     </com.github.siyamed.shapeimageview.RoundedImageView>
-                    <ImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/circleshape"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/image_add_icon">
-                    </ImageView>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_others_upload"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/image_add_icon">
+
+                        </ImageView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rl_others_edit"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circleshape"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/edit_img">
+
+                        </ImageView>
+                    </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

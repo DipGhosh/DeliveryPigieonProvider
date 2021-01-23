@@ -1,5 +1,6 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -55,6 +57,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     private ImageView providerImageUpload, adharcardFontsideImageUpload, adharcardBacksideImageUpload, panCardImageupload, otherDetailsImageupload;
     private EditText providerName, providerEmail;
     private String filename,position,typeofImageUpload;
+    private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit;
 
 
 
@@ -71,6 +74,16 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         otherDetailsImageupload = findViewById(R.id.ic_others_documentImageUpload);
         providerName = findViewById(R.id.et_providerFullName);
         providerEmail = findViewById(R.id.et_providerEmail);
+        rlAdarFontUpload = findViewById(R.id.rl_adarfont_upload);
+        rlAharFontEdit = findViewById(R.id.rl_adarfont_edit);
+        rlAdharBackUpload = findViewById(R.id.rl_adarback_upload);
+        rlAdharBackEdit = findViewById(R.id.rl_adarback_edit);
+        rlAdharBackUpload = findViewById(R.id.rl_adarback_upload);
+        rlAdharBackEdit = findViewById(R.id.rl_adarback_edit);
+        rlPancardUpload = findViewById(R.id.rl_pancard_upload);
+        rlPancardEdit = findViewById(R.id.rl_pancard_edit);
+        rlOthersUpload = findViewById(R.id.rl_others_upload);
+        rlOthersEdit = findViewById(R.id.rl_others_edit);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
@@ -142,7 +155,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
     private boolean isValid() {
         if (TextUtils.isEmpty(providerName.getText().toString())) {
-            UiUtils.showToast(this, getString(R.string.alert_create_phone));
+            UiUtils.showToast(this, getString(R.string.alert_provider_name));
             return false;
         } /*else if (!providerPhoneNumber.getText().toString().matches(MobilePattern)) {
       UiUtils.showToast(this, getString(R.string.alert_create_phone));
@@ -163,19 +176,28 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 if (position.equals("1"))
                 {
                     adharcardFontsideImageUpload.setImageBitmap(bitmap);
+                    rlAdarFontUpload.setVisibility(View.GONE);
+                    rlAharFontEdit.setVisibility(View.VISIBLE);
                 }else if (position.equals("2"))
                 {
                     adharcardBacksideImageUpload.setImageBitmap(bitmap);
+                    rlAdharBackUpload.setVisibility(View.GONE);
+                    rlAdharBackEdit.setVisibility(View.VISIBLE);
                 }else if (position.equals("3"))
                 {
                     panCardImageupload.setImageBitmap(bitmap);
+                    rlPancardUpload.setVisibility(View.GONE);
+                    rlPancardEdit.setVisibility(View.VISIBLE);
                 }else if (position.equals("4"))
                 {
                     otherDetailsImageupload.setImageBitmap(bitmap);
+                    rlOthersUpload.setVisibility(View.GONE);
+                    rlOthersEdit.setVisibility(View.VISIBLE);
                 }else if (position.equals("5"))
                 {
                     providerImageUpload.setImageBitmap(bitmap);
                 }
+
 
 
             } catch (Exception e) {
@@ -271,9 +293,20 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     }
 
     private void selectImage() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, SELECT_PICTURE);
+        final CharSequence[] options = {"From Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, (dialog, item) -> {
+            if (options[item].equals("From Gallery")) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+            } else if (options[item].equals("Cancel")) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     public void AddDocumentImage() {

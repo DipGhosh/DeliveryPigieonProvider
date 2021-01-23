@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -15,12 +17,13 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.ActiveOrdersFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 
 public class OrdersFrag extends Fragment {
-
 
     private View mView;
     private TabLayout tabLayout;
@@ -29,6 +32,13 @@ public class OrdersFrag extends Fragment {
     private TabItem tabPast;
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
+
+    private OrderListViewModel orderListViewModel;
+
+    private ActiveOrdersFrag activeOrdersFrag = new ActiveOrdersFrag();
+    private CurrentOrderFrag currentOrderFrag = new CurrentOrderFrag();
+    private PastOrderFrag pastOrderFrag = new PastOrderFrag();
+
     public OrdersFrag() {
         // Required empty public constructor
     }
@@ -67,8 +77,35 @@ public class OrdersFrag extends Fragment {
 
             }
         });
+
+        // ViewModel Object
+        orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
+
+        getOrderList();
+
         return mView;
     }
+
+    public void getOrderList() {
+        orderListViewModel.getOrderListData().observe(this, new Observer<ListOrderResponseDataModel>() {
+            @Override
+            public void onChanged(ListOrderResponseDataModel listOrderDataModel) {
+
+                pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+                viewPager.setAdapter(pageAdapter);
+                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+                // set data
+                if (listOrderDataModel.getData().getCurrent()!=null)
+                {
+                    activeOrdersFrag.setData(listOrderDataModel.getData().getCurrent());
+                }
+
+
+            }
+        });
+    }
+
     public class PageAdapter extends FragmentPagerAdapter {
 
         private int numOfTabs;

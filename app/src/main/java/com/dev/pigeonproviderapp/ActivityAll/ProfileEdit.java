@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,7 +17,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
@@ -28,6 +35,7 @@ import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
@@ -48,10 +56,14 @@ import okhttp3.Route;
 
 public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
+    private Activity activity = ProfileEdit.this;
     private static final int SELECT_PICTURE = 0;
     ProfileViewModel profileViewModel;
     private ImageView back, profileEdit, profileEditImageUpload, selectEditImage;
     private EditText userNameProfileEdit, emailProfileEdit;
+
+    private ProgressBar profileEditImageProgress;
+    private String profileImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,14 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         profileEdit = findViewById(R.id.ic_profile_edit);
         profileEditImageUpload = findViewById(R.id.ic_profileedit_imageupload);
         selectEditImage = findViewById(R.id.ic_edit_pic);
+        profileEditImageProgress=findViewById(R.id.profile_edit_image_progress);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            userNameProfileEdit.setText(bundle.getString("NAME"));
+            emailProfileEdit.setText(bundle.getString("EMAIL"));
+            profileImageUrl=bundle.getString("URL");
+        }
 
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -72,6 +92,44 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         back.setOnClickListener(this);
         profileEdit.setOnClickListener(this);
         selectEditImage.setOnClickListener(this);
+
+        //Show Image
+        if (profileImageUrl != null)
+        {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request newRequest = chain.request().newBuilder()
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    })
+                    .build();
+
+            Picasso picasso = new Picasso.Builder(activity)
+                    .downloader(new OkHttp3Downloader(client))
+                    .build();
+            profileEditImageProgress.setVisibility(View.VISIBLE);
+            picasso.with(activity)
+                    .load(profileImageUrl)
+                    .into(profileEditImageUpload, new Callback() {
+
+                        @Override
+                        public void onSuccess() {
+                            profileEditImageProgress.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            profileEditImageProgress.setVisibility(View.GONE);
+                            Picasso.with(activity).load(R.drawable.dummy_image).into(profileEditImageUpload);
+                        }
+                    });
+        }else {
+            profileEditImageProgress.setVisibility(View.GONE);
+            Picasso.with(activity).load(R.drawable.dummy_image).into(profileEditImageUpload);
+        }
 
     }
 
@@ -126,6 +184,16 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         if (resultCode == RESULT_OK && requestCode == SELECT_PICTURE) {
 
             Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(ProfileEdit.this.getContentResolver(), selectedImageUri);
+                Glide.with(this).load(bitmap)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(profileEditImageUpload);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             String path = getRealPathFromURI(selectedImageUri);
             Log.d("Picture Path", "" + path);
 
@@ -143,22 +211,6 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                             String filename = updateProfilePIctureDataModel.getData().getUser()
                                     .getProfilePicture();
                             Log.d("Aslam", "Filename: " + filename);
-
-                            OkHttpClient client = new OkHttpClient.Builder()
-                                    .addInterceptor(new Interceptor() {
-                                        @Override
-                                        public Response intercept(Chain chain) throws IOException {
-                                            Request newRequest = chain.request().newBuilder()
-                                                    .build();
-                                            return chain.proceed(newRequest);
-                                        }
-                                    })
-                                    .build();
-
-                            Picasso picasso = new Picasso.Builder(ProfileEdit.this)
-                                    .downloader(new OkHttp3Downloader(client))
-                                    .build();
-                            picasso.load(filename).into(profileEditImageUpload);
 
                         }
                     });
@@ -189,8 +241,19 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
     }
 
     private void selectImage() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, SELECT_PICTURE);
+        final CharSequence[] options = {"From Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, (dialog, item) -> {
+            if (options[item].equals("From Gallery")) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+            } else if (options[item].equals("Cancel")) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

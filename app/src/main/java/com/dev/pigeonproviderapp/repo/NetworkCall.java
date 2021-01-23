@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
+import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
@@ -119,9 +120,9 @@ public class NetworkCall {
 
     MutableLiveData<ProfileUpdateResponseDataModel> profileInfoUpdateDataModelLiveData = new MutableLiveData<ProfileUpdateResponseDataModel>();
 
-    Call<ProfileUpdateResponseDataModel> profileInfoUpdateAPI = apiInterface.updateProfileInfoAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI);
+    Call<ProfileUpdateResponseDataModel> profileInfoUpdateApi = apiInterface.updateProfileInfoAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI);
 
-    profileInfoUpdateAPI.enqueue(new Callback<ProfileUpdateResponseDataModel>() {
+    profileInfoUpdateApi.enqueue(new Callback<ProfileUpdateResponseDataModel>() {
       @Override
       public void onResponse(Call<ProfileUpdateResponseDataModel> call, Response<ProfileUpdateResponseDataModel> response) {
 
@@ -270,6 +271,39 @@ public class NetworkCall {
     });
 
     return getProfileModelMutableLiveData;
+  }
+
+  //Order List
+
+  public MutableLiveData<ListOrderResponseDataModel> getOrderListData() {
+
+    MutableLiveData<ListOrderResponseDataModel> listOrderDataModelMutableLiveData = new MutableLiveData<ListOrderResponseDataModel>();
+
+    Call<ListOrderResponseDataModel> getOrderListCall = apiInterface
+            .getOrderListCall(Singleton.getInstance().getTOKEN());
+
+    getOrderListCall.enqueue(new Callback<ListOrderResponseDataModel>() {
+      @Override
+      public void onResponse(Call<ListOrderResponseDataModel> call,
+                             Response<ListOrderResponseDataModel> response) {
+
+        if (response.isSuccessful()) {
+          listOrderDataModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          listOrderDataModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<ListOrderResponseDataModel> call, Throwable t) {
+
+      }
+    });
+
+    return listOrderDataModelMutableLiveData;
   }
 
 }

@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.dev.pigeonproviderapp.R;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -26,7 +27,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class UiUtils {
@@ -191,6 +195,7 @@ public class UiUtils {
         }
         return bmpUri;
     }
+
 
 
 }

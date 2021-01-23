@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.network;
 
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
+import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
@@ -59,5 +60,8 @@ public interface APIInterface {
 
   @GET("/api/me")
   Call<ProfileGetResponseDataModel> getProfile(@Header("Authorization") String authorization);
+
+  @GET("/api/orders")
+  Call<ListOrderResponseDataModel> getOrderListCall(@Header("Authorization") String authorization);
 
 }
