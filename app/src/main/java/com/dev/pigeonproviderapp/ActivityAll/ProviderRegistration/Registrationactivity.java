@@ -1,5 +1,7 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -36,6 +39,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     private EditText providerPhoneNumber, otpField;
     private TextView getOtp, resendOtp;
     private CheckBox checkTerms;
+    Dialog dialog;
+
 
 
     @Override
@@ -47,6 +52,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         final PermissionUtils permissionUtils = new PermissionUtils(this);
         permissionUtils.checkPermissions();
 
+        dialog = UiUtils.showProgress(Registrationactivity.this);
+
         //Find all the views
         btnRegistration = findViewById(R.id.btn_registration);
         providerPhoneNumber = findViewById(R.id.et_phoneNumber);
@@ -55,14 +62,18 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         resendOtp = findViewById(R.id.tv_resendOtp);
         checkTerms = findViewById(R.id.checkTerms);
 
+
         otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
         verifyOtpViewModel = ViewModelProviders.of(this).get(VerifyOtpViewModel.class);
+
+
 
 
         //Registered click listener
         btnRegistration.setOnClickListener(this);
         getOtp.setOnClickListener(this);
         resendOtp.setOnClickListener(this);
+
     }
 
 
@@ -72,12 +83,15 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.tv_getOtp:
                 CallGetOTP();
+                dialog.show();
                 break;
             case R.id.tv_resendOtp:
                 CallGetOTP();
+                dialog.show();
                 break;
             case R.id.btn_registration:
                 CallVerifyOTP();
+                dialog.show();
                 break;
             default:
                 break;
@@ -97,7 +111,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
             otpSendViewModel.getRegisterData(otpSendAPIModel).observe(this, new Observer<OTPSendResponseDataModel>() {
                 @Override
                 public void onChanged(OTPSendResponseDataModel otpSendResponseDataModel) {
-
+                    dialog.dismiss();
                     int data = otpSendResponseDataModel.getData();
                     if (data > 0) {
                         getOtp.setVisibility(View.GONE);
@@ -121,6 +135,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
             verifyOtpViewModel.getVerifyOtpData(verifyOtpAPIModel).observe(this, verifyOtpResponseDataModel -> {
                 if (verifyOtpResponseDataModel.getStatus() == 200) {
+                    dialog.dismiss();
                     String token = verifyOtpResponseDataModel.getData().getToken();
                     Log.d("Aslam", token);
 
@@ -128,7 +143,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
                         Singleton.getInstance().setTOKEN(token);
 
-                        Intent providerDetails = new Intent(Registrationactivity.this, ProviderDashboard.class);
+                        Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
                         startActivity(providerDetails);
                     }
                 }

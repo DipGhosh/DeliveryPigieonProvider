@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -59,7 +60,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     private String filename,position,typeofImageUpload;
     private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit;
 
-
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
 
+        dialog = UiUtils.showProgress(ProviderDetails.this);
+
         //Registered click listener
         btnSubmit.setOnClickListener(this);
         adharcardFontsideImageUpload.setOnClickListener(this);
@@ -104,6 +107,9 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         switch (v.getId() /*to get clicked view id**/) {
             case R.id.btn_providersubmit:
                 callProfileInfoUpdate();
+
+                dialog.show();
+
                 break;
             case R.id.ic_adharcard_fontsideImageUpload:
                 selectImage();
@@ -143,6 +149,9 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
 
             profileViewModel.getProfileUploaddata(profileUpdateAPI).observe(this, profileViewModel -> {
+
+                dialog.dismiss();
+
                 Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
                 startActivity(intent);
 
@@ -157,10 +166,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         if (TextUtils.isEmpty(providerName.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_provider_name));
             return false;
-        } /*else if (!providerPhoneNumber.getText().toString().matches(MobilePattern)) {
-      UiUtils.showToast(this, getString(R.string.alert_create_phone));
-      return false;
-    }*/ else {
+        } else {
             return true;
         }
     }
@@ -169,7 +175,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SELECT_PICTURE) {
-
+            dialog.show();
             Uri selectedImageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(ProviderDetails.this.getContentResolver(), selectedImageUri);
@@ -254,7 +260,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                         new Observer<UpdateProfilePIctureDataModel>() {
                             @Override
                             public void onChanged(UpdateProfilePIctureDataModel updateProfilePIctureDataModel) {
-
+                                dialog.dismiss();
                                 String filename = updateProfilePIctureDataModel.getData().getUser()
                                         .getProfilePicture();
                                 Log.d("Aslam", "Filename: " + filename);
