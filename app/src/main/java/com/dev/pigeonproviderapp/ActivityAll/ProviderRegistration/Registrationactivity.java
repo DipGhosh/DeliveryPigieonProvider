@@ -25,6 +25,7 @@ import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.VerifyOtpViewModel;
@@ -40,6 +41,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     private TextView getOtp, resendOtp;
     private CheckBox checkTerms;
     Dialog dialog;
+    private SharePreference sharePreference;
 
 
 
@@ -53,6 +55,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         permissionUtils.checkPermissions();
 
         dialog = UiUtils.showProgress(Registrationactivity.this);
+        sharePreference=new SharePreference(Registrationactivity.this);
 
         //Find all the views
         btnRegistration = findViewById(R.id.btn_registration);
@@ -83,15 +86,15 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.tv_getOtp:
                 CallGetOTP();
-                dialog.show();
+
                 break;
             case R.id.tv_resendOtp:
                 CallGetOTP();
-                dialog.show();
+
                 break;
             case R.id.btn_registration:
                 CallVerifyOTP();
-                dialog.show();
+
                 break;
             default:
                 break;
@@ -102,7 +105,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     public void CallGetOTP() {
 
         if (isValid()) {
-
+            dialog.show();
             OTPSendAPIModel otpSendAPIModel = new OTPSendAPIModel();
             otpSendAPIModel.setPhone(providerPhoneNumber.getText().toString());
             otpSendAPIModel.setUserType(2);
@@ -127,6 +130,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
     public void CallVerifyOTP() {
         if (isotpVerifiedValidation()) {
+            dialog.show();
+
             VerifyOtpAPIModel verifyOtpAPIModel = new VerifyOtpAPIModel();
             verifyOtpAPIModel.setPhone(providerPhoneNumber.getText().toString());
             verifyOtpAPIModel.setDeviceName(Utility.DEVICE_NAME);
@@ -142,6 +147,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                     if (token != "") {
 
                         Singleton.getInstance().setTOKEN(token);
+                        sharePreference.SetIsloogedIn(true);
+                        sharePreference.setToken(token);
 
                         Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
                         startActivity(providerDetails);

@@ -13,16 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
+import com.dev.pigeonproviderapp.ActivityAll.SpalshActivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Callback;
@@ -45,6 +49,8 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
    private TextView userPhoneNumber,userEmailId,userName;
    private ProgressBar profileFragProgress;
    private String profile_pic_url;
+   private LinearLayout logout;
+   private SharePreference sharePreference;
 
    ProfileViewModel profileViewModel;
 
@@ -60,6 +66,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_profile, container, false);
         activity=getActivity();
+        sharePreference=new SharePreference(activity);
 
         profileEdit=view.findViewById(R.id.img_edit);
         profileImage=view.findViewById(R.id.ic_profile_img);
@@ -67,6 +74,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         userEmailId=view.findViewById(R.id.tv_emailId);
         userName=view.findViewById(R.id.tv_userName);
         profileFragProgress=view.findViewById(R.id.profile_frag_image_progress);
+        logout=view.findViewById(R.id.ll_logout);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
@@ -89,6 +97,13 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 profileEdit.putExtra("EMAIL",userEmailId.getText().toString());
                 profileEdit.putExtra("URL",profile_pic_url);
                 startActivity(profileEdit);
+                break;
+
+            case R.id.ll_logout:
+                sharePreference.LogOut();
+                Intent logout=new Intent(activity, Registrationactivity.class);
+                startActivity(logout);
+
                 break;
 
             default:

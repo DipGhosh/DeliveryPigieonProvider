@@ -18,6 +18,7 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -55,6 +56,7 @@ public class OrdersFrag extends Fragment {
         tabCurrent=mView.findViewById(R.id.tabCurrentOrders);
         tabPast=mView.findViewById(R.id.tabPastOrders);
         viewPager=mView.findViewById(R.id.viewPager);
+
 
         pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);

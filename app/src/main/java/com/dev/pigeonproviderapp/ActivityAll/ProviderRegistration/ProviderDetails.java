@@ -108,8 +108,6 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             case R.id.btn_providersubmit:
                 callProfileInfoUpdate();
 
-                dialog.show();
-
                 break;
             case R.id.ic_adharcard_fontsideImageUpload:
                 selectImage();
@@ -143,6 +141,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
     public void callProfileInfoUpdate() {
         if (isValid()) {
+            dialog.show();
             ProfileUpdateAPI profileUpdateAPI = new ProfileUpdateAPI();
             profileUpdateAPI.setName(providerName.getText().toString());
             profileUpdateAPI.setEmail(providerEmail.getText().toString());
