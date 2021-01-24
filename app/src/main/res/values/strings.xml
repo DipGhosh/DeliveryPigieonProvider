@@ -53,4 +53,5 @@
     <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
     <string name="alert_create_otpvalidation">OTP field should not empty.</string>
     <string name="alert_provider_name">Please enter your name.</string>
+    <string name="alert_terms_condition">Please accept our Terms and Condition.</string>
 </resources>

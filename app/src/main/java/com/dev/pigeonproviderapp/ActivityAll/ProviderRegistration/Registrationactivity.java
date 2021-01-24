@@ -40,7 +40,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     private EditText providerPhoneNumber, otpField;
     private TextView getOtp, resendOtp;
     private CheckBox checkTerms;
-    Dialog dialog;
+    private Dialog dialog;
     private SharePreference sharePreference;
 
 
@@ -76,6 +76,16 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         btnRegistration.setOnClickListener(this);
         getOtp.setOnClickListener(this);
         resendOtp.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
 
     }
 
@@ -180,6 +190,9 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
             return false;
         } else if (TextUtils.isEmpty(otpField.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_create_otpvalidation));
+            return false;
+        }else if (checkTerms.isChecked()==false) {
+            UiUtils.showToast(this, getString(R.string.alert_terms_condition));
             return false;
         } else {
             return true;

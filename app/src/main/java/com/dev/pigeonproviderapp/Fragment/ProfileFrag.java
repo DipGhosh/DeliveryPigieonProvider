@@ -82,6 +82,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
         //Registered click listener
         profileEdit.setOnClickListener(this);
+        logout.setOnClickListener(this);
 
 
         return view;

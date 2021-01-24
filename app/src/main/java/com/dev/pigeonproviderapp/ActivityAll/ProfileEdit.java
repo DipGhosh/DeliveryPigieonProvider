@@ -153,6 +153,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
     public void callProfileInfoUpdate() {
         if (isValid()) {
+
             ProfileUpdateAPI profileUpdateAPI = new ProfileUpdateAPI();
             profileUpdateAPI.setName(userNameProfileEdit.getText().toString());
             profileUpdateAPI.setEmail(emailProfileEdit.getText().toString());
