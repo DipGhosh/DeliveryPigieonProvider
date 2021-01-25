@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
@@ -305,5 +306,41 @@ public class NetworkCall {
 
     return listOrderDataModelMutableLiveData;
   }
+
+
+  //Order Details List
+
+  public MutableLiveData<OrderDetailsResponseDatamodel> getOrderDetails() {
+
+    MutableLiveData<OrderDetailsResponseDatamodel> OrderDetailsDataModelMutableLiveData = new MutableLiveData<OrderDetailsResponseDatamodel>();
+
+    Call<OrderDetailsResponseDatamodel> getOrderDetailsCall = apiInterface
+            .getOrderDetails(Singleton.getInstance().getTOKEN());
+
+    getOrderDetailsCall.enqueue(new Callback<OrderDetailsResponseDatamodel>() {
+      @Override
+      public void onResponse(Call<OrderDetailsResponseDatamodel> call,
+                             Response<OrderDetailsResponseDatamodel> response) {
+
+        if (response.isSuccessful()) {
+          OrderDetailsDataModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          OrderDetailsDataModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<OrderDetailsResponseDatamodel> call, Throwable t) {
+
+      }
+    });
+
+
+    return OrderDetailsDataModelMutableLiveData;
+  }
+
 
 }

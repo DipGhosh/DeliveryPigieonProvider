@@ -1,29 +1,34 @@
-package com.dev.pigeonproviderapp.view.Adapter.ActiveOrder;
+package com.dev.pigeonproviderapp.view.Adapter.PastOrder;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ActiveorderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.CurrentOrderDetails;
 import com.dev.pigeonproviderapp.R;
-import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
+import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
+import com.dev.pigeonproviderapp.view.Dataprovider.CurrentOrderDatamodel;
+import com.dev.pigeonproviderapp.view.Dataprovider.PastOrderDatamodel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     static Activity activity;
     View myView;
     private LayoutInflater inflater;
-    public static List<OrderActiveDatamodel> data= Collections.emptyList();
+    public static List<PastOrderDatamodel> data= Collections.emptyList();
 
-    public ActiveOrderListAdapter(Activity activity, List<OrderActiveDatamodel> data)  /**/
+
+
+    public PastOrderListAdapter(Activity activity, List<PastOrderDatamodel> data)  /**/
     {
         if (activity!=null)
         {
@@ -35,34 +40,34 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        myView = inflater.inflate(R.layout.active_order_listing_layout, parent, false);
-        MyHolder holder = new MyHolder(myView);
+        myView = inflater.inflate(R.layout.current_order_listing_layout, parent, false);
+        PastOrderListAdapter.MyHolder holder = new PastOrderListAdapter.MyHolder(myView);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position)
     {
-        final MyHolder handler = (MyHolder) holder;
-        final OrderActiveDatamodel orderActiveDatamodel=data.get(position);
+        final PastOrderListAdapter.MyHolder handler = (PastOrderListAdapter.MyHolder) holder;
+        final PastOrderDatamodel pastOrderDatamodel=data.get(position);
 
-        if(orderActiveDatamodel.activeorder_type.equals("1"))
+        if(pastOrderDatamodel.pastorder_type.equals("1"))
         {
             handler.deliveryType.setText("Local");
-        }else if(orderActiveDatamodel.activeorder_type.equals("2"))
+        }else if(pastOrderDatamodel.pastorder_type.equals("2"))
         {
             handler.deliveryType.setText("Hyper Local");
         }else {
             handler.deliveryType.setText("Multi Points");
         }
 
-        handler.currentOrderPickupAddress.setText(orderActiveDatamodel.activeorder_pickup_address);
-        handler.currentOrderDeliveryAddress.setText(orderActiveDatamodel.activeorder_delivery_address);
-        handler.currentOrderPrice.setText(orderActiveDatamodel.activeorder_total_ammount);
+        handler.currentOrderPickupAddress.setText(pastOrderDatamodel.pastorder_pickup_address);
+        handler.currentOrderDeliveryAddress.setText(pastOrderDatamodel.pastorder_delivery_address);
+        handler.currentOrderPrice.setText(pastOrderDatamodel.pastorder_total_ammount);
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, ActiveorderDetails.class);
+                Intent intent=new Intent(activity, CurrentOrderDetails.class);
                 activity.startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.Fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +84,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
         //Registered click listener
         profileEdit.setOnClickListener(this);
+        logout.setOnClickListener(this);
 
 
         return view;
@@ -100,9 +103,29 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 break;
 
             case R.id.ll_logout:
-                sharePreference.LogOut();
-                Intent logout=new Intent(activity, Registrationactivity.class);
-                startActivity(logout);
+                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                builder.setTitle(getResources().getString(R.string.app_name));
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setMessage(R.string.logout_aleart_message);
+                builder.setPositiveButton(R.string.label_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                sharePreference.LogOut();
+                                Intent logout=new Intent(activity, Registrationactivity.class);
+                                startActivity(logout);
+                            }
+                        });
+                builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                final android.app.AlertDialog alert = builder.create();
+                alert.show();
+
 
                 break;
 

@@ -3,6 +3,7 @@ package com.dev.pigeonproviderapp.network;
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
@@ -23,6 +24,10 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
+import retrofit2.http.QueryName;
 
 public interface APIInterface {
 
@@ -64,4 +69,9 @@ public interface APIInterface {
   @GET("/api/orders")
   Call<ListOrderResponseDataModel> getOrderListCall(@Header("Authorization") String authorization);
 
+  /*@GET("/api/orders/{id}")
+  Call<OrderDetailsResponseDatamodel> getOrderDetails(@Header("Authorization") String authorization, @Query("id") int id);*/
+
+  @GET("/api/orders/5")
+  Call<OrderDetailsResponseDatamodel> getOrderDetails(@Header("Authorization") String authorization);
 }
