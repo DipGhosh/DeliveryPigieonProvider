@@ -315,7 +315,7 @@ public class NetworkCall {
     MutableLiveData<OrderDetailsResponseDatamodel> OrderDetailsDataModelMutableLiveData = new MutableLiveData<OrderDetailsResponseDatamodel>();
 
     Call<OrderDetailsResponseDatamodel> getOrderDetailsCall = apiInterface
-            .getOrderDetails(Singleton.getInstance().getTOKEN());
+            .getOrderDetails(Singleton.getInstance().getTOKEN(), 5);
 
     getOrderDetailsCall.enqueue(new Callback<OrderDetailsResponseDatamodel>() {
       @Override
@@ -334,7 +334,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<OrderDetailsResponseDatamodel> call, Throwable t) {
-
+        Log.d("Aslam", t.getMessage());
       }
     });
 
