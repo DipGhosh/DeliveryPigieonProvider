@@ -25,12 +25,14 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
+import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
 import com.dev.pigeonproviderapp.viewmodel.DocumentsUploadViewModel;
+import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -62,6 +64,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
     Dialog dialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
 
+
         dialog = UiUtils.showProgress(ProviderDetails.this);
 
         //Registered click listener
@@ -98,6 +102,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         panCardImageupload.setOnClickListener(this);
         otherDetailsImageupload.setOnClickListener(this);
         providerImageUpload.setOnClickListener(this);
+
 
     }
 
@@ -326,6 +331,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
         });
     }
+
+
 
 
 

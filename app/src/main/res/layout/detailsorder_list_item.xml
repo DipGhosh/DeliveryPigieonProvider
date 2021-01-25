@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_shadowshape"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_item_point"
+            android:paddingTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:text="@string/pickup_point"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_pickup_address"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:text="Pickup completed"
+            android:textColor="@color/fadeBlackColor"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_address_details"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/dummy_example"
+            android:textColor="@color/fadeBlackColor"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat"
+            >
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

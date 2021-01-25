@@ -48,10 +48,13 @@
     <string name="give_rating">Give Your Rating</string>
     <string name="accept_order">Accept Order</string>
     <string name="cancle">Cancel</string>
-    <string name="label_ok">Ok</string>
+    <string name="label_ok">Yes</string>
+    <string name="label_no">No</string>
     <string name="alert_no_data_message">No data available to show.</string>
     <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
     <string name="alert_create_otpvalidation">OTP field should not empty.</string>
     <string name="alert_provider_name">Please enter your name.</string>
     <string name="alert_terms_condition">Please accept our Terms and Condition.</string>
+    <string name="logout_aleart_title">Logout</string>
+    <string name="logout_aleart_message">Do you want to logout?</string>
 </resources>

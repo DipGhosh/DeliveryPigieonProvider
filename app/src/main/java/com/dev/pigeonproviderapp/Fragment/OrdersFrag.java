@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.material.tabs.TabItem;
@@ -96,6 +98,7 @@ public class OrdersFrag extends BaseFragment {
 
         getOrderList();
 
+
         return mView;
     }
 
@@ -114,12 +117,15 @@ public class OrdersFrag extends BaseFragment {
                 {
                     activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                     currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
+                    //pastOrderFrag.setData(listOrderDataModel.getData().getPast());
                 }
 
 
             }
         });
     }
+
+
 
     public class PageAdapter extends FragmentPagerAdapter {
 

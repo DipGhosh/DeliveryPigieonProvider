@@ -114,6 +114,8 @@ public class UiUtils {
 
                     }
                 });
+
+
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually

@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 public class Singleton {
     private static Singleton singleton = new Singleton();
     private String TOKEN;
+    private int ORDERID;
 
 
     /* A private Constructor prevents any other
@@ -30,6 +31,14 @@ public class Singleton {
 
     public void setTOKEN(String TOKEN) {
         this.TOKEN = "Bearer " + TOKEN;
+    }
+
+    public int getORDERID() {
+        return ORDERID;
+    }
+
+    public void setORDERID(int ORDERID) {
+        this.ORDERID = ORDERID;
     }
 
 

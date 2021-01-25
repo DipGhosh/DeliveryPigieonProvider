@@ -69,7 +69,7 @@ public class ActiveOrdersFrag extends BaseFragment {
         for (ListOrderResponseDataModel.Available available : availableList) {
 
             OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-
+            orderActiveDatamodel.activeorder_id=available.getId();
             orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
             orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
             orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();

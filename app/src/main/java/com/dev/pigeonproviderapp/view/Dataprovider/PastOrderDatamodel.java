@@ -1,0 +1,7 @@
+package com.dev.pigeonproviderapp.view.Dataprovider;
+
+public class PastOrderDatamodel {
+
+    public String pastorder_id, pastorder_type, pastorder_pickup_address, pastorder_delivery_address, pastorder_total_ammount;
+
+}

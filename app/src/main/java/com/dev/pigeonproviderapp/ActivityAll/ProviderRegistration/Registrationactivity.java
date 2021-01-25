@@ -160,8 +160,16 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                         sharePreference.SetIsloogedIn(true);
                         sharePreference.setToken(token);
 
-                        Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
-                        startActivity(providerDetails);
+                        if (verifyOtpResponseDataModel.getData().getUserFirstLogin()==true)
+                        {
+                            Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
+                            startActivity(providerDetails);
+                        }else {
+                            Intent providerDetails = new Intent(Registrationactivity.this, ProviderDashboard.class);
+                            startActivity(providerDetails);
+                        }
+
+
                     }
                 }
 

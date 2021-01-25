@@ -156,13 +156,11 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_35sdp"
                         android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:id="@+id/ll_select_order_type"
+                        android:id="@+id/ll_verify_otp"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_12sdp"
                         android:weightSum="1">
 
 
@@ -208,13 +206,11 @@
                     </View>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_35sdp"
                         android:orientation="horizontal"
                         android:id="@+id/select_approx_weight"
-                        android:layout_marginTop="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_12sdp"
                         android:weightSum="1">
 
 

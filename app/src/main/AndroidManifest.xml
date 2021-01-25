@@ -22,13 +22,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.OrderdetailsSection.CurrentOrderDetails"
+        <activity android:name=".ActivityAll.OTPSection.OtpVerification"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
-            android:name=".ActivityAll.ProviderRating.RatingActivity"
+            android:name=".ActivityAll.OrderdetailsSection.CurrentOrderDetails"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ActivityAll.ProviderRating.RatingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityAll.OrderdetailsSection.ItemDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

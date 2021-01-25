@@ -76,6 +76,7 @@ public class CurrentOrderFrag extends Fragment {
             currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
             currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
             currentOrderDatamodel.currentorder_total_ammount = "₹" + current.getAmount();
+            currentOrderDatamodel.currentorder_id=current.getId();
 
             current_order_arraylist.add(currentOrderDatamodel);
 

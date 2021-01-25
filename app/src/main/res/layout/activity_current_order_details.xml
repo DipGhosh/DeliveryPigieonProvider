@@ -6,309 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".ActivityAll.OrderdetailsSection.CurrentOrderDetails">
-<!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/ll_header"
-            android:background="@color/header_color"
-            android:orientation="horizontal"
-            android:weightSum="3">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:gravity="center|left"
-                android:id="@+id/ll_back"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/left_flat_arrow"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="2.1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_catName"
-                    android:text="@string/order_details"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/montserrat"
-                    >
-
-                </TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:background="@drawable/location_ico"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_shadowshape"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_frompickup"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:text="@string/pickup_point"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/_12sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_pickup_address"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:text="Pickup completed"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="@string/dummy_example"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-                    </TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_shadowshape"
-                    android:id="@+id/ll_item_click"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:text="Drop Point"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/_12sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:text="Pickup completed"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="@string/dummy_example"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-                    </TextView>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_shadowshape"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_35sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:text="Weight: Upto 5kg"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/_12sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:text="Document,Book,Cloth"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="A delivery order is a document that."
-                        android:textColor="@color/fadeBlackColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-                    </TextView>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@android:color/darker_gray">
-
-                    </View>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sdp"
-                        android:background="@drawable/white_shadowshape"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:gravity="center"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:text="@string/accept_order"
-                                android:textColor="@color/otptextColor"
-                                android:textSize="@dimen/_12sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
-
-                            </TextView>
-
-                        </LinearLayout>
-                        <View
-                            android:layout_width="0.5dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/fadeBlackColor">
-
-                        </View>
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:gravity="center"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:text="@string/cancle"
-                                android:textColor="@color/otptextColor"
-                                android:textSize="@dimen/_12sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
-
-                            </TextView>
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-
-
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
--->
      <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -415,23 +113,24 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tv_pickup_status"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:text="Pickup completed"
+                            android:textColor="@color/fadeBlackColor"
+                            android:textSize="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            >
+
+                        </TextView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:id="@+id/tv_pickup_address"
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Pickup completed"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:text="@string/dummy_example"
                             android:textColor="@color/fadeBlackColor"
@@ -441,55 +140,13 @@
                         </TextView>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/white_shadowshape"
-                        android:id="@+id/ll_item_click"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:id="@+id/rl_order_details">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:text="Drop Point"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:text="Pickup completed"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="@string/dummy_example"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-                        </TextView>
-                    </LinearLayout>
-
+                    </androidx.recyclerview.widget.RecyclerView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
