@@ -23,7 +23,9 @@ import android.widget.LinearLayout;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
+import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+import com.dev.pigeonproviderapp.viewmodel.DocumentsUploadViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.github.gcacace.signaturepad.views.SignaturePad;
@@ -44,7 +46,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
     private LinearLayout back;
     private Button buttonSignatureSubmit;
 
-    ProfileViewModel profileViewModel;
+    DocumentsUploadViewModel documentsUploadViewModel;
     OrderListViewModel orderListViewModel;
 
     SignaturePad mSignaturePad;
@@ -62,7 +64,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         mSignaturePad = findViewById(R.id.signaturePad);
         buttonSignatureSubmit=findViewById(R.id.btn_signature_submit);
 
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -161,15 +163,15 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         File file = new File(path);
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part
-                .createFormData("profile_picture", file.getName(), requestFile);
+                .createFormData("file", file.getName(), requestFile);
 
-        profileViewModel.uploadProfilePicture(multipartBody).observe(this,
-                new Observer<UpdateProfilePIctureDataModel>() {
+        documentsUploadViewModel.uploadDocumentPicture(multipartBody).observe(this,
+                new Observer<UploadDocumentImageResponseModel>() {
                     @Override
-                    public void onChanged(UpdateProfilePIctureDataModel updateProfilePIctureDataModel) {
+                    public void onChanged(UploadDocumentImageResponseModel uploadDocumentImageResponseModel) {
                         dialog.dismiss();
-                        filename = updateProfilePIctureDataModel.getData().getUser()
-                                .getProfilePicture();
+                        filename = uploadDocumentImageResponseModel.getData();
+
                         Log.d("Aslam", "Filename: " + filename);
                         verifyOrderOtp();
 

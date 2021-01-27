@@ -65,4 +65,5 @@
     <string name="payment_msg_1">Please collect</string>
     <string name="payment_msg_2"> from customer and tap the accept below.</string>
     <string name="aleart_accept_payment">Your payment has been accepted.</string>
+    <string name="notification_channel_id">default</string>
 </resources>
