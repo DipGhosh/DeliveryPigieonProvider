@@ -37,12 +37,14 @@
     <string name="view_details">View Details</string>
     <string name="price_text">₹40</string>
     <string name="order_details">Order Details</string>
+    <string name="heading_signature">Add Signature</string>
     <string name="start_order">Start Order</string>
     <string name="accept_payment">Accept Payment</string>
     <string name="rate_order">Rate this order</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="add_signature">Add Signature</string>
     <string name="complete">Complete</string>
+    <string name="completed">Completed</string>
     <string name="comments">Comments</string>
     <string name="rating">Rating &amp; Comment</string>
     <string name="give_rating">Give Your Rating</string>
@@ -57,4 +59,10 @@
     <string name="alert_terms_condition">Please accept our Terms and Condition.</string>
     <string name="logout_aleart_title">Logout</string>
     <string name="logout_aleart_message">Do you want to logout?</string>
+    <string name="aleart_otp">Please put your OTP</string>
+    <string name="aleart_signature_upload">Signature is uploaded successfully.</string>
+    <string name="aleart_orderitem_complete">Order is completed.</string>
+    <string name="payment_msg_1">Please collect</string>
+    <string name="payment_msg_2"> from customer and tap the accept below.</string>
+    <string name="aleart_accept_payment">Your payment has been accepted.</string>
 </resources>

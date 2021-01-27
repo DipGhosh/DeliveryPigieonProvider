@@ -1,10 +1,8 @@
 package com.dev.pigeonproviderapp.Fragment.OrderPlacedSection;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ActiveorderDetails;
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.CurrentOrderDetails;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
@@ -34,6 +30,7 @@ public class ActiveOrdersFrag extends BaseFragment {
     private RecyclerView activeorderlist_recyclerview;
     private ArrayList<OrderActiveDatamodel> active_order_arraylist = new ArrayList<>();
     private ActiveOrderListAdapter adapter;
+    private ImageView blankImage;
 
 
     public ActiveOrdersFrag() {
@@ -48,6 +45,7 @@ public class ActiveOrdersFrag extends BaseFragment {
         mview=inflater.inflate(R.layout.fragment_active_orders, container, false);
         activity=getActivity();
 
+        blankImage=mview.findViewById(R.id.blank_img);
         activeorderlist_recyclerview = mview.findViewById(R.id.rl_active_orderList);
         activeorderlist_recyclerview.setLayoutManager(new LinearLayoutManager(activity));
         activeorderlist_recyclerview
@@ -66,23 +64,28 @@ public class ActiveOrdersFrag extends BaseFragment {
 
     public void setData(List<ListOrderResponseDataModel.Available> availableList) {
 
-        for (ListOrderResponseDataModel.Available available : availableList) {
+        if (availableList.size()>0){
 
-            OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-            orderActiveDatamodel.activeorder_id=available.getId();
-            orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
-            orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
-            orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
-            orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
+            for (ListOrderResponseDataModel.Available available : availableList) {
 
-            active_order_arraylist.add(orderActiveDatamodel);
+                OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
+                orderActiveDatamodel.activeorder_id=available.getId();
+                orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
+                orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
+                orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
+                orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
 
+                active_order_arraylist.add(orderActiveDatamodel);
 
+            }
 
+            adapter.notifyDataSetChanged();
+
+        }else {
+            blankImage.setVisibility(View.VISIBLE);
         }
 
 
-        adapter.notifyDataSetChanged();
 
     }
 
