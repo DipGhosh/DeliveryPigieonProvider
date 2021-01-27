@@ -9,6 +9,9 @@ public class Singleton {
     private static Singleton singleton = new Singleton();
     private String TOKEN;
     private int ORDERID;
+    private int ORDERITEMID;
+    private boolean orderaccept;
+    private float ORDERAMOUNT;
 
 
     /* A private Constructor prevents any other
@@ -39,6 +42,30 @@ public class Singleton {
 
     public void setORDERID(int ORDERID) {
         this.ORDERID = ORDERID;
+    }
+
+    public int getORDERITEMID() {
+        return ORDERITEMID;
+    }
+
+    public void setORDERITEMID(int ORDERITEMID) {
+        this.ORDERITEMID = ORDERITEMID;
+    }
+
+    public boolean isOrderaccept() {
+        return orderaccept;
+    }
+
+    public void setOrderaccept(boolean orderaccept) {
+        this.orderaccept = orderaccept;
+    }
+
+    public float getORDERAMOUNT() {
+        return ORDERAMOUNT;
+    }
+
+    public void setORDERAMOUNT(float ORDERAMOUNT) {
+        this.ORDERAMOUNT = ORDERAMOUNT;
     }
 
 

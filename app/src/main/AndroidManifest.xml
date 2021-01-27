@@ -22,12 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.OTPSection.OtpVerification"
+        <activity android:name=".ActivityAll.OTPSection.OtpVerificationActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
-            android:name=".ActivityAll.OrderdetailsSection.CurrentOrderDetails"
+            android:name=".ActivityAll.OrderdetailsSection.OrderDetails"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityAll.ProviderRating.RatingActivity"
@@ -36,7 +36,7 @@
             android:name=".ActivityAll.OrderdetailsSection.ItemDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ActivityAll.OrderdetailsSection.ActiveorderDetails"
+            android:name=".ActivityAll.OTPSection.ItemDigitalSignature"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityAll.ProviderDashboard"

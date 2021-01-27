@@ -5,17 +5,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ActiveorderDetails;
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.CurrentOrderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.storage.Singleton;
-import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Dataprovider.CurrentOrderDatamodel;
-import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
 
 import java.util.Collections;
 import java.util.List;
@@ -66,7 +64,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, CurrentOrderDetails.class);
+                Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
                 Singleton.getInstance().setORDERID(currentOrderDatamodel.currentorder_id);
             }
@@ -101,5 +99,8 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
         }
+
+
     }
+
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_color"
     tools:context=".Fragment.OrderPlacedSection.CurrentOrderFrag">
     <androidx.core.widget.NestedScrollView
@@ -20,6 +21,19 @@
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/blank_img"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/blank_list">
+
+    </ImageView>
 
 
 

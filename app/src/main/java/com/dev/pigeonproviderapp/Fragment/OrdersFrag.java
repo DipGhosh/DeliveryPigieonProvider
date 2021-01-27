@@ -99,10 +99,11 @@ public class OrdersFrag extends BaseFragment {
         getOrderList();
 
 
+
         return mView;
     }
 
-    public void getOrderList() {
+    public  void getOrderList() {
         dialog.show();
         orderListViewModel.getOrderListData().observe(this, new Observer<ListOrderResponseDataModel>() {
             @Override

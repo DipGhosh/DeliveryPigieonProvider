@@ -9,8 +9,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ActiveorderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
 
 import java.util.Collections;
@@ -62,8 +63,9 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, ActiveorderDetails.class);
+                Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
+                Singleton.getInstance().setORDERID(orderActiveDatamodel.activeorder_id);
             }
         });
 

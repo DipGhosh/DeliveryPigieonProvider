@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".ActivityAll.OrderdetailsSection.CurrentOrderDetails">
+    tools:context=".ActivityAll.OrderdetailsSection.OrderDetails">
 
      <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/ll_main"
+
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,6 +94,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/ll_pickup_point_view"
                         android:background="@drawable/white_shadowshape"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:orientation="vertical">
@@ -110,20 +113,33 @@
                             >
 
                         </TextView>
-                        <TextView
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_pickup_status"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:text="Pickup completed"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_pickup_status"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:text="Pickup completed"
+                                android:textColor="@color/fadeBlackColor"
+                                android:textSize="@dimen/_10sdp"
+                                android:fontFamily="@font/montserrat"
+                                >
 
-                        </TextView>
+                            </TextView>
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/arrow_forward"
+                                />
+                        </RelativeLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -147,31 +163,66 @@
                         android:id="@+id/rl_order_details">
 
                     </androidx.recyclerview.widget.RecyclerView>
-                    <LinearLayout
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/white_shadowshape"
-                        android:weightSum="2"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:orientation="horizontal">
-                        <TextView
+                        android:layout_height="wrap_content">
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:gravity="center"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:text="@string/start_order"
-                            android:textColor="@color/otptextColor"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
+                            android:visibility="gone"
+                            android:id="@+id/ll_start_order_orderdetails"
+                            android:background="@drawable/white_shadowshape"
+                            android:weightSum="2"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:gravity="center"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:text="@string/start_order"
+                                android:textColor="@color/otptextColor"
+                                android:textSize="@dimen/_12sdp"
+                                android:fontFamily="@font/montserrat"
+                                >
 
-                        </TextView>
+                            </TextView>
 
 
-                    </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/ll_accept_order_orderdetails"
+                            android:background="@drawable/white_shadowshape"
+                            android:weightSum="2"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:gravity="center"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:text="@string/accept_order"
+                                android:textColor="@color/otptextColor"
+                                android:textSize="@dimen/_12sdp"
+                                android:fontFamily="@font/montserrat"
+                                >
+
+                            </TextView>
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -187,8 +238,10 @@
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:text="Weight: Upto 5kg"
+                            android:id="@+id/tv_weight"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_12sdp"
+                            android:paddingBottom="@dimen/_10sdp"
                             android:fontFamily="@font/montserrat"
                             >
 
@@ -197,6 +250,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_15sdp"
+                            android:visibility="gone"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:paddingTop="@dimen/_5sdp"
                             android:text="Document,Book,Cloth"
@@ -211,6 +265,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:paddingTop="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:text="A delivery order is a document that."
@@ -246,7 +301,7 @@
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Please collect Rs.40"
+                            android:id="@+id/tv_payment_status"
                             android:textColor="@color/fadeBlackColor"
                             android:textSize="@dimen/_10sdp"
                             android:fontFamily="@font/montserrat"

@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.CurrentOrderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
-import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
-import com.dev.pigeonproviderapp.view.Dataprovider.CurrentOrderDatamodel;
 import com.dev.pigeonproviderapp.view.Dataprovider.PastOrderDatamodel;
 
 import java.util.Collections;
@@ -67,7 +64,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, CurrentOrderDetails.class);
+                Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
             }
         });
