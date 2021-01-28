@@ -39,15 +39,14 @@ public class PastOrderFrag extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mview= inflater.inflate(R.layout.fragment_past_order, container, false);
-        activity=getActivity();
+        mview = inflater.inflate(R.layout.fragment_past_order, container, false);
+        activity = getActivity();
 
-        blankImage=mview.findViewById(R.id.blank_img);
+        blankImage = mview.findViewById(R.id.blank_img);
         pastorderlist_recyclerview = mview.findViewById(R.id.rl_past_orderList);
         pastorderlist_recyclerview.setLayoutManager(new LinearLayoutManager(activity));
         pastorderlist_recyclerview
@@ -67,9 +66,12 @@ public class PastOrderFrag extends Fragment {
     }
 
     public void setData(List<ListOrderResponseDataModel.Past> pasts) {
-        if (pasts.size()>0){
+        if (pasts.size() > 0) {
+
+            past_order_arraylist.clear();
 
             for (ListOrderResponseDataModel.Past past : pasts) {
+
 
                 PastOrderDatamodel pastOrderDatamodel = new PastOrderDatamodel();
 
@@ -77,15 +79,14 @@ public class PastOrderFrag extends Fragment {
                 pastOrderDatamodel.pastorder_pickup_address = past.getPickupPoint();
                 pastOrderDatamodel.pastorder_delivery_address = past.getDropPoint();
                 pastOrderDatamodel.pastorder_total_ammount = "₹" + past.getAmount();
-                pastOrderDatamodel.pastorder_id=past.getId();
+                pastOrderDatamodel.pastorder_id = past.getId();
 
                 past_order_arraylist.add(pastOrderDatamodel);
 
             }
-        }else {
+        } else {
             blankImage.setVisibility(View.VISIBLE);
         }
-
 
 
         //adapter.notifyDataSetChanged();

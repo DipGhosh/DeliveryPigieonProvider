@@ -66,7 +66,11 @@ public class ActiveOrdersFrag extends BaseFragment {
 
         if (availableList.size()>0){
 
+            active_order_arraylist.clear();
+
             for (ListOrderResponseDataModel.Available available : availableList) {
+
+
 
                 OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
                 orderActiveDatamodel.activeorder_id=available.getId();

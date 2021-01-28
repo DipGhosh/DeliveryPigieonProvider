@@ -395,24 +395,24 @@ public class OrderDetailsResponseDatamodel {
 
     @SerializedName("status")
     @Expose
-    private Object status;
+    private Integer status;
     @SerializedName("message")
     @Expose
-    private Object message;
+    private String message;
 
-    public Object getStatus() {
+    public Integer getStatus() {
       return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(Integer status) {
       this.status = status;
     }
 
-    public Object getMessage() {
+    public String getMessage() {
       return message;
     }
 
-    public void setMessage(Object message) {
+    public void setMessage(String message) {
       this.message = message;
     }
 

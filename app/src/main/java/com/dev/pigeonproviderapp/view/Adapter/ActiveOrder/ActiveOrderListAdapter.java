@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
@@ -69,6 +70,15 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 Singleton.getInstance().setOrderaccept(false);
             }
         });
+        handler.acceptOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Singleton.getInstance().setOrderaccept(true);
+                Intent intent = new Intent("custom-message");
+                intent.putExtra("ORDERSTATUS" ,"Accepted");
+                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+            }
+        });
 
 
 
@@ -85,7 +95,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder;
 
 
         public MyHolder(View row)
@@ -96,6 +106,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             currentOrderDeliveryAddress=(TextView)row.findViewById(R.id.tv_delivery_address);
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
+            acceptOrder=row.findViewById(R.id.tv_accept_order);
 
 
         }

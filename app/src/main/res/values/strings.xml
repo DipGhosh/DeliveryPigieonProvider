@@ -40,6 +40,7 @@
     <string name="heading_signature">Add Signature</string>
     <string name="start_order">Start Order</string>
     <string name="accept_payment">Accept Payment</string>
+    <string name="accepted_payment">Payment has been accepted.</string>
     <string name="rate_order">Rate this order</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="add_signature">Add Signature</string>
@@ -63,7 +64,7 @@
     <string name="aleart_otp">Please put your OTP</string>
     <string name="aleart_signature_upload">Signature is uploaded successfully.</string>
     <string name="aleart_orderitem_complete">Order is completed.</string>
-    <string name="payment_msg_1">Please collect</string>
+    <string name="payment_msg_1">Please collect ₹</string>
     <string name="payment_msg_2"> from customer and tap the accept below.</string>
     <string name="aleart_accept_payment">Your payment has been accepted.</string>
     <string name="notification_channel_id">default</string>
@@ -72,4 +73,5 @@
     <string name="aleart_rating_submit">Succeesfully submitted.</string>
     <string name="aleart_rating_comment">Please write some comment.</string>
     <string name="aleart_select_rating">Please select rating for this order.</string>
+    <string name="alert_complete_payment_msg">Total payment amount was ₹</string>
 </resources>

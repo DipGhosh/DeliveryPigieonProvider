@@ -50,10 +50,11 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     OrderListViewModel orderListViewModel;
 
     private Activity activity = OrderDetails.this;
-    private LinearLayout back, moveProviderRating, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear,orderCompleted;
+    private LinearLayout back, moveProviderRating, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus;
     private int pickupPointID;
-    private String pickupPointAddress, pickuPointPaymentStatus, orderStatus, pickupTime, pickupComment;
+    private String pickupPointAddress, pickuPointPaymentStatus, orderItemStatus, pickupTime, pickupComment, orderStatus;
+    private long pickupPhonenUmber;
     private Dialog dialog;
 
     private RecyclerView orderDetailsListing_recyclerview;
@@ -77,7 +78,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         redirectRatingScreen = findViewById(R.id.ll_moveRatingScreen);
         pickuppointViewLinear = findViewById(R.id.ll_pickup_point_view);
         startedOrder = findViewById(R.id.ll_started_order);
-        orderCompleted=findViewById(R.id.ll_completed_order);
+        orderCompleted = findViewById(R.id.ll_completed_order);
 
 
         dialog = UiUtils.showProgress(OrderDetails.this);
@@ -122,12 +123,13 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.ll_pickup_point_view:
                 Singleton.getInstance().setORDERITEMID(pickupPointID);
+                Singleton.getInstance().setITEMSTATUSMESSAGE(orderItemStatus);
+                Singleton.getInstance().setPHONENUMBER(pickupPhonenUmber);
                 Intent itemdetails = new Intent(activity, ItemDetailsActivity.class);
                 itemdetails.putExtra("ITEMID", pickupPointID);
                 itemdetails.putExtra("TYPE", "Pickup Point");
                 itemdetails.putExtra("ADDRESS", pickupPointAddress);
                 itemdetails.putExtra("PAYMENTSTATUS", pickuPointPaymentStatus);
-                itemdetails.putExtra("ORDERSTATUS", orderStatus);
                 itemdetails.putExtra("TIME", pickupTime);
                 itemdetails.putExtra("COMMENT", pickupComment);
                 activity.startActivity(itemdetails);
@@ -180,31 +182,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 if (orderDetailsResponseDatamodel.getStatus() == 200) {
                     mainLayout.setVisibility(View.VISIBLE);
 
-                    if (orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage().equals("Is not assigned")) {
-                        acceptOrder.setVisibility(View.VISIBLE);
-                        startOrder.setVisibility(View.GONE);
-                        startedOrder.setVisibility(View.GONE);
-                        orderCompleted.setVisibility(View.GONE);
-                        redirectRatingScreen.setVisibility(View.INVISIBLE);
-                    } else if (orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage().equals("Started")) {
-                        acceptOrder.setVisibility(View.GONE);
-                        startOrder.setVisibility(View.GONE);
-                        startedOrder.setVisibility(View.VISIBLE);
-                        orderCompleted.setVisibility(View.GONE);
-                        redirectRatingScreen.setVisibility(View.VISIBLE);
-                    }else if (orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage().equals("Completed")) {
-                        acceptOrder.setVisibility(View.GONE);
-                        startOrder.setVisibility(View.GONE);
-                        startedOrder.setVisibility(View.GONE);
-                        orderCompleted.setVisibility(View.VISIBLE);
-                        redirectRatingScreen.setVisibility(View.VISIBLE);
-                    } else {
-                        acceptOrder.setVisibility(View.GONE);
-                        startOrder.setVisibility(View.VISIBLE);
-                        startedOrder.setVisibility(View.GONE);
-                        orderCompleted.setVisibility(View.GONE);
-                        redirectRatingScreen.setVisibility(View.VISIBLE);
-                    }
+                    orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage();
+
+                    AllFieldVisibility();
 
                     pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
                     pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
@@ -214,11 +194,13 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     pickupPointID = orderDetailsResponseDatamodel.getData().getPickupPoint().getId();
                     pickupPointAddress = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress();
                     pickuPointPaymentStatus = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
-                    orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage();
+                    orderItemStatus = orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage();
                     pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
                     pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
+                    pickupPhonenUmber=orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
 
                     Singleton.getInstance().setORDERAMOUNT(orderDetailsResponseDatamodel.getData().getPayment().getAmount());
+
 
 
                     DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
@@ -226,12 +208,13 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     for (OrderDetailsResponseDatamodel.DropPoint dropPoint : orderDetailsResponseDatamodel.getData().getDropPoints()) {
 
                         deliveryPointListingDatamodel.orderpoint_name = "Drop Point";
-                        deliveryPointListingDatamodel.order_status = orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage();
+                        deliveryPointListingDatamodel.order_status = dropPoint.getOrderStatus().getMessage();
                         deliveryPointListingDatamodel.delivery_order_id = dropPoint.getId();
                         deliveryPointListingDatamodel.order_point_address = dropPoint.getDropAddress().getAddress();
                         deliveryPointListingDatamodel.payment_status = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
                         deliveryPointListingDatamodel.delivery_time = dropPoint.getDropTime();
                         deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
+                        deliveryPointListingDatamodel.item_phone_number=dropPoint.getPhone();
                         order_detailsList_arraylist.add(deliveryPointListingDatamodel);
 
                         adapter = new OrderDetailsAdapter(activity, order_detailsList_arraylist);
@@ -303,5 +286,32 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         alert.show();
     }
 
+    public void AllFieldVisibility() {
+        if (orderStatus.equals("Is not assigned")) {
+            acceptOrder.setVisibility(View.VISIBLE);
+            startOrder.setVisibility(View.GONE);
+            startedOrder.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.GONE);
+            redirectRatingScreen.setVisibility(View.INVISIBLE);
+        } else if (orderStatus.equals("Started")) {
+            acceptOrder.setVisibility(View.GONE);
+            startOrder.setVisibility(View.GONE);
+            startedOrder.setVisibility(View.VISIBLE);
+            orderCompleted.setVisibility(View.GONE);
+            redirectRatingScreen.setVisibility(View.VISIBLE);
+        } else if (orderStatus.equals("Completed")) {
+            acceptOrder.setVisibility(View.GONE);
+            startOrder.setVisibility(View.GONE);
+            startedOrder.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.VISIBLE);
+            redirectRatingScreen.setVisibility(View.INVISIBLE);
+        } else {
+            acceptOrder.setVisibility(View.GONE);
+            startOrder.setVisibility(View.VISIBLE);
+            startedOrder.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.GONE);
+            redirectRatingScreen.setVisibility(View.INVISIBLE);
+        }
+    }
 
 }

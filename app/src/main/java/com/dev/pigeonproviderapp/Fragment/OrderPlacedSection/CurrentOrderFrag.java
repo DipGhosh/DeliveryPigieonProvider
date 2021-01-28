@@ -67,6 +67,8 @@ public class CurrentOrderFrag extends Fragment {
 
         if (currents.size()>0){
 
+            current_order_arraylist.clear();
+
             for (ListOrderResponseDataModel.Current current : currents) {
 
                 CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();

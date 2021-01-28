@@ -12,6 +12,8 @@ public class Singleton {
     private int ORDERITEMID;
     private boolean orderaccept;
     private float ORDERAMOUNT;
+    private String ITEMSTATUSMESSAGE;
+    private long PHONENUMBER;
 
 
     /* A private Constructor prevents any other
@@ -67,6 +69,21 @@ public class Singleton {
     public void setORDERAMOUNT(float ORDERAMOUNT) {
         this.ORDERAMOUNT = ORDERAMOUNT;
     }
+    public String getITEMSTATUSMESSAGE() {
+        return ITEMSTATUSMESSAGE;
+    }
+
+    public void setITEMSTATUSMESSAGE(String ITEMSTATUSMESSAGE) {
+        this.ITEMSTATUSMESSAGE = ITEMSTATUSMESSAGE;
+    }
+    public long getPHONENUMBER() {
+        return PHONENUMBER;
+    }
+
+    public void setPHONENUMBER(long PHONENUMBER) {
+        this.PHONENUMBER = PHONENUMBER;
+    }
+
 
 
 }

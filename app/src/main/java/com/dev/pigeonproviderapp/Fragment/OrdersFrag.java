@@ -2,6 +2,10 @@ package com.dev.pigeonproviderapp.Fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -98,6 +103,9 @@ public class OrdersFrag extends BaseFragment {
 
         getOrderList();
 
+        LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-message"));
+
 
 
         return mView;
@@ -112,6 +120,18 @@ public class OrdersFrag extends BaseFragment {
             getOrderList();
         }
     }
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+
+            if (intent.getStringExtra("ORDERSTATUS").equals("Accepted"))
+            {
+                getOrderList();
+            }
+
+        }
+    };
 
     public  void getOrderList() {
         dialog.show();
