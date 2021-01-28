@@ -67,6 +67,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
                 Singleton.getInstance().setORDERID(currentOrderDatamodel.currentorder_id);
+                Singleton.getInstance().setOrderaccept(false);
             }
         });
 

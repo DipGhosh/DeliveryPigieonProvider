@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -20,9 +21,17 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDetailsActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
 
@@ -131,6 +140,38 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
+
+/*
+
+        mMap.addMarker(new MarkerOptions()
+                .title("Drop Point")
+                .position(new LatLng(
+                        dropPoint.getDropAddress().getLat(),
+                        dropPoint.getDropAddress().getLong()
+                ))
+        );
+        Polyline path = mMap.addPolyline(new PolylineOptions()
+                .add(
+                        new LatLng(38.893596444352134, -77.0381498336792),
+                        new LatLng(38.89337933372204, -77.03792452812195),
+                        new LatLng(38.893596444352134, -77.0349633693695)
+                )
+        );
+
+
+        // Style the polyline
+        path.setWidth(10);
+        path.setColor(Color.parseColor("#FF0000"));
+
+
+        // Position the map's camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dropPoint.getDropAddress().getLat(), dropPoint.getDropAddress().getLong()), 16));
+*/
+
+
+
     }
 
     public void completeOrderItem() {

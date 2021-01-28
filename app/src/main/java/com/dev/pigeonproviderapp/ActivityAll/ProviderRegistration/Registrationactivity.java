@@ -37,7 +37,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Registrationactivity extends BaseActivity implements View.OnClickListener {
 
-    String MobilePattern = "[0-9]{5}";
+    String MobilePattern = "[0-9]{10}";
     OtpSendViewModel otpSendViewModel;
     VerifyOtpViewModel verifyOtpViewModel;
     private Button btnRegistration;
@@ -46,6 +46,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     private CheckBox checkTerms;
     private Dialog dialog;
     private SharePreference sharePreference;
+    private String token;
 
 
 
@@ -92,7 +93,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                         }
 
                         // Get new FCM registration token
-                        String token = task.getResult();
+                        token = task.getResult();
                         Log.d("Token", token);
 
                     }
@@ -146,12 +147,16 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void onChanged(OTPSendResponseDataModel otpSendResponseDataModel) {
                     dialog.dismiss();
-                    int data = otpSendResponseDataModel.getData();
-                    if (data > 0) {
-                        getOtp.setVisibility(View.GONE);
-                        resendOtp.setVisibility(View.VISIBLE);
-                        otpField.setText("" + data);
+                    if (otpSendResponseDataModel.getStatus()==200)
+                    {
+                        int data = otpSendResponseDataModel.getData();
+                        if (data > 0) {
+                            getOtp.setVisibility(View.GONE);
+                            resendOtp.setVisibility(View.VISIBLE);
+                            otpField.setText("" + data);
+                        }
                     }
+
 
                 }
             });
@@ -167,6 +172,9 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
             verifyOtpAPIModel.setPhone(providerPhoneNumber.getText().toString());
             verifyOtpAPIModel.setDeviceName(Utility.DEVICE_NAME);
             verifyOtpAPIModel.setOtp(otpField.getText().toString());
+            verifyOtpAPIModel.setDevicetoken(token);
+            verifyOtpAPIModel.setDevicetype(Utility.DEVICE_TYPE);
+            verifyOtpAPIModel.setUsertype(Utility.USERTYPE);
 
 
             verifyOtpViewModel.getVerifyOtpData(verifyOtpAPIModel).observe(this, verifyOtpResponseDataModel -> {
@@ -204,10 +212,10 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         if (TextUtils.isEmpty(providerPhoneNumber.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_create_phone));
             return false;
-        } /*else if (!providerPhoneNumber.getText().toString().matches(MobilePattern)) {
+        } else if (!providerPhoneNumber.getText().toString().matches(MobilePattern)) {
       UiUtils.showToast(this, getString(R.string.alert_create_phone));
       return false;
-    }*/ else {
+    } else {
             return true;
         }
     }

@@ -8,9 +8,10 @@ public class OrderRatingAPIModel {
     @SerializedName("rating")
     @Expose
     private double rating;
+
     @SerializedName("comment")
     @Expose
-    private String phone;
+    private String comment;
 
     public double getRating() {
         return rating;
@@ -20,13 +21,15 @@ public class OrderRatingAPIModel {
         this.rating = rating;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getComment() {
+        return comment;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
+
+
 
 
 }

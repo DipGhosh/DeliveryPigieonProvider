@@ -49,6 +49,7 @@
     <string name="rating">Rating &amp; Comment</string>
     <string name="give_rating">Give Your Rating</string>
     <string name="accept_order">Accept Order</string>
+    <string name="order_started">Order Started</string>
     <string name="cancle">Cancel</string>
     <string name="label_ok">Yes</string>
     <string name="label_no">No</string>
@@ -66,4 +67,9 @@
     <string name="payment_msg_2"> from customer and tap the accept below.</string>
     <string name="aleart_accept_payment">Your payment has been accepted.</string>
     <string name="notification_channel_id">default</string>
+    <string name="aleart_accept_order">Do you want to accept this order?</string>
+    <string name="aleart_order_start">Your order has been started.</string>
+    <string name="aleart_rating_submit">Succeesfully submitted.</string>
+    <string name="aleart_rating_comment">Please write some comment.</string>
+    <string name="aleart_select_rating">Please select rating for this order.</string>
 </resources>

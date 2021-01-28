@@ -53,7 +53,9 @@ public class PastOrderFrag extends Fragment {
         pastorderlist_recyclerview
                 .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
-        blankImage.setVisibility(View.VISIBLE);
+        //blankImage.setVisibility(View.VISIBLE);
+
+        createList();
 
         return mview;
     }
@@ -64,26 +66,29 @@ public class PastOrderFrag extends Fragment {
         pastorderlist_recyclerview.setAdapter(adapter);
     }
 
-    /*public void setData(List<ListOrderResponseDataModel.> currents) {
+    public void setData(List<ListOrderResponseDataModel.Past> pasts) {
+        if (pasts.size()>0){
 
-        for (ListOrderResponseDataModel.Current current : currents) {
+            for (ListOrderResponseDataModel.Past past : pasts) {
 
-            PastOrderDatamodel pastOrderDatamodel = new PastOrderDatamodel();
+                PastOrderDatamodel pastOrderDatamodel = new PastOrderDatamodel();
 
-            pastOrderDatamodel.pastorder_type = String.valueOf(current.getOrderType());
-            pastOrderDatamodel.pastorder_pickup_address = current.getPickupPoint();
-            pastOrderDatamodel.pastorder_delivery_address = current.getDropPoint();
-            pastOrderDatamodel.pastorder_total_ammount = "₹" + current.getAmount();
+                pastOrderDatamodel.pastorder_type = String.valueOf(past.getOrderType());
+                pastOrderDatamodel.pastorder_pickup_address = past.getPickupPoint();
+                pastOrderDatamodel.pastorder_delivery_address = past.getDropPoint();
+                pastOrderDatamodel.pastorder_total_ammount = "₹" + past.getAmount();
+                pastOrderDatamodel.pastorder_id=past.getId();
 
-            past_order_arraylist.add(pastOrderDatamodel);
+                past_order_arraylist.add(pastOrderDatamodel);
 
-
-
+            }
+        }else {
+            blankImage.setVisibility(View.VISIBLE);
         }
 
 
-        adapter.notifyDataSetChanged();
 
-    }*/
+        //adapter.notifyDataSetChanged();
 
+    }
 }

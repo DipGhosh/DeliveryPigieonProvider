@@ -66,6 +66,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
                 Singleton.getInstance().setORDERID(orderActiveDatamodel.activeorder_id);
+                Singleton.getInstance().setOrderaccept(false);
             }
         });
 

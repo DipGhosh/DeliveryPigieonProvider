@@ -82,6 +82,7 @@ public class ActiveOrdersFrag extends BaseFragment {
             adapter.notifyDataSetChanged();
 
         }else {
+
             blankImage.setVisibility(View.VISIBLE);
         }
 

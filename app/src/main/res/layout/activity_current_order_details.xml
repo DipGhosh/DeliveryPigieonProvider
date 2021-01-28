@@ -7,346 +7,272 @@
     android:background="@color/background_color"
     tools:context=".ActivityAll.OrderdetailsSection.OrderDetails">
 
-     <LinearLayout
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/ll_main"
+            android:layout_height="60dp"
+            android:background="@color/header_color"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/ll_header"
-                android:background="@color/header_color"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:id="@+id/ll_back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:gravity="center|left"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4"
-                    android:gravity="center|left"
-                    android:id="@+id/ll_back"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="28dp"
-                        android:layout_marginLeft="15dp"
-                        android:background="@drawable/left_flat_arrow"
-                        />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/left_flat_arrow" />
 
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_weight="2.1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_catName"
-                        android:text="@string/order_details"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/_14sdp"
-                        android:fontFamily="@font/montserrat"
-                        >
-
-                    </TextView>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="28dp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:background="@drawable/location_ico"
-                        />
-                </LinearLayout>
             </LinearLayout>
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_160sdp"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment" />
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.1"
+                android:gravity="center">
 
+                <TextView
+                    android:id="@+id/tv_catName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/order_details"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_14sdp">
+
+                </TextView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:background="@drawable/location_ico" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_pickup_point_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp">
-                    <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/white_shadowshape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_frompickup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ll_pickup_point_view"
-                        android:background="@drawable/white_shadowshape"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:text="@string/pickup_point"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/_12sdp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_frompickup"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:text="@string/pickup_point"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tv_pickup_status"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:paddingTop="@dimen/_5sdp"
-                                android:text="Pickup completed"
-                                android:textColor="@color/fadeBlackColor"
-                                android:textSize="@dimen/_10sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
-
-                            </TextView>
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginRight="@dimen/_5sdp"
-                                android:layout_alignParentRight="true"
-                                android:src="@drawable/arrow_forward"
-                                />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_pickup_address"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="@string/dummy_example"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-                        </TextView>
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:id="@+id/rl_order_details">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                    </TextView>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:layout_width="match_parent"
+
+                        <TextView
+                            android:id="@+id/tv_pickup_status"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:id="@+id/ll_start_order_orderdetails"
-                            android:background="@drawable/white_shadowshape"
-                            android:weightSum="2"
-                            android:layout_marginTop="@dimen/_20sdp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:gravity="center"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:text="@string/start_order"
-                                android:textColor="@color/otptextColor"
-                                android:textSize="@dimen/_12sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:text="Pickup completed"
+                            android:textColor="@color/fadeBlackColor"
+                            android:textSize="@dimen/_10sdp">
 
-                            </TextView>
+                        </TextView>
 
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:id="@+id/ll_accept_order_orderdetails"
-                            android:background="@drawable/white_shadowshape"
-                            android:weightSum="2"
-                            android:layout_marginTop="@dimen/_20sdp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:gravity="center"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:text="@string/accept_order"
-                                android:textColor="@color/otptextColor"
-                                android:textSize="@dimen/_12sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
-
-                            </TextView>
-
-
-                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:src="@drawable/arrow_forward" />
                     </RelativeLayout>
 
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_pickup_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/white_shadowshape"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:text="@string/dummy_example"
+                        android:textColor="@color/fadeBlackColor"
+                        android:textSize="@dimen/_10sdp"></TextView>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rl_order_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_start_order_orderdetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_20sdp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:text="Weight: Upto 5kg"
-                            android:id="@+id/tv_weight"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12sdp"
-                            android:paddingBottom="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:visibility="gone"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:text="Document,Book,Cloth"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:visibility="gone"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="A delivery order is a document that."
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-                        </TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:background="@drawable/white_shadowshape"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:text="Payment information"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:id="@+id/tv_payment_status"
-                            android:textColor="@color/fadeBlackColor"
-                            android:textSize="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-
-                        </TextView>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:text="@string/accept_payment"
-                            android:textColor="@color/otptextColor"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat"
-                            >
-                        </TextView>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/white_shadowshape"
-                        android:weightSum="2"
-                        android:id="@+id/ll_moveRatingScreen"
-                        android:layout_marginBottom="@dimen/_30sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:gravity="center"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:text="@string/rate_order"
-                            android:textColor="@color/otptextColor"
-                            android:textSize="@dimen/_12sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:fontFamily="@font/montserrat"
-                            >
+                            android:gravity="center"
+                            android:text="@string/start_order"
+                            android:textColor="@color/otptextColor"
+                            android:textSize="@dimen/_12sdp">
+
+                        </TextView>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_accept_order_orderdetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/white_shadowshape"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:text="@string/accept_order"
+                            android:textColor="@color/otptextColor"
+                            android:textSize="@dimen/_12sdp">
+
+                        </TextView>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_started_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/white_shadowshape"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:text="@string/order_started"
+                            android:textColor="@color/otptextColor"
+                            android:textSize="@dimen/_12sdp">
+
+                        </TextView>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_completed_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/white_shadowshape"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:text="@string/completed"
+                            android:textColor="@color/otptextColor"
+                            android:textSize="@dimen/_12sdp">
 
                         </TextView>
 
@@ -354,8 +280,136 @@
                     </LinearLayout>
 
 
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/white_shadowshape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Weight: Upto 5kg"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/_12sdp">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:text="Document,Book,Cloth"
+                        android:textColor="@color/fadeBlackColor"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:text="A delivery order is a document that."
+                        android:textColor="@color/fadeBlackColor"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/white_shadowshape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:text="Payment information"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/_12sdp">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/tv_payment_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:textColor="@color/fadeBlackColor"
+                        android:textSize="@dimen/_10sdp">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:text="@string/accept_payment"
+                        android:textColor="@color/otptextColor"
+                        android:textSize="@dimen/_12sdp"></TextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_moveRatingScreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:background="@drawable/white_shadowshape"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center"
+                        android:text="@string/rate_order"
+                        android:textColor="@color/otptextColor"
+                        android:textSize="@dimen/_12sdp">
+
+                    </TextView>
+
 
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

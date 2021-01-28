@@ -102,6 +102,16 @@ public class OrdersFrag extends BaseFragment {
 
         return mView;
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        //OnResume Fragment
+        System.out.println("Mangaldip++"+Singleton.getInstance().isOrderaccept());
+        if (Singleton.getInstance().isOrderaccept()==true)
+        {
+            getOrderList();
+        }
+    }
 
     public  void getOrderList() {
         dialog.show();
@@ -118,7 +128,8 @@ public class OrdersFrag extends BaseFragment {
                 {
                     activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                     currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
-                    //pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+                    pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+
                 }
 
 

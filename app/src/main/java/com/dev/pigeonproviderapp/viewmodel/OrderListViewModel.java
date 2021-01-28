@@ -14,6 +14,7 @@ import com.dev.pigeonproviderapp.datamodel.StartOrderResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
 import com.dev.pigeonproviderapp.repo.NetworkCall;
 
 public class OrderListViewModel extends ViewModel {
@@ -25,12 +26,10 @@ public class OrderListViewModel extends ViewModel {
     private MutableLiveData<OtpVerifyResponseDataModel> verifyOTPDataModelMutableLiveData;
     private MutableLiveData<CompleteOrderPointResponseDataModel> completeOrderDataModelMutableLiveData;
     private MutableLiveData<AcceptPaymentResponseModel> acceptPaymentDataModelMutableLiveData;
+    private MutableLiveData<AcceptPaymentResponseModel> orderRatingDataModelMutableLiveData;
 
     public LiveData<ListOrderResponseDataModel> getOrderListData() {
-
-        if (rderListDataModelMutableLiveData == null) {
-            rderListDataModelMutableLiveData = new NetworkCall().getOrderListData();
-        }
+        rderListDataModelMutableLiveData = new NetworkCall().getOrderListData();
         return rderListDataModelMutableLiveData;
     }
 
@@ -38,49 +37,53 @@ public class OrderListViewModel extends ViewModel {
 
     public LiveData<OrderDetailsResponseDatamodel> getOrderDetailsData() {
 
-        if (orderdetailsDataModelMutableLiveData == null) {
+        /*if (orderdetailsDataModelMutableLiveData == null) {
             orderdetailsDataModelMutableLiveData = new NetworkCall().getOrderDetails();
-        }
+        }*/
+        orderdetailsDataModelMutableLiveData = new NetworkCall().getOrderDetails();
         return orderdetailsDataModelMutableLiveData;
     }
 
     public LiveData<AcceptOrderResponseDataModel> acceptOrderData() {
 
-        if (acceptOrderDataModelMutableLiveData == null) {
+        /*if (acceptOrderDataModelMutableLiveData == null) {
             acceptOrderDataModelMutableLiveData = new NetworkCall().getAcceptOrder();
-        }
+        }*/
+        acceptOrderDataModelMutableLiveData = new NetworkCall().getAcceptOrder();
         return acceptOrderDataModelMutableLiveData;
     }
 
     public LiveData<StartOrderResponseDataModel> startOrderData() {
 
-        if (startrOrderDataModelMutableLiveData == null) {
-            startrOrderDataModelMutableLiveData = new NetworkCall().getStartOrderData();
-        }
+        startrOrderDataModelMutableLiveData = new NetworkCall().getStartOrderData();
         return startrOrderDataModelMutableLiveData;
     }
 
     public LiveData<OtpVerifyResponseDataModel> verifyOTPData(OrderItemOTPVerifyModel orderItemOTPVerifyModel) {
 
-        if (verifyOTPDataModelMutableLiveData == null) {
-            verifyOTPDataModelMutableLiveData = new NetworkCall().verifyOtpData(orderItemOTPVerifyModel);
-        }
+        verifyOTPDataModelMutableLiveData = new NetworkCall().verifyOtpData(orderItemOTPVerifyModel);
+
         return verifyOTPDataModelMutableLiveData;
     }
 
     public LiveData<CompleteOrderPointResponseDataModel> completeOrderData(CompleteOrderAPIModel completeOrderAPIModel) {
 
-        if (completeOrderDataModelMutableLiveData == null) {
-            completeOrderDataModelMutableLiveData = new NetworkCall().completeOrderData(completeOrderAPIModel);
-        }
+        completeOrderDataModelMutableLiveData = new NetworkCall().completeOrderData(completeOrderAPIModel);
+
         return completeOrderDataModelMutableLiveData;
     }
 
     public LiveData<AcceptPaymentResponseModel> paymentAcceptData(AcceptPaymentAPIModel acceptPaymentAPIModel) {
 
-        if (acceptPaymentDataModelMutableLiveData == null) {
-            acceptPaymentDataModelMutableLiveData = new NetworkCall().callAcceptPayment(acceptPaymentAPIModel);
-        }
+        acceptPaymentDataModelMutableLiveData = new NetworkCall().callAcceptPayment(acceptPaymentAPIModel);
+
         return acceptPaymentDataModelMutableLiveData;
+    }
+
+    public LiveData<AcceptPaymentResponseModel> orderRatingData(OrderRatingAPIModel orderRatingAPIModel) {
+
+        orderRatingDataModelMutableLiveData = new NetworkCall().orderRatingData(orderRatingAPIModel);
+
+        return orderRatingDataModelMutableLiveData;
     }
 }
