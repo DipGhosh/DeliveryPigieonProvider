@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PastOrderFrag extends Fragment {
+public class PastOrderFrag extends BaseFragment {
 
     View mview;
     private Activity activity;
@@ -46,13 +48,13 @@ public class PastOrderFrag extends Fragment {
         mview = inflater.inflate(R.layout.fragment_past_order, container, false);
         activity = getActivity();
 
-        blankImage = mview.findViewById(R.id.blank_img);
+        blankImage =mview.findViewById(R.id.blank_img);
         pastorderlist_recyclerview = mview.findViewById(R.id.rl_past_orderList);
         pastorderlist_recyclerview.setLayoutManager(new LinearLayoutManager(activity));
         pastorderlist_recyclerview
                 .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
-        //blankImage.setVisibility(View.VISIBLE);
+
 
         createList();
 
@@ -63,11 +65,14 @@ public class PastOrderFrag extends Fragment {
 
         adapter = new PastOrderListAdapter(activity, past_order_arraylist);
         pastorderlist_recyclerview.setAdapter(adapter);
+
+
     }
 
     public void setData(List<ListOrderResponseDataModel.Past> pasts) {
-        if (pasts.size() > 0) {
 
+        if (pasts.size() > 0) {
+            Log.d("Mangal","YES");
             past_order_arraylist.clear();
 
             for (ListOrderResponseDataModel.Past past : pasts) {
@@ -84,12 +89,15 @@ public class PastOrderFrag extends Fragment {
                 past_order_arraylist.add(pastOrderDatamodel);
 
             }
+            adapter.notifyDataSetChanged();
+
         } else {
-            //blankImage.setVisibility(View.VISIBLE);
+           // blankImage.setVisibility(View.VISIBLE);
+            Log.d("Mangal","NO");
         }
 
 
-        //adapter.notifyDataSetChanged();
+
 
     }
 }

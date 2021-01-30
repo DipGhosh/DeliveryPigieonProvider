@@ -343,7 +343,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<OrderDetailsResponseDatamodel> call, Throwable t) {
-        Log.d("Aslam", t.getMessage());
+        Log.d("ORDERDETAILS", t.getMessage());
       }
     });
 
