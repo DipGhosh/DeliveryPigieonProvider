@@ -74,4 +74,5 @@
     <string name="aleart_rating_comment">Please write some comment.</string>
     <string name="aleart_select_rating">Please select rating for this order.</string>
     <string name="alert_complete_payment_msg">Total payment amount was ₹</string>
+    <string name="header_map">Map</string>
 </resources>

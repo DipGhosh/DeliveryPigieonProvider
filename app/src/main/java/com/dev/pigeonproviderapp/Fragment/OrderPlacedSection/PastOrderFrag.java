@@ -85,7 +85,7 @@ public class PastOrderFrag extends Fragment {
 
             }
         } else {
-            blankImage.setVisibility(View.VISIBLE);
+            //blankImage.setVisibility(View.VISIBLE);
         }
 
 

@@ -22,13 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.OTPSection.OtpVerificationActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity android:name=".ActivityAll.Map.OrderRouteMap"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ActivityAll.OTPSection.OtpVerificationActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityAll.OrderdetailsSection.OrderDetails"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityAll.ProviderRating.RatingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -66,12 +67,13 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_zYTcbtEdWPtS0wAXr6xTxi9Bxo0uQ4Y" />
+            android:value="AIzaSyBPosa7I3iL3LGInh5dfNadtCAaPi_41jo" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <service
-            android:name="com.dev.pigeonproviderapp.Firebase.MyFirebaseMessagingService"
+            android:name=".Firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

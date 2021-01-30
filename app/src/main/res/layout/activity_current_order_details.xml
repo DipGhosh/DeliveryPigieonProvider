@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
 
         <LinearLayout
             android:id="@+id/ll_header"
@@ -63,6 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
+                android:id="@+id/ll_map_icon_click"
                 android:gravity="center">
 
                 <ImageView

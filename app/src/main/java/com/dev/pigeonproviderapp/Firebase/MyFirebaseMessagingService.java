@@ -60,11 +60,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         //System.out.println("Mangaldip"+"Check");
         // Check if message contains a data payload.
+
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            //sendNotification(remoteMessage);
+        }
+
         if (remoteMessage.getData().size() > 0)
         {
-
             try {
-                sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"));
+                sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("message"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

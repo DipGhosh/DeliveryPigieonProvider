@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -114,7 +115,7 @@ public class OrdersFrag extends BaseFragment {
     public void onResume(){
         super.onResume();
         //OnResume Fragment
-        System.out.println("Mangaldip++"+Singleton.getInstance().isOrderaccept());
+
         if (Singleton.getInstance().isOrderaccept()==true)
         {
             getOrderList();
@@ -127,7 +128,11 @@ public class OrdersFrag extends BaseFragment {
 
             if (intent.getStringExtra("ORDERSTATUS").equals("Accepted"))
             {
-                getOrderList();
+                int orderID= Integer.parseInt(intent.getStringExtra("ORDERID"));
+                Singleton.getInstance().setORDERID(orderID);
+
+                dialogue();
+
             }
 
         }
@@ -155,6 +160,46 @@ public class OrdersFrag extends BaseFragment {
 
             }
         });
+    }
+
+    //Call ACcept Prder API
+    public void callAcceptOrder() {
+
+        dialog.show();
+        orderListViewModel.acceptOrderData().observe(this, acceptOrderResponseDataModel -> {
+            dialog.dismiss();
+
+            if (acceptOrderResponseDataModel.getStatus() == 200) {
+                getOrderList();
+            } else {
+
+            }
+
+        });
+
+
+    }
+
+    public void dialogue() {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+        builder.setTitle(getResources().getString(R.string.app_name));
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage(R.string.aleart_accept_order);
+        builder.setPositiveButton(R.string.label_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callAcceptOrder();
+                    }
+                });
+        builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 
 

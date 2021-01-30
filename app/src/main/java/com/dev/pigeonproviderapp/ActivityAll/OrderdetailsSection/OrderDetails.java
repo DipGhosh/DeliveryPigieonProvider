@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRating.RatingActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
@@ -50,7 +51,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     OrderListViewModel orderListViewModel;
 
     private Activity activity = OrderDetails.this;
-    private LinearLayout back, moveProviderRating, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted;
+    private LinearLayout back, moveProviderRating, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus;
     private int pickupPointID;
     private String pickupPointAddress, pickuPointPaymentStatus, orderItemStatus, pickupTime, pickupComment, orderStatus;
@@ -79,6 +80,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         pickuppointViewLinear = findViewById(R.id.ll_pickup_point_view);
         startedOrder = findViewById(R.id.ll_started_order);
         orderCompleted = findViewById(R.id.ll_completed_order);
+        mapIconClick = findViewById(R.id.ll_map_icon_click);
 
 
         dialog = UiUtils.showProgress(OrderDetails.this);
@@ -100,6 +102,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         pickuppointViewLinear.setOnClickListener(this);
         acceptOrder.setOnClickListener(this);
         startOrder.setOnClickListener(this);
+        mapIconClick.setOnClickListener(this);
 
         //Order Details API Call
         getOrderDetails();
@@ -142,8 +145,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.ll_start_order_orderdetails:
                 callStartOrder();
+                break;
 
+            case R.id.ll_map_icon_click:
 
+                Intent mapRoute = new Intent(OrderDetails.this, OrderRouteMap.class);
+                startActivity(mapRoute);
                 break;
             default:
                 break;
@@ -197,10 +204,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     orderItemStatus = orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage();
                     pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
                     pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
-                    pickupPhonenUmber=orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
+                    pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
 
                     Singleton.getInstance().setORDERAMOUNT(orderDetailsResponseDatamodel.getData().getPayment().getAmount());
-
 
 
                     DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
@@ -214,7 +220,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         deliveryPointListingDatamodel.payment_status = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
                         deliveryPointListingDatamodel.delivery_time = dropPoint.getDropTime();
                         deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
-                        deliveryPointListingDatamodel.item_phone_number=dropPoint.getPhone();
+                        deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
                         order_detailsList_arraylist.add(deliveryPointListingDatamodel);
 
                         adapter = new OrderDetailsAdapter(activity, order_detailsList_arraylist);
