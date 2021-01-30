@@ -29,6 +29,7 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.storage.Singleton;
@@ -170,6 +171,8 @@ public class OrdersFrag extends BaseFragment {
             dialog.dismiss();
 
             if (acceptOrderResponseDataModel.getStatus() == 200) {
+
+                UiUtils.showAlert(activity,"Order Accept",getString(R.string.order_accept_message));
                 getOrderList();
             } else {
 

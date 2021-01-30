@@ -102,7 +102,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 finish();
                 break;
             case R.id.ll_verify_otp:
-                if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Started"))
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
                 {
                     Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
                     startActivity(intent);
@@ -110,7 +110,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
                 break;
             case R.id.ll_add_signature:
-                if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Started"))
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
                 {
                     Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
                     startActivity(ordersignature);
@@ -124,7 +124,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             case R.id.tv_accept_payment_item:
 
-                if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Started"))
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
                 {
                     acceptOrderPaymentByProvider();
                 }
@@ -149,32 +149,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
 
 
-/*
-
-        mMap.addMarker(new MarkerOptions()
-                .title("Drop Point")
-                .position(new LatLng(
-                        dropPoint.getDropAddress().getLat(),
-                        dropPoint.getDropAddress().getLong()
-                ))
-        );
-        Polyline path = mMap.addPolyline(new PolylineOptions()
-                .add(
-                        new LatLng(38.893596444352134, -77.0381498336792),
-                        new LatLng(38.89337933372204, -77.03792452812195),
-                        new LatLng(38.893596444352134, -77.0349633693695)
-                )
-        );
-
-
-        // Style the polyline
-        path.setWidth(10);
-        path.setColor(Color.parseColor("#FF0000"));
-
-
-        // Position the map's camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dropPoint.getDropAddress().getLat(), dropPoint.getDropAddress().getLong()), 16));
-*/
 
 
 
@@ -197,7 +171,11 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             {
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
+
                 UiUtils.showAlert(activity,pointName.getText().toString(),getString(R.string.aleart_orderitem_complete) );
+
+                Singleton.getInstance().setItemcomplete(true);
+
             }
         });
     }
@@ -217,6 +195,11 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             if (acceptPaymentResponseModel.getStatus()==200)
             {
+                acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+                paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+
+                Singleton.getInstance().setPAYMENTSTATUS(3);
+
                 UiUtils.showAlert(activity,"Payment",getString(R.string.aleart_accept_payment));
             }
         });
@@ -225,27 +208,22 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     public void AllFieldVisibility()
     {
 
-        if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Is not assigned")) {
+
+        if (Singleton.getInstance().getORDERITEMSTATUS()==1) {
 
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
-            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
 
 
-        } else if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Started")) {
+        } else if (Singleton.getInstance().getORDERITEMSTATUS()==2) {
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
-            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
 
-
-        }else if (Singleton.getInstance().getITEMSTATUSMESSAGE().equals("Completed")) {
+        }else if (Singleton.getInstance().getORDERITEMSTATUS()==3) {
 
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
-            acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
-            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+
 
         }
 
@@ -263,6 +241,23 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 orderType="drop";
             }
 
+        }
+
+        if (Singleton.getInstance().getPAYMENTSTATUS()==1)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==2)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==3)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
         }
 
 

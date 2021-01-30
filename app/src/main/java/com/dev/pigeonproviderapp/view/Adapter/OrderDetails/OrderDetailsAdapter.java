@@ -50,13 +50,13 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         handler.orderPointName.setText(deliveryPointListingDatamodel.orderpoint_name);
-        handler.orderstatus.setText(deliveryPointListingDatamodel.order_status);
+        handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
         handler.dropItemClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Singleton.getInstance().setORDERITEMID(deliveryPointListingDatamodel.delivery_order_id);
-                Singleton.getInstance().setITEMSTATUSMESSAGE(deliveryPointListingDatamodel.order_status);
+                Singleton.getInstance().setORDERITEMSTATUS(deliveryPointListingDatamodel.order_droppoint_status);
                 Singleton.getInstance().setPHONENUMBER(deliveryPointListingDatamodel.item_phone_number);
 
                 Intent itemdetails=new Intent(activity, ItemDetailsActivity.class);

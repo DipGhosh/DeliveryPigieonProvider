@@ -1,39 +1,61 @@
 package com.dev.pigeonproviderapp.ActivityAll.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener{
+import java.util.ArrayList;
+
+public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     com.google.android.gms.maps.GoogleMap mMap;
     SupportMapFragment mapFragment;
+    ArrayList<LatLng> coordList;
+    static LatLng co_ordinate;
 
     private TextView cancel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_route_map);
 
-        cancel=findViewById(R.id.tv_cancel);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+
+            coordList = getIntent().getParcelableArrayListExtra("coordinates");
+
+        }
+
+
+        cancel = findViewById(R.id.tv_cancel);
+
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().
                 findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         cancel.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -52,22 +74,44 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
 
-        Polyline path = googleMap.addPolyline(new PolylineOptions()
-                .add(
-                        new LatLng(38.893596444352134, -77.0381498336792),
-                        new LatLng(38.89337933372204, -77.03792452812195),
-                        new LatLng(38.893596444352134, -77.0349633693695)
-                )
-        );
+        calMapRouteDraw();
 
-        // Style the polyline
-        path.setWidth(10);
-        path.setColor(Color.parseColor("#FF0000"));
+    }
 
+    public void calMapRouteDraw()
+    {
 
-        // Position the map's camera
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.89399, -77.03659), 16));
+        for (int i = 0; i < coordList.size(); i++)
+        {
+            // add coordinates to point marker for drop point
+            co_ordinate=new LatLng(coordList.get(i).latitude,coordList.get(i).longitude);
+            mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                    .title("Delivery Pigieon")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
+
+        //Polyline draw
+        PolylineOptions polylineOptions1 = new PolylineOptions();
+        polylineOptions1.addAll(coordList);
+        polylineOptions1
+                .width(10)
+                .color(Color.RED).zIndex(90);
+
+        mMap.addPolyline(polylineOptions1);
+
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(co_ordinate, 11);
+        mMap.animateCamera(yourLocation);
+        mMap.moveCamera(yourLocation);
+
+         /*LatLng userLocation = new LatLng(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat(),orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong());
+                    //mMap.addMarker(new MarkerOptions().position(new LatLng(dou_lat,dou_long)));
+                    mMap.addMarker(new MarkerOptions().position(userLocation).title("Pickup Point"));*/
+
     }
 }

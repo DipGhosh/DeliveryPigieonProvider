@@ -12,8 +12,10 @@ public class Singleton {
     private int ORDERITEMID;
     private boolean orderaccept;
     private float ORDERAMOUNT;
-    private String ITEMSTATUSMESSAGE;
     private long PHONENUMBER;
+    private int ORDERITEMSTATUS;
+    private boolean itemcomplete;
+    private int PAYMENTSTATUS;
 
 
     /* A private Constructor prevents any other
@@ -69,19 +71,37 @@ public class Singleton {
     public void setORDERAMOUNT(float ORDERAMOUNT) {
         this.ORDERAMOUNT = ORDERAMOUNT;
     }
-    public String getITEMSTATUSMESSAGE() {
-        return ITEMSTATUSMESSAGE;
-    }
 
-    public void setITEMSTATUSMESSAGE(String ITEMSTATUSMESSAGE) {
-        this.ITEMSTATUSMESSAGE = ITEMSTATUSMESSAGE;
-    }
     public long getPHONENUMBER() {
         return PHONENUMBER;
     }
 
     public void setPHONENUMBER(long PHONENUMBER) {
         this.PHONENUMBER = PHONENUMBER;
+    }
+
+    public int getORDERITEMSTATUS() {
+        return ORDERITEMSTATUS;
+    }
+
+    public void setORDERITEMSTATUS(int ORDERITEMSTATUS) {
+        this.ORDERITEMSTATUS = ORDERITEMSTATUS;
+    }
+
+    public boolean isItemcomplete() {
+        return itemcomplete;
+    }
+
+    public void setItemcomplete(boolean itemcomplete) {
+        this.itemcomplete = itemcomplete;
+    }
+
+    public int getPAYMENTSTATUS() {
+        return PAYMENTSTATUS;
+    }
+
+    public void setPAYMENTSTATUS(int PAYMENTSTATUS) {
+        this.PAYMENTSTATUS = PAYMENTSTATUS;
     }
 
 

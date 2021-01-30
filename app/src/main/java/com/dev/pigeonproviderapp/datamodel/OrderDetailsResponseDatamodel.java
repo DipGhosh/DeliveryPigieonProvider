@@ -428,7 +428,7 @@ public class OrderDetailsResponseDatamodel {
     private Object mode;
     @SerializedName("status")
     @Expose
-    private Object status;
+    private int status;
     @SerializedName("message")
     @Expose
     private String message;
@@ -449,11 +449,11 @@ public class OrderDetailsResponseDatamodel {
       this.mode = mode;
     }
 
-    public Object getStatus() {
+    public int getStatus() {
       return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(int status) {
       this.status = status;
     }
 
