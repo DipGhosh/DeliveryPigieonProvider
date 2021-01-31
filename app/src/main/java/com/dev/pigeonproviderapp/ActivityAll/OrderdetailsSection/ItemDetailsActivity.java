@@ -15,18 +15,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.ItemDigitalSignature;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.OtpVerificationActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.GPSTracker;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -41,10 +45,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
     com.google.android.gms.maps.GoogleMap mMap;
     SupportMapFragment mapFragment;
+    ArrayList<LatLng> coordList = new ArrayList<LatLng>();
+    static LatLng co_ordinate;
+    GPSTracker gpsTracker;
+
     private LinearLayout back,verifyOTP,addSignature,completeorderSubmit,orderCompleted;
     private TextView pointName,pointDeliveryTime,pointAddress,paymentStatus,pointDeliveryComment,acceptPaymentByProvider;
     private EditText providerComment;
-    private ImageView itemPhoneNumber;
+    private ImageView itemPhoneNumber,mapIconClick;
 
     OrderListViewModel orderListViewModel;
 
@@ -70,6 +78,15 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         orderCompleted=findViewById(R.id.ll_order_item_completed);
         acceptPaymentByProvider=findViewById(R.id.tv_accept_payment_item);
         itemPhoneNumber=findViewById(R.id.order_item_phoneNumber);
+        mapIconClick=findViewById(R.id.ic_map_icon);
+
+        gpsTracker=new GPSTracker(activity);
+
+        if (gpsTracker.canGetLocation())
+        {
+            coordList.add(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
+        }
+
 
         dialog = UiUtils.showProgress(ItemDetailsActivity.this);
 
@@ -91,6 +108,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         completeorderSubmit.setOnClickListener(this);
         acceptPaymentByProvider.setOnClickListener(this);
         itemPhoneNumber.setOnClickListener(this);
+        mapIconClick.setOnClickListener(this);
 
     }
 
@@ -137,6 +155,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 startActivity(callIntent);
 
                 break;
+            case R.id.ic_map_icon:
+                Intent mapRoute = new Intent(ItemDetailsActivity.this, OrderRouteMap.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("coordinates", coordList);
+                mapRoute.putExtras(bundle);
+                startActivity(mapRoute);
+                break;
 
             default:
                 break;
@@ -147,7 +172,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
+        calMapRouteDraw();
 
 
 
@@ -241,6 +266,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 orderType="drop";
             }
 
+            // add  coordinates to polyline draw for pickup point
+            coordList.add(new LatLng(bundle.getDouble("lat"), bundle.getDouble("long")));
+
         }
 
         if (Singleton.getInstance().getPAYMENTSTATUS()==1)
@@ -260,6 +288,32 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
         }
 
+
+
+    }
+
+    public void calMapRouteDraw() {
+
+        for (int i = 0; i < coordList.size(); i++) {
+            // add coordinates to point marker for drop point
+            co_ordinate = new LatLng(coordList.get(i).latitude, coordList.get(i).longitude);
+            mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                    .title("Delivery Pigieon")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
+
+        //Polyline draw
+        PolylineOptions polylineOptions1 = new PolylineOptions();
+        polylineOptions1.addAll(coordList);
+        polylineOptions1
+                .width(10)
+                .color(Color.RED).zIndex(90);
+
+        mMap.addPolyline(polylineOptions1);
+
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(co_ordinate, 10);
+        mMap.animateCamera(yourLocation);
+        mMap.moveCamera(yourLocation);
 
 
     }

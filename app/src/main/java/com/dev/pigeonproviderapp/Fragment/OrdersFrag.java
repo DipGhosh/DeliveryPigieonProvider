@@ -82,6 +82,7 @@ public class OrdersFrag extends BaseFragment {
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -102,6 +103,9 @@ public class OrdersFrag extends BaseFragment {
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
+
+        // restrict refresh fragments
+        viewPager.setOffscreenPageLimit(2);
 
         getOrderList();
 

@@ -73,6 +73,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="28dp"
+                    android:id="@+id/ic_map_icon"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/location_ico" />
             </LinearLayout>
@@ -82,16 +83,16 @@
         <TextView
             android:id="@+id/tv_item_address"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@drawable/white_shadowshape"
             android:fontFamily="@font/montserrat"
             android:gravity="left|center"
             android:paddingLeft="@dimen/_15sdp"
-            android:paddingTop="@dimen/_5sdp"
+            android:paddingTop="@dimen/_10sdp"
             android:paddingRight="@dimen/_15sdp"
-            android:text="@string/dummy_example"
             android:textColor="@color/fadeBlackColor"
             android:textSize="@dimen/_10sdp">
 
