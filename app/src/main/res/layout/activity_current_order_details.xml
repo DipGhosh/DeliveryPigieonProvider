@@ -331,7 +331,9 @@
                         android:text="A delivery order is a document that."
                         android:textColor="@color/fadeBlackColor"
                         android:textSize="@dimen/_10sdp"
-                        android:visibility="gone"></TextView>
+                        android:visibility="gone">
+
+                    </TextView>
                 </LinearLayout>
 
                 <LinearLayout

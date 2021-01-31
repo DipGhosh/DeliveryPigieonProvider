@@ -53,7 +53,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     static LatLng co_ordinate;
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
     GPSTracker gpsTracker;
-    static Double dou_lat,dou_long;
+
 
 
     OrderListViewModel orderListViewModel;

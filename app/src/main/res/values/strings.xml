@@ -75,5 +75,5 @@
     <string name="aleart_select_rating">Please select rating for this order.</string>
     <string name="alert_complete_payment_msg">Total payment amount was ₹</string>
     <string name="header_map">Map</string>
-    <string name="order_accept_message">Your order has been accepted.</string>
+    <string name="order_accept_message">Your order has been accepted. Please check it in current order section.</string>
 </resources>
