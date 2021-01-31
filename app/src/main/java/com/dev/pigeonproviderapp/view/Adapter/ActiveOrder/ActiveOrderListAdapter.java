@@ -7,12 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.interfaces.onActiveOrderClickListener;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
+import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +29,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private LayoutInflater inflater;
     public static List<OrderActiveDatamodel> data= Collections.emptyList();
 
+
     public ActiveOrderListAdapter(Activity activity, List<OrderActiveDatamodel> data)  /**/
     {
         if (activity!=null)
@@ -31,6 +37,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.activity = activity;
             inflater = LayoutInflater.from(activity);
             this.data = data;
+
         }
     }
     @Override
@@ -46,6 +53,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     {
         final MyHolder handler = (MyHolder) holder;
         final OrderActiveDatamodel orderActiveDatamodel=data.get(position);
+
 
         if(orderActiveDatamodel.activeorder_type.equals("1"))
         {
@@ -66,6 +74,18 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
                 Singleton.getInstance().setORDERID(orderActiveDatamodel.activeorder_id);
+                Singleton.getInstance().setOrderaccept(false);
+            }
+        });
+        handler.acceptOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String orderID= String.valueOf(orderActiveDatamodel.activeorder_id);
+                Intent intent = new Intent("custom-message");
+                intent.putExtra("ORDERSTATUS" ,"Accepted");
+                intent.putExtra("ORDERID",orderID);
+                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
             }
         });
 
@@ -84,7 +104,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder;
 
 
         public MyHolder(View row)
@@ -95,6 +115,9 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             currentOrderDeliveryAddress=(TextView)row.findViewById(R.id.tv_delivery_address);
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
+            acceptOrder=row.findViewById(R.id.tv_accept_order);
+
+
 
 
         }

@@ -19,6 +19,7 @@ import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
 
@@ -100,6 +101,11 @@ public interface APIInterface {
   @POST("/api/payments/accept")
   Call<AcceptPaymentResponseModel> acceptPaymentCall(@Header("Authorization") String authorization,
                                                      @Body AcceptPaymentAPIModel acceptPaymentAPIModel);
+
+  @Headers({"Accept: application/json"})
+  @POST("/api/rate_order/{id}")
+  Call<AcceptPaymentResponseModel> providerRatingCall(@Header("Authorization") String authorization, @Path("id") int id, @Body OrderRatingAPIModel orderRatingAPIModel);
+
 }
 
 

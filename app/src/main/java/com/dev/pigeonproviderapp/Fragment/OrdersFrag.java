@@ -2,6 +2,11 @@ package com.dev.pigeonproviderapp.Fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -23,6 +29,7 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.storage.Singleton;
@@ -98,10 +105,39 @@ public class OrdersFrag extends BaseFragment {
 
         getOrderList();
 
+        LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-message"));
+
 
 
         return mView;
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        //OnResume Fragment
+
+        if (Singleton.getInstance().isOrderaccept()==true)
+        {
+            getOrderList();
+        }
+    }
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+
+            if (intent.getStringExtra("ORDERSTATUS").equals("Accepted"))
+            {
+                int orderID= Integer.parseInt(intent.getStringExtra("ORDERID"));
+                Singleton.getInstance().setORDERID(orderID);
+
+                dialogue();
+
+            }
+
+        }
+    };
 
     public  void getOrderList() {
         dialog.show();
@@ -118,12 +154,55 @@ public class OrdersFrag extends BaseFragment {
                 {
                     activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                     currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
-                    //pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+                    pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+
                 }
 
 
             }
         });
+    }
+
+    //Call ACcept Prder API
+    public void callAcceptOrder() {
+
+        dialog.show();
+        orderListViewModel.acceptOrderData().observe(this, acceptOrderResponseDataModel -> {
+            dialog.dismiss();
+
+            if (acceptOrderResponseDataModel.getStatus() == 200) {
+
+                UiUtils.showAlert(activity,"Order Accept",getString(R.string.order_accept_message));
+                getOrderList();
+            } else {
+
+            }
+
+        });
+
+
+    }
+
+    public void dialogue() {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+        builder.setTitle(getResources().getString(R.string.app_name));
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage(R.string.aleart_accept_order);
+        builder.setPositiveButton(R.string.label_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callAcceptOrder();
+                    }
+                });
+        builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 
 

@@ -22,6 +22,7 @@ import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
 import com.dev.pigeonproviderapp.network.APIClient;
@@ -342,7 +343,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<OrderDetailsResponseDatamodel> call, Throwable t) {
-        Log.d("Aslam", t.getMessage());
+        Log.d("ORDERDETAILS", t.getMessage());
       }
     });
 
@@ -515,6 +516,40 @@ public class NetworkCall {
 
     return acceptPaymentDataModelLiveData;
 
+  }
+
+  //Order Rating call
+
+  public MutableLiveData<AcceptPaymentResponseModel> orderRatingData(OrderRatingAPIModel orderRatingAPIModel) {
+
+    MutableLiveData<AcceptPaymentResponseModel> orderRatingDataModelMutableLiveData = new MutableLiveData<AcceptPaymentResponseModel>();
+
+    Call<AcceptPaymentResponseModel> orderRatingCall = apiInterface
+            .providerRatingCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),orderRatingAPIModel);
+
+    orderRatingCall.enqueue(new Callback<AcceptPaymentResponseModel>() {
+      @Override
+      public void onResponse(Call<AcceptPaymentResponseModel> call,
+                             Response<AcceptPaymentResponseModel> response) {
+
+        if (response.isSuccessful()) {
+          orderRatingDataModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          orderRatingDataModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<AcceptPaymentResponseModel> call, Throwable t) {
+        Log.d("Aslam", t.getMessage());
+      }
+    });
+
+
+    return orderRatingDataModelMutableLiveData;
   }
 
 

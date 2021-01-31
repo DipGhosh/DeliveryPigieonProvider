@@ -1,8 +1,10 @@
 package com.dev.pigeonproviderapp.Fragment.OrderPlacedSection;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
+import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class ActiveOrdersFrag extends BaseFragment {
     private ArrayList<OrderActiveDatamodel> active_order_arraylist = new ArrayList<>();
     private ActiveOrderListAdapter adapter;
     private ImageView blankImage;
+
 
 
     public ActiveOrdersFrag() {
@@ -51,6 +55,8 @@ public class ActiveOrdersFrag extends BaseFragment {
         activeorderlist_recyclerview
                 .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
+
+
         createList();
 
         return mview;
@@ -66,7 +72,11 @@ public class ActiveOrdersFrag extends BaseFragment {
 
         if (availableList.size()>0){
 
+            active_order_arraylist.clear();
+
             for (ListOrderResponseDataModel.Available available : availableList) {
+
+
 
                 OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
                 orderActiveDatamodel.activeorder_id=available.getId();
@@ -82,6 +92,7 @@ public class ActiveOrdersFrag extends BaseFragment {
             adapter.notifyDataSetChanged();
 
         }else {
+
             blankImage.setVisibility(View.VISIBLE);
         }
 

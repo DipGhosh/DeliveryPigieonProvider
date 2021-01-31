@@ -198,10 +198,10 @@ public class OrderDetailsResponseDatamodel {
     private String address;
     @SerializedName("long")
     @Expose
-    private Integer _long;
+    private Double _long;
     @SerializedName("lat")
     @Expose
-    private Integer lat;
+    private Double lat;
 
     public String getAddress() {
       return address;
@@ -211,19 +211,19 @@ public class OrderDetailsResponseDatamodel {
       this.address = address;
     }
 
-    public Integer getLong() {
+    public Double getLong() {
       return _long;
     }
 
-    public void setLong(Integer _long) {
+    public void setLong(Double _long) {
       this._long = _long;
     }
 
-    public Integer getLat() {
+    public Double getLat() {
       return lat;
     }
 
-    public void setLat(Integer lat) {
+    public void setLat(Double lat) {
       this.lat = lat;
     }
 
@@ -395,24 +395,24 @@ public class OrderDetailsResponseDatamodel {
 
     @SerializedName("status")
     @Expose
-    private Object status;
+    private Integer status;
     @SerializedName("message")
     @Expose
-    private Object message;
+    private String message;
 
-    public Object getStatus() {
+    public Integer getStatus() {
       return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(Integer status) {
       this.status = status;
     }
 
-    public Object getMessage() {
+    public String getMessage() {
       return message;
     }
 
-    public void setMessage(Object message) {
+    public void setMessage(String message) {
       this.message = message;
     }
 
@@ -428,7 +428,7 @@ public class OrderDetailsResponseDatamodel {
     private Object mode;
     @SerializedName("status")
     @Expose
-    private Object status;
+    private int status;
     @SerializedName("message")
     @Expose
     private String message;
@@ -449,11 +449,11 @@ public class OrderDetailsResponseDatamodel {
       this.mode = mode;
     }
 
-    public Object getStatus() {
+    public int getStatus() {
       return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(int status) {
       this.status = status;
     }
 

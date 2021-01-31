@@ -31,7 +31,6 @@
                 android:text="Profile Edit"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/_14sdp"
-                android:paddingBottom="@dimen/_5sdp"
                 android:fontFamily="@font/montserrat"
                 android:id="@+id/tv_dashboard"
                 android:layout_centerInParent="true"

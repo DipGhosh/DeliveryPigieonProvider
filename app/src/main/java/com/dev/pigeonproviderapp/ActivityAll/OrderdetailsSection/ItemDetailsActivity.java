@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,9 +23,17 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDetailsActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
 
@@ -33,11 +44,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     private LinearLayout back,verifyOTP,addSignature,completeorderSubmit,orderCompleted;
     private TextView pointName,pointDeliveryTime,pointAddress,paymentStatus,pointDeliveryComment,acceptPaymentByProvider;
     private EditText providerComment;
+    private ImageView itemPhoneNumber;
 
     OrderListViewModel orderListViewModel;
 
     private Dialog dialog;
     private String orderType;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +69,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         completeorderSubmit=findViewById(R.id.ll_order_item_complete);
         orderCompleted=findViewById(R.id.ll_order_item_completed);
         acceptPaymentByProvider=findViewById(R.id.tv_accept_payment_item);
+        itemPhoneNumber=findViewById(R.id.order_item_phoneNumber);
 
         dialog = UiUtils.showProgress(ItemDetailsActivity.this);
 
@@ -66,34 +80,17 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            pointName.setText(bundle.getString("TYPE"));
-            pointAddress.setText(bundle.getString("ADDRESS"));
-            //paymentStatus.setText(bundle.getString("PAYMENTSTATUS"));
-            pointDeliveryTime.setText(bundle.getString("TIME"));
-            pointDeliveryComment.setText(bundle.getString("COMMENT"));
+        bundle = getIntent().getExtras();
 
-            if (bundle.getString("TYPE").equals("Pickup Point"))
-            {
-                orderType="pickup";
-            }else {
-                orderType="drop";
-            }
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+        AllFieldVisibility();
 
-
-
-
-
-        }
 
         back.setOnClickListener(this);
         verifyOTP.setOnClickListener(this);
         addSignature.setOnClickListener(this);
         completeorderSubmit.setOnClickListener(this);
         acceptPaymentByProvider.setOnClickListener(this);
-
+        itemPhoneNumber.setOnClickListener(this);
 
     }
 
@@ -105,13 +102,19 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 finish();
                 break;
             case R.id.ll_verify_otp:
-                Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
-                startActivity(intent);
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
+                {
+                    Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
+                    startActivity(intent);
+                }
 
                 break;
             case R.id.ll_add_signature:
-                Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
-                startActivity(ordersignature);
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
+                {
+                    Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
+                    startActivity(ordersignature);
+                }
 
                 break;
 
@@ -120,7 +123,19 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 break;
 
             case R.id.tv_accept_payment_item:
-                acceptOrderByProvider();
+
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
+                {
+                    acceptOrderPaymentByProvider();
+                }
+                break;
+            case R.id.order_item_phoneNumber:
+
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:"+Singleton.getInstance().getPHONENUMBER()));
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(callIntent);
+
                 break;
 
             default:
@@ -131,6 +146,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
+
+
+
+
     }
 
     public void completeOrderItem() {
@@ -150,12 +171,16 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             {
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
+
                 UiUtils.showAlert(activity,pointName.getText().toString(),getString(R.string.aleart_orderitem_complete) );
+
+                Singleton.getInstance().setItemcomplete(true);
+
             }
         });
     }
 
-    public void acceptOrderByProvider() {
+    public void acceptOrderPaymentByProvider() {
 
         dialog.show();
 
@@ -170,8 +195,72 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             if (acceptPaymentResponseModel.getStatus()==200)
             {
+                acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+                paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+
+                Singleton.getInstance().setPAYMENTSTATUS(3);
+
                 UiUtils.showAlert(activity,"Payment",getString(R.string.aleart_accept_payment));
             }
         });
+    }
+
+    public void AllFieldVisibility()
+    {
+
+
+        if (Singleton.getInstance().getORDERITEMSTATUS()==1) {
+
+            completeorderSubmit.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.GONE);
+
+
+        } else if (Singleton.getInstance().getORDERITEMSTATUS()==2) {
+            completeorderSubmit.setVisibility(View.VISIBLE);
+            orderCompleted.setVisibility(View.GONE);
+
+        }else if (Singleton.getInstance().getORDERITEMSTATUS()==3) {
+
+            completeorderSubmit.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.VISIBLE);
+
+
+        }
+
+
+        if (bundle != null) {
+            pointName.setText(bundle.getString("TYPE"));
+            pointAddress.setText(bundle.getString("ADDRESS"));
+            pointDeliveryTime.setText(bundle.getString("TIME"));
+            pointDeliveryComment.setText(bundle.getString("COMMENT"));
+
+            if (bundle.getString("TYPE").equals("Pickup Point"))
+            {
+                orderType="pickup";
+            }else {
+                orderType="drop";
+            }
+
+        }
+
+        if (Singleton.getInstance().getPAYMENTSTATUS()==1)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==2)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==3)
+        {
+            acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+        }
+
+
+
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Dataprovider.PastOrderDatamodel;
 
 import java.util.Collections;
@@ -66,6 +67,8 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
             public void onClick(View view) {
                 Intent intent=new Intent(activity, OrderDetails.class);
                 activity.startActivity(intent);
+                Singleton.getInstance().setORDERID(pastOrderDatamodel.pastorder_id);
+                Singleton.getInstance().setOrderaccept(false);
             }
         });
 

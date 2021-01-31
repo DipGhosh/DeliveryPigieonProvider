@@ -14,6 +14,16 @@ public class VerifyOtpAPIModel {
     @Expose
     private String otp;
 
+    @SerializedName("device_token")
+    @Expose
+    private String devicetoken;
+    @SerializedName("device_type")
+    @Expose
+    private String devicetype;
+    @SerializedName("user_type")
+    @Expose
+    private int usertype;
+
     public String getPhone() {
         return phone;
     }
@@ -36,6 +46,30 @@ public class VerifyOtpAPIModel {
 
     public void setOtp(String otp) {
         this.otp = otp;
+    }
+
+    public String getDevicetoken() {
+        return devicetoken;
+    }
+
+    public void setDevicetoken(String devicetoken) {
+        this.devicetoken = devicetoken;
+    }
+
+    public String getDevicetype() {
+        return devicetype;
+    }
+
+    public void setDevicetype(String devicetype) {
+        this.devicetype = devicetype;
+    }
+
+    public int getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(int usertype) {
+        this.usertype = usertype;
     }
 
 

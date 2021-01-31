@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
+import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
@@ -20,7 +21,7 @@ import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class OtpVerificationActivity extends AppCompatActivity implements View.OnClickListener{
+public class OtpVerificationActivity extends BaseActivity implements View.OnClickListener{
 
     private ImageView back;
     private TextView OTPverify;
