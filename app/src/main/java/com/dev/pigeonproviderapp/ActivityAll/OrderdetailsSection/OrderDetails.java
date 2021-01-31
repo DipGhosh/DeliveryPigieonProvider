@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
@@ -52,20 +53,19 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     SupportMapFragment mapFragment;
     static LatLng co_ordinate;
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
-    GPSTracker gpsTracker;
-
-
+    private double pickpoint_lat,pickpoint_long;
 
     OrderListViewModel orderListViewModel;
 
     private Activity activity = OrderDetails.this;
-    private LinearLayout back, moveProviderRating, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
+    private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept;
     private int pickupPointID,orderItemStatus;
     private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, orderStatus;
     private long pickupPhonenUmber;
     private Dialog dialog;
     int orderPaymentStatus;
+
 
     private RecyclerView orderDetailsListing_recyclerview;
     private ArrayList<DeliveryPointListingDatamodel> order_detailsList_arraylist = new ArrayList<>();
@@ -79,7 +79,6 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_current_order_details);
 
         back = findViewById(R.id.ll_back);
-        moveProviderRating = findViewById(R.id.ll_moveRatingScreen);
         pickupStatus = findViewById(R.id.tv_pickup_status);
         pickupAddress = findViewById(R.id.tv_pickup_address);
         orderWeight = findViewById(R.id.tv_weight);
@@ -93,6 +92,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         orderCompleted = findViewById(R.id.ll_completed_order);
         mapIconClick = findViewById(R.id.ll_map_icon_click);
         orderPaymentAccept=findViewById(R.id.tv_order_payment_accept);
+
 
 
         dialog = UiUtils.showProgress(OrderDetails.this);
@@ -110,18 +110,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
         back.setOnClickListener(this);
-        moveProviderRating.setOnClickListener(this);
+        redirectRatingScreen.setOnClickListener(this);
         pickuppointViewLinear.setOnClickListener(this);
         acceptOrder.setOnClickListener(this);
         startOrder.setOnClickListener(this);
         mapIconClick.setOnClickListener(this);
         orderPaymentAccept.setOnClickListener(this);
 
-        gpsTracker=new GPSTracker(activity);
 
-        /*dou_lat=gpsTracker.getLatitude();
-        dou_long=gpsTracker.getLongitude();
-        System.out.println("Lat"+dou_lat+"Long"+dou_long);*/
 
         //Order Details API Call
         getOrderDetails();
@@ -154,6 +150,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 itemdetails.putExtra("PAYMENTSTATUS", pickuPointPaymentStatus);
                 itemdetails.putExtra("TIME", pickupTime);
                 itemdetails.putExtra("COMMENT", pickupComment);
+                itemdetails.putExtra("lat", pickpoint_lat);
+                itemdetails.putExtra("long", pickpoint_long);
                 activity.startActivity(itemdetails);
                 break;
 
@@ -240,6 +238,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
                     pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
 
+                    pickpoint_lat=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat();
+                    pickpoint_long=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong();
+
                     Singleton.getInstance().setORDERAMOUNT(orderDetailsResponseDatamodel.getData().getPayment().getAmount());
 
                     // add  coordinates to polyline draw for pickup point
@@ -259,6 +260,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
                         deliveryPointListingDatamodel.droppoint_status_message=dropPoint.getOrderStatus().getMessage();
                         deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
+                        deliveryPointListingDatamodel.droppoint_lat=dropPoint.getDropAddress().getLat();
+                        deliveryPointListingDatamodel.droppoint_long=dropPoint.getDropAddress().getLong();
 
                         order_detailsList_arraylist.add(deliveryPointListingDatamodel);
                         // add coordinates to polyline draw for drop point

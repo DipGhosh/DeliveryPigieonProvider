@@ -48,7 +48,6 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final OrderDetailsAdapter.MyHolder handler = (OrderDetailsAdapter.MyHolder) holder;
         final DeliveryPointListingDatamodel deliveryPointListingDatamodel =data.get(position);
 
-
         handler.orderPointName.setText(deliveryPointListingDatamodel.orderpoint_name);
         handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
@@ -66,6 +65,8 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 itemdetails.putExtra("PAYMENTSTATUS",deliveryPointListingDatamodel.payment_status);
                 itemdetails.putExtra("TIME",deliveryPointListingDatamodel.delivery_time);
                 itemdetails.putExtra("COMMENT",deliveryPointListingDatamodel.delivery_comments);
+                itemdetails.putExtra("lat", deliveryPointListingDatamodel.droppoint_lat);
+                itemdetails.putExtra("long", deliveryPointListingDatamodel.droppoint_long);
                 activity.startActivity(itemdetails);
             }
         });

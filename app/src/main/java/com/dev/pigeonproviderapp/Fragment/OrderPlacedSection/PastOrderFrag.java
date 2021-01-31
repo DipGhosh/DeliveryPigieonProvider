@@ -92,8 +92,8 @@ public class PastOrderFrag extends BaseFragment {
             adapter.notifyDataSetChanged();
 
         } else {
-           // blankImage.setVisibility(View.VISIBLE);
-            Log.d("Mangal","NO");
+           blankImage.setVisibility(View.VISIBLE);
+
         }
 
 
