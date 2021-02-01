@@ -70,9 +70,10 @@ public class ActiveOrdersFrag extends BaseFragment {
 
     public void setData(List<ListOrderResponseDataModel.Available> availableList) {
 
+        active_order_arraylist.clear();
+
         if (availableList.size()>0){
 
-            active_order_arraylist.clear();
 
             for (ListOrderResponseDataModel.Available available : availableList) {
 

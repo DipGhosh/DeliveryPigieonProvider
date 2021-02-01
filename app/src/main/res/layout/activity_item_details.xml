@@ -320,9 +320,48 @@
                         android:textSize="@dimen/_12sdp"></TextView>
                 </LinearLayout>
 
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/white_shadowshape"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/et_provider_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@drawable/commentbox_shape"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center|top|left"
+                        android:hint="@string/comments"
+                        android:inputType="textPersonName"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/fadeBlackColor"
+                        android:textColorHint="@color/fadeBlackColor"
+                        android:textSize="@dimen/_12sdp">
+
+                    </EditText>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_10sdp">
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_60sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_order_item_complete"
@@ -331,7 +370,7 @@
                         android:layout_marginTop="@dimen/_20sdp"
                         android:background="@drawable/white_shadowshape"
                         android:orientation="horizontal"
-                        android:visibility="gone"
+                        android:visibility="invisible"
                         android:weightSum="2">
 
                         <TextView
@@ -372,44 +411,6 @@
                             android:textSize="@dimen/_12sdp"></TextView>
                     </LinearLayout>
                 </RelativeLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_60sdp"
-                    android:background="@drawable/white_shadowshape"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/et_provider_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_120sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@drawable/commentbox_shape"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center|top|left"
-                        android:hint="@string/comments"
-                        android:inputType="textPersonName"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/fadeBlackColor"
-                        android:textColorHint="@color/fadeBlackColor"
-                        android:textSize="@dimen/_12sdp">
-
-                    </EditText>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_10sdp">
-
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

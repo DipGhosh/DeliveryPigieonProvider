@@ -8,9 +8,9 @@
     tools:context=".ActivityAll.SpalshActivity">
 
     <ImageView
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
-        android:background="@drawable/app_logo"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_140sdp"
+        android:background="@drawable/splashnew_logo"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

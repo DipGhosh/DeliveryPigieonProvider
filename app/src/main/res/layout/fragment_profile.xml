@@ -55,7 +55,7 @@
                  <RelativeLayout android:layout_width="@dimen/_60sdp"
                      android:layout_centerInParent="true"
                      android:id="@+id/rl_upperr"
-                     android:background="@drawable/circleshape"
+                     android:background="@drawable/dummy_image"
                      android:gravity="center"
                      android:layout_marginLeft="@dimen/_15sdp"
                      android:layout_marginRight="@dimen/_15sdp"
@@ -65,7 +65,7 @@
                          android:id="@+id/ic_profile_img"
                          android:layout_width="@dimen/_60sdp"
                          android:layout_height="@dimen/_60sdp"
-                         app:civ_border_color="@android:color/white"
+                         app:civ_border_color="@color/header_color"
 
                          />
                      <ProgressBar
@@ -73,7 +73,6 @@
                          android:layout_width="@dimen/_25sdp"
                          android:layout_centerVertical="true"
                          android:layout_centerInParent="true"
-                         android:background="@android:color/white"
                          android:layout_height="@dimen/_25sdp" />
 
                  </RelativeLayout>
@@ -86,7 +85,6 @@
                      android:layout_marginRight="@dimen/margine_size"
                      android:fontFamily="@font/montserrat_bold"
                      android:gravity="center|left"
-                     android:text="John Doe"
                      android:textColor="@android:color/black"
                      android:textSize="@dimen/_12sdp">
 
@@ -132,7 +130,6 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:id="@+id/tv_phoneNumber"
-                         android:text="+9647525656"
                          android:textSize="@dimen/_12sdp"
                          android:fontFamily="@font/montserrat"
                          android:textColor="@color/otptextColor">
@@ -179,7 +176,6 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:id="@+id/tv_emailId"
-                         android:text="john.do@gmail.com"
                          android:textSize="@dimen/_12sdp"
                          android:fontFamily="@font/montserrat"
                          android:textColor="@android:color/black">

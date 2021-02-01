@@ -21,7 +21,7 @@ public class ProfileViewModel extends ViewModel {
     MutableLiveData<ProfileUpdateResponseDataModel> profileUpdateDataModelMutableLiveData;
     MutableLiveData<UpdateProfilePIctureDataModel> updateProfilePIctureDataModelMutableLiveData;
     MutableLiveData<ProfileGetResponseDataModel> profileGetDataModelMutableLiveData;
-    MutableLiveData<OrderDetailsResponseDatamodel> orderdetailsDataModelMutableLiveData;
+
 
     @Override
     protected void onCleared() {
@@ -30,18 +30,13 @@ public class ProfileViewModel extends ViewModel {
 
     public LiveData<ProfileUpdateResponseDataModel> getProfileUploaddata(ProfileUpdateAPI profileUpdateAPI) {
 
-        /*if (profileUploadDataModelMutableLiveData == null) {
-            profileUploadDataModelMutableLiveData = new NetworkCall().callprofileInfo(profileUpdateAPI);
-        }*/
         profileUploadDataModelMutableLiveData = new NetworkCall().callprofileInfo(profileUpdateAPI);
         return profileUploadDataModelMutableLiveData;
     }
 
     public LiveData<ProfileUpdateResponseDataModel> getProfileUpdatedata(ProfileUpdateAPI profileUpdateAPI) {
 
-       /* if (profileUpdateDataModelMutableLiveData == null) {
-            profileUpdateDataModelMutableLiveData = new NetworkCall().callupdateprofileInfo(profileUpdateAPI);
-        }*/
+
         profileUpdateDataModelMutableLiveData = new NetworkCall().callupdateprofileInfo(profileUpdateAPI);
         return profileUpdateDataModelMutableLiveData;
     }

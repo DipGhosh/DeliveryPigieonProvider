@@ -124,6 +124,9 @@ public class OrdersFrag extends BaseFragment {
         if (Singleton.getInstance().isOrderaccept()==true)
         {
             getOrderList();
+        }else if (Singleton.getInstance().isItemcomplete()==true)
+        {
+            getOrderList();
         }
     }
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -189,7 +192,7 @@ public class OrdersFrag extends BaseFragment {
 
     public void dialogue() {
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
-        builder.setTitle(getResources().getString(R.string.app_name));
+        builder.setTitle("Accept Order");
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setMessage(R.string.aleart_accept_order);
         builder.setPositiveButton(R.string.label_ok,

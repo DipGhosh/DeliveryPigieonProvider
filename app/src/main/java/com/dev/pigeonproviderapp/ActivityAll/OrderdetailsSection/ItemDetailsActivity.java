@@ -120,7 +120,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 finish();
                 break;
             case R.id.ll_verify_otp:
-                if (Singleton.getInstance().getORDERITEMSTATUS()==2)
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
                 {
                     Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
                     startActivity(intent);
@@ -239,17 +239,17 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
 
-
         } else if (Singleton.getInstance().getORDERITEMSTATUS()==2) {
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
 
-        }else if (Singleton.getInstance().getORDERITEMSTATUS()==3) {
-
+        }else if (Singleton.getInstance().getORDERITEMSTATUS()==5) {
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
 
-
+        }else {
+            completeorderSubmit.setVisibility(View.VISIBLE);
+            orderCompleted.setVisibility(View.GONE);
         }
 
 

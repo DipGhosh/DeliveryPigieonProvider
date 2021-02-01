@@ -1,16 +1,14 @@
 package com.dev.pigeonproviderapp.Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +19,10 @@ import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
-import com.dev.pigeonproviderapp.ActivityAll.SpalshActivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
-import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
-import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -53,6 +48,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
    private String profile_pic_url;
    private LinearLayout logout;
    private SharePreference sharePreference;
+   private Dialog dialog;
 
    ProfileViewModel profileViewModel;
 
@@ -79,6 +75,8 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         logout=view.findViewById(R.id.ll_logout);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+        dialog = UiUtils.showProgress(activity);
 
         callGetProfile();
 
@@ -137,11 +135,18 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
     public void callGetProfile() {
 
+         dialog.show();
+
         profileViewModel.gerProfile().observe(this, new Observer<ProfileGetResponseDataModel>() {
             @Override
             public void onChanged(ProfileGetResponseDataModel profileGetResponseDataModel) {
-                int phonenumber=profileGetResponseDataModel.getData().getUser().getPhone();
-               userPhoneNumber.setText("+"+String.valueOf(phonenumber));
+
+                dialog.dismiss();
+
+                long number=profileGetResponseDataModel.getData().getUser().getPhone();
+
+
+               userPhoneNumber.setText("+"+number);
                userEmailId.setText(profileGetResponseDataModel.getData().getUser().getEmail());
                userName.setText(profileGetResponseDataModel.getData().getUser().getName());
 

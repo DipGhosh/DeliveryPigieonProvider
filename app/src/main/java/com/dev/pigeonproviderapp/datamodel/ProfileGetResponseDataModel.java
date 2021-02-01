@@ -95,7 +95,7 @@ public class ProfileGetResponseDataModel {
         private String email;
         @SerializedName("phone")
         @Expose
-        private Integer phone;
+        private long phone;
         @SerializedName("user_type_id")
         @Expose
         private Integer userTypeId;
@@ -147,11 +147,11 @@ public class ProfileGetResponseDataModel {
             this.email = email;
         }
 
-        public Integer getPhone() {
+        public long getPhone() {
             return phone;
         }
 
-        public void setPhone(Integer phone) {
+        public void setPhone(long phone) {
             this.phone = phone;
         }
 
