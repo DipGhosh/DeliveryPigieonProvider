@@ -3,6 +3,7 @@ package com.dev.pigeonproviderapp.ActivityAll.OTPSection;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,6 +23,8 @@ import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class OtpVerificationActivity extends BaseActivity implements View.OnClickListener{
+
+    private Activity activity = OtpVerificationActivity.this;
 
     private ImageView back;
     private TextView OTPverify;
@@ -79,9 +82,14 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
             orderItemOTPVerifyModel.setSignature("");
 
 
-        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, orderListViewModel -> {
+        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, otpVerifyResponseDataModel -> {
 
              dialog.dismiss();
+             if(otpVerifyResponseDataModel.getStatus()==200)
+             {
+                 UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
+             }
+
             });
         }
 

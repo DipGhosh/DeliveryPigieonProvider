@@ -80,7 +80,7 @@ public class ListOrderResponseDataModel {
         private String amount;
         @SerializedName("earn")
         @Expose
-        private Integer earn;
+        private double earn;
 
         public Integer getId() {
             return id;
@@ -146,11 +146,11 @@ public class ListOrderResponseDataModel {
             this.amount = amount;
         }
 
-        public Integer getEarn() {
+        public double getEarn() {
             return earn;
         }
 
-        public void setEarn(Integer earn) {
+        public void setEarn(double earn) {
             this.earn = earn;
         }
 

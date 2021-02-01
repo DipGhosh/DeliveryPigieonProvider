@@ -111,7 +111,7 @@ public class NetworkCall {
           profileInfoUpdateDataModelLiveData.postValue(response.body());
           Log.d("Mangal", response.body().toString());
         } else {
-          Log.d("Mangal", response.errorBody().toString());
+          Log.d("MangalError", response.errorBody().toString());
           profileInfoUpdateDataModelLiveData.postValue(response.body());
         }
       }
@@ -147,7 +147,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<ProfileUpdateResponseDataModel> call, Throwable t) {
-
+        Log.d("Debug", t.getMessage());
       }
     });
 
@@ -179,7 +179,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<UpdateProfilePIctureDataModel> call, Throwable t) {
-
+        Log.d("Aslam", "Fail " + t.getMessage());
       }
     });
 
@@ -276,7 +276,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<ProfileGetResponseDataModel> call, Throwable t) {
-
+        Log.d("Aslam", t.getMessage());
       }
     });
 
@@ -309,7 +309,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<ListOrderResponseDataModel> call, Throwable t) {
-
+        Log.d("Aslam", t.getMessage());
       }
     });
 

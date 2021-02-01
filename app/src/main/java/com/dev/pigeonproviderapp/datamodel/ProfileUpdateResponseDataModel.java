@@ -74,7 +74,7 @@ public class ProfileUpdateResponseDataModel {
         private Integer id;
         @SerializedName("name")
         @Expose
-        private Object name;
+        private String name;
         @SerializedName("first_name")
         @Expose
         private Object firstName;
@@ -86,16 +86,16 @@ public class ProfileUpdateResponseDataModel {
         private Object middleName;
         @SerializedName("profile_picture")
         @Expose
-        private String profilePicture;
+        private Object profilePicture;
         @SerializedName("email")
         @Expose
-        private Object email;
+        private String email;
         @SerializedName("email_verified_at")
         @Expose
         private Object emailVerifiedAt;
         @SerializedName("phone")
         @Expose
-        private Integer phone;
+        private double phone;
         @SerializedName("user_type")
         @Expose
         private Integer userType;
@@ -129,11 +129,11 @@ public class ProfileUpdateResponseDataModel {
             this.id = id;
         }
 
-        public Object getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(Object name) {
+        public void setName(String name) {
             this.name = name;
         }
 
@@ -161,19 +161,19 @@ public class ProfileUpdateResponseDataModel {
             this.middleName = middleName;
         }
 
-        public String getProfilePicture() {
+        public Object getProfilePicture() {
             return profilePicture;
         }
 
-        public void setProfilePicture(String profilePicture) {
+        public void setProfilePicture(Object profilePicture) {
             this.profilePicture = profilePicture;
         }
 
-        public Object getEmail() {
+        public String getEmail() {
             return email;
         }
 
-        public void setEmail(Object email) {
+        public void setEmail(String email) {
             this.email = email;
         }
 
@@ -185,11 +185,11 @@ public class ProfileUpdateResponseDataModel {
             this.emailVerifiedAt = emailVerifiedAt;
         }
 
-        public Integer getPhone() {
+        public double getPhone() {
             return phone;
         }
 
-        public void setPhone(Integer phone) {
+        public void setPhone(double phone) {
             this.phone = phone;
         }
 

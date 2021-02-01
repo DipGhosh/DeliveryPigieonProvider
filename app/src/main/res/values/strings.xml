@@ -76,4 +76,8 @@
     <string name="alert_complete_payment_msg">Total payment amount was ₹</string>
     <string name="header_map">Map</string>
     <string name="order_accept_message">Your order has been accepted. Please check it in current order section.</string>
+    <string name="save_text">Save</string>
+    <string name="profile_edit_aleart">Your profile is successfully updated.</string>
+    <string name="aleart_name">Please enter your name.</string>
+    <string name="alert_otp">OTP submitted successfully.</string>
 </resources>

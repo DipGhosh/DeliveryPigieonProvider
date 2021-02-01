@@ -143,6 +143,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 Singleton.getInstance().setORDERITEMID(pickupPointID);
                 Singleton.getInstance().setORDERITEMSTATUS(orderItemStatus);
                 Singleton.getInstance().setPHONENUMBER(pickupPhonenUmber);
+                Singleton.getInstance().setItemcomplete(false);
                 Intent itemdetails = new Intent(activity, ItemDetailsActivity.class);
                 itemdetails.putExtra("ITEMID", pickupPointID);
                 itemdetails.putExtra("TYPE", "Pickup Point");
@@ -223,9 +224,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
                     Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
 
+                    //Check Pickuppoint status
+                    if(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getStatus()==5)
+                    {
+                        pickupStatus.setText("Complete");
+                    }else {
+                        pickupStatus.setText("Pending");
+                    }
 
-
-                    pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
                     pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
                     orderWeight.setText("Weight: Upto " + orderDetailsResponseDatamodel.getData().getWeight() + "KG");
                     paymentStatus.setText(orderDetailsResponseDatamodel.getData().getPayment().getMessage());
@@ -246,6 +252,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     // add  coordinates to polyline draw for pickup point
                     coordList.add(new LatLng(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat(),orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong()));
 
+                    order_detailsList_arraylist.clear();
 
                     DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
 

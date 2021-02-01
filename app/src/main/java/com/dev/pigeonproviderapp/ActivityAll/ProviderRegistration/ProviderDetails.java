@@ -1,10 +1,13 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -53,14 +57,18 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
     ProfileViewModel profileViewModel;
     DocumentsUploadViewModel documentsUploadViewModel;
+
     private static final int SELECT_PICTURE = 0;
+    private final int REQUEST_CAMERA = 1;
+    private Uri camuri;
+    private Bitmap bitmap;
     MultipartBody.Part multipartBody;
 
     private Button btnSubmit;
     private ImageView providerImageUpload, adharcardFontsideImageUpload, adharcardBacksideImageUpload, panCardImageupload, otherDetailsImageupload;
     private EditText providerName, providerEmail;
     private String filename,position,typeofImageUpload;
-    private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit;
+    private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit,profileImageUploadClick;
 
     Dialog dialog;
 
@@ -88,6 +96,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         rlPancardEdit = findViewById(R.id.rl_pancard_edit);
         rlOthersUpload = findViewById(R.id.rl_others_upload);
         rlOthersEdit = findViewById(R.id.rl_others_edit);
+        profileImageUploadClick=findViewById(R.id.rl_profile_image_upload);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
@@ -102,6 +111,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         panCardImageupload.setOnClickListener(this);
         otherDetailsImageupload.setOnClickListener(this);
         providerImageUpload.setOnClickListener(this);
+        profileImageUploadClick.setOnClickListener(this);
+
 
 
     }
@@ -134,7 +145,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 position="4";
                 typeofImageUpload="Documents";
                 break;
-            case R.id.ic_providerImage_upload:
+            case R.id.rl_profile_image_upload:
                 selectImage();
                 position="5";
                 typeofImageUpload="Profile";
@@ -213,72 +224,134 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String path = getRealPathFromURI(selectedImageUri);
-            Log.d("Picture Path", "" + path);
 
-            //pass it like this
-            File file = new File(path);
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            if (typeofImageUpload.equals("Documents"))
+            uploadFile(selectedImageUri);
+
+
+        }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
+        {
+            Uri selectedImageUri = camuri;
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            CursorLoader cursorLoader = new android.content.CursorLoader(this, selectedImageUri, projection, null, null,
+                    null);
+            Cursor cursor = cursorLoader.loadInBackground();
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            cursor.moveToFirst();
+
+            String selectedImagePath = cursor.getString(column_index);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(selectedImagePath, options);
+            final int REQUIRED_SIZE = 200;
+            int scale = 1;
+            while (options.outWidth / scale / 2 >= REQUIRED_SIZE
+                    && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
+            options.inSampleSize = scale;
+            options.inJustDecodeBounds = false;
+
+            bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
+
+            if (position.equals("1"))
             {
-                multipartBody = MultipartBody.Part
-                        .createFormData("file", file.getName(), requestFile);
-            }else {
-                multipartBody = MultipartBody.Part
-                        .createFormData("profile_picture", file.getName(), requestFile);
+                adharcardFontsideImageUpload.setImageBitmap(bitmap);
+                rlAdarFontUpload.setVisibility(View.GONE);
+                rlAharFontEdit.setVisibility(View.VISIBLE);
+            }else if (position.equals("2"))
+            {
+                adharcardBacksideImageUpload.setImageBitmap(bitmap);
+                rlAdharBackUpload.setVisibility(View.GONE);
+                rlAdharBackEdit.setVisibility(View.VISIBLE);
+            }else if (position.equals("3"))
+            {
+                panCardImageupload.setImageBitmap(bitmap);
+                rlPancardUpload.setVisibility(View.GONE);
+                rlPancardEdit.setVisibility(View.VISIBLE);
+            }else if (position.equals("4"))
+            {
+                otherDetailsImageupload.setImageBitmap(bitmap);
+                rlOthersUpload.setVisibility(View.GONE);
+                rlOthersEdit.setVisibility(View.VISIBLE);
+            }else if (position.equals("5"))
+            {
+                providerImageUpload.setImageBitmap(bitmap);
             }
-
-
-            if (typeofImageUpload.equals("Documents"))
-            {
-                documentsUploadViewModel.uploadDocumentPicture(multipartBody).observe(this,
-                        new Observer<UploadDocumentImageResponseModel>() {
-                            @Override
-                            public void onChanged(UploadDocumentImageResponseModel uploadDocumentImageResponseModel) {
-
-                                filename = uploadDocumentImageResponseModel.getData();
-
-                                if (position.equals("1"))
-                                {
-                                    Log.d("Addharfont", "Filename: " + filename);
-                                    AddDocumentImage();
-                                }else if (position.equals("2"))
-                                {
-                                    Log.d("AddharBack", "Filename: " + filename);
-                                    AddDocumentImage();
-                                }else if(position.equals("3"))
-                                {
-                                    Log.d("Pancard", "Filename: " + filename);
-                                    AddDocumentImage();
-                                }else if(position.equals("4"))
-                                {
-                                    Log.d("Others", "Filename: " + filename);
-                                    AddDocumentImage();
-                                }
-
-                            }
-                        });
-            }else if (typeofImageUpload.equals("Profile"))
-            {
-                profileViewModel.uploadProfilePicture(multipartBody).observe(this,
-                        new Observer<UpdateProfilePIctureDataModel>() {
-                            @Override
-                            public void onChanged(UpdateProfilePIctureDataModel updateProfilePIctureDataModel) {
-                                dialog.dismiss();
-                                String filename = updateProfilePIctureDataModel.getData().getUser()
-                                        .getProfilePicture();
-                                Log.d("Aslam", "Filename: " + filename);
-
-
-                            }
-                        });
-            }
-
-
-
-
+            uploadFile(selectedImageUri);
         }
     }
+
+    private void uploadFile(Uri fileUri) {
+
+        dialog.show();
+
+        Uri selectedImageUri=fileUri;
+
+        String path = getRealPathFromURI(selectedImageUri);
+        Log.d("Picture Path", "" + path);
+
+        //pass it like this
+        File file = new File(path);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        if (typeofImageUpload.equals("Documents"))
+        {
+            multipartBody = MultipartBody.Part
+                    .createFormData("file", file.getName(), requestFile);
+        }else {
+            multipartBody = MultipartBody.Part
+                    .createFormData("profile_picture", file.getName(), requestFile);
+        }
+
+
+        if (typeofImageUpload.equals("Documents"))
+        {
+            documentsUploadViewModel.uploadDocumentPicture(multipartBody).observe(this,
+                    new Observer<UploadDocumentImageResponseModel>() {
+                        @Override
+                        public void onChanged(UploadDocumentImageResponseModel uploadDocumentImageResponseModel) {
+
+                           dialog.dismiss();
+
+                            filename = uploadDocumentImageResponseModel.getData();
+
+                            if (position.equals("1"))
+                            {
+                                Log.d("Addharfont", "Filename: " + filename);
+                                AddDocumentImage();
+                            }else if (position.equals("2"))
+                            {
+                                Log.d("AddharBack", "Filename: " + filename);
+                                AddDocumentImage();
+                            }else if(position.equals("3"))
+                            {
+                                Log.d("Pancard", "Filename: " + filename);
+                                AddDocumentImage();
+                            }else if(position.equals("4"))
+                            {
+                                Log.d("Others", "Filename: " + filename);
+                                AddDocumentImage();
+                            }
+
+                        }
+                    });
+        }else if (typeofImageUpload.equals("Profile"))
+        {
+            profileViewModel.uploadProfilePicture(multipartBody).observe(this,
+                    new Observer<UpdateProfilePIctureDataModel>() {
+                        @Override
+                        public void onChanged(UpdateProfilePIctureDataModel updateProfilePIctureDataModel) {
+                            dialog.dismiss();
+                            String filename = updateProfilePIctureDataModel.getData().getUser()
+                                    .getProfilePicture();
+                            Log.d("Aslam", "Filename: " + filename);
+
+
+                        }
+                    });
+        }
+
+    }
+
 
     public String getRealPathFromURI(Uri contentURI) {
         String result;
@@ -303,17 +376,35 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     }
 
     private void selectImage() {
-        final CharSequence[] options = {"From Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(options, (dialog, item) -> {
-            if (options[item].equals("From Gallery")) {
-                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, SELECT_PICTURE);
+        final CharSequence[] items = {"From Camera", "From Cameraroll", "Cancel"};
 
-            } else if (options[item].equals("Cancel")) {
-                dialog.dismiss();
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(ProviderDetails.this);
+        builder.setTitle("Add Photo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("From Camera")) {
+
+                    String fileName = "new-photo-name.jpg";
+                    //create parameters for Intent with filename
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                    //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+                    camuri = ProviderDetails.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    //create new Intent
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("From Cameraroll")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
             }
         });
         builder.show();

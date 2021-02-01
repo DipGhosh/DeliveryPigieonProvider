@@ -49,7 +49,15 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final DeliveryPointListingDatamodel deliveryPointListingDatamodel =data.get(position);
 
         handler.orderPointName.setText(deliveryPointListingDatamodel.orderpoint_name);
-        handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
+
+        //Check Pickuppoint status
+        if(deliveryPointListingDatamodel.order_droppoint_status==5)
+        {
+            handler.orderstatus.setText("Complete");
+        }else {
+            handler.orderstatus.setText("Pending");
+        }
+
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
         handler.dropItemClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +65,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Singleton.getInstance().setORDERITEMID(deliveryPointListingDatamodel.delivery_order_id);
                 Singleton.getInstance().setORDERITEMSTATUS(deliveryPointListingDatamodel.order_droppoint_status);
                 Singleton.getInstance().setPHONENUMBER(deliveryPointListingDatamodel.item_phone_number);
+                Singleton.getInstance().setItemcomplete(false);
 
                 Intent itemdetails=new Intent(activity, ItemDetailsActivity.class);
                 itemdetails.putExtra("ITEMID",deliveryPointListingDatamodel.delivery_order_id);

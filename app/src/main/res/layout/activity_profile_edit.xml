@@ -35,14 +35,17 @@
                 android:id="@+id/tv_dashboard"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"/>
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="10dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:id="@+id/ic_profile_edit"
-                android:background="@drawable/save_icon"
+                android:id="@+id/tv_save_profile_edit"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/save_text"
+                android:textColor="@android:color/white"
                 />
 
 
@@ -58,7 +61,6 @@
             <RelativeLayout android:layout_width="@dimen/_60sdp"
                 android:layout_centerInParent="true"
                 android:id="@+id/rl_upperr"
-                android:background="@drawable/circleshape"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_height="@dimen/_60sdp">
@@ -67,6 +69,7 @@
                     android:id="@+id/ic_profileedit_imageupload"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
+                    android:src="@drawable/dummy_image"
                     app:civ_border_color="@android:color/white"
 
                     />
@@ -75,7 +78,6 @@
                     android:layout_width="@dimen/_25sdp"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
-                    android:background="@android:color/white"
                     android:layout_height="@dimen/_25sdp" />
 
             </RelativeLayout>

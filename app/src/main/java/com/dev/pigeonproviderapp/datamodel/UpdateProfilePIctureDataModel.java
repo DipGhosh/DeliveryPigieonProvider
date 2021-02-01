@@ -127,7 +127,7 @@ public class UpdateProfilePIctureDataModel {
         private Object emailVerifiedAt;
         @SerializedName("phone")
         @Expose
-        private Integer phone;
+        private double phone;
         @SerializedName("user_type")
         @Expose
         private Integer userType;
@@ -217,11 +217,11 @@ public class UpdateProfilePIctureDataModel {
             this.emailVerifiedAt = emailVerifiedAt;
         }
 
-        public Integer getPhone() {
+        public double getPhone() {
             return phone;
         }
 
-        public void setPhone(Integer phone) {
+        public void setPhone(double phone) {
             this.phone = phone;
         }
 

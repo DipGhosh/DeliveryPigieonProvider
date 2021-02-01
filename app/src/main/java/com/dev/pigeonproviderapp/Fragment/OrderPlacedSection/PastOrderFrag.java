@@ -71,9 +71,9 @@ public class PastOrderFrag extends BaseFragment {
 
     public void setData(List<ListOrderResponseDataModel.Past> pasts) {
 
+        past_order_arraylist.clear();
+
         if (pasts.size() > 0) {
-            Log.d("Mangal","YES");
-            past_order_arraylist.clear();
 
             for (ListOrderResponseDataModel.Past past : pasts) {
 
