@@ -10,7 +10,7 @@ public class AddDocumentAPIModel {
     private String documentName;
     @SerializedName("document_type_id")
     @Expose
-    private String documentTypeId;
+    private int documentTypeId;
     @SerializedName("file_name_front")
     @Expose
     private String fileName;
@@ -23,11 +23,11 @@ public class AddDocumentAPIModel {
         this.documentName = documentName;
     }
 
-    public String getDocumentTypeId() {
+    public int getDocumentTypeId() {
         return documentTypeId;
     }
 
-    public void setDocumentTypeId(String documentTypeId) {
+    public void setDocumentTypeId(int documentTypeId) {
         this.documentTypeId = documentTypeId;
     }
 

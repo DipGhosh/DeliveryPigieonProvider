@@ -9,7 +9,9 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="com.javapapers.currentlocationinmap.permission.MAPS_RECEIVE" />
+
     <uses-feature android:name="android.hardware.location.gps" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,11 +27,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.Map.OrderRouteMap"
+        <activity android:name=".ActivityAll.AccountSettings.DocumentListing"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".ActivityAll.OTPSection.OtpVerificationActivity"
+            android:name=".ActivityAll.AccountSettings.AddBankDetails"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ActivityAll.AccountSettings.AccountSetting"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.WebViewLinkShow.WebserviceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityAll.Map.OrderRouteMap"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityAll.OTPSection.OtpVerificationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityAll.OrderdetailsSection.OrderDetails"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,7 +84,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_zYTcbtEdWPtS0wAXr6xTxi9Bxo0uQ4Y" />
+            android:value="AIzaSyBPosa7I3iL3LGInh5dfNadtCAaPi_41jo" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
