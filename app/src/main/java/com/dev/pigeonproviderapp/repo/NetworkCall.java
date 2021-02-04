@@ -3,10 +3,13 @@ package com.dev.pigeonproviderapp.repo;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.AcceptOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.AcceptPaymentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
+import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
 import com.dev.pigeonproviderapp.datamodel.CompleteOrderPointResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -19,6 +22,7 @@ import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.datamodel.VerifyOtpResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.BankDetailsSubmitAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
@@ -43,7 +47,7 @@ public class NetworkCall {
 
     MutableLiveData<OTPSendResponseDataModel> otpSendDataModelLiveData = new MutableLiveData<OTPSendResponseDataModel>();
 
-    Call<OTPSendResponseDataModel> registerAPI = apiInterface.OTPSendAPICall(otpSendAPIModel);
+    Call<OTPSendResponseDataModel> registerAPI = apiInterface.OTPSendAPICall(otpSendAPIModel, Utility.USERTYPE);
 
     registerAPI.enqueue(new Callback<OTPSendResponseDataModel>() {
       @Override
@@ -72,7 +76,7 @@ public class NetworkCall {
 
     MutableLiveData<VerifyOtpResponseDataModel> otpverifyDataModelLiveData = new MutableLiveData<VerifyOtpResponseDataModel>();
 
-    Call<VerifyOtpResponseDataModel> otpverifyAPI = apiInterface.VerifyOtpAPICall(verifyOtpAPIModel);
+    Call<VerifyOtpResponseDataModel> otpverifyAPI = apiInterface.VerifyOtpAPICall(verifyOtpAPIModel,Utility.USERTYPE);
 
     otpverifyAPI.enqueue(new Callback<VerifyOtpResponseDataModel>() {
       @Override
@@ -101,7 +105,7 @@ public class NetworkCall {
 
     MutableLiveData<ProfileUpdateResponseDataModel> profileInfoUpdateDataModelLiveData = new MutableLiveData<ProfileUpdateResponseDataModel>();
 
-    Call<ProfileUpdateResponseDataModel> profileInfoUpdateAPI = apiInterface.profileInfouploadAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI);
+    Call<ProfileUpdateResponseDataModel> profileInfoUpdateAPI = apiInterface.profileInfouploadAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI,Utility.USERTYPE);
 
     profileInfoUpdateAPI.enqueue(new Callback<ProfileUpdateResponseDataModel>() {
       @Override
@@ -130,7 +134,7 @@ public class NetworkCall {
 
     MutableLiveData<ProfileUpdateResponseDataModel> profileInfoUpdateDataModelLiveData = new MutableLiveData<ProfileUpdateResponseDataModel>();
 
-    Call<ProfileUpdateResponseDataModel> profileInfoUpdateApi = apiInterface.updateProfileInfoAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI);
+    Call<ProfileUpdateResponseDataModel> profileInfoUpdateApi = apiInterface.updateProfileInfoAPICall(Singleton.getInstance().getTOKEN(),profileUpdateAPI,Utility.USERTYPE);
 
     profileInfoUpdateApi.enqueue(new Callback<ProfileUpdateResponseDataModel>() {
       @Override
@@ -161,7 +165,7 @@ public class NetworkCall {
     MutableLiveData<UpdateProfilePIctureDataModel> updateProfilePIctureDataModelMutableLiveData = new MutableLiveData<UpdateProfilePIctureDataModel>();
 
     Call<UpdateProfilePIctureDataModel> updateProfilePicture = apiInterface
-            .updateProfilePicture(Singleton.getInstance().getTOKEN(), profile_picture);
+            .updateProfilePicture(Singleton.getInstance().getTOKEN(), profile_picture,Utility.USERTYPE);
 
     updateProfilePicture.enqueue(new Callback<UpdateProfilePIctureDataModel>() {
       @Override
@@ -194,7 +198,7 @@ public class NetworkCall {
     MutableLiveData<UploadDocumentImageResponseModel> uploadDocumentImageDataModelMutableLiveData = new MutableLiveData<UploadDocumentImageResponseModel>();
 
     Call<UploadDocumentImageResponseModel> uploadDocumentImage = apiInterface
-            .uploadDocumentImage(Singleton.getInstance().getTOKEN(), profile_picture);
+            .uploadDocumentImage(Singleton.getInstance().getTOKEN(), profile_picture,Utility.USERTYPE);
 
     uploadDocumentImage.enqueue(new Callback<UploadDocumentImageResponseModel>() {
       @Override
@@ -225,7 +229,7 @@ public class NetworkCall {
 
     MutableLiveData<AddDocumentResponseModel> addDocumentDataModelLiveData = new MutableLiveData<AddDocumentResponseModel>();
 
-    Call<AddDocumentResponseModel> addDocumentAPI = apiInterface.addDocumentImage(Singleton.getInstance().getTOKEN(),addDocumentAPIModel);
+    Call<AddDocumentResponseModel> addDocumentAPI = apiInterface.addDocumentImage(Singleton.getInstance().getTOKEN(),addDocumentAPIModel,Utility.USERTYPE);
 
     addDocumentAPI.enqueue(new Callback<AddDocumentResponseModel>() {
       @Override
@@ -257,7 +261,7 @@ public class NetworkCall {
     MutableLiveData<ProfileGetResponseDataModel> getProfileModelMutableLiveData = new MutableLiveData<ProfileGetResponseDataModel>();
 
     Call<ProfileGetResponseDataModel> getProfileCall = apiInterface
-            .getProfile(Singleton.getInstance().getTOKEN());
+            .getProfile(Singleton.getInstance().getTOKEN(),Utility.USERTYPE);
 
     getProfileCall.enqueue(new Callback<ProfileGetResponseDataModel>() {
       @Override
@@ -290,7 +294,7 @@ public class NetworkCall {
     MutableLiveData<ListOrderResponseDataModel> listOrderDataModelMutableLiveData = new MutableLiveData<ListOrderResponseDataModel>();
 
     Call<ListOrderResponseDataModel> getOrderListCall = apiInterface
-            .getOrderListCall(Singleton.getInstance().getTOKEN());
+            .getOrderListCall(Singleton.getInstance().getTOKEN(),Utility.USERTYPE);
 
     getOrderListCall.enqueue(new Callback<ListOrderResponseDataModel>() {
       @Override
@@ -324,7 +328,7 @@ public class NetworkCall {
     MutableLiveData<OrderDetailsResponseDatamodel> OrderDetailsDataModelMutableLiveData = new MutableLiveData<OrderDetailsResponseDatamodel>();
 
     Call<OrderDetailsResponseDatamodel> getOrderDetailsCall = apiInterface
-            .getOrderDetails(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID());
+            .getOrderDetails(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Utility.USERTYPE);
 
     getOrderDetailsCall.enqueue(new Callback<OrderDetailsResponseDatamodel>() {
       @Override
@@ -358,7 +362,7 @@ public class NetworkCall {
     MutableLiveData<AcceptOrderResponseDataModel> acceptOrderDataModelMutableLiveData = new MutableLiveData<AcceptOrderResponseDataModel>();
 
     Call<AcceptOrderResponseDataModel> orderAcceptCall = apiInterface
-            .acceptOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID());
+            .acceptOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Utility.USERTYPE);
 
     orderAcceptCall.enqueue(new Callback<AcceptOrderResponseDataModel>() {
       @Override
@@ -392,7 +396,7 @@ public class NetworkCall {
     MutableLiveData<StartOrderResponseDataModel> startOrderDataModelMutableLiveData = new MutableLiveData<StartOrderResponseDataModel>();
 
     Call<StartOrderResponseDataModel> orderStartCall = apiInterface
-            .startOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID());
+            .startOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Utility.USERTYPE);
 
     orderStartCall.enqueue(new Callback<StartOrderResponseDataModel>() {
       @Override
@@ -426,7 +430,7 @@ public class NetworkCall {
     MutableLiveData<OtpVerifyResponseDataModel> verifyOtpDataModelMutableLiveData = new MutableLiveData<OtpVerifyResponseDataModel>();
 
     Call<OtpVerifyResponseDataModel> verifyOTPcall = apiInterface
-            .verifyOTPCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Singleton.getInstance().getORDERITEMID(),orderItemOTPVerifyModel);
+            .verifyOTPCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Singleton.getInstance().getORDERITEMID(),orderItemOTPVerifyModel,Utility.USERTYPE);
 
     verifyOTPcall.enqueue(new Callback<OtpVerifyResponseDataModel>() {
       @Override
@@ -460,7 +464,7 @@ public class NetworkCall {
     MutableLiveData<CompleteOrderPointResponseDataModel> completeOrderpointDataModelMutableLiveData = new MutableLiveData<CompleteOrderPointResponseDataModel>();
 
     Call<CompleteOrderPointResponseDataModel> completeOrderCall = apiInterface
-            .completeOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Singleton.getInstance().getORDERITEMID(),completeOrderAPIModel);
+            .completeOrderCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),Singleton.getInstance().getORDERITEMID(),completeOrderAPIModel,Utility.USERTYPE);
 
     completeOrderCall.enqueue(new Callback<CompleteOrderPointResponseDataModel>() {
       @Override
@@ -493,7 +497,7 @@ public class NetworkCall {
 
     MutableLiveData<AcceptPaymentResponseModel> acceptPaymentDataModelLiveData = new MutableLiveData<AcceptPaymentResponseModel>();
 
-    Call<AcceptPaymentResponseModel> acceptPaymentByProviderAPI = apiInterface.acceptPaymentCall(Singleton.getInstance().getTOKEN(),acceptPaymentAPIModel);
+    Call<AcceptPaymentResponseModel> acceptPaymentByProviderAPI = apiInterface.acceptPaymentCall(Singleton.getInstance().getTOKEN(),acceptPaymentAPIModel,Utility.USERTYPE);
 
     acceptPaymentByProviderAPI.enqueue(new Callback<AcceptPaymentResponseModel>() {
       @Override
@@ -525,7 +529,7 @@ public class NetworkCall {
     MutableLiveData<AcceptPaymentResponseModel> orderRatingDataModelMutableLiveData = new MutableLiveData<AcceptPaymentResponseModel>();
 
     Call<AcceptPaymentResponseModel> orderRatingCall = apiInterface
-            .providerRatingCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),orderRatingAPIModel);
+            .providerRatingCall(Singleton.getInstance().getTOKEN(), Singleton.getInstance().getORDERID(),orderRatingAPIModel,Utility.USERTYPE);
 
     orderRatingCall.enqueue(new Callback<AcceptPaymentResponseModel>() {
       @Override
@@ -550,6 +554,109 @@ public class NetworkCall {
 
 
     return orderRatingDataModelMutableLiveData;
+  }
+
+  //Add Bank Details
+
+
+  public MutableLiveData<AcceptPaymentResponseModel> addBankDetailsData(BankDetailsSubmitAPIModel bankDetailsSubmitAPIModel) {
+
+    MutableLiveData<AcceptPaymentResponseModel> bankDetailsAddModelMutableLiveData = new MutableLiveData<AcceptPaymentResponseModel>();
+
+    Call<AcceptPaymentResponseModel> addBankDetailsCall = apiInterface
+            .addBankDetailsAPICall(Singleton.getInstance().getTOKEN(),bankDetailsSubmitAPIModel,Utility.USERTYPE);
+
+    addBankDetailsCall.enqueue(new Callback<AcceptPaymentResponseModel>() {
+      @Override
+      public void onResponse(Call<AcceptPaymentResponseModel> call,
+                             Response<AcceptPaymentResponseModel> response) {
+
+        if (response.isSuccessful()) {
+          bankDetailsAddModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          bankDetailsAddModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<AcceptPaymentResponseModel> call, Throwable t) {
+        Log.d("Aslam", t.getMessage());
+      }
+    });
+
+
+    return bankDetailsAddModelMutableLiveData;
+  }
+
+  //Gate Bank Details
+
+  public MutableLiveData<BankDetailsGetModelResponse> getBankDetailsData() {
+
+    MutableLiveData<BankDetailsGetModelResponse> bankDetailsGetModelMutableLiveData = new MutableLiveData<BankDetailsGetModelResponse>();
+
+    Call<BankDetailsGetModelResponse> getBankDetailsCall = apiInterface
+            .getBankDetailsAPICall(Singleton.getInstance().getTOKEN(),Utility.USERTYPE);
+
+    getBankDetailsCall.enqueue(new Callback<BankDetailsGetModelResponse>() {
+      @Override
+      public void onResponse(Call<BankDetailsGetModelResponse> call,
+                             Response<BankDetailsGetModelResponse> response) {
+
+        if (response.isSuccessful()) {
+          bankDetailsGetModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          bankDetailsGetModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<BankDetailsGetModelResponse> call, Throwable t) {
+        Log.d("Aslam", t.getMessage());
+      }
+    });
+
+
+    return bankDetailsGetModelMutableLiveData;
+  }
+
+  //Gate Bank Details
+
+  public MutableLiveData<GetUserDocumentResponseDataModel> userDocumentData() {
+
+    MutableLiveData<GetUserDocumentResponseDataModel> getUserDocumentModelMutableLiveData = new MutableLiveData<GetUserDocumentResponseDataModel>();
+
+    Call<GetUserDocumentResponseDataModel> getUserDocumentCall = apiInterface
+            .getUserDocumentAPICall(Singleton.getInstance().getTOKEN(),Utility.USERTYPE);
+
+    getUserDocumentCall.enqueue(new Callback<GetUserDocumentResponseDataModel>() {
+      @Override
+      public void onResponse(Call<GetUserDocumentResponseDataModel> call,
+                             Response<GetUserDocumentResponseDataModel> response) {
+
+        if (response.isSuccessful()) {
+          getUserDocumentModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          getUserDocumentModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<GetUserDocumentResponseDataModel> call, Throwable t) {
+        Log.d("Aslam", t.getMessage());
+      }
+    });
+
+
+    return getUserDocumentModelMutableLiveData;
   }
 
 

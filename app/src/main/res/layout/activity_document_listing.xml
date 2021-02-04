@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".ActivityAll.AccountSettings.DocumentListing">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/header_color"
+            android:id="@+id/relative_header">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:id="@+id/img_back"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/left_flat_arrow"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/documents"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/_14sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:fontFamily="@font/montserrat"
+                android:id="@+id/tv_dashboard"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_docupload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/document_uplaod"
+            android:textColor="@android:color/black"
+            android:gravity="center|left"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_providerEmail">
+
+        </TextView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:background="@drawable/white_shadowshape">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_addressproof"
+        android:weightSum="2"
+       >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/textsize_20"
+            android:layout_marginBottom="@dimen/textsize_20"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginRight="@dimen/size_5">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ic_adharcard_fontsideImageUpload"
+                    app:siRadius="8dp"
+                    app:siBorderWidth="0.5dp"
+                    android:background="@drawable/documentlisting_shape">
+
+                </com.github.siyamed.shapeimageview.RoundedImageView>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl_adarfont_upload"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/image_add_icon">
+
+
+                    </ImageView>
+                    <ProgressBar
+                        android:id="@+id/aadhar_progress_fontside"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"
+                        android:layout_height="@dimen/_35sdp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl_adarfont_edit"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_img">
+
+                    </ImageView>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="@dimen/textsize_20"
+            android:layout_marginRight="@dimen/margine_size"
+            android:layout_weight="1">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ic_adharcard_backsideImageUpload"
+                    app:siRadius="8dp"
+                    app:siBorderWidth="0.5dp"
+                    android:background="@drawable/documentlisting_shape">
+
+                </com.github.siyamed.shapeimageview.RoundedImageView>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl_adarback_upload"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/image_add_icon">
+
+                    </ImageView>
+                    <ProgressBar
+                        android:id="@+id/aadhar_progress_backside"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"
+                        android:layout_height="@dimen/_35sdp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl_adarback_edit"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circleshape"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_img">
+
+                    </ImageView>
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/margine_size">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/front_side_info"
+                android:textColor="@color/fadeBlack"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat"
+                android:paddingLeft="@dimen/_5sdp"
+                >
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/margine_size">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/back_side_info"
+                android:textColor="@color/fadeBlack"
+                android:textSize="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_5sdp"
+                android:fontFamily="@font/montserrat"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_others"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/others_document"
+            android:textColor="@android:color/black"
+            android:gravity="center|left"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_providerEmail">
+
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/white_shadowshape">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_docupload">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/textsize_20"
+                    android:layout_marginLeft="@dimen/margine_size"
+                    android:layout_marginRight="@dimen/size_5">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+                        <com.github.siyamed.shapeimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/ic_pandcardImageUpload"
+                            app:siRadius="8dp"
+                            app:siBorderWidth="0.5dp"
+                            android:background="@drawable/documentlisting_shape">
+
+                        </com.github.siyamed.shapeimageview.RoundedImageView>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/rl_pancard_upload"
+                            android:layout_centerInParent="true">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/circleshape"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/image_add_icon">
+
+                            </ImageView>
+                            <ProgressBar
+                                android:id="@+id/aadhar_progress_pancard"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_35sdp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/rl_pancard_edit"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/circleshape"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/edit_img">
+
+                            </ImageView>
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_marginLeft="@dimen/size_5"
+                    android:layout_marginTop="@dimen/textsize_20"
+                    android:layout_marginRight="@dimen/textsize_20"
+                    android:layout_weight="1">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+                        <com.github.siyamed.shapeimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/ic_others_documentImageUpload"
+                            app:siRadius="8dp"
+                            app:siBorderWidth="0.5dp"
+                            android:background="@drawable/documentlisting_shape">
+
+                        </com.github.siyamed.shapeimageview.RoundedImageView>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/rl_others_upload"
+                            android:layout_centerInParent="true">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/circleshape"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/image_add_icon">
+
+                            </ImageView>
+
+                            <ProgressBar
+                                android:id="@+id/aadhar_progress_others"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_35sdp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/rl_others_edit"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true">
+                            <ImageView
+                                android:layout_width="@dimen/_23sdp"
+                                android:layout_height="@dimen/_23sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/circleshape"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/edit_img">
+
+                            </ImageView>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pan_card"
+                        android:textColor="@color/fadeBlack"
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        >
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/margine_size">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other"
+                        android:textColor="@color/fadeBlack"
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
