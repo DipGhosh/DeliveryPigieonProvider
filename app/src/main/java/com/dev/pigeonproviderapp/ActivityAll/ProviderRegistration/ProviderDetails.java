@@ -17,16 +17,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.dev.pigeonproviderapp.ActivityAll.AccountSettings.AddBankDetails;
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
+import com.dev.pigeonproviderapp.Utility.CommonUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -35,6 +38,8 @@ import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
+import com.dev.pigeonproviderapp.storage.SharePreference;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.DocumentsUploadViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
@@ -69,8 +74,12 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     private EditText providerName, providerEmail;
     private String filename,position,typeofImageUpload;
     private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit,profileImageUploadClick;
+    private LinearLayout addBankDetailsClick;
 
     Dialog dialog;
+    String documentsName;
+    int docId;
+    private SharePreference sharePreference;
 
 
     @Override
@@ -97,12 +106,14 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         rlOthersUpload = findViewById(R.id.rl_others_upload);
         rlOthersEdit = findViewById(R.id.rl_others_edit);
         profileImageUploadClick=findViewById(R.id.rl_profile_image_upload);
+        addBankDetailsClick=findViewById(R.id.ll_add_bank_details);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
 
 
         dialog = UiUtils.showProgress(ProviderDetails.this);
+        sharePreference=new SharePreference(ProviderDetails.this);
 
         //Registered click listener
         btnSubmit.setOnClickListener(this);
@@ -112,6 +123,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         otherDetailsImageupload.setOnClickListener(this);
         providerImageUpload.setOnClickListener(this);
         profileImageUploadClick.setOnClickListener(this);
+        addBankDetailsClick.setOnClickListener(this);
 
 
 
@@ -150,6 +162,11 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 position="5";
                 typeofImageUpload="Profile";
                 break;
+            case R.id.ll_add_bank_details:
+               Intent intent=new Intent(ProviderDetails.this, AddBankDetails.class);
+               startActivity(intent);
+
+                break;
             default:
                 break;
         }
@@ -163,12 +180,18 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             profileUpdateAPI.setEmail(providerEmail.getText().toString());
 
 
-            profileViewModel.getProfileUploaddata(profileUpdateAPI).observe(this, profileViewModel -> {
+            profileViewModel.getProfileUploaddata(profileUpdateAPI).observe(this, profileUpdateResponseDataModel -> {
 
                 dialog.dismiss();
 
-                Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
-                startActivity(intent);
+                if (profileUpdateResponseDataModel.getStatus()==200)
+                {
+                    sharePreference.SetIsloogedIn(true);
+                    sharePreference.setToken(Singleton.getInstance().getTOKEN());
+                    Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
+                    startActivity(intent);
+                }
+
 
             });
         }
@@ -180,6 +203,21 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     private boolean isValid() {
         if (TextUtils.isEmpty(providerName.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_provider_name));
+            return false;
+        } else if (TextUtils.isEmpty(providerEmail.getText().toString())) {
+            UiUtils.showToast(this, getString(R.string.alert_provider_email));
+            return false;
+        }else if (!CommonUtils.isValidEmail(providerEmail.getText().toString().trim())) {
+            UiUtils.showToast(this, getString(R.string.alert_valid_email));
+            return false;
+        }else if (adharcardFontsideImageUpload.getDrawable() == null) {
+            UiUtils.showToast(this, getString(R.string.aleart_upload_addressproof));
+            return false;
+        }/*else if (adharcardBacksideImageUpload.getDrawable() == null) {
+            UiUtils.showToast(this, getString(R.string.aleart_upload_adharback));
+            return false;
+        } */else if (panCardImageupload.getDrawable() == null) {
+            UiUtils.showToast(this, getString(R.string.aleart_upload_pancard));
             return false;
         } else {
             return true;
@@ -316,19 +354,23 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
                             if (position.equals("1"))
                             {
-                                Log.d("Addharfont", "Filename: " + filename);
+                               documentsName=Utility.ADDRESSPROOF_FONT;
+                               docId=Utility.ADDRESS_FONT_ID;
                                 AddDocumentImage();
                             }else if (position.equals("2"))
                             {
-                                Log.d("AddharBack", "Filename: " + filename);
+                                documentsName=Utility.ADDRESSPROOF_BACK;
+                                docId=Utility.ADDRESS_BACK_ID;
                                 AddDocumentImage();
                             }else if(position.equals("3"))
                             {
-                                Log.d("Pancard", "Filename: " + filename);
+                                documentsName=Utility.ADDRESSPROOF_PAN;
+                                docId=Utility.ADDRESS_PAN_ID;
                                 AddDocumentImage();
                             }else if(position.equals("4"))
                             {
-                                Log.d("Others", "Filename: " + filename);
+                                documentsName=Utility.ADDRESSPROOF_OTHERS;
+                                docId=Utility.ADDRESS_OTHERS_ID;
                                 AddDocumentImage();
                             }
 
@@ -413,8 +455,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     public void AddDocumentImage() {
 
         AddDocumentAPIModel addDocumentAPIModel = new AddDocumentAPIModel();
-        addDocumentAPIModel.setDocumentName("My adadr");
-        addDocumentAPIModel.setDocumentTypeId("1");
+        addDocumentAPIModel.setDocumentName(documentsName);
+        addDocumentAPIModel.setDocumentTypeId(docId);
         addDocumentAPIModel.setFileName(filename);
 
 

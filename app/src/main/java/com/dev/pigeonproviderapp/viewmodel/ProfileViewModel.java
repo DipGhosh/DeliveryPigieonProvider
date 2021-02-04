@@ -4,11 +4,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.dev.pigeonproviderapp.datamodel.AcceptPaymentResponseModel;
+import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
+import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
+import com.dev.pigeonproviderapp.httpRequest.BankDetailsSubmitAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.repo.NetworkCall;
@@ -21,6 +25,9 @@ public class ProfileViewModel extends ViewModel {
     MutableLiveData<ProfileUpdateResponseDataModel> profileUpdateDataModelMutableLiveData;
     MutableLiveData<UpdateProfilePIctureDataModel> updateProfilePIctureDataModelMutableLiveData;
     MutableLiveData<ProfileGetResponseDataModel> profileGetDataModelMutableLiveData;
+    MutableLiveData<AcceptPaymentResponseModel> addBankDetailsDataModelMutableLiveData;
+    MutableLiveData<BankDetailsGetModelResponse> getBankDetailsDataModelMutableLiveData;
+    MutableLiveData<GetUserDocumentResponseDataModel> getUserDocumentDataModelMutableLiveData;
 
 
     @Override
@@ -53,11 +60,25 @@ public class ProfileViewModel extends ViewModel {
 
     public LiveData<ProfileGetResponseDataModel> gerProfile() {
 
-        /*if (profileGetDataModelMutableLiveData == null) {
-            profileGetDataModelMutableLiveData = new NetworkCall().getProfileData();
-        }*/
         profileGetDataModelMutableLiveData = new NetworkCall().getProfileData();
         return profileGetDataModelMutableLiveData;
+    }
+    public LiveData<AcceptPaymentResponseModel> addBankDetails(BankDetailsSubmitAPIModel bankDetailsSubmitAPIModel) {
+
+        addBankDetailsDataModelMutableLiveData = new NetworkCall().addBankDetailsData(bankDetailsSubmitAPIModel);
+        return addBankDetailsDataModelMutableLiveData;
+    }
+
+    public LiveData<BankDetailsGetModelResponse> getBankDetails() {
+
+        getBankDetailsDataModelMutableLiveData = new NetworkCall().getBankDetailsData();
+        return getBankDetailsDataModelMutableLiveData;
+    }
+
+    public LiveData<GetUserDocumentResponseDataModel> getUserDocument() {
+
+        getUserDocumentDataModelMutableLiveData = new NetworkCall().userDocumentData();
+        return getUserDocumentDataModelMutableLiveData;
     }
 
 

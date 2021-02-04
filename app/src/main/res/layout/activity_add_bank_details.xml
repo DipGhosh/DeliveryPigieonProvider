@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityAll.AccountSettings.AddBankDetails">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/header_color"
+            android:id="@+id/relative_header">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:id="@+id/img_back"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/left_flat_arrow"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/bandetails_header"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/_14sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:fontFamily="@font/montserrat"
+                android:id="@+id/tv_dashboard"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/_10sdp"
+                android:id="@+id/tv_save_bank_details"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/save_text"
+                android:textColor="@android:color/white"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_account_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/accoubt_number_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@android:color/darker_gray">
+
+        </View>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_accont_number"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:singleLine="true"
+            android:hint="@string/accoubt_number_text"
+            android:textColorHint="@color/fadeBlack"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sdp"
+            android:inputType="number"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/white_shadowshape"
+            >
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_fsc_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/ifsc_code_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@android:color/darker_gray">
+
+        </View>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_ifsc_code"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:singleLine="true"
+            android:hint="@string/ifsc_code_text"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/fadeBlack"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/white_shadowshape"
+            >
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_bank_accountType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/account_type"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@android:color/darker_gray">
+
+        </View>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_bank_account_type"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:singleLine="true"
+            android:hint="@string/account_type"
+            android:textColorHint="@color/fadeBlack"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/white_shadowshape"
+            >
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_uploadInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/account_holder_name_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            >
+
+        </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@android:color/darker_gray">
+
+        </View>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_44sdp"
+            android:id="@+id/et_bank_accountholder_name"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:singleLine="true"
+            android:hint="@string/account_holder_name_text"
+            android:textColorHint="@color/fadeBlack"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/white_shadowshape"
+            >
+
+        </EditText>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

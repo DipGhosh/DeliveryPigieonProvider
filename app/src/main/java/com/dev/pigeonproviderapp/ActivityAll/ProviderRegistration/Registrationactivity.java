@@ -28,6 +28,7 @@ import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
 import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
+import com.dev.pigeonproviderapp.view.WebViewLinkShow.WebserviceActivity;
 import com.dev.pigeonproviderapp.viewmodel.OtpSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.VerifyOtpViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,7 +43,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     VerifyOtpViewModel verifyOtpViewModel;
     private Button btnRegistration;
     private EditText providerPhoneNumber, otpField;
-    private TextView getOtp, resendOtp;
+    private TextView getOtp, resendOtp,termsandcondition;
     private CheckBox checkTerms;
     private Dialog dialog;
     private SharePreference sharePreference;
@@ -69,6 +70,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         getOtp = findViewById(R.id.tv_getOtp);
         resendOtp = findViewById(R.id.tv_resendOtp);
         checkTerms = findViewById(R.id.checkTerms);
+        termsandcondition=findViewById(R.id.tv_terms_condition);
 
 
         otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
@@ -81,6 +83,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         btnRegistration.setOnClickListener(this);
         getOtp.setOnClickListener(this);
         resendOtp.setOnClickListener(this);
+        checkTerms.setOnClickListener(this);
+        termsandcondition.setOnClickListener(this);
 
         //Firebase Module
         FirebaseMessaging.getInstance().getToken()
@@ -127,6 +131,18 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_registration:
                 CallVerifyOTP();
 
+                break;
+            case R.id.checkTerms:
+
+
+
+                break;
+            case R.id.tv_terms_condition:
+
+                Intent intent=new Intent(Registrationactivity.this, WebserviceActivity.class);
+                intent.putExtra(Utility.HEADER_KEY,Utility.TERMRS_OF_SERVICE_HEADER);
+                intent.putExtra(Utility.LINK_KEY,Utility.TERMSSERVICES_LINK);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -186,14 +202,14 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                     if (token != "") {
 
                         Singleton.getInstance().setTOKEN(token);
-                        sharePreference.SetIsloogedIn(true);
-                        sharePreference.setToken(token);
 
                         if (verifyOtpResponseDataModel.getData().getUserFirstLogin()==true)
                         {
                             Intent providerDetails = new Intent(Registrationactivity.this, ProviderDetails.class);
                             startActivity(providerDetails);
                         }else {
+                            sharePreference.SetIsloogedIn(true);
+                            sharePreference.setToken(token);
                             Intent providerDetails = new Intent(Registrationactivity.this, ProviderDashboard.class);
                             startActivity(providerDetails);
                         }

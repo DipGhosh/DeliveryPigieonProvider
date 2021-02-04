@@ -8,8 +8,8 @@
     tools:context=".ActivityAll.ProviderRegistration.Registrationactivity"
     android:background="@color/loginBackcolor">
     <ImageView
-        android:layout_width="@dimen/_180sdp"
-        android:layout_height="@dimen/_140sdp"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_120sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +79,7 @@
         android:id="@+id/rl_otp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/margine_top"
+        android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintTop_toBottomOf="@id/et_otp">
 
         <TextView
@@ -88,6 +88,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
+            android:padding="@dimen/_10sdp"
             android:text="@string/getOtp"
             android:textColor="@color/otptextColor"
             android:textSize="@dimen/_12sdp"></TextView>
@@ -96,6 +97,7 @@
             android:layout_height="wrap_content"
             android:text="@string/reserOtp"
             android:visibility="gone"
+            android:padding="@dimen/_10sdp"
             android:gravity="center"
             android:id="@+id/tv_resendOtp"
             android:textColor="@color/otptextColor"
@@ -106,22 +108,44 @@
 
     </RelativeLayout>
 
-    <CheckBox
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkTerms"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/margine_top"
-        android:text="@string/chekbox_str"
-        android:layout_marginLeft="@dimen/margine_size"
-        android:layout_marginRight="@dimen/margine_size"
-        android:textSize="@dimen/_10sdp"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@android:color/black"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/ll_termsofUse"
         app:layout_constraintTop_toBottomOf="@id/rl_otp">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkTerms"
+            android:button="@drawable/checkbox_selector_trainer_gen"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            android:backgroundTint="@color/header_color"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@android:color/black"
+            >
 
-    </CheckBox>
+        </CheckBox>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_terms_condition"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/_20sdp"
+            android:text="@string/chekbox_str"
+            android:fontFamily="@font/montserrat"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@android:color/black"
+            />
+    </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
@@ -136,7 +160,7 @@
         android:layout_marginTop="@dimen/margine_top"
         android:textSize="@dimen/_10sdp"
         android:fontFamily="@font/montserrat"
-        app:layout_constraintTop_toBottomOf="@id/checkTerms">
+        app:layout_constraintTop_toBottomOf="@id/ll_termsofUse">
 
     </Button>
 

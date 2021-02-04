@@ -77,6 +77,110 @@ public class ListOrderResponseDataModel {
         private String dropTime;
         @SerializedName("amount")
         @Expose
+        private double amount;
+        @SerializedName("earn")
+        @Expose
+        private double earn;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public Integer getOrderType() {
+            return orderType;
+        }
+
+        public void setOrderType(Integer orderType) {
+            this.orderType = orderType;
+        }
+
+        public String getPickupPoint() {
+            return pickupPoint;
+        }
+
+        public void setPickupPoint(String pickupPoint) {
+            this.pickupPoint = pickupPoint;
+        }
+
+        public String getPickupTime() {
+            return pickupTime;
+        }
+
+        public void setPickupTime(String pickupTime) {
+            this.pickupTime = pickupTime;
+        }
+
+        public String getDropPoint() {
+            return dropPoint;
+        }
+
+        public void setDropPoint(String dropPoint) {
+            this.dropPoint = dropPoint;
+        }
+
+        public String getDropTime() {
+            return dropTime;
+        }
+
+        public void setDropTime(String dropTime) {
+            this.dropTime = dropTime;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public void setAmount(double amount) {
+            this.amount = amount;
+        }
+
+        public double getEarn() {
+            return earn;
+        }
+
+        public void setEarn(double earn) {
+            this.earn = earn;
+        }
+
+    }
+
+    public class Current {
+
+        @SerializedName("id")
+        @Expose
+        private Integer id;
+        @SerializedName("status")
+        @Expose
+        private String status;
+        @SerializedName("orderType")
+        @Expose
+        private Integer orderType;
+        @SerializedName("pickupPoint")
+        @Expose
+        private String pickupPoint;
+        @SerializedName("pickupTime")
+        @Expose
+        private String pickupTime;
+        @SerializedName("dropPoint")
+        @Expose
+        private String dropPoint;
+        @SerializedName("dropTime")
+        @Expose
+        private String dropTime;
+        @SerializedName("amount")
+        @Expose
         private String amount;
         @SerializedName("earn")
         @Expose
@@ -151,110 +255,6 @@ public class ListOrderResponseDataModel {
         }
 
         public void setEarn(double earn) {
-            this.earn = earn;
-        }
-
-    }
-
-    public class Current {
-
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("status")
-        @Expose
-        private String status;
-        @SerializedName("orderType")
-        @Expose
-        private Integer orderType;
-        @SerializedName("pickupPoint")
-        @Expose
-        private String pickupPoint;
-        @SerializedName("pickupTime")
-        @Expose
-        private String pickupTime;
-        @SerializedName("dropPoint")
-        @Expose
-        private String dropPoint;
-        @SerializedName("dropTime")
-        @Expose
-        private String dropTime;
-        @SerializedName("amount")
-        @Expose
-        private String amount;
-        @SerializedName("earn")
-        @Expose
-        private Integer earn;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public Integer getOrderType() {
-            return orderType;
-        }
-
-        public void setOrderType(Integer orderType) {
-            this.orderType = orderType;
-        }
-
-        public String getPickupPoint() {
-            return pickupPoint;
-        }
-
-        public void setPickupPoint(String pickupPoint) {
-            this.pickupPoint = pickupPoint;
-        }
-
-        public String getPickupTime() {
-            return pickupTime;
-        }
-
-        public void setPickupTime(String pickupTime) {
-            this.pickupTime = pickupTime;
-        }
-
-        public String getDropPoint() {
-            return dropPoint;
-        }
-
-        public void setDropPoint(String dropPoint) {
-            this.dropPoint = dropPoint;
-        }
-
-        public String getDropTime() {
-            return dropTime;
-        }
-
-        public void setDropTime(String dropTime) {
-            this.dropTime = dropTime;
-        }
-
-        public String getAmount() {
-            return amount;
-        }
-
-        public void setAmount(String amount) {
-            this.amount = amount;
-        }
-
-        public Integer getEarn() {
-            return earn;
-        }
-
-        public void setEarn(Integer earn) {
             this.earn = earn;
         }
 
@@ -335,7 +335,7 @@ public class ListOrderResponseDataModel {
         private Double weight;
         @SerializedName("earn")
         @Expose
-        private Integer earn;
+        private double earn;
 
         public Integer getId() {
             return id;
@@ -425,11 +425,11 @@ public class ListOrderResponseDataModel {
             this.weight = weight;
         }
 
-        public Integer getEarn() {
+        public double getEarn() {
             return earn;
         }
 
-        public void setEarn(Integer earn) {
+        public void setEarn(double earn) {
             this.earn = earn;
         }
 

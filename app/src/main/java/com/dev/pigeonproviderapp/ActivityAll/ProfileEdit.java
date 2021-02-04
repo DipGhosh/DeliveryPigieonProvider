@@ -35,8 +35,10 @@ import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetail
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.BuildConfig;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.CommonUtils;
 import com.dev.pigeonproviderapp.Utility.GlideApp;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
@@ -159,6 +161,10 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
         switch (v.getId() /*to get clicked view id**/) {
             case R.id.img_back:
+                Intent intent = getIntent();
+                intent.putExtra(Utility.EDIT_NAME, userNameProfileEdit.getText().toString());
+                intent.putExtra(Utility.EDIT_EMAIL, emailProfileEdit.getText().toString());
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
             case R.id.tv_save_profile_edit:
@@ -200,6 +206,12 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
     private boolean isValid() {
         if (TextUtils.isEmpty(userNameProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.aleart_name));
+            return false;
+        } else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
+            UiUtils.showToast(this, getString(R.string.alert_provider_email));
+            return false;
+        } else if (!CommonUtils.isValidEmail(emailProfileEdit.getText().toString().trim())) {
+            UiUtils.showToast(this, getString(R.string.alert_valid_email));
             return false;
         }  else {
             return true;
