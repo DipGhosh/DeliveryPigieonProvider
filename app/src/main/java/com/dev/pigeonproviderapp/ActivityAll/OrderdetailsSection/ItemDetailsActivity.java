@@ -135,23 +135,21 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 finish();
                 break;
             case R.id.ll_verify_otp:
-               /* if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
                 {
                     Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
                     startActivity(intent);
-                }*/
-                Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
-                startActivity(intent);
+                }
+
 
                 break;
             case R.id.ll_add_signature:
-              /*  if (Singleton.getInstance().getORDERITEMSTATUS()==3)
+                if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
                 {
                     Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
                     startActivity(ordersignature);
-                }*/
-                Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
-                startActivity(ordersignature);
+                }
+
 
                 break;
 
@@ -161,12 +159,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             case R.id.tv_accept_payment_item:
 
-                if (Singleton.getInstance().getORDERITEMSTATUS()==5 )
+                /*if (Singleton.getInstance().getORDERITEMSTATUS()==5 )
                 {
 
                 }else {
                     acceptOrderPaymentByProvider();
-                }
+                }*/
 
                 break;
             case R.id.order_item_phoneNumber:

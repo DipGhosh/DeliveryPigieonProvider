@@ -15,7 +15,7 @@ public class OtpVerifyResponseDataModel {
     private Object errorMessage;
     @SerializedName("data")
     @Expose
-    private String data;
+    private Data data;
     @SerializedName("errors")
     @Expose
     private List<Object> errors = null;
@@ -36,11 +36,11 @@ public class OtpVerifyResponseDataModel {
         this.errorMessage = errorMessage;
     }
 
-    public String getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
@@ -50,5 +50,32 @@ public class OtpVerifyResponseDataModel {
 
     public void setErrors(List<Object> errors) {
         this.errors = errors;
+    }
+
+    public class Data {
+
+        @SerializedName("isVerified")
+        @Expose
+        private Boolean isVerified;
+        @SerializedName("signature_url")
+        @Expose
+        private String signatureUrl;
+
+        public Boolean getIsVerified() {
+            return isVerified;
+        }
+
+        public void setIsVerified(Boolean isVerified) {
+            this.isVerified = isVerified;
+        }
+
+        public String getSignatureUrl() {
+            return signatureUrl;
+        }
+
+        public void setSignatureUrl(String signatureUrl) {
+            this.signatureUrl = signatureUrl;
+        }
+
     }
 }

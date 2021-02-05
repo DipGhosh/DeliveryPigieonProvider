@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.pigeonproviderapp.ActivityAll.AccountSettings.AccountSetting;
+import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.PaymentHistoryActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
@@ -110,6 +111,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         aboutUsClik.setOnClickListener(this);
         termsofServicesClick.setOnClickListener(this);
         accountSettingClick.setOnClickListener(this);
+        PaymentHistoryClick.setOnClickListener(this);
 
 
         return view;
@@ -120,11 +122,6 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.img_edit:
-                /*Intent profileEdit=new Intent(activity, ProfileEdit.class);
-                profileEdit.putExtra("NAME", userName.getText().toString());
-                profileEdit.putExtra("EMAIL",userEmailId.getText().toString());
-                profileEdit.putExtra("URL",profile_pic_url);
-                startActivity(profileEdit);*/
 
                 Intent profileEdit=new Intent(activity, ProfileEdit.class);
                 profileEdit.putExtra("NAME", userName.getText().toString());
@@ -183,6 +180,9 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
             case R.id.ll_account_settingsClick:
                 Intent accountsettings=new Intent(activity, AccountSetting.class);
                 startActivity(accountsettings);
+            case R.id.ll_payment_historyClick:
+                Intent paymentHistory=new Intent(activity, PaymentHistoryActivity.class);
+                startActivity(paymentHistory);
 
                 break;
 
@@ -211,12 +211,8 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
                profile_pic_url=profileGetResponseDataModel.getData().getUser().getProfilePicture();
 
-               if (profileGetResponseDataModel.getData().getUser().getStatus().equals("Y"))
-               {
-                   approvalStatus.setText("Your profile is approved");
-               }else {
-                   approvalStatus.setText("Your profile waiting for approval");
-               }
+                //User Status
+                approvalStatus.setText(profileGetResponseDataModel.getData().getUser().getStatus());
 
                //Image download and show
                 if (profile_pic_url != null)

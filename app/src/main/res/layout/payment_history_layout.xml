@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_drop_item_click"
+        android:background="@drawable/white_shadowshape"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_payment_type"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Payment Code"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat"
+                >
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_payment_amount"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/price_text"
+                android:textColor="@color/otptextColor"
+                android:textSize="@dimen/_12sdp"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_payment_date"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:text="@string/dummy_example"
+            android:textColor="@color/fadeBlackColor"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat"
+            >
+        </TextView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

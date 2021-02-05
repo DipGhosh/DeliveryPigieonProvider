@@ -63,7 +63,7 @@ public class OrderDetailsResponseDatamodel {
     private Integer orderType;
     @SerializedName("packageTypes")
     @Expose
-    private Object packageTypes;
+    private String packageTypes;
     @SerializedName("instruction")
     @Expose
     private Object instruction;
@@ -108,11 +108,11 @@ public class OrderDetailsResponseDatamodel {
       this.orderType = orderType;
     }
 
-    public Object getPackageTypes() {
+    public String getPackageTypes() {
       return packageTypes;
     }
 
-    public void setPackageTypes(Object packageTypes) {
+    public void setPackageTypes(String packageTypes) {
       this.packageTypes = packageTypes;
     }
 

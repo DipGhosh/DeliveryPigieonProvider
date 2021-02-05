@@ -6,7 +6,7 @@
     <string name="signup">Don`t have an account? <b>Signup</b></string>
     <string name="getOtp">GET OTP</string>
     <string name="reserOtp">SET OTP</string>
-    <string name="chekbox_str">I agree with <font color='#01C6DB'>Terms of use</font> of Delivery Pigeon</string>
+    <string name="chekbox_str">I agree with <font color='#1FA7D1'>Terms of use</font> of Delivery Pigeon</string>
     <string name="otp_receive">You will receive a 4 digit OTP code.</string>
     <string name="registration">Registration</string>
     <string name="submit">SUBMIT</string>
@@ -107,6 +107,15 @@
     <string name="aleart_accountholder_name">Name should not be blank.</string>
     <string name="aleart_add_bankdetails">Bank details added successfully</string>
 
-    //Document Listing
+    //Payment History
+    <string name="payment_history">Payment History</string>
+    <string name="earning_history">Earning History</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    //Accept payment aleart
+    <string name="accept_order_before_payment">Please accept this order before coolect the payment</string>
+    <string name="order_start_before_payment">Order should be start before accept the payment</string>
+
 
 </resources>

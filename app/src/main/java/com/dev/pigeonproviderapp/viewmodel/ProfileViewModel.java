@@ -9,6 +9,7 @@ import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
+import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
@@ -28,6 +29,7 @@ public class ProfileViewModel extends ViewModel {
     MutableLiveData<AcceptPaymentResponseModel> addBankDetailsDataModelMutableLiveData;
     MutableLiveData<BankDetailsGetModelResponse> getBankDetailsDataModelMutableLiveData;
     MutableLiveData<GetUserDocumentResponseDataModel> getUserDocumentDataModelMutableLiveData;
+    MutableLiveData<PaymentHistoryDataModel> paymentHistoryDataModelMutableLiveData;
 
 
     @Override
@@ -79,6 +81,12 @@ public class ProfileViewModel extends ViewModel {
 
         getUserDocumentDataModelMutableLiveData = new NetworkCall().userDocumentData();
         return getUserDocumentDataModelMutableLiveData;
+    }
+
+    public LiveData<PaymentHistoryDataModel> getPaymentHistory() {
+
+        paymentHistoryDataModelMutableLiveData = new NetworkCall().paymentHistoryData();
+        return paymentHistoryDataModelMutableLiveData;
     }
 
 
