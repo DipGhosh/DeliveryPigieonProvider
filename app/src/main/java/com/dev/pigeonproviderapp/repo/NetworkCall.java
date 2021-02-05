@@ -14,6 +14,7 @@ import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.StartOrderResponseDataModel;
@@ -439,9 +440,9 @@ public class NetworkCall {
 
         if (response.isSuccessful()) {
           verifyOtpDataModelMutableLiveData.postValue(response.body());
-          Log.d("Aslam", response.body().toString());
+          Log.d("Aslam Success", response.body().toString());
         } else {
-          Log.d("Aslam", response.errorBody().toString());
+          Log.d("Aslam Not", response.errorBody().toString());
           verifyOtpDataModelMutableLiveData.postValue(response.body());
         }
 
@@ -449,7 +450,7 @@ public class NetworkCall {
 
       @Override
       public void onFailure(Call<OtpVerifyResponseDataModel> call, Throwable t) {
-        Log.d("Aslam", t.getMessage());
+        Log.d("Aslam++", t.getMessage());
       }
     });
 
@@ -473,9 +474,9 @@ public class NetworkCall {
 
         if (response.isSuccessful()) {
           completeOrderpointDataModelMutableLiveData.postValue(response.body());
-          Log.d("Aslam", response.body().toString());
+          Log.d("Aslam ", response.body().toString());
         } else {
-          Log.d("Aslam", response.errorBody().toString());
+          Log.d("Aslam ", response.errorBody().toString());
           completeOrderpointDataModelMutableLiveData.postValue(response.body());
         }
 
@@ -657,6 +658,40 @@ public class NetworkCall {
 
 
     return getUserDocumentModelMutableLiveData;
+  }
+
+  //Payment History and Earn
+
+  public MutableLiveData<PaymentHistoryDataModel> paymentHistoryData() {
+
+    MutableLiveData<PaymentHistoryDataModel> paymentHistoryModelMutableLiveData = new MutableLiveData<PaymentHistoryDataModel>();
+
+    Call<PaymentHistoryDataModel> paymentHistoryCall = apiInterface
+            .paymentHistoryAPICall(Singleton.getInstance().getTOKEN(),Utility.USERTYPE);
+
+    paymentHistoryCall.enqueue(new Callback<PaymentHistoryDataModel>() {
+      @Override
+      public void onResponse(Call<PaymentHistoryDataModel> call,
+                             Response<PaymentHistoryDataModel> response) {
+
+        if (response.isSuccessful()) {
+          paymentHistoryModelMutableLiveData.postValue(response.body());
+          Log.d("Aslam", response.body().toString());
+        } else {
+          Log.d("Aslam", response.errorBody().toString());
+          paymentHistoryModelMutableLiveData.postValue(response.body());
+        }
+
+      }
+
+      @Override
+      public void onFailure(Call<PaymentHistoryDataModel> call, Throwable t) {
+        Log.d("Aslam", t.getMessage());
+      }
+    });
+
+
+    return paymentHistoryModelMutableLiveData;
   }
 
 

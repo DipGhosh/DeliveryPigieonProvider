@@ -139,7 +139,7 @@ public class OrdersFrag extends BaseFragment {
                 int orderID= Integer.parseInt(intent.getStringExtra("ORDERID"));
                 Singleton.getInstance().setORDERID(orderID);
 
-                dialogue();
+                callAcceptOrder();
 
             }
 
@@ -190,27 +190,7 @@ public class OrdersFrag extends BaseFragment {
 
     }
 
-    public void dialogue() {
-        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
-        builder.setTitle("Accept Order");
-        builder.setIcon(R.mipmap.ic_launcher);
-        builder.setMessage(R.string.aleart_accept_order);
-        builder.setPositiveButton(R.string.label_ok,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        callAcceptOrder();
-                    }
-                });
-        builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        final android.app.AlertDialog alert = builder.create();
-        alert.show();
-    }
+
 
 
 

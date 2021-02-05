@@ -71,7 +71,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
     private Activity activity = OrderDetails.this;
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
-    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept;
+    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType;
     private int pickupPointID,orderItemStatus;
     private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, orderStatus;
     private long pickupPhonenUmber;
@@ -107,6 +107,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         orderCompleted = findViewById(R.id.ll_completed_order);
         mapIconClick = findViewById(R.id.ll_map_icon_click);
         orderPaymentAccept=findViewById(R.id.tv_order_payment_accept);
+        packageType=findViewById(R.id.tv_package_type);
 
 
 
@@ -187,11 +188,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 bundle.putParcelableArrayList("coordinates",coordList);
                 mapRoute.putExtras(bundle);
                 startActivity(mapRoute);
+
                 break;
 
             case R.id.tv_order_payment_accept:
 
-                if (orderPaymentStatus==2)
+                if (orderPaymentStatus==1)
                 {
                     acceptOrderPaymentByProvider();
                 }
@@ -234,9 +236,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 if (orderDetailsResponseDatamodel.getStatus() == 200) {
                     mainLayout.setVisibility(View.VISIBLE);
 
+                    //Store the order status
                     orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage();
 
-                    orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
+                    //store order payment status in singletin class
                     Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
 
                     //Check Pickuppoint status
@@ -248,9 +251,18 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     }
 
                     pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
-                    orderWeight.setText("Weight: Upto " + orderDetailsResponseDatamodel.getData().getWeight() + "KG");
-                    paymentStatus.setText(orderDetailsResponseDatamodel.getData().getPayment().getMessage());
 
+                    //Show order weight & package type
+                    orderWeight.setText("Weight: Upto " + orderDetailsResponseDatamodel.getData().getWeight() + "KG");
+                    packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
+
+                    //show payment status message in order details screen
+                    orderPaymentAccept.setText(orderDetailsResponseDatamodel.getData().getPayment().getMessage());
+
+                    //store payment status in local variable
+                    orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
+
+                    //Set data in pickup points view
                     pickupPointID = orderDetailsResponseDatamodel.getData().getPickupPoint().getId();
                     pickupPointAddress = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress();
                     pickuPointPaymentStatus = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
@@ -374,8 +386,6 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             orderCompleted.setVisibility(View.GONE);
             redirectRatingScreen.setVisibility(View.INVISIBLE);
 
-            orderPaymentAccept.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
 
         } else if (orderStatus.equals("Started")) {
             acceptOrder.setVisibility(View.GONE);
@@ -401,23 +411,18 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             orderCompleted.setVisibility(View.GONE);
             redirectRatingScreen.setVisibility(View.INVISIBLE);
 
-            orderPaymentAccept.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
         }
 
         if (orderPaymentStatus==1)
         {
-            orderPaymentAccept.setText(getString(R.string.accept_payment));
             paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
 
         }else if (orderPaymentStatus==2)
         {
-            orderPaymentAccept.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
 
         }else if (orderPaymentStatus==3)
         {
-            orderPaymentAccept.setText(getString(R.string.accepted_payment));
             paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
         }
     }

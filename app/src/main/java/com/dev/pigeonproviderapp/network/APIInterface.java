@@ -10,6 +10,7 @@ import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.StartOrderResponseDataModel;
@@ -93,7 +94,7 @@ public interface APIInterface {
   Call<StartOrderResponseDataModel> startOrderCall(@Header("Authorization") String authorization, @Path("id") int id,@Header("UserType") int usertype);
 
   @Headers({"Accept: application/json"})
-  @POST("/api/start_drop_point/{id}/{itemid}")
+  @POST("/api/verify_drop_point/{id}/{itemid}")
   Call<OtpVerifyResponseDataModel> verifyOTPCall(@Header("Authorization") String authorization, @Path("id") int id, @Path("itemid") int itemid, @Body OrderItemOTPVerifyModel orderItemOTPVerifyModel,@Header("UserType") int usertype);
 
   @Headers({"Accept: application/json"})
@@ -118,6 +119,9 @@ public interface APIInterface {
 
   @GET("/api/documents")
   Call<GetUserDocumentResponseDataModel> getUserDocumentAPICall(@Header("Authorization") String authorization, @Header("UserType") int usertype);
+
+  @GET("/api/payments")
+  Call<PaymentHistoryDataModel> paymentHistoryAPICall(@Header("Authorization") String authorization, @Header("UserType") int usertype);
 }
 
 

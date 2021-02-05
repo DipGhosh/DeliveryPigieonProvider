@@ -8,9 +8,12 @@ public class OrderItemOTPVerifyModel {
     @SerializedName("otp")
     @Expose
     private String otp;
-    @SerializedName("signature")
+    @SerializedName("file_name")
     @Expose
     private String signature;
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     public String getOtp() {
         return otp;
@@ -26,6 +29,13 @@ public class OrderItemOTPVerifyModel {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 

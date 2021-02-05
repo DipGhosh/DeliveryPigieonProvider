@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.view.Adapter.ActiveOrder;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,11 +82,29 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View view) {
 
-                String orderID= String.valueOf(orderActiveDatamodel.activeorder_id);
-                Intent intent = new Intent("custom-message");
-                intent.putExtra("ORDERSTATUS" ,"Accepted");
-                intent.putExtra("ORDERID",orderID);
-                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                builder.setTitle("Accept Order");
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setMessage(R.string.aleart_accept_order);
+                builder.setPositiveButton(R.string.label_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String orderID= String.valueOf(orderActiveDatamodel.activeorder_id);
+                                Intent intent = new Intent("custom-message");
+                                intent.putExtra("ORDERSTATUS" ,"Accepted");
+                                intent.putExtra("ORDERID",orderID);
+                                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+                            }
+                        });
+                builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                final android.app.AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 

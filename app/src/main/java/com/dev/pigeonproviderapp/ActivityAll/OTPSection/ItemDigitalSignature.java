@@ -208,6 +208,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
         orderItemOTPVerifyModel.setOtp("");
         orderItemOTPVerifyModel.setSignature(filename);
+        orderItemOTPVerifyModel.setType("pickup");
 
 
         orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, otpVerifyResponseDataModel -> {

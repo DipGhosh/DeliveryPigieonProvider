@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.ActivityAll.OTPSection;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
@@ -17,21 +18,21 @@ import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class OtpVerificationActivity extends BaseActivity implements View.OnClickListener{
+public class OtpVerificationActivity extends BaseActivity implements View.OnClickListener {
 
+    OrderListViewModel orderListViewModel;
     private Activity activity = OtpVerificationActivity.this;
-
     private ImageView back;
     private TextView OTPverify;
     private EditText getOTP;
-
-    OrderListViewModel orderListViewModel;
-
     private Dialog dialog;
 
     @Override
@@ -39,9 +40,9 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_verification);
 
-        back=findViewById(R.id.img_back);
-        OTPverify=findViewById(R.id.tv_verify);
-        getOTP=findViewById(R.id.et_OTP);
+        back = findViewById(R.id.img_back);
+        OTPverify = findViewById(R.id.tv_verify);
+        getOTP = findViewById(R.id.et_OTP);
 
         dialog = UiUtils.showProgress(OtpVerificationActivity.this);
 
@@ -61,49 +62,57 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_verify:
-                if (isValid())
-                {
+                if (isValid()) {
                     verifyOrderOtp();
                 }
 
                 break;
 
-                default:
+            default:
                 break;
         }
     }
 
     public void verifyOrderOtp() {
 
-            dialog.show();
+        dialog.show();
 
-            OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
-            orderItemOTPVerifyModel.setOtp(getOTP.getText().toString());
-            orderItemOTPVerifyModel.setSignature("");
+        OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
+        orderItemOTPVerifyModel.setOtp(getOTP.getText().toString());
+        orderItemOTPVerifyModel.setSignature("");
+        orderItemOTPVerifyModel.setType("pickup");
 
 
-        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, otpVerifyResponseDataModel -> {
 
-             dialog.dismiss();
-             if(otpVerifyResponseDataModel.getStatus()==200)
-             {
-                 UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
-             }
+        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, new Observer<OtpVerifyResponseDataModel>() {
+            @Override
+            public void onChanged(OtpVerifyResponseDataModel otpVerifyResponseDataModel) {
+                dialog.dismiss();
 
-            });
-        }
+               /* if (otpVerifyResponseDataModel.getStatus() == 200) {
+                    UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
+                }else if (otpVerifyResponseDataModel.getStatus() == 400)
+                {
+                    UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
+                }*/
+
+
+
+
+
+            }
+        });
+    }
 
     // method will validate the fields
     private boolean isValid() {
         if (TextUtils.isEmpty(getOTP.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.aleart_otp));
             return false;
-        }  else {
+        } else {
             return true;
         }
     }
-
-
 
 
 }
