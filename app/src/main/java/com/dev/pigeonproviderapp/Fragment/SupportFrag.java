@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +72,7 @@ public class SupportFrag extends Fragment {
     mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
     if (mFirebaseUser == null) {
-
+      Toast.makeText(getActivity(),"Please restart app to automatically sign in chat section",Toast.LENGTH_LONG).show();
     }
 
     mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -159,13 +160,15 @@ public class SupportFrag extends Fragment {
       @Override
       public void onClick(View view) {
 
-        ChatModel chatModel = new ChatModel(mFirebaseAuth.getUid(),
-            mMessageEditText.getText().toString());
-        mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(mFirebaseAuth.getUid()).push()
-            .setValue(chatModel);
-        mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(adminUser.getUid()).push()
-            .setValue(chatModel);
-        mMessageEditText.setText("");
+        if (adminUser != null && mFirebaseAuth != null) {
+          ChatModel chatModel = new ChatModel(mFirebaseAuth.getUid(),
+              mMessageEditText.getText().toString());
+          mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(mFirebaseAuth.getUid()).push()
+              .setValue(chatModel);
+          mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(adminUser.getUid()).push()
+              .setValue(chatModel);
+          mMessageEditText.setText("");
+        }
 
       }
     });

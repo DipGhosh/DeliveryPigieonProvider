@@ -31,8 +31,8 @@ public class ProviderDashboard extends AppCompatActivity {
   //Firebase instance variables
   private FirebaseAuth mFirebaseAuth;
   private FirebaseUser mFirebaseUser;
-  private String chatEmail = mobileNumber + "_2@pigeon.in";
-  private String chatpassword = mobileNumber;
+  private String chatEmail;
+  private String chatpassword;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
