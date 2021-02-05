@@ -73,10 +73,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType;
     private int pickupPointID,orderItemStatus;
-    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, orderStatus;
+    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment;
     private long pickupPhonenUmber;
     private Dialog dialog;
-    int orderPaymentStatus;
+    int orderPaymentStatus,orderStatus;
 
 
     private RecyclerView orderDetailsListing_recyclerview;
@@ -174,7 +174,11 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.ll_accept_order_orderdetails:
 
-                dialogue();
+                if (orderStatus==1)
+                {
+                    dialogue();
+                }
+
                 break;
 
             case R.id.ll_start_order_orderdetails:
@@ -193,10 +197,21 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.tv_order_payment_accept:
 
-                if (orderPaymentStatus==1)
+                if (orderStatus==1&&orderPaymentStatus==1)
                 {
-                    acceptOrderPaymentByProvider();
+                    UiUtils.showAlert(activity,"Payment",getString(R.string.accept_order_before_payment));
+                }else if (orderStatus==4&&orderPaymentStatus==1)
+                {
+                    UiUtils.showAlert(activity,"Payment",getString(R.string.order_start_before_payment));
+                }else if (orderPaymentStatus==1)
+                {
+                    if (orderStatus==2||orderStatus==3)
+                    {
+                        acceptOrderPaymentByProvider();
+                    }
+
                 }
+
 
                 break;
             default:
@@ -237,7 +252,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     mainLayout.setVisibility(View.VISIBLE);
 
                     //Store the order status
-                    orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getMessage();
+                    orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus();
 
                     //store order payment status in singletin class
                     Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
@@ -379,7 +394,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void AllFieldVisibility() {
-        if (orderStatus.equals("Is not assigned")) {
+        if (orderStatus==1) {
             acceptOrder.setVisibility(View.VISIBLE);
             startOrder.setVisibility(View.GONE);
             startedOrder.setVisibility(View.GONE);
@@ -387,7 +402,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             redirectRatingScreen.setVisibility(View.INVISIBLE);
 
 
-        } else if (orderStatus.equals("Started")) {
+        } else if (orderStatus==3) {
             acceptOrder.setVisibility(View.GONE);
             startOrder.setVisibility(View.GONE);
             startedOrder.setVisibility(View.VISIBLE);
@@ -396,7 +411,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        } else if (orderStatus.equals("Completed")) {
+        } else if (orderStatus==5) {
             acceptOrder.setVisibility(View.GONE);
             startOrder.setVisibility(View.GONE);
             startedOrder.setVisibility(View.GONE);
@@ -404,7 +419,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             redirectRatingScreen.setVisibility(View.INVISIBLE);
 
 
-        } else {
+        } else if (orderStatus==2) {
             acceptOrder.setVisibility(View.GONE);
             startOrder.setVisibility(View.VISIBLE);
             startedOrder.setVisibility(View.GONE);
