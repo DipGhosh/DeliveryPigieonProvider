@@ -173,8 +173,9 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     if (isotpVerifiedValidation()) {
       dialog.show();
 
+      String mobileNumber = providerPhoneNumber.getText().toString();
       VerifyOtpAPIModel verifyOtpAPIModel = new VerifyOtpAPIModel();
-      verifyOtpAPIModel.setPhone(providerPhoneNumber.getText().toString());
+      verifyOtpAPIModel.setPhone(mobileNumber);
       verifyOtpAPIModel.setDeviceName(Utility.DEVICE_NAME);
       verifyOtpAPIModel.setOtp(otpField.getText().toString());
       verifyOtpAPIModel.setDevicetoken(token);
@@ -201,8 +202,9 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                 } else {
                   sharePreference.SetIsloogedIn(true);
                   sharePreference.setToken(token);
+
                   // used for chat registeration and login
-                  sharePreference.setMobileNumber(providerPhoneNumber.getText().toString());
+                  sharePreference.setMobileNumber(mobileNumber);
 
                   Intent providerDetails = new Intent(Registrationactivity.this,
                       ProviderDashboard.class);

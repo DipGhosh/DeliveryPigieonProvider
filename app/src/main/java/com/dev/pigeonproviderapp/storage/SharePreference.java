@@ -13,7 +13,6 @@ public class SharePreference {
   private boolean isLoggedin;
   private String token;
 
-  private String mobileNumber;
 
   public SharePreference(Activity activity) {
     this.activity = activity;
@@ -50,7 +49,7 @@ public class SharePreference {
 
 
   public String getMobileNumber() {
-    mobileNumber = sharedPreferences.getString("mobile", "");
+   String  mobileNumber = sharedPreferences.getString("mobile", "");
     return mobileNumber;
   }
 
