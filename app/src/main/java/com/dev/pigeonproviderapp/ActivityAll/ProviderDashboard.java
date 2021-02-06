@@ -55,8 +55,13 @@ public class ProviderDashboard extends AppCompatActivity {
     chatEmail = mobileNumber + "_2@pigeon.in";
     chatpassword = mobileNumber;
 
-    // registeration and login
-    chatLogin();
+    try {
+      // registeration and login
+      chatLogin();
+
+    } catch (IllegalArgumentException ex) {
+      Log.d("Aslam", "ex: " + ex.getMessage());
+    }
 
   }
 
@@ -98,6 +103,7 @@ public class ProviderDashboard extends AppCompatActivity {
 
   private void chatLogin() {
     loginAttempt++;
+    Log.d("Aslam", "chatEmail: " + chatEmail + " chatpassword: " + chatpassword);
     mFirebaseAuth.signInWithEmailAndPassword(chatEmail, chatpassword)
         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
           @Override
