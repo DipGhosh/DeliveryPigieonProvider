@@ -114,6 +114,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("loyalty_points")
         @Expose
         private Integer loyaltyPoints;
+        @SerializedName("is_available")
+        @Expose
+        private Boolean isAvailable;
 
         public Integer getId() {
             return id;
@@ -201,6 +204,14 @@ public class ProfileGetResponseDataModel {
 
         public void setLoyaltyPoints(Integer loyaltyPoints) {
             this.loyaltyPoints = loyaltyPoints;
+        }
+
+        public Boolean getIsAvailable() {
+            return isAvailable;
+        }
+
+        public void setIsAvailable(Boolean isAvailable) {
+            this.isAvailable = isAvailable;
         }
 
     }

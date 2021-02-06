@@ -12,10 +12,12 @@ import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.ProviderAvailabilityDatamodel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.httpRequest.BankDetailsSubmitAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
 import com.dev.pigeonproviderapp.repo.NetworkCall;
 
 import okhttp3.MultipartBody;
@@ -30,6 +32,7 @@ public class ProfileViewModel extends ViewModel {
     MutableLiveData<BankDetailsGetModelResponse> getBankDetailsDataModelMutableLiveData;
     MutableLiveData<GetUserDocumentResponseDataModel> getUserDocumentDataModelMutableLiveData;
     MutableLiveData<PaymentHistoryDataModel> paymentHistoryDataModelMutableLiveData;
+    MutableLiveData<ProviderAvailabilityDatamodel> providerAvailabilityDataModelMutableLiveData;
 
 
     @Override
@@ -87,6 +90,12 @@ public class ProfileViewModel extends ViewModel {
 
         paymentHistoryDataModelMutableLiveData = new NetworkCall().paymentHistoryData();
         return paymentHistoryDataModelMutableLiveData;
+    }
+
+    public LiveData<ProviderAvailabilityDatamodel> isAvailableCall(ProviderAvailabilityAPIModel providerAvailabilityAPIModel) {
+
+        providerAvailabilityDataModelMutableLiveData = new NetworkCall().provideravailableData(providerAvailabilityAPIModel);
+        return providerAvailabilityDataModelMutableLiveData;
     }
 
 

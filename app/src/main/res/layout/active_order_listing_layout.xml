@@ -222,6 +222,8 @@
                         android:id="@+id/tv_view_details"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
                         android:fontFamily="@font/montserrat"
                         android:text="@string/view_details"
                         android:textColor="@color/otptextColor"

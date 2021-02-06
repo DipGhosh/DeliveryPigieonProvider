@@ -73,7 +73,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType;
     private int pickupPointID,orderItemStatus;
-    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment;
+    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment,paymentstatusMessage;
     private long pickupPhonenUmber;
     private Dialog dialog;
     int orderPaymentStatus,orderStatus;
@@ -182,7 +182,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 break;
 
             case R.id.ll_start_order_orderdetails:
-                callStartOrder();
+
+                setStartOrderDialogueShow();
                 break;
 
             case R.id.ll_map_icon_click:
@@ -199,10 +200,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
                 if (orderStatus==1&&orderPaymentStatus==1)
                 {
-                    UiUtils.showAlert(activity,"Payment",getString(R.string.accept_order_before_payment));
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.accept_order_before_payment));
                 }else if (orderStatus==4&&orderPaymentStatus==1)
                 {
-                    UiUtils.showAlert(activity,"Payment",getString(R.string.order_start_before_payment));
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
                 }else if (orderPaymentStatus==1)
                 {
                     if (orderStatus==2||orderStatus==3)
@@ -253,17 +254,13 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
                     //Store the order status
                     orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus();
+                    Singleton.getInstance().setORDERSTATUSCODE(orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus());
 
                     //store order payment status in singletin class
                     Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
 
-                    //Check Pickuppoint status
-                    if(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getStatus()==5)
-                    {
-                        pickupStatus.setText("Complete");
-                    }else {
-                        pickupStatus.setText("Pending");
-                    }
+
+                    pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
 
                     pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
 
@@ -272,7 +269,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
 
                     //show payment status message in order details screen
-                    orderPaymentAccept.setText(orderDetailsResponseDatamodel.getData().getPayment().getMessage());
+                    paymentstatusMessage=orderDetailsResponseDatamodel.getData().getPayment().getMessage();
+
 
                     //store payment status in local variable
                     orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
@@ -294,13 +292,16 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     // add  coordinates to polyline draw for pickup point
                     coordList.add(new LatLng(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat(),orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong()));
 
-                    order_detailsList_arraylist.clear();
 
-                    DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
+
+
+                    order_detailsList_arraylist.clear();
 
                     for (OrderDetailsResponseDatamodel.DropPoint dropPoint : orderDetailsResponseDatamodel.getData().getDropPoints()) {
 
-                        deliveryPointListingDatamodel.orderpoint_name = "Drop Point";
+                        DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
+
+                        deliveryPointListingDatamodel.orderpoint_name = getString(R.string.drop_points);
                         deliveryPointListingDatamodel.order_droppoint_status = dropPoint.getOrderStatus().getStatus();
                         deliveryPointListingDatamodel.delivery_order_id = dropPoint.getId();
                         deliveryPointListingDatamodel.order_point_address = dropPoint.getDropAddress().getAddress();
@@ -321,6 +322,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
                     adapter = new OrderDetailsAdapter(activity, order_detailsList_arraylist);
                     orderDetailsListing_recyclerview.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
 
                     calMapRouteDraw();
@@ -393,6 +395,29 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         alert.show();
     }
 
+    public void setStartOrderDialogueShow()
+    {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+        builder.setTitle(getResources().getString(R.string.app_name));
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage(R.string.start_order_aleart);
+        builder.setPositiveButton(R.string.label_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callStartOrder();
+                    }
+                });
+        builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public void AllFieldVisibility() {
         if (orderStatus==1) {
             acceptOrder.setVisibility(View.VISIBLE);
@@ -430,15 +455,21 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         if (orderPaymentStatus==1)
         {
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+            paymentStatus.setText(paymentstatusMessage);
+            orderPaymentAccept.setText(getString(R.string.accept_payment)+" - "+ Singleton.getInstance().getORDERAMOUNT());
+
 
         }else if (orderPaymentStatus==2)
         {
-            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+            //paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage);
+            orderPaymentAccept.setText(getString(R.string.payment_complete));
 
         }else if (orderPaymentStatus==3)
         {
-            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage);
+            orderPaymentAccept.setText(getString(R.string.payment_complete));
+
         }
     }
 

@@ -187,7 +187,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 if (profileUpdateResponseDataModel.getStatus()==200)
                 {
                     sharePreference.SetIsloogedIn(true);
-                    sharePreference.setToken(Singleton.getInstance().getTOKEN());
+                    //sharePreference.setToken(Singleton.getInstance().getTOKEN());
                     Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
                     startActivity(intent);
                 }
@@ -204,13 +204,13 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         if (TextUtils.isEmpty(providerName.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_provider_name));
             return false;
-        } else if (TextUtils.isEmpty(providerEmail.getText().toString())) {
+        } /*else if (TextUtils.isEmpty(providerEmail.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_provider_email));
             return false;
-        }else if (!CommonUtils.isValidEmail(providerEmail.getText().toString().trim())) {
+        }*//*else if (!CommonUtils.isValidEmail(providerEmail.getText().toString().trim())) {
             UiUtils.showToast(this, getString(R.string.alert_valid_email));
             return false;
-        }else if (adharcardFontsideImageUpload.getDrawable() == null) {
+        }*/else if (adharcardFontsideImageUpload.getDrawable() == null) {
             UiUtils.showToast(this, getString(R.string.aleart_upload_addressproof));
             return false;
         }/*else if (adharcardBacksideImageUpload.getDrawable() == null) {

@@ -347,7 +347,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/front_side_info"
                     android:textColor="@color/fadeBlack"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat"
                     >
 
@@ -366,13 +366,29 @@
                     android:layout_height="wrap_content"
                     android:text="@string/back_side_info"
                     android:textColor="@color/fadeBlack"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat"
                     />
             </LinearLayout>
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_othersdocument"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginTop="@dimen/size_10"
+            android:layout_marginRight="@dimen/margine_size"
+            android:text="@string/other_document"
+            android:textColor="@android:color/black"
+            android:gravity="center|left"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/montserrat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_providerEmail">
 
+        </TextView>
 
 
         <LinearLayout
@@ -529,7 +545,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pan_card"
                     android:textColor="@color/fadeBlack"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat"
                     >
 
@@ -548,7 +564,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/other"
                     android:textColor="@color/fadeBlack"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat"
                     />
             </LinearLayout>

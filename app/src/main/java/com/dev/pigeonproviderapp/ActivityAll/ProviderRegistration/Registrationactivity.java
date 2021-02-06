@@ -187,12 +187,14 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
               dialog.dismiss();
               String token = verifyOtpResponseDataModel.getData().getToken();
               Log.d("Aslam", token);
+              Singleton.getInstance().setTOKEN(token);
 
               if (token != "") {
 
                 Singleton.getInstance().setTOKEN(token);
 
                 if (verifyOtpResponseDataModel.getData().getUserFirstLogin() == true) {
+                  sharePreference.setToken(token);
                   Intent providerDetails = new Intent(Registrationactivity.this,
                       ProviderDetails.class);
                   startActivity(providerDetails);

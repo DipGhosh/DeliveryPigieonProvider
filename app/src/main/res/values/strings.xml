@@ -13,11 +13,11 @@
     <string name="provider_details">Provider details</string>
     <string name="upload_photo">Upload a photo</string>
     <string name="upload_info">Full facial features must be clearly visible</string>
-    <string name="full_name">Full name*</string>
-    <string name="email">Email</string>
-    <string name="document_uplaod">Address proof upload*</string>
+    <string name="full_name">Full name</string>
+    <string name="email">Email(Optional)</string>
+    <string name="document_uplaod">Address proof</string>
     <string name="front_side_info">Front side of Aadhar card/Votar ID/ Driving License </string>
-    <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License </string>
+    <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License(Optional) </string>
     <string name="others_document">Other documents</string>
     <string name="add_bankdetails">Add Bank Details</string>
     <string name="pan_card">Front side of PAN Card</string>
@@ -39,9 +39,8 @@
     <string name="order_details">Order Details</string>
     <string name="heading_signature">Add Signature</string>
     <string name="start_order">Start Order</string>
-    <string name="accept_payment">Accept Payment</string>
-    <string name="accepted_payment">Payment has been accepted.</string>
-    <string name="rate_order">Rate this order</string>
+    <string name="drop_points">Drop Point</string>
+
     <string name="verify_otp">Verify OTP</string>
     <string name="add_signature">Add Signature</string>
     <string name="complete">Complete</string>
@@ -79,6 +78,7 @@
     <string name="profile_edit_aleart">Your profile is successfully updated.</string>
     <string name="aleart_name">Please enter your name.</string>
     <string name="alert_otp">OTP submitted successfully.</string>
+    <string name="other_document">Other Documents</string>
 
     //Upload validation aleart
     <string name="aleart_upload_addressproof">Please upload your font side of Adhar Card</string>
@@ -112,10 +112,29 @@
     <string name="earning_history">Earning History</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
     //Accept payment aleart
     <string name="accept_order_before_payment">Please accept this order before coolect the payment</string>
     <string name="order_start_before_payment">Order should be start before accept the payment</string>
+
+    //Payment Done
+    <string name="payment_complete">Payment Done</string>
+    <string name="accept_payment">Accept Payment</string>
+    <string name="accepted_payment">Payment has been accepted.</string>
+    <string name="rate_order">Rate this order</string>
+    <string name="payment_header">Payment</string>
+
+    //Complete order
+    <string name="order_complete_header">Order Complete</string>
+    <string name="accept_order_beforecompmete_aleart">Please accept the order first.</string>
+
+    //Startorder Aleart
+    <string name="start_order_aleart">Do you want to start this order?</string>
+    <string name="accept_order_atfirst">You need to accept the order at first</string>
+    <string name="start_order_atfirst">You need to start the order atfirst</string>
+
+    //Notification
+    <string name="notification_header">Notification</string>
 
 
 </resources>

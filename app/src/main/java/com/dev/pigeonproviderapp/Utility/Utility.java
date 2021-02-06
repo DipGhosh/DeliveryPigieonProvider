@@ -7,9 +7,9 @@ public class Utility {
   public static int USERTYPE = 2;
 
   //Webservices Link
-  public static String TERMSSERVICES_LINK ="https://www.google.com/";
-  public static String PRIVACYPOLICY_LINK ="https://www.google.com/";
-  public static String ABOUTUS_LINK ="https://www.google.com/";
+  public static String TERMSSERVICES_LINK ="http://deliverypigeon.in/terms-of-service";
+  public static String PRIVACYPOLICY_LINK ="http://deliverypigeon.in/privacy-policy";
+  public static String ABOUTUS_LINK ="http://deliverypigeon.in/about";
 
   //Webservices HEADER
   public static String PRIVACY_POLICY_HEADER = "Privacy Policy";
@@ -35,5 +35,6 @@ public class Utility {
   // Intent Result
   public static String EDIT_NAME = "EDIT_NAME";
   public static String EDIT_EMAIL = "EDIT_EMAIL";
+  public static String EDIT_PIC = "EDIT_PIC";
 
 }

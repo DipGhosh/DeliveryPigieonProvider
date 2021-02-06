@@ -23,6 +23,7 @@ import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
@@ -79,8 +80,7 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
 
         OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
         orderItemOTPVerifyModel.setOtp(getOTP.getText().toString());
-        orderItemOTPVerifyModel.setSignature("");
-        orderItemOTPVerifyModel.setType("pickup");
+        orderItemOTPVerifyModel.setType(Singleton.getInstance().getDROPPOINTTYPE());
 
 
 
@@ -89,16 +89,12 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
             public void onChanged(OtpVerifyResponseDataModel otpVerifyResponseDataModel) {
                 dialog.dismiss();
 
-               /* if (otpVerifyResponseDataModel.getStatus() == 200) {
-                    UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
-                }else if (otpVerifyResponseDataModel.getStatus() == 400)
+                if (Singleton.getInstance().getERRORSTATUS()==400)
                 {
-                    UiUtils.showAlert(activity, "Start Order", getString(R.string.alert_otp));
-                }*/
-
-
-
-
+                    UiUtils.showAlert(activity, "OTP Verification", "OTP verification failed");
+                }else if(Singleton.getInstance().getERRORSTATUS()==200){
+                    finish();
+                }
 
             }
         });

@@ -25,6 +25,8 @@ import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+import com.dev.pigeonproviderapp.httpRequest.SignatureAPIModel;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.DocumentsUploadViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
@@ -205,18 +207,17 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
         dialog.show();
 
-        OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
-        orderItemOTPVerifyModel.setOtp("");
-        orderItemOTPVerifyModel.setSignature(filename);
-        orderItemOTPVerifyModel.setType("pickup");
+        SignatureAPIModel signatureAPIModel = new SignatureAPIModel();
+        signatureAPIModel.setSignature(filename);
+        signatureAPIModel.setType(Singleton.getInstance().getDROPPOINTTYPE());
 
 
-        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, otpVerifyResponseDataModel -> {
+        orderListViewModel.verifySignatureData(signatureAPIModel).observe(this, otpVerifyResponseDataModel -> {
             dialog.dismiss();
 
             if (otpVerifyResponseDataModel.getStatus()==200)
             {
-                UiUtils.showAlert(activity,"Signature",getString(R.string.aleart_signature_upload) );
+               finish();
             }
         });
     }

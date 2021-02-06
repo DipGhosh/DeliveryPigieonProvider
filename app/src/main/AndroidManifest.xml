@@ -27,10 +27,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.PaymentHistory.PaymentHistoryActivity"
+        <activity android:name=".ActivityAll.Notification.NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <activity
+            android:name=".ActivityAll.PaymentHistory.PaymentHistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityAll.AccountSettings.DocumentListing"
             android:theme="@style/AppTheme.NoActionBar" />

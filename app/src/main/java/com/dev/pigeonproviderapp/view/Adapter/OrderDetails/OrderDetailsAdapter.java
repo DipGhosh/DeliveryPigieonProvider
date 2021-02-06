@@ -50,14 +50,17 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         handler.orderPointName.setText(deliveryPointListingDatamodel.orderpoint_name);
 
-        //Check Pickuppoint status
+        System.out.println("CheckStatus"+deliveryPointListingDatamodel.order_droppoint_status);
+        System.out.println("Time"+deliveryPointListingDatamodel.delivery_time);
+
+        /*//Check Pickuppoint status
         if(deliveryPointListingDatamodel.order_droppoint_status==5)
         {
             handler.orderstatus.setText("Complete");
         }else {
             handler.orderstatus.setText("Pending");
-        }
-
+        }*/
+        handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
         handler.dropItemClick.setOnClickListener(new View.OnClickListener() {
             @Override

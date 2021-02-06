@@ -163,7 +163,8 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             case R.id.img_back:
                 Intent intent = getIntent();
                 intent.putExtra(Utility.EDIT_NAME, userNameProfileEdit.getText().toString());
-                intent.putExtra(Utility.EDIT_EMAIL, emailProfileEdit.getText().toString());
+                intent.putExtra(Utility.EDIT_EMAIL,emailProfileEdit.getText().toString());
+                intent.putExtra(Utility.EDIT_PIC, profileImageUrl);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -287,8 +288,10 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
                         dialog.dismiss();
 
-                        String filename = updateProfilePIctureDataModel.getData().getUser()
+                      String  filename = updateProfilePIctureDataModel.getData().getUser()
                                 .getProfilePicture();
+                        profileImageUrl=filename;
+
                         Log.d("Aslam", "Filename: " + filename);
 
                     }

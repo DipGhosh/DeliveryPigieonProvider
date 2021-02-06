@@ -21,7 +21,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.dev.pigeonproviderapp.ActivityAll.Notification.NotificationActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.ActiveOrdersFrag;
@@ -38,7 +40,7 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class OrdersFrag extends BaseFragment {
+public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
     private View mView;
     private TabLayout tabLayout;
@@ -47,6 +49,7 @@ public class OrdersFrag extends BaseFragment {
     private TabItem tabPast;
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
+    private ImageView notificationImage;
 
     private OrderListViewModel orderListViewModel;
 
@@ -76,6 +79,10 @@ public class OrdersFrag extends BaseFragment {
         tabCurrent=mView.findViewById(R.id.tabCurrentOrders);
         tabPast=mView.findViewById(R.id.tabPastOrders);
         viewPager=mView.findViewById(R.id.viewPager);
+
+        notificationImage=mView.findViewById(R.id.img_notification);
+
+        notificationImage.setOnClickListener(this);
 
 
         pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
@@ -116,6 +123,21 @@ public class OrdersFrag extends BaseFragment {
 
         return mView;
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId() /*to get clicked view id**/) {
+            case R.id.img_notification:
+                Intent notification = new Intent(activity, NotificationActivity.class);
+                startActivity(notification);
+                break;
+
+            default:
+                break;
+        }
+    }
+
     @Override
     public void onResume(){
         super.onResume();
