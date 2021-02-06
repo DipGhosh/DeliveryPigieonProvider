@@ -15,6 +15,9 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
+
+import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 
 public class OtpVerificationActivity extends BaseActivity implements View.OnClickListener {
@@ -57,7 +60,33 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
           verifyOrderOtp();
         }
 
+    }
+
+    public void verifyOrderOtp() {
+
+        dialog.show();
+
+        OrderItemOTPVerifyModel orderItemOTPVerifyModel = new OrderItemOTPVerifyModel();
+        orderItemOTPVerifyModel.setOtp(getOTP.getText().toString());
+        orderItemOTPVerifyModel.setType(Singleton.getInstance().getDROPPOINTTYPE());
+
+
+
+        orderListViewModel.verifyOTPData(orderItemOTPVerifyModel).observe(this, new Observer<OtpVerifyResponseDataModel>() {
+            @Override
+            public void onChanged(OtpVerifyResponseDataModel otpVerifyResponseDataModel) {
+                dialog.dismiss();
+
+                if (Singleton.getInstance().getERRORSTATUS()==400)
+                {
+                    UiUtils.showAlert(activity, "OTP Verification", "OTP verification failed");
+                }else if(Singleton.getInstance().getERRORSTATUS()==200){
+                    finish();
+                }
+
+
         break;
+
 
       default:
         break;

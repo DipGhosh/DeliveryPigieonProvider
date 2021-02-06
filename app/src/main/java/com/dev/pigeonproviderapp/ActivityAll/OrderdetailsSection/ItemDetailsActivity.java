@@ -51,54 +51,48 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemDetailsActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
+public class ItemDetailsActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private Activity activity = ItemDetailsActivity.this;
-
+    static LatLng co_ordinate;
     com.google.android.gms.maps.GoogleMap mMap;
     SupportMapFragment mapFragment;
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
-    static LatLng co_ordinate;
     GPSTracker gpsTracker;
-
-    private LinearLayout back,verifyOTP,addSignature,completeorderSubmit,orderCompleted;
-    private TextView pointName,pointDeliveryTime,pointAddress,paymentStatus,pointDeliveryComment,acceptPaymentByProvider;
-    private EditText providerComment;
-    private ImageView itemPhoneNumber,mapIconClick;
-
     OrderListViewModel orderListViewModel;
-
-    private Dialog dialog;
-    private String orderType;
     Bundle bundle;
-
     LatLng startLatLng = null;
     LatLng endLatLng = null;
+    private Activity activity = ItemDetailsActivity.this;
+    private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted;
+    private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider;
+    private EditText providerComment;
+    private ImageView itemPhoneNumber, mapIconClick;
+    private Dialog dialog;
+    private String orderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
 
-        back=findViewById(R.id.ll_back);
-        verifyOTP=findViewById(R.id.ll_verify_otp);
-        pointName=findViewById(R.id.tv_item_point_name);
-        pointDeliveryTime=findViewById(R.id.tv_item_deliverytime);
-        pointDeliveryComment=findViewById(R.id.tv_item_comment);
-        pointAddress=findViewById(R.id.tv_item_address);
-        paymentStatus=findViewById(R.id.tv_item_paymentstatus);
-        addSignature=findViewById(R.id.ll_add_signature);
-        providerComment=findViewById(R.id.et_provider_comment);
-        completeorderSubmit=findViewById(R.id.ll_order_item_complete);
-        orderCompleted=findViewById(R.id.ll_order_item_completed);
-        acceptPaymentByProvider=findViewById(R.id.tv_accept_payment_item);
-        itemPhoneNumber=findViewById(R.id.order_item_phoneNumber);
-        mapIconClick=findViewById(R.id.ic_map_icon);
+        back = findViewById(R.id.ll_back);
+        verifyOTP = findViewById(R.id.ll_verify_otp);
+        pointName = findViewById(R.id.tv_item_point_name);
+        pointDeliveryTime = findViewById(R.id.tv_item_deliverytime);
+        pointDeliveryComment = findViewById(R.id.tv_item_comment);
+        pointAddress = findViewById(R.id.tv_item_address);
+        paymentStatus = findViewById(R.id.tv_item_paymentstatus);
+        addSignature = findViewById(R.id.ll_add_signature);
+        providerComment = findViewById(R.id.et_provider_comment);
+        completeorderSubmit = findViewById(R.id.ll_order_item_complete);
+        orderCompleted = findViewById(R.id.ll_order_item_completed);
+        acceptPaymentByProvider = findViewById(R.id.tv_accept_payment_item);
+        itemPhoneNumber = findViewById(R.id.order_item_phoneNumber);
+        mapIconClick = findViewById(R.id.ic_map_icon);
 
-        gpsTracker=new GPSTracker(activity);
+        gpsTracker = new GPSTracker(activity);
 
-        if (gpsTracker.canGetLocation())
-        {
+        if (gpsTracker.canGetLocation()) {
             coordList.add(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
         }
 
@@ -135,18 +129,28 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 finish();
                 break;
             case R.id.ll_verify_otp:
-                if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
-                {
-                    Intent intent=new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
+
+                if (Singleton.getInstance().getORDERSTATUSCODE() == 1) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.accept_order_atfirst));
+                } else if (Singleton.getInstance().getORDERSTATUSCODE() == 2) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.start_order_atfirst));
+                } else if ( Singleton.getInstance().getORDERITEMSTATUS() == 3) {
+                    Intent intent = new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
+                    Singleton.getInstance().setDROPPOINTTYPE(orderType);
                     startActivity(intent);
                 }
 
 
                 break;
             case R.id.ll_add_signature:
-                if (Singleton.getInstance().getORDERITEMSTATUS()==2||Singleton.getInstance().getORDERITEMSTATUS()==3)
-                {
-                    Intent ordersignature=new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
+
+                if (Singleton.getInstance().getORDERSTATUSCODE() == 1) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.accept_order_atfirst));
+                } else if (Singleton.getInstance().getORDERSTATUSCODE() == 2) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.start_order_atfirst));
+                } else if ( Singleton.getInstance().getORDERITEMSTATUS() == 3) {
+                    Intent ordersignature = new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
+                    Singleton.getInstance().setDROPPOINTTYPE(orderType);
                     startActivity(ordersignature);
                 }
 
@@ -154,7 +158,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 break;
 
             case R.id.ll_order_item_complete:
-                completeOrderItem();
+
+                if (Singleton.getInstance().getORDERSTATUSCODE() == 3) {
+                    completeOrderItem();
+                } else {
+                    UiUtils.showAlert(activity, getString(R.string.order_complete_header), getString(R.string.accept_order_beforecompmete_aleart));
+                }
+
                 break;
 
             case R.id.tv_accept_payment_item:
@@ -170,7 +180,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             case R.id.order_item_phoneNumber:
 
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:"+Singleton.getInstance().getPHONENUMBER()));
+                callIntent.setData(Uri.parse("tel:" + Singleton.getInstance().getPHONENUMBER()));
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(callIntent);
 
@@ -195,8 +205,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         calMapRouteDraw();
 
 
-
-
     }
 
     public void completeOrderItem() {
@@ -212,12 +220,11 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             dialog.dismiss();
 
-            if (completeOrderPointResponseDataModel.getStatus()==200)
-            {
+            if (completeOrderPointResponseDataModel.getStatus() == 200) {
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
 
-                UiUtils.showAlert(activity,pointName.getText().toString(),getString(R.string.aleart_orderitem_complete) );
+                UiUtils.showAlert(activity, pointName.getText().toString(), getString(R.string.aleart_orderitem_complete));
 
                 Singleton.getInstance().setItemcomplete(true);
 
@@ -233,41 +240,42 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         acceptPaymentAPIModel.setOrderid(Singleton.getInstance().getORDERID());
 
 
-
         orderListViewModel.paymentAcceptData(acceptPaymentAPIModel).observe(this, acceptPaymentResponseModel -> {
 
             dialog.dismiss();
 
-            if (acceptPaymentResponseModel.getStatus()==200)
-            {
+            if (acceptPaymentResponseModel.getStatus() == 200) {
                 acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
-                paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+                paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
 
                 Singleton.getInstance().setPAYMENTSTATUS(3);
 
-                UiUtils.showAlert(activity,"Payment",getString(R.string.aleart_accept_payment));
+                UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
             }
         });
     }
 
-    public void AllFieldVisibility()
-    {
+    public void AllFieldVisibility() {
 
 
-        if (Singleton.getInstance().getORDERITEMSTATUS()==1) {
+        if (Singleton.getInstance().getORDERITEMSTATUS() == 1) {
 
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
 
-        } else if (Singleton.getInstance().getORDERITEMSTATUS()==2) {
+        } else if (Singleton.getInstance().getORDERITEMSTATUS() == 3) {
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
 
-        }else if (Singleton.getInstance().getORDERITEMSTATUS()==5) {
+        }else if (Singleton.getInstance().getORDERITEMSTATUS() == 2) {
+            completeorderSubmit.setVisibility(View.GONE);
+            orderCompleted.setVisibility(View.GONE);
+
+        } else if (Singleton.getInstance().getORDERITEMSTATUS() == 5) {
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
         }
@@ -279,11 +287,10 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             pointDeliveryTime.setText(bundle.getString("TIME"));
             pointDeliveryComment.setText(bundle.getString("COMMENT"));
 
-            if (bundle.getString("TYPE").equals("Pickup Point"))
-            {
-                orderType="pickup";
-            }else {
-                orderType="drop";
+            if (bundle.getString("TYPE").equals("Pickup Point")) {
+                orderType = "pickup";
+            } else {
+                orderType = "drop";
             }
 
             // add  coordinates to polyline draw for pickup point
@@ -291,171 +298,85 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
         }
 
-        if (Singleton.getInstance().getPAYMENTSTATUS()==1)
-        {
+        if (Singleton.getInstance().getPAYMENTSTATUS() == 1) {
             acceptPaymentByProvider.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+            paymentStatus.setText(getString(R.string.payment_msg_1) + " " + Singleton.getInstance().getORDERAMOUNT() + " " + getString(R.string.payment_msg_2));
 
-        }else if (Singleton.getInstance().getPAYMENTSTATUS()==2)
-        {
+        } else if (Singleton.getInstance().getPAYMENTSTATUS() == 2) {
             acceptPaymentByProvider.setText(getString(R.string.accept_payment));
-            paymentStatus.setText(getString(R.string.payment_msg_1)+" "+ Singleton.getInstance().getORDERAMOUNT()+" "+getString(R.string.payment_msg_2));
+            paymentStatus.setText(getString(R.string.payment_msg_1) + " " + Singleton.getInstance().getORDERAMOUNT() + " " + getString(R.string.payment_msg_2));
 
 
-        }else if (Singleton.getInstance().getPAYMENTSTATUS()==3)
-        {
+        } else if (Singleton.getInstance().getPAYMENTSTATUS() == 3) {
             acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
-            paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
         }
-
 
 
     }
 
-   /* public void calMapRouteDraw() {
+    /* public void calMapRouteDraw() {
+
+         for (int i = 0; i < coordList.size(); i++) {
+             // add coordinates to point marker for drop point
+             co_ordinate = new LatLng(coordList.get(i).latitude, coordList.get(i).longitude);
+             mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                     .title("Delivery Pigieon")
+                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+         }
+
+         //Polyline draw
+         PolylineOptions polylineOptions1 = new PolylineOptions();
+         polylineOptions1.addAll(coordList);
+         polylineOptions1
+                 .width(10)
+                 .color(Color.RED).zIndex(90);
+
+         mMap.addPolyline(polylineOptions1);
+
+         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(co_ordinate, 10);
+         mMap.animateCamera(yourLocation);
+         mMap.moveCamera(yourLocation);
+
+
+     }*/
+    public void calMapRouteDraw() {
 
         for (int i = 0; i < coordList.size(); i++) {
             // add coordinates to point marker for drop point
             co_ordinate = new LatLng(coordList.get(i).latitude, coordList.get(i).longitude);
+
+            Double lati = coordList.get(i).latitude;
+            Double longi = coordList.get(i).longitude;
+
             mMap.addMarker(new MarkerOptions().position(co_ordinate)
                     .title("Delivery Pigieon")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        }
 
-        //Polyline draw
-        PolylineOptions polylineOptions1 = new PolylineOptions();
-        polylineOptions1.addAll(coordList);
-        polylineOptions1
-                .width(10)
-                .color(Color.RED).zIndex(90);
-
-        mMap.addPolyline(polylineOptions1);
-
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(co_ordinate, 10);
-        mMap.animateCamera(yourLocation);
-        mMap.moveCamera(yourLocation);
-
-
-    }*/
-   public void calMapRouteDraw()
-   {
-
-       for (int i = 0; i < coordList.size(); i++)
-       {
-           // add coordinates to point marker for drop point
-           co_ordinate=new LatLng(coordList.get(i).latitude,coordList.get(i).longitude);
-
-           Double lati = coordList.get(i).latitude;
-           Double longi = coordList.get(i).longitude;
-
-           mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                   .title("Delivery Pigieon")
-                   .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-           LatLng latlng = new LatLng(lati,
-                   longi);
-           if (i == 0) {
-               startLatLng = latlng;
-           }
-           if (i == coordList.size() - 1) {
-               endLatLng = latlng;
-           }
-
-       }
-
-
-
-       // Getting URL to the Google Directions API
-       String url = getDirectionsUrl(startLatLng, endLatLng);
-
-       DownloadTask downloadTask = new DownloadTask();
-
-       // Start downloading json data from Google Directions API
-       downloadTask.execute(url);
-
-
-       mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
-
-
-   }
-
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            String data = "";
-
-            try {
-                data = downloadUrl(url[0]);
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
+            LatLng latlng = new LatLng(lati,
+                    longi);
+            if (i == 0) {
+                startLatLng = latlng;
             }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-           ParserTask parserTask = new ParserTask();
-            parserTask.execute(result);
-        }
-    }
-
-    /**
-     * A class to parse the JSON format
-     */
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DataParser parser = new DataParser();
-
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList points = new ArrayList();
-            PolylineOptions lineOptions = new PolylineOptions();
-
-            for (int i = 0; i < result.size(); i++) {
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    System.out.println("POINT"+lat);
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
-
+            if (i == coordList.size() - 1) {
+                endLatLng = latlng;
             }
 
-            // Drawing polyline in the Google Map
-            if (points.size() != 0)
-                mMap.addPolyline(lineOptions);
         }
+
+
+        // Getting URL to the Google Directions API
+        String url = getDirectionsUrl(startLatLng, endLatLng);
+
+        DownloadTask downloadTask = new DownloadTask();
+
+        // Start downloading json data from Google Directions API
+        downloadTask.execute(url);
+
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
+
+
     }
 
     private String getDirectionsUrl(LatLng origin, LatLng dest) {
@@ -469,7 +390,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         //setting transportation mode
         String mode = "mode=driving";
         // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest +  "&" + mode;
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
 
         // Output format
         String output = "json";
@@ -516,5 +437,84 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             urlConnection.disconnect();
         }
         return data;
+    }
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            String data = "";
+
+            try {
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            ParserTask parserTask = new ParserTask();
+            parserTask.execute(result);
+        }
+    }
+
+    /**
+     * A class to parse the JSON format
+     */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DataParser parser = new DataParser();
+
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList points = new ArrayList();
+            PolylineOptions lineOptions = new PolylineOptions();
+
+            for (int i = 0; i < result.size(); i++) {
+
+                List<HashMap<String, String>> path = result.get(i);
+
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    System.out.println("POINT" + lat);
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                lineOptions.addAll(points);
+                lineOptions.width(12);
+                lineOptions.color(Color.RED);
+                lineOptions.geodesic(true);
+
+            }
+
+            // Drawing polyline in the Google Map
+            if (points.size() != 0)
+                mMap.addPolyline(lineOptions);
+        }
     }
 }

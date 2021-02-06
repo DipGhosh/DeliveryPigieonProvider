@@ -7,6 +7,9 @@
     android:id="@+id/ConstraintLayoutRoot"
     tools:context=".ActivityAll.ProviderRegistration.Registrationactivity"
     android:background="@color/loginBackcolor">
+
+
+
     <ImageView
         android:layout_width="@dimen/_160sdp"
         android:layout_height="@dimen/_120sdp"
@@ -163,6 +166,24 @@
         app:layout_constraintTop_toBottomOf="@id/ll_termsofUse">
 
     </Button>
+
+   <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_version"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:paddingRight="@dimen/_20sdp"
+        android:text="Version 1.0.0"
+        android:fontFamily="@font/montserrat"
+        android:textSize="@dimen/_9sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/btn_registration"
+        />-->
 
 
 

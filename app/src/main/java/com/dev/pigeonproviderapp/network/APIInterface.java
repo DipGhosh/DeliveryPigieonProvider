@@ -7,12 +7,14 @@ import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
 import com.dev.pigeonproviderapp.datamodel.CompleteOrderPointResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.ProviderAvailabilityDatamodel;
 import com.dev.pigeonproviderapp.datamodel.StartOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
@@ -25,6 +27,8 @@ import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.SignatureAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.VerifyOtpAPIModel;
 
 import okhttp3.MultipartBody;
@@ -98,6 +102,10 @@ public interface APIInterface {
   Call<OtpVerifyResponseDataModel> verifyOTPCall(@Header("Authorization") String authorization, @Path("id") int id, @Path("itemid") int itemid, @Body OrderItemOTPVerifyModel orderItemOTPVerifyModel,@Header("UserType") int usertype);
 
   @Headers({"Accept: application/json"})
+  @POST("/api/verify_drop_point/{id}/{itemid}")
+  Call<OtpVerifyResponseDataModel> verifySignatureCall(@Header("Authorization") String authorization, @Path("id") int id, @Path("itemid") int itemid, @Body SignatureAPIModel signatureAPIModel, @Header("UserType") int usertype);
+
+  @Headers({"Accept: application/json"})
   @POST("/api/complete_point/{id}/{itemid}")
   Call<CompleteOrderPointResponseDataModel> completeOrderCall(@Header("Authorization") String authorization, @Path("id") int id, @Path("itemid") int itemid, @Body CompleteOrderAPIModel completeOrderAPIModel,@Header("UserType") int usertype);
 
@@ -122,6 +130,14 @@ public interface APIInterface {
 
   @GET("/api/payments")
   Call<PaymentHistoryDataModel> paymentHistoryAPICall(@Header("Authorization") String authorization, @Header("UserType") int usertype);
+
+  @Headers({"Accept: application/json"})
+  @POST("/api/profile/availability")
+  Call<ProviderAvailabilityDatamodel> providerAvialableAPICall(@Header("Authorization") String authorization, @Body ProviderAvailabilityAPIModel providerAvailabilityAPIModel, @Header("UserType") int usertype);
+
+  @GET("/api/user-notification")
+  Call<NotificationDatamodel> getallNotificationCall(@Header("Authorization") String authorization, @Header("UserType") int usertype);
+
 }
 
 

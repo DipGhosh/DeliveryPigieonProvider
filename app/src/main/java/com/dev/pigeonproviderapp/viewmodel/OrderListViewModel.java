@@ -15,6 +15,7 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.SignatureAPIModel;
 import com.dev.pigeonproviderapp.repo.NetworkCall;
 
 public class OrderListViewModel extends ViewModel {
@@ -63,6 +64,12 @@ public class OrderListViewModel extends ViewModel {
     public LiveData<OtpVerifyResponseDataModel> verifyOTPData(OrderItemOTPVerifyModel orderItemOTPVerifyModel) {
 
         verifyOTPDataModelMutableLiveData = new NetworkCall().verifyOtpData(orderItemOTPVerifyModel);
+
+        return verifyOTPDataModelMutableLiveData;
+    }
+    public LiveData<OtpVerifyResponseDataModel> verifySignatureData(SignatureAPIModel signatureAPIModel) {
+
+        verifyOTPDataModelMutableLiveData = new NetworkCall().verifySignatureCall(signatureAPIModel);
 
         return verifyOTPDataModelMutableLiveData;
     }

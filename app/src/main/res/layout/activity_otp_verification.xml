@@ -83,6 +83,7 @@
             android:paddingRight="@dimen/_10sdp"
             android:singleLine="true"
             android:hint="Enter OTP"
+            android:inputType="number"
             android:textColorHint="@color/fadeBlack"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_10sdp"

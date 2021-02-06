@@ -16,6 +16,9 @@ public class Singleton {
     private int ORDERITEMSTATUS;
     private boolean itemcomplete;
     private int PAYMENTSTATUS;
+    private int ORDERSTATUSCODE;
+    private int ERRORSTATUS;
+    private String DROPPOINTTYPE;
 
 
     /* A private Constructor prevents any other
@@ -104,6 +107,29 @@ public class Singleton {
         this.PAYMENTSTATUS = PAYMENTSTATUS;
     }
 
+    public int getORDERSTATUSCODE() {
+        return ORDERSTATUSCODE;
+    }
+
+    public void setORDERSTATUSCODE(int ORDERSTATUSCODE) {
+        this.ORDERSTATUSCODE = ORDERSTATUSCODE;
+    }
+
+    public int getERRORSTATUS() {
+        return ERRORSTATUS;
+    }
+
+    public void setERRORSTATUS(int ERRORSTATUS) {
+        this.ERRORSTATUS = ERRORSTATUS;
+    }
+
+    public String getDROPPOINTTYPE() {
+        return DROPPOINTTYPE;
+    }
+
+    public void setDROPPOINTTYPE(String DROPPOINTTYPE) {
+        this.DROPPOINTTYPE = DROPPOINTTYPE;
+    }
 
 
 }

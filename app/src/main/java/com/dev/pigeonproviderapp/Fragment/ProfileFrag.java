@@ -19,10 +19,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,6 +38,8 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
+import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
 import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.view.WebViewLinkShow.WebserviceActivity;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
@@ -64,6 +69,8 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
    private LinearLayout logout,privacyPolicyClick,aboutUsClik,termsofServicesClick,accountSettingClick,PaymentHistoryClick;
    private SharePreference sharePreference;
    private Dialog dialog;
+   private ToggleButton simpleToggleButton;
+   private int toggleValue=1;
 
    ProfileViewModel profileViewModel;
 
@@ -96,6 +103,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         accountSettingClick=view.findViewById(R.id.ll_account_settingsClick);
         PaymentHistoryClick=view.findViewById(R.id.ll_payment_historyClick);
         approvalStatus=view.findViewById(R.id.tv_profile_approval_status);
+        simpleToggleButton =view.findViewById(R.id.chkState);
 
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -112,6 +120,11 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         termsofServicesClick.setOnClickListener(this);
         accountSettingClick.setOnClickListener(this);
         PaymentHistoryClick.setOnClickListener(this);
+        simpleToggleButton.setOnClickListener(this);
+
+
+
+
 
 
         return view;
@@ -180,9 +193,25 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
             case R.id.ll_account_settingsClick:
                 Intent accountsettings=new Intent(activity, AccountSetting.class);
                 startActivity(accountsettings);
+                break;
             case R.id.ll_payment_historyClick:
                 Intent paymentHistory=new Intent(activity, PaymentHistoryActivity.class);
                 startActivity(paymentHistory);
+
+                break;
+            case R.id.chkState:
+                if (simpleToggleButton.isChecked()) {
+                    //System.out.println("Check"+"Y");
+                    toggleValue=1;
+                    ProviderAvailableToggle();
+
+                } else {
+                    //System.out.println("Check"+"N");
+                    toggleValue=0;
+                    ProviderAvailableToggle();
+
+
+                }
 
                 break;
 
@@ -214,39 +243,19 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 //User Status
                 approvalStatus.setText(profileGetResponseDataModel.getData().getUser().getStatus());
 
+                //Avilable button check/uncheck
+               if (profileGetResponseDataModel.getData().getUser().getIsAvailable()==true)
+               {
+                   simpleToggleButton.setChecked(true);
+               }else {
+                   simpleToggleButton.setChecked(false);
+               }
+
                //Image download and show
                 if (profile_pic_url != null)
                 {
-                    OkHttpClient client = new OkHttpClient.Builder()
-                            .addInterceptor(new Interceptor() {
-                                @Override
-                                public Response intercept(Chain chain) throws IOException {
-                                    Request newRequest = chain.request().newBuilder()
-                                            .build();
-                                    return chain.proceed(newRequest);
-                                }
-                            })
-                            .build();
+                    loadImageFile(profile_pic_url, profileImage, profileFragProgress);
 
-                    Picasso picasso = new Picasso.Builder(activity)
-                            .downloader(new OkHttp3Downloader(client))
-                            .build();
-                    profileFragProgress.setVisibility(View.VISIBLE);
-                    picasso.with(activity)
-                            .load(profile_pic_url)
-                            .into(profileImage, new Callback() {
-
-                                @Override
-                                public void onSuccess() {
-                                    profileFragProgress.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public void onError() {
-                                    profileFragProgress.setVisibility(View.GONE);
-                                    Picasso.with(activity).load(R.drawable.dummy_image).into(profileImage);
-                                }
-                            });
                 }else {
                     Picasso.with(activity).load(R.drawable.dummy_image).into(profileImage);
                     profileFragProgress.setVisibility(View.GONE);
@@ -266,6 +275,13 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 String requiredValue = data.getStringExtra(Utility.EDIT_NAME);
                 userEmailId.setText(data.getStringExtra(Utility.EDIT_EMAIL));
                 userName.setText(data.getStringExtra(Utility.EDIT_NAME));
+
+                //Image download and show
+                if (data.getStringExtra(Utility.EDIT_PIC) != null)
+                {
+                    loadImageFile(data.getStringExtra(Utility.EDIT_PIC), profileImage, profileFragProgress);
+
+                }
             }
 
 
@@ -276,6 +292,58 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void ProviderAvailableToggle() {
+
+        dialog.show();
+
+        ProviderAvailabilityAPIModel providerAvailabilityAPIModel = new ProviderAvailabilityAPIModel();
+        providerAvailabilityAPIModel.setIs_available(toggleValue);
+
+
+        profileViewModel.isAvailableCall(providerAvailabilityAPIModel).observe(this, providerAvailabilityDatamodel -> {
+
+            dialog.dismiss();
+        });
+    }
+
+    private void loadImageFile(String url, ImageView imageView, ProgressBar progressBar)
+    {
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Picasso picasso = new Picasso.Builder(activity)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+        progressBar.setVisibility(View.VISIBLE);
+        picasso.with(activity)
+                .load(url)
+                .into(imageView, new Callback() {
+
+                    @Override
+                    public void onSuccess() {
+                        progressBar.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        progressBar.setVisibility(View.GONE);
+                        Picasso.with(activity).load(R.drawable.dummy_image).into(imageView);
+
+                    }
+                });
+    }
+
 
 
 

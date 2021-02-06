@@ -39,12 +39,14 @@ public class ProviderDashboard extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_provider_dashboard);
     navView = findViewById(R.id.nav_view);
+
     appBarConfiguration = new AppBarConfiguration.Builder(
         R.id.navigation_order, R.id.navigation_suport, R.id.navigation_profile)
         .build();
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     NavigationUI.setupWithNavController(navView, navController);
+
 
     sharePreference = new SharePreference(ProviderDashboard.this);
     mobileNumber = sharePreference.getMobileNumber();
