@@ -2,9 +2,7 @@ package com.dev.pigeonproviderapp.ActivityAll;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -14,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.dev.pigeonproviderapp.Fragment.SupportFrag;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.storage.SharePreference;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,12 +52,6 @@ public class ProviderDashboard extends AppCompatActivity {
 
    /* navView.setOnNavigationItemSelectedListener(this);
     navView.getMenu().findItem(R.id.navigation_profile).setChecked(true);*/
-
-
-
-
-
-
 
     sharePreference = new SharePreference(ProviderDashboard.this);
     mobileNumber = sharePreference.getMobileNumber();
@@ -135,5 +128,15 @@ public class ProviderDashboard extends AppCompatActivity {
         });
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
 
+    // navigate to profile
+    if (Singleton.getInstance().isProfileUpdated()) {
+      View view = navView.findViewById(R.id.navigation_profile);
+      view.performClick();
+    }
+
+  }
 }

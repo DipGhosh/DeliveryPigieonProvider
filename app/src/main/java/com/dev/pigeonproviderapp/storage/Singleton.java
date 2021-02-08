@@ -21,6 +21,7 @@ public class Singleton {
     private String DROPPOINTTYPE;
     private boolean ALLDROPPOINTCOMPLETE;
 
+    private boolean isProfileUpdated;
 
     /* A private Constructor prevents any other
      * class from instantiating.
@@ -140,5 +141,11 @@ public class Singleton {
         this.ALLDROPPOINTCOMPLETE = ALLDROPPOINTCOMPLETE;
     }
 
+    public boolean isProfileUpdated() {
+        return isProfileUpdated;
+    }
 
+    public void setProfileUpdated(boolean profileUpdated) {
+        isProfileUpdated = profileUpdated;
+    }
 }
