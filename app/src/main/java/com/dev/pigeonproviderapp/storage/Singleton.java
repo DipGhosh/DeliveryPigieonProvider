@@ -19,6 +19,7 @@ public class Singleton {
     private int ORDERSTATUSCODE;
     private int ERRORSTATUS;
     private String DROPPOINTTYPE;
+    private boolean ALLDROPPOINTCOMPLETE;
 
 
     /* A private Constructor prevents any other
@@ -129,6 +130,14 @@ public class Singleton {
 
     public void setDROPPOINTTYPE(String DROPPOINTTYPE) {
         this.DROPPOINTTYPE = DROPPOINTTYPE;
+    }
+
+    public boolean isALLDROPPOINTCOMPLETE() {
+        return ALLDROPPOINTCOMPLETE;
+    }
+
+    public void setALLDROPPOINTCOMPLETE(boolean ALLDROPPOINTCOMPLETE) {
+        this.ALLDROPPOINTCOMPLETE = ALLDROPPOINTCOMPLETE;
     }
 
 

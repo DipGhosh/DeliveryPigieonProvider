@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -69,6 +70,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     private ImageView itemPhoneNumber, mapIconClick;
     private Dialog dialog;
     private String orderType;
+    double provider_lat,provider_long,drop_point_lat,drop_point_long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         gpsTracker = new GPSTracker(activity);
 
         if (gpsTracker.canGetLocation()) {
-            coordList.add(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
+            provider_lat=gpsTracker.getLatitude();
+            provider_long=gpsTracker.getLongitude();
         }
 
 
@@ -186,11 +189,16 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
                 break;
             case R.id.ic_map_icon:
-                Intent mapRoute = new Intent(ItemDetailsActivity.this, OrderRouteMap.class);
+               /* Intent mapRoute = new Intent(ItemDetailsActivity.this, OrderRouteMap.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("coordinates", coordList);
                 mapRoute.putExtras(bundle);
-                startActivity(mapRoute);
+                startActivity(mapRoute);*/
+                Uri uri_redirect_map=Uri.parse("http://maps.google.com/maps?saddr="+22.5811617+","+88.3884055+"&daddr="+drop_point_lat+","+drop_point_long+"");
+
+                Intent intent=new Intent(Intent.ACTION_VIEW,uri_redirect_map);
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
                 break;
 
             default:
@@ -224,15 +232,47 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
 
-                UiUtils.showAlert(activity, pointName.getText().toString(), getString(R.string.aleart_orderitem_complete));
+                if (completeOrderPointResponseDataModel.getData().getIsAllDropPointsCompleted()==true)
+                {
+                    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                    builder.setTitle(getResources().getString(R.string.app_name));
+                    builder.setIcon(R.mipmap.ic_launcher);
+                    builder.setMessage(R.string.aleart_orderitem_complete);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.aleart_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
+                                    finish();
+                                }
+                            });
+                    final android.app.AlertDialog alert = builder.create();
+                    alert.show();
+                }else {
+                    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                    builder.setTitle(getResources().getString(R.string.app_name));
+                    builder.setIcon(R.mipmap.ic_launcher);
+                    builder.setMessage(R.string.aleart_orderitem_complete);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.aleart_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                Singleton.getInstance().setItemcomplete(true);
+                                    Singleton.getInstance().setItemcomplete(true);
+                                    finish();
+                                }
+                            });
+                    final android.app.AlertDialog alert = builder.create();
+                    alert.show();
+                }
 
             }
         });
     }
 
-    public void acceptOrderPaymentByProvider() {
+    /*public void acceptOrderPaymentByProvider() {
 
         dialog.show();
 
@@ -253,7 +293,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
             }
         });
-    }
+    }*/
 
     public void AllFieldVisibility() {
 
@@ -348,6 +388,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             Double lati = coordList.get(i).latitude;
             Double longi = coordList.get(i).longitude;
+            drop_point_lat=coordList.get(i).latitude;
+            drop_point_long=coordList.get(i).longitude;
 
             mMap.addMarker(new MarkerOptions().position(co_ordinate)
                     .title("Delivery Pigieon")

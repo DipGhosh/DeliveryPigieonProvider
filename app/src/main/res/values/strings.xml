@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Delivery Pigieon Partner</string>
+    <string name="app_name">Delivery Pigeon Partner</string>
     <string name="phone_number">Phone number *</string>
     <string name="otp">OTP code *</string>
     <string name="login">LOGIN</string>
     <string name="signup">Don`t have an account? <b>Signup</b></string>
     <string name="getOtp">GET OTP</string>
-    <string name="reserOtp">SET OTP</string>
+    <string name="reserOtp">RESEND OTP</string>
     <string name="chekbox_str">I agree with <font color='#1FA7D1'>Terms of use</font> of Delivery Pigeon</string>
     <string name="otp_receive">You will receive a 4 digit OTP code.</string>
     <string name="registration">Registration</string>
@@ -43,8 +43,8 @@
 
     <string name="verify_otp">Verify OTP</string>
     <string name="add_signature">Add Signature</string>
-    <string name="complete">Complete</string>
-    <string name="completed">Completed</string>
+    <string name="complete">Complete Task</string>
+    <string name="completed">Task Completed</string>
     <string name="comments">Comments</string>
     <string name="rating">Rating &amp; Comment</string>
     <string name="give_rating">Give Your Rating</string>
@@ -53,6 +53,7 @@
     <string name="cancle">Cancel</string>
     <string name="label_ok">Yes</string>
     <string name="label_no">No</string>
+    <string name="aleart_ok">OK</string>
     <string name="alert_no_data_message">No data available to show.</string>
     <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
     <string name="alert_create_otpvalidation">OTP field should not empty.</string>
@@ -75,9 +76,10 @@
     <string name="header_map">Map</string>
     <string name="order_accept_message">Your order has been accepted. Please check it in current order section.</string>
     <string name="save_text">Save</string>
-    <string name="profile_edit_aleart">Your profile is successfully updated.</string>
+    <string name="profile_edit_aleart">Your profile is updated successfully.</string>
     <string name="aleart_name">Please enter your name.</string>
     <string name="alert_otp">OTP submitted successfully.</string>
+    <string name="signature_submit">Signature is submitted successfully.</string>
     <string name="other_document">Other Documents</string>
 
     //Upload validation aleart
@@ -105,7 +107,7 @@
     <string name="aleart_ifsc_code">Ifsc should not be blank</string>
     <string name="aleart_account_type">Account type should not be blank.</string>
     <string name="aleart_accountholder_name">Name should not be blank.</string>
-    <string name="aleart_add_bankdetails">Bank details added successfully</string>
+    <string name="aleart_add_bankdetails">Bank details are added successfully</string>
 
     //Payment History
     <string name="payment_history">Payment History</string>
@@ -114,8 +116,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     //Accept payment aleart
-    <string name="accept_order_before_payment">Please accept this order before coolect the payment</string>
-    <string name="order_start_before_payment">Order should be start before accept the payment</string>
+    <string name="accept_order_before_payment">Please accept this order before collecting the payment</string>
+    <string name="order_start_before_payment">Please start this order before collecting the payment</string>
 
     //Payment Done
     <string name="payment_complete">Payment Done</string>
@@ -130,8 +132,8 @@
 
     //Startorder Aleart
     <string name="start_order_aleart">Do you want to start this order?</string>
-    <string name="accept_order_atfirst">You need to accept the order at first</string>
-    <string name="start_order_atfirst">You need to start the order atfirst</string>
+    <string name="accept_order_atfirst">Please accept this order.</string>
+    <string name="start_order_atfirst">Please start this order.</string>
 
     //Notification
     <string name="notification_header">Notification</string>

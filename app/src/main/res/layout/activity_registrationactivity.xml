@@ -29,6 +29,7 @@
         android:id="@+id/et_phoneNumber"
         android:layout_marginLeft="@dimen/margine_size"
         android:layout_marginRight="@dimen/margine_size"
+        android:layout_marginBottom="@dimen/_100sdp"
         android:background="@drawable/input_text_field"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -94,7 +95,9 @@
             android:padding="@dimen/_10sdp"
             android:text="@string/getOtp"
             android:textColor="@color/otptextColor"
-            android:textSize="@dimen/_12sdp"></TextView>
+            android:textSize="@dimen/_12sdp">
+
+        </TextView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,10 +170,10 @@
 
     </Button>
 
-   <!-- <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_version"
+        android:id="@+id/tv_app_version"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -178,12 +181,12 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/_25sdp"
         android:paddingRight="@dimen/_20sdp"
-        android:text="Version 1.0.0"
+        android:text="Version 1.0.1"
         android:fontFamily="@font/montserrat"
         android:textSize="@dimen/_9sdp"
         android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/btn_registration"
-        />-->
+        />
 
 
 
