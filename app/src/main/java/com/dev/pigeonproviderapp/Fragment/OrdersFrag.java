@@ -146,9 +146,15 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         if (Singleton.getInstance().isOrderaccept()==true)
         {
             getOrderList();
+            Singleton.getInstance().setOrderaccept(false);
         }else if (Singleton.getInstance().isItemcomplete()==true)
         {
             getOrderList();
+            Singleton.getInstance().setItemcomplete(false);
+        }else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+        {
+            getOrderList();
+            Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
         }
     }
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {

@@ -2,6 +2,9 @@ package com.dev.pigeonproviderapp.ActivityAll;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -33,6 +36,7 @@ public class ProviderDashboard extends AppCompatActivity {
   private FirebaseUser mFirebaseUser;
   private String chatEmail;
   private String chatpassword;
+  private int mMenuId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,14 @@ public class ProviderDashboard extends AppCompatActivity {
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     NavigationUI.setupWithNavController(navView, navController);
+
+   /* navView.setOnNavigationItemSelectedListener(this);
+    navView.getMenu().findItem(R.id.navigation_profile).setChecked(true);*/
+
+
+
+
+
 
 
     sharePreference = new SharePreference(ProviderDashboard.this);
@@ -122,4 +134,6 @@ public class ProviderDashboard extends AppCompatActivity {
           }
         });
   }
+
+
 }

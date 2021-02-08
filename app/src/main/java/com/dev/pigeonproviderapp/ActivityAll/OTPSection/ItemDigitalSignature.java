@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -217,7 +218,20 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
             if (otpVerifyResponseDataModel.getStatus()==200)
             {
-               finish();
+                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                builder.setTitle(getResources().getString(R.string.app_name));
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setMessage(R.string.signature_submit);
+                builder.setPositiveButton(R.string.aleart_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                final android.app.AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
     }

@@ -198,9 +198,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.tv_order_payment_accept:
 
-                if (orderStatus==1&&orderPaymentStatus==1)
+                if (orderStatus==1&&orderPaymentStatus==0)
                 {
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.accept_order_before_payment));
+                }else if (orderStatus==2&&orderPaymentStatus==0)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
                 }else if (orderStatus==4&&orderPaymentStatus==1)
                 {
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
@@ -228,6 +231,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         if (Singleton.getInstance().isItemcomplete()==true)
         {
             getOrderDetails();
+        }
+        else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+        {
+            finish();
         }
     }
 
@@ -455,9 +462,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         if (orderPaymentStatus==1)
         {
-            paymentStatus.setText(paymentstatusMessage);
-            orderPaymentAccept.setText(getString(R.string.accept_payment)+" - "+ Singleton.getInstance().getORDERAMOUNT());
-
+            paymentStatus.setText(paymentstatusMessage+" - "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }else if (orderPaymentStatus==2)
         {
@@ -469,6 +475,11 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         {
             paymentStatus.setText(paymentstatusMessage);
             orderPaymentAccept.setText(getString(R.string.payment_complete));
+
+        }else if (orderPaymentStatus==0)
+        {
+            paymentStatus.setText(paymentstatusMessage+" - "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }
     }
