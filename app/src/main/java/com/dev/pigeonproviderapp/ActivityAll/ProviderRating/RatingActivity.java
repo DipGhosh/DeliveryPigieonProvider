@@ -5,14 +5,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ItemDetailsActivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
@@ -20,6 +25,7 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
@@ -34,6 +40,9 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
     private double rating_val;
     private float get_rating_val;
     private Dialog dialog;
+    private ImageView providerImage;
+    private TextView providerName;
+    private ProgressBar profileFragProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,23 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         ratingBar_review = findViewById(R.id.ratingBar);
         providerComment = findViewById(R.id.et_review_comments);
         reviewSubmit = findViewById(R.id.btn_reviewSubmit);
+        providerImage=findViewById(R.id.ic_provider_profile_img);
+        providerName=findViewById(R.id.tv_provider_name);
+        profileFragProgress=findViewById(R.id.image_loader_progress);
+
+        providerName.setText(Singleton.getInstance().getUSERNAME());
+
+        if (Singleton.getInstance().getUSERIMAGE() != null)
+        {
+            Glide.with(activity)
+                    .load(Singleton.getInstance().getUSERIMAGE())
+                    .error(R.drawable.dummy_image)
+                    .into(providerImage);
+            profileFragProgress.setVisibility(View.GONE);
+        }else {
+            Picasso.with(activity).load(R.drawable.dummy_image).into(providerImage);
+            profileFragProgress.setVisibility(View.GONE);
+        }
 
         dialog = UiUtils.showProgress(RatingActivity.this);
 
@@ -60,9 +86,21 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                 get_rating_val = ratingBar_review.getRating();
                 rating_val = Double.parseDouble(new DecimalFormat("##.#").format(get_rating_val));
 
+                Singleton.getInstance().setORDERRATING( get_rating_val);
+                Singleton.getInstance().setRATECOMMENT(providerComment.getText().toString());
 
             }
         });
+
+
+        if (Singleton.getInstance().getORDERRATING()>0)
+        {
+            ratingBar_review.setRating(Singleton.getInstance().getORDERRATING());
+        }
+        if (Singleton.getInstance().getRATECOMMENT()!=null)
+        {
+            providerComment.setText(Singleton.getInstance().getRATECOMMENT());
+        }
     }
 
     @Override
@@ -99,17 +137,30 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
             dialog.dismiss();
 
             if (acceptPaymentResponseModel.getStatus() == 200) {
-                UiUtils.showAlert(activity, "Rating", getString(R.string.aleart_rating_submit));
+                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                builder.setTitle(getResources().getString(R.string.app_name));
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setMessage(R.string.aleart_rating_submit);
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.label_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                final android.app.AlertDialog alert = builder.create();
+                alert.show();
+
             }
+
+
         });
     }
 
     // method will validate the fields
     private boolean isValid() {
-        if (TextUtils.isEmpty(providerComment.getText().toString())) {
-            UiUtils.showToast(this, getString(R.string.aleart_rating_comment));
-            return false;
-        }else  if (rating_val==0) {
+         if (rating_val==0) {
             UiUtils.showToast(this, getString(R.string.aleart_select_rating));
             return false;
         }

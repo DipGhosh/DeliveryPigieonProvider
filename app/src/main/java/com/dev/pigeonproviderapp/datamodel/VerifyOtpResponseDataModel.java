@@ -59,6 +59,9 @@ public class VerifyOtpResponseDataModel {
         @SerializedName("userFirstLogin")
         @Expose
         private Boolean userFirstLogin;
+        @SerializedName("userVerified")
+        @Expose
+        private Boolean userVerified;
 
         public String getToken() {
             return token;
@@ -74,6 +77,13 @@ public class VerifyOtpResponseDataModel {
 
         public void setUserFirstLogin(Boolean userFirstLogin) {
             this.userFirstLogin = userFirstLogin;
+        }
+        public Boolean getUserVerified() {
+            return userVerified;
+        }
+
+        public void setUserVerified(Boolean userVerified) {
+            this.userVerified = userVerified;
         }
 
     }

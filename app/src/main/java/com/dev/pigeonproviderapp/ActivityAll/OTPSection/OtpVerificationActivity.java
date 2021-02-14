@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -33,6 +34,7 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
     private TextView OTPverify;
     private EditText getOTP;
     private Dialog dialog;
+    private ConstraintLayout constrainmain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
         back = findViewById(R.id.img_back);
         OTPverify = findViewById(R.id.tv_verify);
         getOTP = findViewById(R.id.et_OTP);
+        constrainmain=findViewById(R.id.constrainmain);
 
         dialog = UiUtils.showProgress(OtpVerificationActivity.this);
 
@@ -50,6 +53,8 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
 
         back.setOnClickListener(this);
         OTPverify.setOnClickListener(this);
+        constrainmain.setOnClickListener(this);
+
 
     }
 
@@ -65,8 +70,9 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
                     verifyOrderOtp();
                 }
                 break;
-
-
+            case R.id.constrainmain:
+                UiUtils.hideSoftKeyBoard(activity,constrainmain);
+                break;
             default:
                 break;
 
@@ -100,7 +106,7 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
               UiUtils.showAlert(activity, "Start Order", "Something went wrong");
             }*/
                 if (Singleton.getInstance().getERRORSTATUS() == 400) {
-                    UiUtils.showAlert(activity, "OTP Verification", "OTP verification failed");
+                    UiUtils.showAlert(activity, "OTP Verification",Singleton.getInstance().getOTPVERIFYMESSAGE());
                 } else if (Singleton.getInstance().getERRORSTATUS() == 200) {
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
                     builder.setTitle(getResources().getString(R.string.app_name));

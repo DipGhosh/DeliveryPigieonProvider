@@ -33,6 +33,7 @@ import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.viewmodel.DocumentsUploadViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -72,11 +73,13 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
     String documentsName;
     int docId;
     private String filename,position,typeofImageUpload;
+    private SharePreference sharePreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_listing);
+        sharePreference=new SharePreference(activity);
 
         dialog = UiUtils.showProgress(DocumentListing.this);
 
@@ -123,20 +126,44 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.ic_adharcard_fontsideImageUpload:
-                selectImage();
-                position="1";
+                if (sharePreference.GetVerified()==false)
+                {
+                    selectImage();
+                    position="1";
+                }else {
+
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_already_verified));
+                }
+
                 break;
             case R.id.ic_adharcard_backsideImageUpload:
-                selectImage();
-                position="2";
+                if (sharePreference.GetVerified()==false)
+                {
+                    selectImage();
+                    position="2";
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_already_verified));
+                }
                 break;
             case R.id.ic_pandcardImageUpload:
-                selectImage();
-                position="3";
+
+                if (sharePreference.GetVerified()==false)
+                {
+                    selectImage();
+                    position="3";
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_already_verified));
+                }
                 break;
             case R.id.ic_others_documentImageUpload:
-                selectImage();
-                position="4";
+
+                if (sharePreference.GetVerified()==false)
+                {
+                    selectImage();
+                    position="4";
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_already_verified));
+                }
                 break;
 
             default:

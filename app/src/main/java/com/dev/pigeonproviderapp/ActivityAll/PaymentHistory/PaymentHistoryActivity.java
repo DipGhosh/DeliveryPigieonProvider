@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.HistoryFragment.BonusHistoryFrag;
 import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.HistoryFragment.EarnHistoryFrag;
 import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.HistoryFragment.PaymentHistoryFrag;
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
@@ -39,6 +40,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     private TabLayout tabLayout;
     private TabItem tabPaymentHistory;
     private TabItem tabEarnHistory;
+    private TabItem tabBonusHistory;
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
 
@@ -46,6 +48,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
     private PaymentHistoryFrag payHistoryFrag = new PaymentHistoryFrag();
     private EarnHistoryFrag earnHistoryFrag = new EarnHistoryFrag();
+    private BonusHistoryFrag bonusHistoryFrag = new BonusHistoryFrag();
 
 
     private ImageView back;
@@ -61,6 +64,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         tabLayout=findViewById(R.id.tablayout);
         tabPaymentHistory=findViewById(R.id.tab_payment_history);
         tabEarnHistory=findViewById(R.id.tab_earning_history);
+        tabBonusHistory=findViewById(R.id.tab_bonus_history);
         viewPager=findViewById(R.id.viewPager);
         back = findViewById(R.id.img_back);
 
@@ -108,11 +112,14 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
                 pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
                 viewPager.setAdapter(pageAdapter);
                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                // restrict refresh fragments
+                viewPager.setOffscreenPageLimit(2);
 
                 // set data
                 if (paymentHistoryDataModel.getData().getPaymentHistory()!=null)
                 {
                     payHistoryFrag.setData(paymentHistoryDataModel.getData().getPaymentHistory());
+                    bonusHistoryFrag.setData(paymentHistoryDataModel.getData().getBonusHistory());
                     earnHistoryFrag.setData(paymentHistoryDataModel.getData().getEarningHistory());
 
 
@@ -138,8 +145,9 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
                 case 0:
                     return payHistoryFrag;
                 case 1:
+                    return bonusHistoryFrag;
+                case 2:
                     return earnHistoryFrag;
-
                 default:
                     return null;
             }

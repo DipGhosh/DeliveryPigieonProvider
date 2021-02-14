@@ -6,71 +6,80 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".ActivityAll.PaymentHistory.PaymentHistoryActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
+            android:id="@+id/relative_header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:background="@color/header_color"
-            android:id="@+id/relative_header">
+            android:background="@color/header_color">
+
             <ImageView
+                android:id="@+id/img_back"
                 android:layout_width="28dp"
                 android:layout_height="24dp"
-                android:id="@+id/img_back"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/left_flat_arrow"
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/left_flat_arrow" />
 
             <TextView
+                android:id="@+id/tv_dashboard"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/payment_history"
-                android:gravity="center_vertical"
-                android:textSize="@dimen/_14sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:fontFamily="@font/montserrat"
-                android:id="@+id/tv_dashboard"
                 android:layout_centerInParent="true"
-                android:textColor="@android:color/white"/>
+                android:fontFamily="@font/montserrat"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="@string/payment_history"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_14sdp" />
 
 
         </RelativeLayout>
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@style/MyCustomTextAppearance"
-            android:id="@+id/tablayout"
             android:background="@color/otptextColor"
             android:minHeight="?attr/actionBarSize"
             app:tabSelectedTextColor="@android:color/white"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
             app:tabTextColor="@color/tab_selected_color">
 
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/payment_history"
-                android:textSize="@dimen/_10sdp"
-                android:id="@+id/tab_payment_history"/>
-
-            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_payment_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/earning_history"
-                android:textSize="@dimen/_10sdp"
-                android:id="@+id/tab_earning_history"/>
+                android:textSize="@dimen/_10sdp" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_bonus_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bonus_history"
+                android:textSize="@dimen/_10sdp" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_earning_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/from_admin"
+                android:textSize="@dimen/_10sdp" />
 
 
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/viewPager">
+            android:layout_height="match_parent">
 
         </androidx.viewpager.widget.ViewPager>
 

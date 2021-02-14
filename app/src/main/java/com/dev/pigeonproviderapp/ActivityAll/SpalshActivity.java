@@ -29,11 +29,26 @@ public class SpalshActivity extends AppCompatActivity {
 
                 if (sharePreference.getLoggdInstaus())
                 {
-                    Singleton.getInstance().setTOKEN(sharePreference.getToken());
+                    if (sharePreference.GetVerified())
+                    {
+                        Singleton.getInstance().setProfileUpdated(false);
 
+                    }else {
+
+                        Singleton.getInstance().setProfileUpdated(true);
+                    }
+
+                    Singleton.getInstance().setTOKEN(sharePreference.getToken());
                     Intent intent = new Intent(SpalshActivity.this, ProviderDashboard.class);
                     startActivity(intent);
                 }else {
+                    if (sharePreference.GetVerified())
+                    {
+                        Singleton.getInstance().setProfileUpdated(false);
+
+                    }else {
+                        Singleton.getInstance().setProfileUpdated(true);
+                    }
                     Intent intent = new Intent(SpalshActivity.this, Registrationactivity.class);
                     startActivity(intent);
                 }

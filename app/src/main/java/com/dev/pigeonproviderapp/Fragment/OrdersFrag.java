@@ -114,7 +114,11 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         // restrict refresh fragments
         viewPager.setOffscreenPageLimit(2);
 
-        getOrderList();
+        if (Singleton.getInstance().isProfileUpdated()==false)
+        {
+            getOrderList();
+        }
+
 
         LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-message"));
@@ -145,14 +149,18 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
         if (Singleton.getInstance().isOrderaccept()==true)
         {
+
+            Singleton.getInstance().setOrderaccept(false);
             getOrderList();
             Singleton.getInstance().setOrderaccept(false);
-        }else if (Singleton.getInstance().isItemcomplete()==true)
+        }/*else if (Singleton.getInstance().isItemcomplete()==true)
         {
+            Singleton.getInstance().setItemcomplete(false);
             getOrderList();
             Singleton.getInstance().setItemcomplete(false);
-        }else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+        }*/else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
         {
+            Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
             getOrderList();
             Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
         }
@@ -164,10 +172,17 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
             if (intent.getStringExtra("ORDERSTATUS").equals("Accepted"))
             {
+                int count=0;
                 int orderID= Integer.parseInt(intent.getStringExtra("ORDERID"));
                 Singleton.getInstance().setORDERID(orderID);
 
-                callAcceptOrder();
+                //System.out.println("Mangaldip"+"Check");
+
+                if (count==0)
+                {
+                    callAcceptOrder();
+                }
+                count++;
 
             }
 
@@ -180,6 +195,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
             @Override
             public void onChanged(ListOrderResponseDataModel listOrderDataModel) {
                 dialog.dismiss();
+
                 pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
                 viewPager.setAdapter(pageAdapter);
                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -208,6 +224,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
             if (acceptOrderResponseDataModel.getStatus() == 200) {
 
                 UiUtils.showAlert(activity,"Order Accept",getString(R.string.order_accept_message));
+
+                //System.out.println("Mangaldip"+"CallAccept");
                 getOrderList();
             } else {
 

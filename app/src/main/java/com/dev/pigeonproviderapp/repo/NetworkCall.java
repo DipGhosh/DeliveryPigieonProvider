@@ -12,6 +12,7 @@ import com.dev.pigeonproviderapp.datamodel.AcceptPaymentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.AddDocumentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
 import com.dev.pigeonproviderapp.datamodel.CompleteOrderPointResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.CompleteTaskErrorPojoClass;
 import com.dev.pigeonproviderapp.datamodel.DroppointVerifyErrorPojoClass;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
@@ -229,7 +230,7 @@ public class NetworkCall {
 
             @Override
             public void onFailure(Call<UploadDocumentImageResponseModel> call, Throwable t) {
-
+                Log.d("Faliure", "Fail " + t.getMessage());
             }
         });
 
@@ -318,7 +319,7 @@ public class NetworkCall {
                     listOrderDataModelMutableLiveData.postValue(response.body());
                     Log.d("Aslam", response.body().toString());
                 } else {
-                    Log.d("Aslam", response.errorBody().toString());
+                    Log.d("Aslam Not success", response.errorBody().toString());
                     listOrderDataModelMutableLiveData.postValue(response.body());
                 }
 
@@ -326,7 +327,7 @@ public class NetworkCall {
 
             @Override
             public void onFailure(Call<ListOrderResponseDataModel> call, Throwable t) {
-                Log.d("Aslam", t.getMessage());
+                Log.d("Aslam++", t.getMessage());
             }
         });
 
@@ -466,6 +467,7 @@ public class NetworkCall {
                                 mError = gson.fromJson(response.errorBody().string(), DroppointVerifyErrorPojoClass.class);
                                 Log.d("Mangaldip", String.valueOf(mError.getStatus()));
                                 Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
                             } catch (IOException e) {
                                 // handle failure to read error
                             }
@@ -548,10 +550,34 @@ public class NetworkCall {
                                    Response<CompleteOrderPointResponseDataModel> response) {
 
                 if (response.isSuccessful()) {
+                    if (response.code() == 200) {
+                        if (response.isSuccessful()) {
+
+                            System.out.println("CrashCheck"+response.body().getStatus());
+                            System.out.println("CrashCheck"+response.body().getData().getIsAllDropPointsCompleted());
+                            Singleton.getInstance().setERRORSTATUS(response.body().getStatus());
+                            Singleton.getInstance().setALLDROPPOINTCOMPLETE(response.body().getData().getIsAllDropPointsCompleted());
+                            //Singleton.getInstance().setALLDROPPOINTCOMPLETE(response.body().getData().getIsAllDropPointsCompleted());
+
+
+                        }
+                    }
                     completeOrderpointDataModelMutableLiveData.postValue(response.body());
                     Log.d("Aslam ", response.body().toString());
                 } else {
-                    Log.d("Aslam ", response.errorBody().toString());
+                    if (response.code() == 400) {
+                        if (!response.isSuccessful()) {
+                            Gson gson = new GsonBuilder().create();
+                            CompleteTaskErrorPojoClass mError = new CompleteTaskErrorPojoClass();
+                            try {
+                                mError = gson.fromJson(response.errorBody().string(), CompleteTaskErrorPojoClass.class);
+                                Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
+                            } catch (IOException e) {
+                                // handle failure to read error
+                            }
+                        }
+                    }
                     completeOrderpointDataModelMutableLiveData.postValue(response.body());
                 }
 

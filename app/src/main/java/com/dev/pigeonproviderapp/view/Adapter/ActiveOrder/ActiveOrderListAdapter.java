@@ -58,7 +58,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if(orderActiveDatamodel.activeorder_type.equals("1"))
         {
-            handler.deliveryType.setText("Local");
+            handler.deliveryType.setText("Hyper Local");
         }else if(orderActiveDatamodel.activeorder_type.equals("2"))
         {
             handler.deliveryType.setText("Hyper Local");
@@ -68,7 +68,16 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         handler.currentOrderPickupAddress.setText(orderActiveDatamodel.activeorder_pickup_address);
         handler.currentOrderDeliveryAddress.setText(orderActiveDatamodel.activeorder_delivery_address);
-        handler.currentOrderPrice.setText(orderActiveDatamodel.activeorder_total_ammount);
+        handler.currentOrderPrice.setText("Earn: "+"₹ "+orderActiveDatamodel.earnAmount);
+
+        if (orderActiveDatamodel.provider_bonus<=0)
+        {
+            handler.bonusPrice.setVisibility(View.GONE);
+        }else {
+            handler.bonusPrice.setText("Bonus: "+"₹ " +orderActiveDatamodel.provider_bonus);
+        }
+
+
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,7 +132,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder,bonusPrice;
 
 
         public MyHolder(View row)
@@ -135,6 +144,8 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
             acceptOrder=row.findViewById(R.id.tv_accept_order);
+            bonusPrice=row.findViewById(R.id.tvbonus_bounus);
+
 
 
 

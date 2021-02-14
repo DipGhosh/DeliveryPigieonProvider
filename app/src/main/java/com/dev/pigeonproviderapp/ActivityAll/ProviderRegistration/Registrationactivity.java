@@ -1,5 +1,6 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
@@ -34,9 +36,14 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Registrationactivity extends BaseActivity implements View.OnClickListener {
 
+
+  private Activity activity = Registrationactivity.this;
+
   String MobilePattern = "[0-9]{10}";
+
   OtpSendViewModel otpSendViewModel;
   VerifyOtpViewModel verifyOtpViewModel;
+
   private Button btnRegistration;
   private EditText providerPhoneNumber, otpField;
   private TextView getOtp, resendOtp, termsandcondition;
@@ -44,6 +51,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   private Dialog dialog;
   private SharePreference sharePreference;
   private String token;
+  private ConstraintLayout mainLayout;
+
 
 
   @Override
@@ -66,6 +75,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     resendOtp = findViewById(R.id.tv_resendOtp);
     checkTerms = findViewById(R.id.checkTerms);
     termsandcondition = findViewById(R.id.tv_terms_condition);
+    mainLayout=findViewById(R.id.ConstraintLayoutRoot);
 
     otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
     verifyOtpViewModel = ViewModelProviders.of(this).get(VerifyOtpViewModel.class);
@@ -76,6 +86,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     resendOtp.setOnClickListener(this);
     checkTerms.setOnClickListener(this);
     termsandcondition.setOnClickListener(this);
+    mainLayout.setOnClickListener(this);
 
     //Firebase Module
     FirebaseMessaging.getInstance().getToken()
@@ -133,6 +144,10 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
         intent.putExtra(Utility.LINK_KEY, Utility.TERMSSERVICES_LINK);
         startActivity(intent);
         break;
+      case R.id.ConstraintLayoutRoot:
+       UiUtils.hideSoftKeyBoard(activity,mainLayout);
+
+        break;
       default:
         break;
     }
@@ -158,7 +173,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                 if (data > 0) {
                   getOtp.setVisibility(View.GONE);
                   resendOtp.setVisibility(View.VISIBLE);
-                  otpField.setText("" + data);
+                  //otpField.setText("" + data);
                 }
               }
 
@@ -184,35 +199,68 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
       verifyOtpViewModel.getVerifyOtpData(verifyOtpAPIModel)
           .observe(this, verifyOtpResponseDataModel -> {
-            if (verifyOtpResponseDataModel.getStatus() == 200) {
-              dialog.dismiss();
-              String token = verifyOtpResponseDataModel.getData().getToken();
-              Log.d("Aslam", token);
-              Singleton.getInstance().setTOKEN(token);
 
-              if (token != "") {
+            dialog.dismiss();
 
+
+
+            if (verifyOtpResponseDataModel != null) {
+              if (verifyOtpResponseDataModel.getStatus() == 200) {
+
+                String token = verifyOtpResponseDataModel.getData().getToken();
+                Log.d("Mangal", token);
                 Singleton.getInstance().setTOKEN(token);
 
-                if (verifyOtpResponseDataModel.getData().getUserFirstLogin() == true) {
-                  sharePreference.setToken(token);
-                  Intent providerDetails = new Intent(Registrationactivity.this,
-                      ProviderDetails.class);
-                  startActivity(providerDetails);
-                } else {
-                  sharePreference.SetIsloogedIn(true);
-                  sharePreference.setToken(token);
+                if (token != "") {
 
-                  // used for chat registeration and login
-                  sharePreference.setMobileNumber(mobileNumber);
-                  Singleton.getInstance().setProfileUpdated(true);
-                  Intent providerDetails = new Intent(Registrationactivity.this,
-                      ProviderDashboard.class);
-                  startActivity(providerDetails);
+                  Singleton.getInstance().setTOKEN(token);
+
+                  if (verifyOtpResponseDataModel.getData().getUserFirstLogin() == true) {
+                    sharePreference.setToken(token);
+
+                    //User Verification check
+                    if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
+                    {
+                      Singleton.getInstance().setProfileUpdated(false);
+                      sharePreference.setProfileverified(true);
+                    }else {
+                      Singleton.getInstance().setProfileUpdated(true);
+                      sharePreference.setProfileverified(false);
+                    }
+
+                    Intent providerDetails = new Intent(Registrationactivity.this,
+                            ProviderDetails.class);
+                    startActivity(providerDetails);
+                  } else {
+                    sharePreference.SetIsloogedIn(true);
+                    sharePreference.setToken(token);
+
+                    // used for chat registeration and login
+                    sharePreference.setMobileNumber(mobileNumber);
+
+                    //User Verification check
+                    if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
+                    {
+                      Singleton.getInstance().setProfileUpdated(false);
+                      sharePreference.setProfileverified(true);
+                    }else {
+                      Singleton.getInstance().setProfileUpdated(true);
+                      sharePreference.setProfileverified(false);
+                    }
+
+
+                    Intent providerDetails = new Intent(Registrationactivity.this,
+                            ProviderDashboard.class);
+                    startActivity(providerDetails);
+                  }
+
+
                 }
-
-
+              } else if (verifyOtpResponseDataModel.getStatus() == 400) {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_failed));
               }
+            } else {
+              UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_failed));
             }
 
           });

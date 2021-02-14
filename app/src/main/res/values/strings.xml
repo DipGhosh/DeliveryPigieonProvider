@@ -6,6 +6,7 @@
     <string name="signup">Don`t have an account? <b>Signup</b></string>
     <string name="getOtp">GET OTP</string>
     <string name="reserOtp">RESEND OTP</string>
+    <string name="otp_invalid_aleart">The provided OTP is incorrect</string>
     <string name="chekbox_str">I agree with <font color='#1FA7D1'>Terms of use</font> of Delivery Pigeon</string>
     <string name="otp_receive">You will receive a 4 digit OTP code.</string>
     <string name="registration">Registration</string>
@@ -38,15 +39,16 @@
     <string name="price_text">₹40</string>
     <string name="order_details">Order Details</string>
     <string name="heading_signature">Add Signature</string>
+    <string name="capture_image_heading">Capture Image</string>
     <string name="start_order">Start Order</string>
     <string name="drop_points">Drop Point</string>
 
     <string name="verify_otp">Verify OTP</string>
-    <string name="add_signature">Add Signature</string>
+    <string name="add_signature">Capture Parcel Image</string>
     <string name="complete">Complete Task</string>
     <string name="completed">Task Completed</string>
     <string name="comments">Comments</string>
-    <string name="rating">Rating &amp; Comment</string>
+    <string name="rating">Rating This Customer</string>
     <string name="give_rating">Give Your Rating</string>
     <string name="accept_order">Accept Order</string>
     <string name="order_started">Order Started</string>
@@ -69,7 +71,7 @@
     <string name="notification_channel_id">default</string>
     <string name="aleart_accept_order">Do you want to accept this order?</string>
     <string name="aleart_order_start">Your order has been started.</string>
-    <string name="aleart_rating_submit">Succeesfully submitted.</string>
+    <string name="aleart_rating_submit">Rating has been successfully submitted.</string>
     <string name="aleart_rating_comment">Please write some comment.</string>
     <string name="aleart_select_rating">Please select rating for this order.</string>
     <string name="alert_complete_payment_msg">Total payment amount was ₹</string>
@@ -79,7 +81,7 @@
     <string name="profile_edit_aleart">Your profile is updated successfully.</string>
     <string name="aleart_name">Please enter your name.</string>
     <string name="alert_otp">OTP submitted successfully.</string>
-    <string name="signature_submit">Signature is submitted successfully.</string>
+    <string name="signature_submit">image uploaded successfully</string>
     <string name="other_document">Other Documents</string>
 
     //Upload validation aleart
@@ -89,6 +91,7 @@
     <string name="alert_provider_name">Please enter your name.</string>
     <string name="alert_provider_email">Please enter your email.</string>
     <string name="alert_valid_email">The email must be a valid email address.</string>
+    <string name="product_image_upload">Please upload the parcel image.</string>
 
     //Account Settings
     <string name="account_settings_header">Account Settings</string>
@@ -112,6 +115,8 @@
     //Payment History
     <string name="payment_history">Payment History</string>
     <string name="earning_history">Earning History</string>
+    <string name="from_admin">From Admin</string>
+    <string name="bonus_history">Bonus History</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -123,20 +128,38 @@
     <string name="payment_complete">Payment Done</string>
     <string name="accept_payment">Accept Payment</string>
     <string name="accepted_payment">Payment has been accepted.</string>
-    <string name="rate_order">Rate this order</string>
+    <string name="rate_order">Rate The Customer</string>
     <string name="payment_header">Payment</string>
 
     //Complete order
     <string name="order_complete_header">Order Complete</string>
     <string name="accept_order_beforecompmete_aleart">Please accept the order first.</string>
+    <string name="order_complete">This order points already completed.</string>
 
     //Startorder Aleart
     <string name="start_order_aleart">Do you want to start this order?</string>
     <string name="accept_order_atfirst">Please accept this order.</string>
     <string name="start_order_atfirst">Please start this order.</string>
 
+
     //Notification
     <string name="notification_header">Notification</string>
+
+    //Otp verification aleart
+    <string name="otp_failed">OTP verification is failed.</string>
+    <string name="profile_already_verified">Profile is already verified</string>
+    <string name="network_error">Network is not available</string>
+    <string name="alert_email">Email should not be empty</string>
+    <string name="droppoints_complete_validation">OTP and Capture image need to verified.</string>
+    <string name="otp_image_verification">Kindly verify OTP and Signature</string>
+
+    //Rate app
+    <string name="rate_app_validation">Please complete the order before giving rating.</string>
+
+
+
+    //Profile verification
+    <string name="profile_verification_aleart">Your profile is under review. Please wait until we complete the verification and approve your profile.</string>
 
 
 </resources>

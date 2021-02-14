@@ -90,7 +90,13 @@ public class OrderDetailsResponseDatamodel {
     private List<DropPoint> dropPoints = null;
     @SerializedName("amountEarn")
     @Expose
-    private Integer amountEarn;
+    private float amountEarn;
+    @SerializedName("distance")
+    @Expose
+    private double distance;
+    @SerializedName("user")
+    @Expose
+    private User user;
 
     public Integer getId() {
       return id;
@@ -180,12 +186,26 @@ public class OrderDetailsResponseDatamodel {
       this.dropPoints = dropPoints;
     }
 
-    public Integer getAmountEarn() {
+    public float getAmountEarn() {
       return amountEarn;
     }
 
-    public void setAmountEarn(Integer amountEarn) {
+    public void setAmountEarn(float amountEarn) {
       this.amountEarn = amountEarn;
+    }
+    public double getDistance() {
+      return distance;
+    }
+
+    public void setDistance(double distance) {
+      this.distance = distance;
+    }
+    public User getUser() {
+      return user;
+    }
+
+    public void setUser(User user) {
+      this.user = user;
     }
 
   }
@@ -665,25 +685,74 @@ public class OrderDetailsResponseDatamodel {
 
     @SerializedName("rate")
     @Expose
-    private Object rate;
+    private float rate;
     @SerializedName("comment")
     @Expose
-    private Object comment;
+    private String comment;
 
-    public Object getRate() {
+    public float getRate() {
       return rate;
     }
 
-    public void setRate(Object rate) {
+    public void setRate(float rate) {
       this.rate = rate;
     }
 
-    public Object getComment() {
+    public String getComment() {
       return comment;
     }
 
-    public void setComment(Object comment) {
+    public void setComment(String comment) {
       this.comment = comment;
+    }
+
+  }
+
+  public class User {
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("phone")
+    @Expose
+    private long phone;
+    @SerializedName("profileImageUrl")
+    @Expose
+    private String profileImageUrl;
+
+    public Integer getId() {
+      return id;
+    }
+
+    public void setId(Integer id) {
+      this.id = id;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public long getPhone() {
+      return phone;
+    }
+
+    public void setPhone(long phone) {
+      this.phone = phone;
+    }
+
+    public String getProfileImageUrl() {
+      return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+      this.profileImageUrl = profileImageUrl;
     }
 
   }

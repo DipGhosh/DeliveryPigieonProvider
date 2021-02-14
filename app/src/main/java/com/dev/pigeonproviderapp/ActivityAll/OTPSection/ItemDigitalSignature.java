@@ -1,15 +1,20 @@
 package com.dev.pigeonproviderapp.ActivityAll.OTPSection;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,10 +24,19 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
@@ -46,13 +60,22 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
     private Activity activity = ItemDigitalSignature.this;
 
+    //Image Upload
+    private static final int SELECT_PICTURE = 0;
+    private final int REQUEST_CAMERA = 1;
+    private Uri camuri;
+    private Bitmap bitmap;
+
     private LinearLayout back;
-    private Button buttonSignatureSubmit;
+    private Button buttonCaptureImageSubmit;
+    private ImageView captureImageImageview;
+    private RelativeLayout captureImageClickListener;
+    private ConstraintLayout constrainmain;
 
     DocumentsUploadViewModel documentsUploadViewModel;
     OrderListViewModel orderListViewModel;
 
-    SignaturePad mSignaturePad;
+    //SignaturePad mSignaturePad;
     private Dialog dialog;
     private String filename;
 
@@ -64,8 +87,11 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         dialog = UiUtils.showProgress(ItemDigitalSignature.this);
 
         back=findViewById(R.id.ll_back);
-        mSignaturePad = findViewById(R.id.signaturePad);
-        buttonSignatureSubmit=findViewById(R.id.btn_signature_submit);
+        //mSignaturePad = findViewById(R.id.signaturePad);
+        buttonCaptureImageSubmit=findViewById(R.id.btn_signature_submit);
+        captureImageImageview=findViewById(R.id.ic_capture_image);
+        captureImageClickListener=findViewById(R.id.rl_capture_image_click);
+        constrainmain=findViewById(R.id.constrainmain);
 
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
@@ -77,93 +103,88 @@ public class ItemDigitalSignature extends AppCompatActivity  {
             }
         });
 
-        mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
+
+
+        captureImageClickListener.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStartSigning() {
-
-            }
-
-            @Override
-            public void onSigned() {
-                //btn_submit1.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onClear() {
-
+            public void onClick(View view) {
+                selectImage();
             }
         });
 
-        buttonSignatureSubmit.setOnClickListener(new View.OnClickListener() {
+        buttonCaptureImageSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                  Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                    if (addJpgSignatureToGallery(signatureBitmap)) {
-                        dialog.show();
-                        //Toast.makeText(ItemDigitalSignature.this, "successfully uploaded", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        //Toast.makeText(ItemDigitalSignature.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
-                    }
-
-
+               if (submitValidation())
+               {
+                   verifyOrderOtp();
+               }
 
             }
         });
 
+
     }
 
-    public File getAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-            Log.e("SignaturePad", "Directory not created");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SELECT_PICTURE) {
+
+            Uri selectedImageUri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(ItemDigitalSignature.this.getContentResolver(), selectedImageUri);
+                Glide.with(this).load(bitmap)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(captureImageImageview);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            uploadFile(selectedImageUri);
+
+        }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
+        {
+            Uri selectedImageUri = camuri;
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            CursorLoader cursorLoader = new android.content.CursorLoader(this, selectedImageUri, projection, null, null,
+                    null);
+            Cursor cursor = cursorLoader.loadInBackground();
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            cursor.moveToFirst();
+
+            String selectedImagePath = cursor.getString(column_index);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(selectedImagePath, options);
+            final int REQUIRED_SIZE = 200;
+            int scale = 1;
+            while (options.outWidth / scale / 2 >= REQUIRED_SIZE
+                    && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
+            options.inSampleSize = scale;
+            options.inJustDecodeBounds = false;
+
+            bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
+
+            captureImageImageview.setImageBitmap(bitmap);
+            uploadFile(selectedImageUri);
         }
-        return file;
     }
 
-    public void saveBitmapToJPG(Bitmap bitmap, File photo) throws IOException {
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(newBitmap);
-        canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        OutputStream stream = new FileOutputStream(photo);
-        newBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-        stream.close();
-    }
 
-    public boolean addJpgSignatureToGallery(Bitmap signature) {
-        boolean result = false;
-        try {
-            File photo = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.jpg", System.currentTimeMillis()));
-            saveBitmapToJPG(signature, photo);
-            scanMediaFile(photo);
-            result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private void scanMediaFile(File photo) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(photo);
-        mediaScanIntent.setData(contentUri);
-        ItemDigitalSignature.this.sendBroadcast(mediaScanIntent);
-        uploadFile(contentUri);
-    }
 
     private void uploadFile(Uri fileUri) {
+        dialog.show();
         Uri selectedImageUri=fileUri;
 
         String path = getRealPathFromURI(selectedImageUri);
         Log.d("Picture Path", "" + path);
 
         //pass it like this
-        File file = new File(path);
+        File file = Utility.saveBitmapToFile(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part
                 .createFormData("file", file.getName(), requestFile);
@@ -176,7 +197,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
                         filename = uploadDocumentImageResponseModel.getData();
 
                         Log.d("Aslam", "Filename: " + filename);
-                        verifyOrderOtp();
+                        //verifyOrderOtp();
 
                     }
                 });
@@ -216,24 +237,78 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         orderListViewModel.verifySignatureData(signatureAPIModel).observe(this, otpVerifyResponseDataModel -> {
             dialog.dismiss();
 
-            if (otpVerifyResponseDataModel.getStatus()==200)
-            {
-                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
-                builder.setTitle(getResources().getString(R.string.app_name));
-                builder.setIcon(R.mipmap.ic_launcher);
-                builder.setMessage(R.string.signature_submit);
-                builder.setPositiveButton(R.string.aleart_ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
-                final android.app.AlertDialog alert = builder.create();
-                alert.show();
+            if (otpVerifyResponseDataModel != null) {
+                if (otpVerifyResponseDataModel.getStatus() == 200) {
+                    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                    builder.setTitle(getResources().getString(R.string.app_name));
+                    builder.setIcon(R.mipmap.ic_launcher);
+                    builder.setMessage(R.string.signature_submit);
+                    builder.setPositiveButton(R.string.aleart_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                    final android.app.AlertDialog alert = builder.create();
+                    alert.show();
 
+                } else if (otpVerifyResponseDataModel.getStatus() == 400) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_image_verification));
+                }
+            } else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_image_verification));
+            }
+
+
+
+        });
+    }
+
+    private void selectImage() {
+
+        final CharSequence[] items = {"From Camera", "Cancel"};
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(ItemDigitalSignature.this);
+        builder.setTitle("Add Photo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("From Camera")) {
+
+                    String fileName = "new-photo-name.jpg";
+                    //create parameters for Intent with filename
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                    //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+                    camuri = ItemDigitalSignature.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    //create new Intent
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("From Cameraroll")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
             }
         });
+        builder.show();
+    }
+
+    public boolean submitValidation()
+    {
+        if (captureImageImageview.getDrawable() == null) {
+            UiUtils.showToast(this, getString(R.string.product_image_upload));
+            return false;
+        }else {
+            return true;
+        }
     }
 
 

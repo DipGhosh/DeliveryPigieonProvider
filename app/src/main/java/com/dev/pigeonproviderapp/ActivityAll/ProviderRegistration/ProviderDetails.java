@@ -1,5 +1,6 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -19,8 +20,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -60,6 +63,8 @@ import okhttp3.Response;
 
 public class ProviderDetails extends BaseActivity implements View.OnClickListener {
 
+    private Activity activity = ProviderDetails.this;
+
     ProfileViewModel profileViewModel;
     DocumentsUploadViewModel documentsUploadViewModel;
 
@@ -75,6 +80,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     private String filename,position,typeofImageUpload;
     private RelativeLayout rlAdarFontUpload,rlAharFontEdit,rlAdharBackUpload,rlAdharBackEdit,rlPancardUpload,rlPancardEdit,rlOthersUpload,rlOthersEdit,profileImageUploadClick;
     private LinearLayout addBankDetailsClick;
+    private LinearLayout mainLayout;
 
     Dialog dialog;
     String documentsName;
@@ -107,6 +113,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         rlOthersEdit = findViewById(R.id.rl_others_edit);
         profileImageUploadClick=findViewById(R.id.rl_profile_image_upload);
         addBankDetailsClick=findViewById(R.id.ll_add_bank_details);
+        mainLayout=findViewById(R.id.layout_main);
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         documentsUploadViewModel=ViewModelProviders.of(this).get(DocumentsUploadViewModel.class);
@@ -124,6 +131,11 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         providerImageUpload.setOnClickListener(this);
         profileImageUploadClick.setOnClickListener(this);
         addBankDetailsClick.setOnClickListener(this);
+        mainLayout.setOnClickListener(this);
+
+
+
+        System.out.println("SHAREPREFERENCECHECK"+sharePreference.GetVerified());
 
 
 
@@ -158,7 +170,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 typeofImageUpload="Documents";
                 break;
             case R.id.rl_profile_image_upload:
-                selectImage();
+                selectProfileImage();
                 position="5";
                 typeofImageUpload="Profile";
                 break;
@@ -166,6 +178,10 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                Intent intent=new Intent(ProviderDetails.this, AddBankDetails.class);
                startActivity(intent);
 
+                break;
+            case R.id.layout_main:
+
+                UiUtils.hideSoftKeyBoard(activity,mainLayout);
                 break;
             default:
                 break;
@@ -329,7 +345,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         Log.d("Picture Path", "" + path);
 
         //pass it like this
-        File file = new File(path);
+        //pass it like this
+        File file = Utility.saveBitmapToFile(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         if (typeofImageUpload.equals("Documents"))
         {
@@ -418,9 +435,11 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"From Camera", "From Cameraroll", "Cancel"};
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(ProviderDetails.this);
+        final CharSequence[] items = {"From Camera", "Cancel"};
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(
+                ProviderDetails.this);
         builder.setTitle("Add Photo");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -433,7 +452,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                     values.put(MediaStore.Images.Media.TITLE, fileName);
                     values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
                     //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
-                    camuri = ProviderDetails.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    camuri = ProviderDetails.this.getContentResolver()
+                            .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                     //create new Intent
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
@@ -451,6 +471,45 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         });
         builder.show();
     }
+
+    private void selectProfileImage() {
+
+        final CharSequence[] items = {"From Camera","From Cameraroll", "Cancel"};
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(
+                ProviderDetails.this);
+        builder.setTitle("Add Photo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("From Camera")) {
+
+                    String fileName = "new-photo-name.jpg";
+                    //create parameters for Intent with filename
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                    //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+                    camuri = ProviderDetails.this.getContentResolver()
+                            .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    //create new Intent
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("From Cameraroll")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
 
     public void AddDocumentImage() {
 

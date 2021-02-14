@@ -51,7 +51,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if(pastOrderDatamodel.pastorder_type.equals("1"))
         {
-            handler.deliveryType.setText("Local");
+            handler.deliveryType.setText("Hyper Local");
         }else if(pastOrderDatamodel.pastorder_type.equals("2"))
         {
             handler.deliveryType.setText("Hyper Local");
@@ -61,7 +61,14 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         handler.currentOrderPickupAddress.setText(pastOrderDatamodel.pastorder_pickup_address);
         handler.currentOrderDeliveryAddress.setText(pastOrderDatamodel.pastorder_delivery_address);
-        handler.currentOrderPrice.setText(pastOrderDatamodel.pastorder_total_ammount);
+        handler.currentOrderPrice.setText("Earn: "+"₹ "+pastOrderDatamodel.earnAmount);
+
+        if (pastOrderDatamodel.provider_bonus<=0)
+        {
+            handler.bonusPrice.setVisibility(View.GONE);
+        }else {
+            handler.bonusPrice.setText("Bonus: "+"₹ " +pastOrderDatamodel.provider_bonus);
+        }
         handler.vieworderDetailsClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +94,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,bonusPrice;
 
 
         public MyHolder(View row)
@@ -98,6 +105,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
             currentOrderDeliveryAddress=(TextView)row.findViewById(R.id.tv_delivery_address);
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
+            bonusPrice=row.findViewById(R.id.tvbonus_bounus);
 
 
         }

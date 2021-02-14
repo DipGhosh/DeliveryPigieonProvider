@@ -20,9 +20,10 @@ public class VerifyOtpViewModel extends ViewModel {
   }
   public LiveData<VerifyOtpResponseDataModel> getVerifyOtpData(VerifyOtpAPIModel verifyOtpAPIModel) {
 
-    if (otpResponseDataModelMutableLiveData == null) {
+   /* if (otpResponseDataModelMutableLiveData == null) {
       otpResponseDataModelMutableLiveData = new NetworkCall().callverifyOTP(verifyOtpAPIModel);
-    }
+    }*/
+    otpResponseDataModelMutableLiveData = new NetworkCall().callverifyOTP(verifyOtpAPIModel);
     return otpResponseDataModelMutableLiveData;
   }
 

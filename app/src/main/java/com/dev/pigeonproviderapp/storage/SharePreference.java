@@ -12,6 +12,7 @@ public class SharePreference {
   private int MOD_PRIVATE = 0;
   private boolean isLoggedin;
   private String token;
+  private boolean isProfileverified;
 
 
   public SharePreference(Activity activity) {
@@ -30,6 +31,17 @@ public class SharePreference {
     isLoggedin = sharedPreferences.getBoolean("isloggedin", false);
     return isLoggedin;
   }
+  public void setProfileverified(boolean profileverified) {
+    editor.putBoolean("isProfileverified", profileverified);
+    editor.commit();
+  }
+
+  public boolean GetVerified() {
+    isProfileverified = sharedPreferences.getBoolean("isProfileverified", false);
+    return isProfileverified;
+  }
+
+
 
   public void LogOut() {
     editor.clear();
@@ -57,4 +69,7 @@ public class SharePreference {
     editor.putString("mobile", mobileNumber);
     editor.commit();
   }
+
+
+
 }

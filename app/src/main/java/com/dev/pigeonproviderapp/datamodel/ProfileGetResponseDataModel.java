@@ -117,6 +117,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("is_available")
         @Expose
         private Boolean isAvailable;
+        @SerializedName("isValid")
+        @Expose
+        private Boolean isValid;
 
         public Integer getId() {
             return id;
@@ -213,6 +216,15 @@ public class ProfileGetResponseDataModel {
         public void setIsAvailable(Boolean isAvailable) {
             this.isAvailable = isAvailable;
         }
+
+        public Boolean getIsValid() {
+            return isValid;
+        }
+
+        public void setIsValid(Boolean isValid) {
+            this.isValid = isValid;
+        }
+
 
     }
 }
