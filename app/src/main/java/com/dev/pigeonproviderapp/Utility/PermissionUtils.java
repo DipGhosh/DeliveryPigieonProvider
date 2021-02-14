@@ -13,9 +13,10 @@ import java.util.List;
 public class PermissionUtils {
     public static final int MULTIPLE_PERMISSIONS = 10;
     String[] permissions = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION};
     private Activity mActivity;
     public PermissionUtils(Activity activity) {

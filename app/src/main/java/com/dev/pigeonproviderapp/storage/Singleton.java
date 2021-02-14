@@ -20,6 +20,15 @@ public class Singleton {
     private int ERRORSTATUS;
     private String DROPPOINTTYPE;
     private boolean ALLDROPPOINTCOMPLETE;
+    private String USERNAME;
+    private String USERIMAGE;
+    private float ORDERRATING;
+    private String RATECOMMENT;
+
+
+
+
+    private String OTPVERIFYMESSAGE;
 
     private boolean isProfileUpdated;
 
@@ -147,5 +156,45 @@ public class Singleton {
 
     public void setProfileUpdated(boolean profileUpdated) {
         isProfileUpdated = profileUpdated;
+    }
+
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    public void setUSERNAME(String USERNAME) {
+        this.USERNAME = USERNAME;
+    }
+
+    public String getUSERIMAGE() {
+        return USERIMAGE;
+    }
+
+    public void setUSERIMAGE(String USERIMAGE) {
+        this.USERIMAGE = USERIMAGE;
+    }
+
+    public String getOTPVERIFYMESSAGE() {
+        return OTPVERIFYMESSAGE;
+    }
+
+    public void setOTPVERIFYMESSAGE(String OTPVERIFYMESSAGE) {
+        this.OTPVERIFYMESSAGE = OTPVERIFYMESSAGE;
+    }
+
+    public float getORDERRATING() {
+        return ORDERRATING;
+    }
+
+    public void setORDERRATING(float ORDERRATING) {
+        this.ORDERRATING = ORDERRATING;
+    }
+
+    public String getRATECOMMENT() {
+        return RATECOMMENT;
+    }
+
+    public void setRATECOMMENT(String RATECOMMENT) {
+        this.RATECOMMENT = RATECOMMENT;
     }
 }

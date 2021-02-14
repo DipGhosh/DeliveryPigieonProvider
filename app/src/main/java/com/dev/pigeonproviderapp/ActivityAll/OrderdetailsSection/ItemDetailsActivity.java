@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
@@ -22,9 +23,11 @@ import com.dev.pigeonproviderapp.ActivityAll.Map.DataParser;
 import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.ItemDigitalSignature;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.OtpVerificationActivity;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRating.RatingActivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.GPSTracker;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
@@ -63,6 +66,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     Bundle bundle;
     LatLng startLatLng = null;
     LatLng endLatLng = null;
+    double provider_lat, provider_long, drop_point_lat, drop_point_long;
     private Activity activity = ItemDetailsActivity.this;
     private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted;
     private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider;
@@ -70,7 +74,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     private ImageView itemPhoneNumber, mapIconClick;
     private Dialog dialog;
     private String orderType;
-    double provider_lat,provider_long,drop_point_lat,drop_point_long;
+    private ConstraintLayout constrainmain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +95,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         acceptPaymentByProvider = findViewById(R.id.tv_accept_payment_item);
         itemPhoneNumber = findViewById(R.id.order_item_phoneNumber);
         mapIconClick = findViewById(R.id.ic_map_icon);
+        constrainmain = findViewById(R.id.constrainmain);
 
         gpsTracker = new GPSTracker(activity);
 
         if (gpsTracker.canGetLocation()) {
-            provider_lat=gpsTracker.getLatitude();
-            provider_long=gpsTracker.getLongitude();
+            provider_lat = gpsTracker.getLatitude();
+            provider_long = gpsTracker.getLongitude();
         }
 
 
@@ -121,6 +126,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         acceptPaymentByProvider.setOnClickListener(this);
         itemPhoneNumber.setOnClickListener(this);
         mapIconClick.setOnClickListener(this);
+        constrainmain.setOnClickListener(this);
 
     }
 
@@ -137,7 +143,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                     UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.accept_order_atfirst));
                 } else if (Singleton.getInstance().getORDERSTATUSCODE() == 2) {
                     UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.start_order_atfirst));
-                } else if ( Singleton.getInstance().getORDERITEMSTATUS() == 3) {
+                } else if (Singleton.getInstance().getORDERITEMSTATUS() == 5) {
+                    UiUtils.showAlert(activity, getString(R.string.order_complete_header), getString(R.string.order_complete));
+                } else if (Singleton.getInstance().getORDERITEMSTATUS() == 3) {
                     Intent intent = new Intent(ItemDetailsActivity.this, OtpVerificationActivity.class);
                     Singleton.getInstance().setDROPPOINTTYPE(orderType);
                     startActivity(intent);
@@ -151,7 +159,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                     UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.accept_order_atfirst));
                 } else if (Singleton.getInstance().getORDERSTATUSCODE() == 2) {
                     UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.start_order_atfirst));
-                } else if ( Singleton.getInstance().getORDERITEMSTATUS() == 3) {
+                } else if (Singleton.getInstance().getORDERITEMSTATUS() == 5) {
+                    UiUtils.showAlert(activity, getString(R.string.order_complete_header), getString(R.string.order_complete));
+                } else if (Singleton.getInstance().getORDERITEMSTATUS() == 3) {
                     Intent ordersignature = new Intent(ItemDetailsActivity.this, ItemDigitalSignature.class);
                     Singleton.getInstance().setDROPPOINTTYPE(orderType);
                     startActivity(ordersignature);
@@ -168,16 +178,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                     UiUtils.showAlert(activity, getString(R.string.order_complete_header), getString(R.string.accept_order_beforecompmete_aleart));
                 }
 
+
                 break;
 
-            case R.id.tv_accept_payment_item:
+            case R.id.constrainmain:
 
-                /*if (Singleton.getInstance().getORDERITEMSTATUS()==5 )
-                {
-
-                }else {
-                    acceptOrderPaymentByProvider();
-                }*/
+                UiUtils.hideSoftKeyBoard(activity, constrainmain);
 
                 break;
             case R.id.order_item_phoneNumber:
@@ -189,14 +195,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
                 break;
             case R.id.ic_map_icon:
-               /* Intent mapRoute = new Intent(ItemDetailsActivity.this, OrderRouteMap.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("coordinates", coordList);
-                mapRoute.putExtras(bundle);
-                startActivity(mapRoute);*/
-                Uri uri_redirect_map=Uri.parse("http://maps.google.com/maps?saddr="+22.5811617+","+88.3884055+"&daddr="+drop_point_lat+","+drop_point_long+"");
+                Uri uri_redirect_map = Uri.parse("http://maps.google.com/maps?saddr=" + 22.5811617 + "," + 88.3884055 + "&daddr=" + drop_point_lat + "," + drop_point_long + "");
 
-                Intent intent=new Intent(Intent.ACTION_VIEW,uri_redirect_map);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri_redirect_map);
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
                 break;
@@ -228,12 +229,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             dialog.dismiss();
 
-            if (completeOrderPointResponseDataModel.getStatus() == 200) {
+            System.out.println("MangaldipStatus"+Singleton.getInstance().getERRORSTATUS());
+
+            if(Singleton.getInstance().getERRORSTATUS()==200)
+            {
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
-
-                if (completeOrderPointResponseDataModel.getData().getIsAllDropPointsCompleted()==true)
-                {
+                if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true) {
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
                     builder.setTitle(getResources().getString(R.string.app_name));
                     builder.setIcon(R.mipmap.ic_launcher);
@@ -243,7 +245,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
+                                    Singleton.getInstance().setItemcomplete(true);
+                                    Intent intent = new Intent(ItemDetailsActivity.this, RatingActivity.class);
+                                    startActivity(intent);
                                     finish();
                                 }
                             });
@@ -268,7 +272,64 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                     alert.show();
                 }
 
+
+            }else if(Singleton.getInstance().getERRORSTATUS()==400)
+            {
+                UiUtils.showAlert(activity, getString(R.string.app_name),Singleton.getInstance().getOTPVERIFYMESSAGE());
             }
+
+            /*if (completeOrderPointResponseDataModel != null) {
+                if (completeOrderPointResponseDataModel.getStatus() == 200) {
+                    completeorderSubmit.setVisibility(View.GONE);
+                    orderCompleted.setVisibility(View.VISIBLE);
+
+                    if (completeOrderPointResponseDataModel.getData().getIsAllDropPointsCompleted() == true) {
+                        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                        builder.setTitle(getResources().getString(R.string.app_name));
+                        builder.setIcon(R.mipmap.ic_launcher);
+                        builder.setMessage(R.string.aleart_orderitem_complete);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(R.string.aleart_ok,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
+                                        Singleton.getInstance().setItemcomplete(true);
+                                        Intent intent = new Intent(ItemDetailsActivity.this, RatingActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                        final android.app.AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
+                        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                        builder.setTitle(getResources().getString(R.string.app_name));
+                        builder.setIcon(R.mipmap.ic_launcher);
+                        builder.setMessage(R.string.aleart_orderitem_complete);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(R.string.aleart_ok,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Singleton.getInstance().setItemcomplete(true);
+                                        finish();
+                                    }
+                                });
+                        final android.app.AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+
+                } else if (completeOrderPointResponseDataModel.getStatus() == 400) {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.droppoints_complete_validation));
+                }
+            } else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.droppoints_complete_validation));
+            }
+*/
+
+
         });
     }
 
@@ -307,7 +368,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
 
-        }else if (Singleton.getInstance().getORDERITEMSTATUS() == 2) {
+        } else if (Singleton.getInstance().getORDERITEMSTATUS() == 2) {
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
 
@@ -388,8 +449,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             Double lati = coordList.get(i).latitude;
             Double longi = coordList.get(i).longitude;
-            drop_point_lat=coordList.get(i).latitude;
-            drop_point_long=coordList.get(i).longitude;
+            drop_point_lat = coordList.get(i).latitude;
+            drop_point_long = coordList.get(i).longitude;
 
             mMap.addMarker(new MarkerOptions().position(co_ordinate)
                     .title("Delivery Pigieon")

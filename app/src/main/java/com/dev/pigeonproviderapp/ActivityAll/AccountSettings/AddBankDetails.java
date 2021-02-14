@@ -1,6 +1,7 @@
 package com.dev.pigeonproviderapp.ActivityAll.AccountSettings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
@@ -44,6 +46,8 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
     private ImageView back;
     private EditText bankAccountNumber,bankIfscCode,bankAccountType,bankAccountHolderName;
     private TextView saveBankDetails;
+    private ConstraintLayout mainLayout;
+    private LinearLayout mainLayoutClick;
 
     ProfileViewModel profileViewModel;
     private Dialog dialog;
@@ -62,6 +66,8 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
         bankAccountType=findViewById(R.id.et_bank_account_type);
         bankAccountHolderName=findViewById(R.id.et_bank_accountholder_name);
         saveBankDetails = findViewById(R.id.tv_save_bank_details);
+        mainLayout=findViewById(R.id.cinstarin_main);
+        mainLayoutClick=findViewById(R.id.ll_main);
 
 
 
@@ -72,6 +78,13 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
         saveBankDetails.setOnClickListener(this);
 
         callGetBankDetails();
+
+        mainLayoutClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UiUtils.hideSoftKeyBoard(activity,mainLayout);
+            }
+        });
 
 
     }

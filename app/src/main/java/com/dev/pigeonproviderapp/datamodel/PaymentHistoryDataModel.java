@@ -66,6 +66,9 @@ public class PaymentHistoryDataModel {
         @SerializedName("totalEarning")
         @Expose
         private Integer totalEarning;
+        @SerializedName("bonusHistory")
+        @Expose
+        private List<BonusHistory> bonusHistory = null;
 
         public List<PaymentHistory> getPaymentHistory() {
             return paymentHistory;
@@ -98,6 +101,13 @@ public class PaymentHistoryDataModel {
         public void setTotalEarning(Integer totalEarning) {
             this.totalEarning = totalEarning;
         }
+        public List<BonusHistory> getBonusHistory() {
+            return bonusHistory;
+        }
+
+        public void setBonusHistory(List<BonusHistory> bonusHistory) {
+            this.bonusHistory = bonusHistory;
+        }
 
     }
 
@@ -105,7 +115,7 @@ public class PaymentHistoryDataModel {
 
         @SerializedName("amount")
         @Expose
-        private Integer amount;
+        private String amount;
         @SerializedName("paymentType")
         @Expose
         private String paymentType;
@@ -113,11 +123,11 @@ public class PaymentHistoryDataModel {
         @Expose
         private String date;
 
-        public Integer getAmount() {
+        public String getAmount() {
             return amount;
         }
 
-        public void setAmount(Integer amount) {
+        public void setAmount(String amount) {
             this.amount = amount;
         }
 
@@ -143,7 +153,7 @@ public class PaymentHistoryDataModel {
 
         @SerializedName("amount")
         @Expose
-        private Integer amount;
+        private String amount;
         @SerializedName("paymentType")
         @Expose
         private String paymentType;
@@ -151,11 +161,49 @@ public class PaymentHistoryDataModel {
         @Expose
         private String date;
 
-        public Integer getAmount() {
+        public String getAmount() {
             return amount;
         }
 
-        public void setAmount(Integer amount) {
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public String getPaymentType() {
+            return paymentType;
+        }
+
+        public void setPaymentType(String paymentType) {
+            this.paymentType = paymentType;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+    }
+
+    public class BonusHistory {
+
+        @SerializedName("amount")
+        @Expose
+        private String amount;
+        @SerializedName("paymentType")
+        @Expose
+        private String paymentType;
+        @SerializedName("date")
+        @Expose
+        private String date;
+
+        public String getAmount() {
+            return amount;
+        }
+
+        public void setAmount(String amount) {
             this.amount = amount;
         }
 

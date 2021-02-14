@@ -71,7 +71,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
     private Activity activity = OrderDetails.this;
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
-    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType;
+    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType,totalDistanceNeedtocover;
     private int pickupPointID,orderItemStatus;
     private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment,paymentstatusMessage;
     private long pickupPhonenUmber;
@@ -108,6 +108,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         mapIconClick = findViewById(R.id.ll_map_icon_click);
         orderPaymentAccept=findViewById(R.id.tv_order_payment_accept);
         packageType=findViewById(R.id.tv_package_type);
+        totalDistanceNeedtocover=findViewById(R.id.tv_total_distance);
 
 
 
@@ -151,8 +152,15 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 break;
 
             case R.id.ll_moveRatingScreen:
-                Intent intent = new Intent(OrderDetails.this, RatingActivity.class);
-                startActivity(intent);
+
+                if (Singleton.getInstance().getORDERSTATUSCODE() == 5)
+                {
+                    Intent intent = new Intent(OrderDetails.this, RatingActivity.class);
+                    startActivity(intent);
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.rate_app_validation));
+                }
+
                 break;
 
             case R.id.ll_pickup_point_view:
@@ -209,7 +217,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
                 }else if (orderPaymentStatus==1)
                 {
-                    if (orderStatus==2||orderStatus==3)
+                    if (orderStatus==3||orderStatus==5)
                     {
                         acceptOrderPaymentByProvider();
                     }
@@ -223,6 +231,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
+
     @Override
     public void onResume(){
         super.onResume();
@@ -232,10 +242,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         {
             getOrderDetails();
         }
-        else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+       /* else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
         {
             finish();
-        }
+        }*/
     }
 
 
@@ -266,6 +276,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     //store order payment status in singletin class
                     Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
 
+                    //Store user info for rating
+                    Singleton.getInstance().setUSERNAME(orderDetailsResponseDatamodel.getData().getUser().getName());
+                    Singleton.getInstance().setUSERIMAGE(orderDetailsResponseDatamodel.getData().getUser().getProfileImageUrl());
+                    Singleton.getInstance().setORDERRATING(orderDetailsResponseDatamodel.getData().getRating().getRate());
+                    Singleton.getInstance().setRATECOMMENT(orderDetailsResponseDatamodel.getData().getRating().getComment());
+
 
                     pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
 
@@ -274,6 +290,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     //Show order weight & package type
                     orderWeight.setText("Weight: Upto " + orderDetailsResponseDatamodel.getData().getWeight() + "KG");
                     packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
+                    totalDistanceNeedtocover.setText("Total Distance: "+orderDetailsResponseDatamodel.getData().getDistance()+" KM");
 
                     //show payment status message in order details screen
                     paymentstatusMessage=orderDetailsResponseDatamodel.getData().getPayment().getMessage();
@@ -448,7 +465,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             startOrder.setVisibility(View.GONE);
             startedOrder.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
-            redirectRatingScreen.setVisibility(View.INVISIBLE);
+            redirectRatingScreen.setVisibility(View.VISIBLE);
 
 
         } else if (orderStatus==2) {
@@ -462,7 +479,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         if (orderPaymentStatus==1)
         {
-            paymentStatus.setText(paymentstatusMessage+" - "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
             orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }else if (orderPaymentStatus==2)
@@ -478,7 +495,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         }else if (orderPaymentStatus==0)
         {
-            paymentStatus.setText(paymentstatusMessage+" - "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
             orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }

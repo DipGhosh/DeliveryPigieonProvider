@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.dev.pigeonproviderapp.BuildConfig;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.CommonUtils;
 import com.dev.pigeonproviderapp.Utility.GlideApp;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
@@ -70,20 +72,22 @@ import okhttp3.Route;
 
 public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
-    private Activity activity = ProfileEdit.this;
     //Image Upload
     private static final int SELECT_PICTURE = 0;
     private final int REQUEST_CAMERA = 1;
+    private Activity activity = ProfileEdit.this;
     private Uri camuri;
     private Bitmap bitmap;
 
-    ProfileViewModel profileViewModel;
-    private ImageView back, profileEditImageUpload, selectEditImage;
-    private TextView profileEditSubmit;
+    private ImageView edit_back, profileEditImageUpload, selectEditImage;
     private EditText userNameProfileEdit, emailProfileEdit;
+    private TextView profileEditSubmit;
+    private LinearLayout mainLayoutClick;
 
     private ProgressBar profileEditImageProgress;
     private String profileImageUrl;
+
+    private ProfileViewModel profileViewModel;
     private Dialog dialog;
 
     @Override
@@ -91,34 +95,39 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
 
-        dialog = UiUtils.showProgress(ProfileEdit.this);
-
-        back = findViewById(R.id.img_back);
+        edit_back = findViewById(R.id.img_back);
         userNameProfileEdit = findViewById(R.id.et_userName_profileEdit);
         emailProfileEdit = findViewById(R.id.et_email_profileEdit);
+        selectEditImage = findViewById(R.id.ic_edit_pic);
         profileEditSubmit = findViewById(R.id.tv_save_profile_edit);
         profileEditImageUpload = findViewById(R.id.ic_profileedit_imageupload);
-        selectEditImage = findViewById(R.id.ic_edit_pic);
-        profileEditImageProgress=findViewById(R.id.profile_edit_image_progress);
+        profileEditImageProgress = findViewById(R.id.profile_edit_image_progress);
+        mainLayoutClick=findViewById(R.id.ll_main);
+
+        dialog = UiUtils.showProgress(ProfileEdit.this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             userNameProfileEdit.setText(bundle.getString("NAME"));
             emailProfileEdit.setText(bundle.getString("EMAIL"));
-            profileImageUrl=bundle.getString("URL");
+            profileImageUrl = bundle.getString("URL");
         }
-
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        //Registered click listener
-        back.setOnClickListener(this);
-        selectEditImage.setOnClickListener(this);
+        edit_back.setOnClickListener(this);
         profileEditSubmit.setOnClickListener(this);
+        selectEditImage.setOnClickListener(this);
+
+        mainLayoutClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UiUtils.hideSoftKeyBoard(activity,mainLayoutClick);
+            }
+        });
 
         //Show Image
-        if (profileImageUrl != null)
-        {
+        if (profileImageUrl != null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
                         @Override
@@ -149,10 +158,11 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                             Picasso.with(activity).load(R.drawable.dummy_image).into(profileEditImageUpload);
                         }
                     });
-        }else {
+        } else {
             profileEditImageProgress.setVisibility(View.GONE);
             Picasso.with(activity).load(R.drawable.dummy_image).into(profileEditImageUpload);
         }
+
 
     }
 
@@ -163,16 +173,24 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             case R.id.img_back:
                 Intent intent = getIntent();
                 intent.putExtra(Utility.EDIT_NAME, userNameProfileEdit.getText().toString());
-                intent.putExtra(Utility.EDIT_EMAIL,emailProfileEdit.getText().toString());
+                intent.putExtra(Utility.EDIT_EMAIL, emailProfileEdit.getText().toString());
                 intent.putExtra(Utility.EDIT_PIC, profileImageUrl);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
-            case R.id.tv_save_profile_edit:
+            case R.id.ic_profileedit_imageupload:
                 callProfileInfoUpdate();
                 break;
             case R.id.ic_edit_pic:
                 selectImage();
+                break;
+            case R.id.tv_save_profile_edit:
+
+                if (NetworkUtils.isNetworkAvailable(activity)) {
+                    callProfileInfoUpdate();
+                } else {
+                    UiUtils.showToast(activity, getString(R.string.network_error));
+                }
                 break;
             default:
                 break;
@@ -188,36 +206,37 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             profileUpdateAPI.setName(userNameProfileEdit.getText().toString());
             profileUpdateAPI.setEmail(emailProfileEdit.getText().toString());
 
+            profileViewModel.getProfileUpdatedata(profileUpdateAPI)
+                    .observe(this, profileUpdateResponseDataModel -> {
 
-            profileViewModel.getProfileUpdatedata(profileUpdateAPI).observe(this, new Observer<ProfileUpdateResponseDataModel>() {
-                @Override
-                public void onChanged(ProfileUpdateResponseDataModel profileUpdateResponseDataModel) {
-                    dialog.dismiss();
+                        dialog.dismiss();
 
-                    UiUtils.showAlert(activity,"Profile Edit",getString(R.string.profile_edit_aleart));
-
+                        if (profileUpdateResponseDataModel.getStatus() == 200) {
+                            UiUtils.showAlert(activity, "Profile Edit", getString(R.string.profile_edit_aleart));
+                        }
 
 
-                }
-            });
+                    });
         }
 
     }
+
 
     private boolean isValid() {
         if (TextUtils.isEmpty(userNameProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.aleart_name));
             return false;
         } else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
-            UiUtils.showToast(this, getString(R.string.alert_provider_email));
+            UiUtils.showToast(this, getString(R.string.alert_email));
             return false;
         } else if (!CommonUtils.isValidEmail(emailProfileEdit.getText().toString().trim())) {
             UiUtils.showToast(this, getString(R.string.alert_valid_email));
             return false;
-        }  else {
+        } else {
             return true;
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -226,7 +245,8 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
             Uri selectedImageUri = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(ProfileEdit.this.getContentResolver(), selectedImageUri);
+                bitmap = MediaStore.Images.Media
+                        .getBitmap(ProfileEdit.this.getContentResolver(), selectedImageUri);
                 Glide.with(this).load(bitmap)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
@@ -236,11 +256,11 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             }
             uploadFile(selectedImageUri);
 
-        }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
-        {
+        } else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA) {
             Uri selectedImageUri = camuri;
             String[] projection = {MediaStore.MediaColumns.DATA};
-            CursorLoader cursorLoader = new android.content.CursorLoader(this, selectedImageUri, projection, null, null,
+            CursorLoader cursorLoader = new android.content.CursorLoader(this, selectedImageUri,
+                    projection, null, null,
                     null);
             Cursor cursor = cursorLoader.loadInBackground();
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
@@ -254,8 +274,9 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             final int REQUIRED_SIZE = 200;
             int scale = 1;
             while (options.outWidth / scale / 2 >= REQUIRED_SIZE
-                    && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+                    && options.outHeight / scale / 2 >= REQUIRED_SIZE) {
                 scale *= 2;
+            }
             options.inSampleSize = scale;
             options.inJustDecodeBounds = false;
 
@@ -266,17 +287,31 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         }
     }
 
+ /* public byte[] getBytes(InputStream is) throws IOException {
+    ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
+
+    int buffSize = 1024;
+    byte[] buff = new byte[buffSize];
+
+    int len = 0;
+    while ((len = is.read(buff)) != -1) {
+      byteBuff.write(buff, 0, len);
+    }
+
+    return byteBuff.toByteArray();
+  }*/
+
     private void uploadFile(Uri fileUri) {
 
         dialog.show();
 
-        Uri selectedImageUri=fileUri;
+        Uri selectedImageUri = fileUri;
 
         String path = getRealPathFromURI(selectedImageUri);
         Log.d("Picture Path", "" + path);
 
         //pass it like this
-        File file = new File(path);
+        File file = Utility.saveBitmapToFile(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part
                 .createFormData("profile_picture", file.getName(), requestFile);
@@ -288,15 +323,15 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
                         dialog.dismiss();
 
-                      String  filename = updateProfilePIctureDataModel.getData().getUser()
+                        String filename = updateProfilePIctureDataModel.getData().getUser()
                                 .getProfilePicture();
-                        profileImageUrl=filename;
-
+                        profileImageUrl = filename;
                         Log.d("Aslam", "Filename: " + filename);
 
                     }
                 });
     }
+
     public String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null,
@@ -319,13 +354,12 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         return result;
     }
 
-
-
     private void selectImage() {
 
         final CharSequence[] items = {"From Camera", "From Cameraroll", "Cancel"};
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(ProfileEdit.this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(
+                ProfileEdit.this);
         builder.setTitle("Add Photo");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -338,7 +372,8 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                     values.put(MediaStore.Images.Media.TITLE, fileName);
                     values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
                     //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
-                    camuri = ProfileEdit.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    camuri = ProfileEdit.this.getContentResolver()
+                            .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                     //create new Intent
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
@@ -356,4 +391,5 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         });
         builder.show();
     }
+
 }

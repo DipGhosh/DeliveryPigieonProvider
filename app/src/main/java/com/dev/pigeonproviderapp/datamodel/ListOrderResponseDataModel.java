@@ -81,6 +81,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("earn")
         @Expose
         private double earn;
+        @SerializedName("provider_bonus")
+        @Expose
+        private Integer providerBonus;
 
         public Integer getId() {
             return id;
@@ -153,6 +156,14 @@ public class ListOrderResponseDataModel {
         public void setEarn(double earn) {
             this.earn = earn;
         }
+        public Integer getProviderBonus() {
+            return providerBonus;
+        }
+
+        public void setProviderBonus(Integer providerBonus) {
+            this.providerBonus = providerBonus;
+        }
+
 
     }
 
@@ -185,6 +196,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("earn")
         @Expose
         private double earn;
+        @SerializedName("provider_bonus")
+        @Expose
+        private Integer providerBonus;
 
         public Integer getId() {
             return id;
@@ -256,6 +270,13 @@ public class ListOrderResponseDataModel {
 
         public void setEarn(double earn) {
             this.earn = earn;
+        }
+        public Integer getProviderBonus() {
+            return providerBonus;
+        }
+
+        public void setProviderBonus(Integer providerBonus) {
+            this.providerBonus = providerBonus;
         }
 
     }
@@ -336,6 +357,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("earn")
         @Expose
         private double earn;
+        @SerializedName("provider_bonus")
+        @Expose
+        private Integer providerBonus;
 
         public Integer getId() {
             return id;
@@ -431,6 +455,13 @@ public class ListOrderResponseDataModel {
 
         public void setEarn(double earn) {
             this.earn = earn;
+        }
+        public Integer getProviderBonus() {
+            return providerBonus;
+        }
+
+        public void setProviderBonus(Integer providerBonus) {
+            this.providerBonus = providerBonus;
         }
 
     }

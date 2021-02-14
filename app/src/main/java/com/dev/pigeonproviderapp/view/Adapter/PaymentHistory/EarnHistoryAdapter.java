@@ -52,7 +52,7 @@ public class EarnHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
         handler.paymentType.setText(earnHistoryDataProvider.paymentType);
-        handler.paymentAmount.setText("₹"+""+earnHistoryDataProvider.paymentAmount);
+        handler.paymentAmount.setText(""+earnHistoryDataProvider.paymentAmount);
         handler.paymentDate.setText(earnHistoryDataProvider.paymentDate);
 
 

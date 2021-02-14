@@ -41,6 +41,7 @@ import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
 import com.dev.pigeonproviderapp.storage.SharePreference;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.WebViewLinkShow.WebserviceActivity;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.google.android.gms.common.api.Status;
@@ -239,6 +240,18 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                userName.setText(profileGetResponseDataModel.getData().getUser().getName());
 
                profile_pic_url=profileGetResponseDataModel.getData().getUser().getProfilePicture();
+
+               //Profile update boolean value set in Singleton class
+                if (profileGetResponseDataModel.getData().getUser().getIsValid()==true)
+                {
+                    sharePreference.setProfileverified(true);
+                    Singleton.getInstance().setProfileUpdated(false);
+                }else {
+                    sharePreference.setProfileverified(false);
+                    Singleton.getInstance().setProfileUpdated(false);
+                    UiUtils.showAlert(activity,getString(R.string.app_name),getString(R.string.profile_verification_aleart));
+                }
+
 
                 //User Status
                 approvalStatus.setText(profileGetResponseDataModel.getData().getUser().getStatus());

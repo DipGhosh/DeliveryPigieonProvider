@@ -1,34 +1,29 @@
 package com.dev.pigeonproviderapp.view.Adapter.PaymentHistory;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.R;
-import com.dev.pigeonproviderapp.storage.Singleton;
-import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
-import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
-import com.dev.pigeonproviderapp.view.Dataprovider.PaymentHistoryDataprovider;
+import com.dev.pigeonproviderapp.view.Dataprovider.BonusHistoryDatamodel;
+import com.dev.pigeonproviderapp.view.Dataprovider.EarnHistoryDataProvider;
 
 import java.util.Collections;
 import java.util.List;
 
-public class PaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class BonusHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     static Activity activity;
     View myView;
     private LayoutInflater inflater;
-    public static List<PaymentHistoryDataprovider> data= Collections.emptyList();
+    public static List<BonusHistoryDatamodel> data= Collections.emptyList();
 
 
-    public PaymentHistoryAdapter(Activity activity, List<PaymentHistoryDataprovider> data)  /**/
+    public BonusHistoryAdapter(Activity activity, List<BonusHistoryDatamodel> data)  /**/
     {
         if (activity!=null)
         {
@@ -42,21 +37,21 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         myView = inflater.inflate(R.layout.payment_history_layout, parent, false);
-        PaymentHistoryAdapter.MyHolder holder = new PaymentHistoryAdapter.MyHolder(myView);
+        BonusHistoryAdapter.MyHolder holder = new BonusHistoryAdapter.MyHolder(myView);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position)
     {
-        final PaymentHistoryAdapter.MyHolder handler = (PaymentHistoryAdapter.MyHolder) holder;
-        final PaymentHistoryDataprovider paymentHistoryDataprovider=data.get(position);
+        final BonusHistoryAdapter.MyHolder handler = (BonusHistoryAdapter.MyHolder) holder;
+        final BonusHistoryDatamodel bonusHistoryDataProvider=data.get(position);
 
 
 
-        handler.paymentType.setText(paymentHistoryDataprovider.paymentType);
-        handler.paymentAmount.setText(""+paymentHistoryDataprovider.paymentAmount);
-        handler.paymentDate.setText(paymentHistoryDataprovider.paymentDate);
+        handler.paymentType.setText(bonusHistoryDataProvider.paymentType);
+        handler.paymentAmount.setText(""+bonusHistoryDataProvider.paymentAmount);
+        handler.paymentDate.setText(bonusHistoryDataProvider.paymentDate);
 
 
 
@@ -90,4 +85,5 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         }
     }
+
 }
