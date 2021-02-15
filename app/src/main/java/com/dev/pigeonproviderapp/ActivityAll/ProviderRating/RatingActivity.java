@@ -87,7 +87,7 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                 rating_val = Double.parseDouble(new DecimalFormat("##.#").format(get_rating_val));
 
                 Singleton.getInstance().setORDERRATING( get_rating_val);
-                Singleton.getInstance().setRATECOMMENT(providerComment.getText().toString());
+
 
             }
         });
@@ -114,6 +114,7 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_reviewSubmit:
                 if (isValid()) {
                     rateOrderSubmit();
+                    Singleton.getInstance().setRATECOMMENT(providerComment.getText().toString());
                 }
 
                 break;

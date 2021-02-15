@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,17 +25,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.dev.pigeonproviderapp.ActivityAll.Notification.NotificationActivity;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.ActiveOrdersFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.GPSTracker;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.LocationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
+import com.dev.pigeonproviderapp.httpRequest.LocationRequestSendModel;
 import com.dev.pigeonproviderapp.storage.Singleton;
+import com.dev.pigeonproviderapp.viewmodel.LocationSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -50,8 +57,12 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
     private ImageView notificationImage;
+    GPSTracker gpsTracker;
+    double provider_lat, provider_long;
+    LocationSendViewModel locationSendViewModel;
 
     private OrderListViewModel orderListViewModel;
+
 
     private Activity activity;
     private Dialog dialog;
@@ -110,6 +121,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
+        locationSendViewModel = ViewModelProviders.of(this).get(LocationSendViewModel.class);
 
         // restrict refresh fragments
         viewPager.setOffscreenPageLimit(2);
@@ -122,6 +134,35 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
         LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-message"));
+
+        gpsTracker = new GPSTracker(activity);
+
+        if (gpsTracker.canGetLocation()) {
+            provider_lat = gpsTracker.getLatitude();
+            provider_long = gpsTracker.getLongitude();
+
+            System.out.println("LAt" + provider_lat);
+            CallLocationAPI();
+        }
+
+
+
+       /* Handler handler = new Handler();
+        handler.postDelayed(
+                new Runnable() {
+                    public void run() {
+                        CallLocationAPI();
+                    }
+                }, 1000);*/
+        Handler handler = new Handler();
+        Runnable r = new Runnable() {
+            public void run() {
+                CallLocationAPI();
+            }
+        };
+        handler.postDelayed(r, 1000);
+
+
 
 
 
@@ -164,6 +205,14 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
             getOrderList();
             Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
         }
+
+        if (gpsTracker.canGetLocation()) {
+            provider_lat = gpsTracker.getLatitude();
+            provider_long = gpsTracker.getLongitude();
+
+            System.out.println("LAt" + provider_lat);
+            CallLocationAPI();
+        }
     }
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -188,6 +237,26 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
         }
     };
+
+    public void CallLocationAPI() {
+
+        System.out.println("Mangaldip"+"Hello");
+
+        LocationRequestSendModel locationRequestSendModel = new LocationRequestSendModel();
+        locationRequestSendModel.setLatitude(provider_lat);
+        locationRequestSendModel.setLongitude(provider_long);
+
+
+        locationSendViewModel.locationSendAPI(locationRequestSendModel)
+                .observe(this, new Observer<LocationDatamodel>() {
+                    @Override
+                    public void onChanged(LocationDatamodel locationDatamodel) {
+
+
+                    }
+                });
+
+    }
 
     public  void getOrderList() {
         dialog.show();
