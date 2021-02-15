@@ -16,6 +16,7 @@ import com.dev.pigeonproviderapp.datamodel.CompleteTaskErrorPojoClass;
 import com.dev.pigeonproviderapp.datamodel.DroppointVerifyErrorPojoClass;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.LocationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -32,6 +33,7 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.BankDetailsSubmitAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.LocationRequestSendModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
@@ -859,6 +861,42 @@ public class NetworkCall {
         });
 
         return notificationDataModelMutableLiveData;
+    }
+
+    //Location fetch APi
+
+    //Provider availability
+
+    public MutableLiveData<LocationDatamodel> locationSendAPI(LocationRequestSendModel locationRequestSendModel) {
+
+        MutableLiveData<LocationDatamodel> locationSendModelMutableLiveData = new MutableLiveData<LocationDatamodel>();
+
+        Call<LocationDatamodel> locationAPICall = apiInterface
+                .locationAPICall(Singleton.getInstance().getTOKEN(), locationRequestSendModel, Utility.USERTYPE);
+
+        locationAPICall.enqueue(new Callback<LocationDatamodel>() {
+            @Override
+            public void onResponse(Call<LocationDatamodel> call,
+                                   Response<LocationDatamodel> response) {
+
+                if (response.isSuccessful()) {
+                    locationSendModelMutableLiveData.postValue(response.body());
+                    Log.d("Aslam", response.body().toString());
+                } else {
+                    Log.d("Aslam", response.errorBody().toString());
+                    locationSendModelMutableLiveData.postValue(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LocationDatamodel> call, Throwable t) {
+                Log.d("Aslam", t.getMessage());
+            }
+        });
+
+
+        return locationSendModelMutableLiveData;
     }
 
 

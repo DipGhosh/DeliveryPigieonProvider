@@ -7,6 +7,7 @@ import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
 import com.dev.pigeonproviderapp.datamodel.CompleteOrderPointResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.LocationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -23,6 +24,7 @@ import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.AddDocumentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.BankDetailsSubmitAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
+import com.dev.pigeonproviderapp.httpRequest.LocationRequestSendModel;
 import com.dev.pigeonproviderapp.httpRequest.OTPSendAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
@@ -137,6 +139,10 @@ public interface APIInterface {
 
   @GET("/api/user-notification")
   Call<NotificationDatamodel> getallNotificationCall(@Header("Authorization") String authorization, @Header("UserType") int usertype);
+
+  @Headers({"Accept: application/json"})
+  @POST("/api/locations")
+  Call<LocationDatamodel> locationAPICall(@Header("Authorization") String authorization,@Body LocationRequestSendModel locationRequestSendModel, @Header("UserType") int usertype);
 
 }
 
