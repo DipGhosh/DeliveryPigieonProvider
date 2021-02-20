@@ -201,7 +201,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
                 break;
             case R.id.chkState:
-                if (simpleToggleButton.isChecked()) {
+                /*if (simpleToggleButton.isChecked()) {
                     //System.out.println("Check"+"Y");
                     toggleValue=1;
                     ProviderAvailableToggle();
@@ -212,7 +212,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                     ProviderAvailableToggle();
 
 
-                }
+                }*/
 
                 break;
 
@@ -259,9 +259,11 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 //Avilable button check/uncheck
                if (profileGetResponseDataModel.getData().getUser().getIsAvailable()==true)
                {
-                   simpleToggleButton.setChecked(true);
+                  // simpleToggleButton.setChecked(true);
+                   sharePreference.setProviderAvailable(true);
                }else {
-                   simpleToggleButton.setChecked(false);
+                   //simpleToggleButton.setChecked(false);
+                   sharePreference.setProviderAvailable(false);
                }
 
                //Image download and show

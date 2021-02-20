@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ItemDetailsActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Dataprovider.DeliveryPointListingDatamodel;
 
@@ -50,18 +51,16 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         handler.orderPointName.setText(deliveryPointListingDatamodel.orderpoint_name);
 
-        System.out.println("CheckStatus"+deliveryPointListingDatamodel.order_droppoint_status);
-        System.out.println("Time"+deliveryPointListingDatamodel.delivery_time);
 
-        /*//Check Pickuppoint status
-        if(deliveryPointListingDatamodel.order_droppoint_status==5)
-        {
-            handler.orderstatus.setText("Complete");
-        }else {
-            handler.orderstatus.setText("Pending");
-        }*/
         handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
+
+        if (deliveryPointListingDatamodel.flatName!=null)
+        {
+            handler.order_flatNumber.setText(deliveryPointListingDatamodel.flatName);
+        }else {
+            handler.order_flatNumber.setVisibility(View.GONE);
+        }
         handler.dropItemClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,14 +70,14 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Singleton.getInstance().setItemcomplete(false);
 
                 Intent itemdetails=new Intent(activity, ItemDetailsActivity.class);
-                itemdetails.putExtra("ITEMID",deliveryPointListingDatamodel.delivery_order_id);
-                itemdetails.putExtra("TYPE",deliveryPointListingDatamodel.orderpoint_name);
-                itemdetails.putExtra("ADDRESS",deliveryPointListingDatamodel.order_point_address);
-                itemdetails.putExtra("PAYMENTSTATUS",deliveryPointListingDatamodel.payment_status);
-                itemdetails.putExtra("TIME",deliveryPointListingDatamodel.delivery_time);
-                itemdetails.putExtra("COMMENT",deliveryPointListingDatamodel.delivery_comments);
-                itemdetails.putExtra("lat", deliveryPointListingDatamodel.droppoint_lat);
-                itemdetails.putExtra("long", deliveryPointListingDatamodel.droppoint_long);
+                itemdetails.putExtra(Utility.DROPPOINT_TYPE,deliveryPointListingDatamodel.orderpoint_name);
+                itemdetails.putExtra(Utility.ADDRESS_KEY,deliveryPointListingDatamodel.order_point_address);
+                itemdetails.putExtra(Utility.TIME_KEY,deliveryPointListingDatamodel.delivery_time);
+                itemdetails.putExtra(Utility.COMMENT_KEY,deliveryPointListingDatamodel.delivery_comments);
+                itemdetails.putExtra(Utility.LAT_KEY, deliveryPointListingDatamodel.droppoint_lat);
+                itemdetails.putExtra(Utility.LONG_KEY, deliveryPointListingDatamodel.droppoint_long);
+                itemdetails.putExtra(Utility.FLATNAME_KEY, deliveryPointListingDatamodel.flatName);
+                itemdetails.putExtra(Utility.REACHADDRESS_KEY, deliveryPointListingDatamodel.addressToReach);
                 activity.startActivity(itemdetails);
             }
         });
@@ -100,7 +99,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView orderPointName,orderstatus,orderAddress;
+        TextView orderPointName,orderstatus,orderAddress,order_flatNumber;
         LinearLayout dropItemClick;
 
 
@@ -111,6 +110,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             orderstatus=(TextView) row.findViewById(R.id.tv_pickup_address);
             orderAddress=(TextView)row.findViewById(R.id.order_address_details);
             dropItemClick=(LinearLayout)row.findViewById(R.id.ll_drop_item_click);
+            order_flatNumber=row.findViewById(R.id.order_flatNumber);
 
 
 

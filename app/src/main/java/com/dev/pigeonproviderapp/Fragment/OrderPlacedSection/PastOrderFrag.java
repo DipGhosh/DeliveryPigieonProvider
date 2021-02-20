@@ -138,6 +138,7 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 past_order_arraylist.clear();
+                blankImage.setVisibility(View.GONE);
 
                 for (ListOrderResponseDataModel.Past past : listOrderDataModel.getData().getPast()) {
 

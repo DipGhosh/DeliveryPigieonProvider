@@ -132,6 +132,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 active_order_arraylist.clear();
+                blankImage.setVisibility(View.GONE);
 
                 for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
 

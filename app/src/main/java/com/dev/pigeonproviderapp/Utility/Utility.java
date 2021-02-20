@@ -44,6 +44,21 @@ public class Utility {
   public static String EDIT_EMAIL = "EDIT_EMAIL";
   public static String EDIT_PIC = "EDIT_PIC";
 
+  public static String FLATNAME_KEY="flatname";
+  public static String REACHADDRESS_KEY="addresstoreach";
+
+  public static String ADDRESS_KEY = "address";
+  public static String TIME_KEY = "time";
+  public static String COMMENT_KEY = "comment";
+  public static String LAT_KEY = "lat";
+  public static String LONG_KEY = "long";
+  public static String DROPPOINT_TYPE="TYPE";
+
+  //Point name
+  public static String PICK_POINT_KEY="Pickup Point";
+  public static String DROP_POINT_KEY="Drop Point";
+
+
   public static File saveBitmapToFile(File file) {
     try {
 

@@ -124,11 +124,15 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
                 public void onChanged(AcceptPaymentResponseModel bankdetailsresponseDatamodel) {
                     dialog.dismiss();
 
+                    if (bankdetailsresponseDatamodel != null) {
+                        if( bankdetailsresponseDatamodel.getStatus()==200)
+                        {
+                            UiUtils.showAlert(activity,"Add Bank Details Edit",getString(R.string.aleart_add_bankdetails));
+                        }
+                    }else {
+                        UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_invalid));
+                    }
 
-                          if( bankdetailsresponseDatamodel.getStatus()==200)
-                          {
-                              UiUtils.showAlert(activity,"Add Bank Details Edit",getString(R.string.aleart_add_bankdetails));
-                          }
 
 
 

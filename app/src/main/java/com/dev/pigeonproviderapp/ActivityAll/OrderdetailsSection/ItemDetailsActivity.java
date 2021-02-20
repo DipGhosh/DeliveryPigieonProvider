@@ -69,7 +69,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     double provider_lat, provider_long, drop_point_lat, drop_point_long;
     private Activity activity = ItemDetailsActivity.this;
     private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted;
-    private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider;
+    private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider,addressToReach;
     private EditText providerComment;
     private ImageView itemPhoneNumber, mapIconClick;
     private Dialog dialog;
@@ -96,6 +96,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         itemPhoneNumber = findViewById(R.id.order_item_phoneNumber);
         mapIconClick = findViewById(R.id.ic_map_icon);
         constrainmain = findViewById(R.id.constrainmain);
+        addressToReach=findViewById(R.id.tv_addrees_to_reach);
 
         gpsTracker = new GPSTracker(activity);
 
@@ -195,7 +196,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
                 break;
             case R.id.ic_map_icon:
-                Uri uri_redirect_map = Uri.parse("http://maps.google.com/maps?saddr=" + 22.5811617 + "," + 88.3884055 + "&daddr=" + drop_point_lat + "," + drop_point_long + "");
+                Uri uri_redirect_map = Uri.parse("http://maps.google.com/maps?saddr=" + provider_lat + "," + provider_long + "&daddr=" + drop_point_lat + "," + drop_point_long + "");
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri_redirect_map);
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -229,7 +230,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             dialog.dismiss();
 
-            System.out.println("MangaldipStatus"+Singleton.getInstance().getERRORSTATUS());
 
             if(Singleton.getInstance().getERRORSTATUS()==200)
             {
@@ -245,7 +245,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Singleton.getInstance().setItemcomplete(true);
+                                    //Singleton.getInstance().setItemcomplete(true);
+                                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
                                     Intent intent = new Intent(ItemDetailsActivity.this, RatingActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -278,83 +279,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 UiUtils.showAlert(activity, getString(R.string.app_name),Singleton.getInstance().getOTPVERIFYMESSAGE());
             }
 
-            /*if (completeOrderPointResponseDataModel != null) {
-                if (completeOrderPointResponseDataModel.getStatus() == 200) {
-                    completeorderSubmit.setVisibility(View.GONE);
-                    orderCompleted.setVisibility(View.VISIBLE);
 
-                    if (completeOrderPointResponseDataModel.getData().getIsAllDropPointsCompleted() == true) {
-                        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
-                        builder.setTitle(getResources().getString(R.string.app_name));
-                        builder.setIcon(R.mipmap.ic_launcher);
-                        builder.setMessage(R.string.aleart_orderitem_complete);
-                        builder.setCancelable(false);
-                        builder.setPositiveButton(R.string.aleart_ok,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
-                                        Singleton.getInstance().setItemcomplete(true);
-                                        Intent intent = new Intent(ItemDetailsActivity.this, RatingActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
-                        final android.app.AlertDialog alert = builder.create();
-                        alert.show();
-                    } else {
-                        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
-                        builder.setTitle(getResources().getString(R.string.app_name));
-                        builder.setIcon(R.mipmap.ic_launcher);
-                        builder.setMessage(R.string.aleart_orderitem_complete);
-                        builder.setCancelable(false);
-                        builder.setPositiveButton(R.string.aleart_ok,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        Singleton.getInstance().setItemcomplete(true);
-                                        finish();
-                                    }
-                                });
-                        final android.app.AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-
-                } else if (completeOrderPointResponseDataModel.getStatus() == 400) {
-                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.droppoints_complete_validation));
-                }
-            } else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.droppoints_complete_validation));
-            }
-*/
 
 
         });
     }
 
-    /*public void acceptOrderPaymentByProvider() {
-
-        dialog.show();
-
-        AcceptPaymentAPIModel acceptPaymentAPIModel = new AcceptPaymentAPIModel();
-        acceptPaymentAPIModel.setOrderid(Singleton.getInstance().getORDERID());
-
-
-        orderListViewModel.paymentAcceptData(acceptPaymentAPIModel).observe(this, acceptPaymentResponseModel -> {
-
-            dialog.dismiss();
-
-            if (acceptPaymentResponseModel.getStatus() == 200) {
-                acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
-                paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
-
-                Singleton.getInstance().setPAYMENTSTATUS(3);
-
-                UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
-            }
-        });
-    }*/
 
     public void AllFieldVisibility() {
 
@@ -383,19 +313,37 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
 
         if (bundle != null) {
-            pointName.setText(bundle.getString("TYPE"));
-            pointAddress.setText(bundle.getString("ADDRESS"));
-            pointDeliveryTime.setText(bundle.getString("TIME"));
-            pointDeliveryComment.setText(bundle.getString("COMMENT"));
+            pointName.setText(bundle.getString(Utility.DROPPOINT_TYPE));
+            pointDeliveryComment.setText("Note: "+bundle.getString(Utility.COMMENT_KEY));
 
-            if (bundle.getString("TYPE").equals("Pickup Point")) {
+            if (bundle.getString(Utility.TIME_KEY)!=null)
+            {
+                pointDeliveryTime.setText(bundle.getString(Utility.TIME_KEY));
+            }else {
+                pointDeliveryTime.setVisibility(View.GONE);
+            }
+
+            if (bundle.getString(Utility.FLATNAME_KEY)!=null)
+            {
+                pointAddress.setText(bundle.getString(Utility.FLATNAME_KEY)+ System.getProperty ("line.separator")+bundle.getString(Utility.ADDRESS_KEY));
+            }else {
+                pointAddress.setText(bundle.getString(Utility.ADDRESS_KEY));
+            }
+            if (bundle.getString(Utility.REACHADDRESS_KEY)!=null)
+            {
+                addressToReach.setText(bundle.getString(Utility.REACHADDRESS_KEY));
+            }else {
+                addressToReach.setVisibility(View.GONE);
+            }
+
+            if (bundle.getString(Utility.DROPPOINT_TYPE).equals("Pickup Point")) {
                 orderType = "pickup";
             } else {
                 orderType = "drop";
             }
 
             // add  coordinates to polyline draw for pickup point
-            coordList.add(new LatLng(bundle.getDouble("lat"), bundle.getDouble("long")));
+            coordList.add(new LatLng(bundle.getDouble(Utility.LAT_KEY), bundle.getDouble(Utility.LONG_KEY)));
 
         }
 
@@ -416,31 +364,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-    /* public void calMapRouteDraw() {
 
-         for (int i = 0; i < coordList.size(); i++) {
-             // add coordinates to point marker for drop point
-             co_ordinate = new LatLng(coordList.get(i).latitude, coordList.get(i).longitude);
-             mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                     .title("Delivery Pigieon")
-                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-         }
-
-         //Polyline draw
-         PolylineOptions polylineOptions1 = new PolylineOptions();
-         polylineOptions1.addAll(coordList);
-         polylineOptions1
-                 .width(10)
-                 .color(Color.RED).zIndex(90);
-
-         mMap.addPolyline(polylineOptions1);
-
-         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(co_ordinate, 10);
-         mMap.animateCamera(yourLocation);
-         mMap.moveCamera(yourLocation);
-
-
-     }*/
     public void calMapRouteDraw() {
 
         for (int i = 0; i < coordList.size(); i++) {

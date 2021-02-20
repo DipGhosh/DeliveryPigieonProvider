@@ -97,6 +97,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("user")
     @Expose
     private User user;
+    @SerializedName("payment_point")
+    @Expose
+    private String paymentPoint;
 
     public Integer getId() {
       return id;
@@ -208,6 +211,14 @@ public class OrderDetailsResponseDatamodel {
       this.user = user;
     }
 
+    public String getPaymentPoint() {
+      return paymentPoint;
+    }
+
+    public void setPaymentPoint(String paymentPoint) {
+      this.paymentPoint = paymentPoint;
+    }
+
   }
 
 
@@ -222,6 +233,12 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("lat")
     @Expose
     private Double lat;
+    @SerializedName("flatname")
+    @Expose
+    private String dropFlatname;
+    @SerializedName("reachaddress_note")
+    @Expose
+    private String dropReachaddressNote;
 
     public String getAddress() {
       return address;
@@ -245,6 +262,22 @@ public class OrderDetailsResponseDatamodel {
 
     public void setLat(Double lat) {
       this.lat = lat;
+    }
+
+    public String getDropFlatname() {
+      return dropFlatname;
+    }
+
+    public void setDropFlatname(String dropFlatname) {
+      this.dropFlatname = dropFlatname;
+    }
+
+    public String getDropReachaddressNote() {
+      return dropReachaddressNote;
+    }
+
+    public void setDropReachaddressNote(String dropReachaddressNote) {
+      this.dropReachaddressNote = dropReachaddressNote;
     }
 
   }
@@ -499,6 +532,12 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("lat")
     @Expose
     private Float lat;
+    @SerializedName("flatname")
+    @Expose
+    private String pickupFlatname;
+    @SerializedName("reachaddress_note")
+    @Expose
+    private String pickupReachaddressNote;
 
     public String getAddress() {
       return address;
@@ -522,6 +561,22 @@ public class OrderDetailsResponseDatamodel {
 
     public void setLat(Float lat) {
       this.lat = lat;
+    }
+
+    public String getPickupFlatname() {
+      return pickupFlatname;
+    }
+
+    public void setPickupFlatname(String pickupFlatname) {
+      this.pickupFlatname = pickupFlatname;
+    }
+
+    public String getPickupReachaddressNote() {
+      return pickupReachaddressNote;
+    }
+
+    public void setPickupReachaddressNote(String pickupReachaddressNote) {
+      this.pickupReachaddressNote = pickupReachaddressNote;
     }
 
   }

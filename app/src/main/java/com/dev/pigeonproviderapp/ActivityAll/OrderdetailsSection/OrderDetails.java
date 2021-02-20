@@ -27,6 +27,7 @@ import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationac
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.GPSTracker;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
@@ -71,9 +72,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
     private Activity activity = OrderDetails.this;
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
-    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType,totalDistanceNeedtocover;
+    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType,totalDistanceNeedtocover,pickupFlatnumber,instructionMessage;
     private int pickupPointID,orderItemStatus;
-    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment,paymentstatusMessage;
+    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment,paymentstatusMessage,pickupflatName,pickupAddresstoreach,totalDistanceShowinMap,paymentcollectionpoint;
     private long pickupPhonenUmber;
     private Dialog dialog;
     int orderPaymentStatus,orderStatus;
@@ -109,6 +110,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         orderPaymentAccept=findViewById(R.id.tv_order_payment_accept);
         packageType=findViewById(R.id.tv_package_type);
         totalDistanceNeedtocover=findViewById(R.id.tv_total_distance);
+        pickupFlatnumber=findViewById(R.id.order_flatNumber);
+        instructionMessage = findViewById(R.id.tv_instruction);
 
 
 
@@ -169,14 +172,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 Singleton.getInstance().setPHONENUMBER(pickupPhonenUmber);
                 Singleton.getInstance().setItemcomplete(false);
                 Intent itemdetails = new Intent(activity, ItemDetailsActivity.class);
-                itemdetails.putExtra("ITEMID", pickupPointID);
-                itemdetails.putExtra("TYPE", "Pickup Point");
-                itemdetails.putExtra("ADDRESS", pickupPointAddress);
-                itemdetails.putExtra("PAYMENTSTATUS", pickuPointPaymentStatus);
-                itemdetails.putExtra("TIME", pickupTime);
-                itemdetails.putExtra("COMMENT", pickupComment);
-                itemdetails.putExtra("lat", pickpoint_lat);
-                itemdetails.putExtra("long", pickpoint_long);
+                itemdetails.putExtra(Utility.DROPPOINT_TYPE, Utility.PICK_POINT_KEY);
+                itemdetails.putExtra(Utility.ADDRESS_KEY, pickupPointAddress);
+                itemdetails.putExtra(Utility.TIME_KEY, pickupTime);
+                itemdetails.putExtra(Utility.COMMENT_KEY, pickupComment);
+                itemdetails.putExtra(Utility.LAT_KEY, pickpoint_lat);
+                itemdetails.putExtra(Utility.LONG_KEY, pickpoint_long);
+                itemdetails.putExtra(Utility.FLATNAME_KEY, pickupflatName);
+                itemdetails.putExtra(Utility.REACHADDRESS_KEY,pickupAddresstoreach);
                 activity.startActivity(itemdetails);
                 break;
 
@@ -199,6 +202,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 Intent mapRoute = new Intent(OrderDetails.this, OrderRouteMap.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("coordinates",coordList);
+                bundle.putString("distance",totalDistanceShowinMap);
                 mapRoute.putExtras(bundle);
                 startActivity(mapRoute);
 
@@ -241,11 +245,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         if (Singleton.getInstance().isItemcomplete()==true)
         {
             getOrderDetails();
+            Singleton.getInstance().setItemcomplete(false);
         }
-       /* else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+        else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
         {
             finish();
-        }*/
+        }
     }
 
 
@@ -288,9 +293,42 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
 
                     //Show order weight & package type
-                    orderWeight.setText("Weight: Upto " + orderDetailsResponseDatamodel.getData().getWeight() + "KG");
+                    if (orderDetailsResponseDatamodel.getData().getWeight()==2.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "0-2" + "KG");
+                    }else if (orderDetailsResponseDatamodel.getData().getWeight()==4.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "2-4" + "KG");
+                    }
+                    else if (orderDetailsResponseDatamodel.getData().getWeight()==6.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "4-6" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==8.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "6-8" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==10.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "8-10" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==12.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "10-12" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==14.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "12-14" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==16.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "14-16" + " KG");
+                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==18.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "16-18" + " KG");
+                    }else if (orderDetailsResponseDatamodel.getData().getWeight()==20.0)
+                    {
+                        orderWeight.setText("Weight: Upto " + "18-20" + " KG");
+                    }
+
                     packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
                     totalDistanceNeedtocover.setText("Total Distance: "+orderDetailsResponseDatamodel.getData().getDistance()+" KM");
+                    totalDistanceShowinMap= String.valueOf(orderDetailsResponseDatamodel.getData().getDistance());
 
                     //show payment status message in order details screen
                     paymentstatusMessage=orderDetailsResponseDatamodel.getData().getPayment().getMessage();
@@ -299,6 +337,15 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     //store payment status in local variable
                     orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
 
+                    //Payment collection point
+                    paymentcollectionpoint = orderDetailsResponseDatamodel.getData().getPaymentPoint();
+
+
+                    if (orderDetailsResponseDatamodel.getData().getInstruction() != null) {
+                        instructionMessage.setText(getString(R.string.special_instruction_heading)+" "+orderDetailsResponseDatamodel.getData().getInstruction());
+                    } else {
+                        instructionMessage.setVisibility(View.GONE);
+                    }
                     //Set data in pickup points view
                     pickupPointID = orderDetailsResponseDatamodel.getData().getPickupPoint().getId();
                     pickupPointAddress = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress();
@@ -307,6 +354,15 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
                     pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
                     pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
+                    pickupflatName=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname();
+                    pickupAddresstoreach=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupReachaddressNote();
+
+                    if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname()!=null)
+                    {
+                        pickupFlatnumber.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname());
+                    }else {
+                        pickupFlatnumber.setVisibility(View.GONE);
+                    }
 
                     pickpoint_lat=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat();
                     pickpoint_long=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong();
@@ -336,6 +392,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
                         deliveryPointListingDatamodel.droppoint_lat=dropPoint.getDropAddress().getLat();
                         deliveryPointListingDatamodel.droppoint_long=dropPoint.getDropAddress().getLong();
+                        deliveryPointListingDatamodel.flatName=dropPoint.getDropAddress().getDropFlatname();
+                        deliveryPointListingDatamodel.addressToReach=dropPoint.getDropAddress().getDropReachaddressNote();
 
                         order_detailsList_arraylist.add(deliveryPointListingDatamodel);
                         // add coordinates to polyline draw for drop point
@@ -371,7 +429,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             if (acceptOrderResponseDataModel.getStatus() == 200) {
                 Singleton.getInstance().setOrderaccept(true);
-                finish();
+                //finish();
+                getOrderDetails();
             } else {
 
             }
@@ -477,9 +536,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-        if (orderPaymentStatus==1)
+        if (orderPaymentStatus==1 && paymentcollectionpoint.equals("pickup"))
         {
-            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_pickup_point));
+            orderPaymentAccept.setText(getString(R.string.accept_payment));
+
+        } else if (orderPaymentStatus==1 && paymentcollectionpoint.equals("drop"))
+        {
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_drop_point));
             orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }else if (orderPaymentStatus==2)
@@ -493,9 +557,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             paymentStatus.setText(paymentstatusMessage);
             orderPaymentAccept.setText(getString(R.string.payment_complete));
 
-        }else if (orderPaymentStatus==0)
+        }else if (orderPaymentStatus==0 && paymentcollectionpoint.equals("pickup"))
         {
-            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT());
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_pickup_point));
+            orderPaymentAccept.setText(getString(R.string.accept_payment));
+
+        }else if (orderPaymentStatus==0 && paymentcollectionpoint.equals("drop"))
+        {
+            paymentStatus.setText(paymentstatusMessage+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_drop_point));
             orderPaymentAccept.setText(getString(R.string.accept_payment));
 
         }

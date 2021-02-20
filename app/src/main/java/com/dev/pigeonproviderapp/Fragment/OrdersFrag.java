@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ToggleButton;
 
 import com.dev.pigeonproviderapp.ActivityAll.Notification.NotificationActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
@@ -39,16 +40,24 @@ import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.LocationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
+import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.LocationRequestSendModel;
+import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.LocationSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
+import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 
 
-public class OrdersFrag extends BaseFragment implements View.OnClickListener{
+public class OrdersFrag extends BaseFragment implements View.OnClickListener {
 
+    GPSTracker gpsTracker;
+    double provider_lat, provider_long;
+    LocationSendViewModel locationSendViewModel;
     private View mView;
     private TabLayout tabLayout;
     private TabItem tabActive;
@@ -57,11 +66,11 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
     private ImageView notificationImage;
-    GPSTracker gpsTracker;
-    double provider_lat, provider_long;
-    LocationSendViewModel locationSendViewModel;
-
     private OrderListViewModel orderListViewModel;
+    private ProfileViewModel profileViewModel;
+    private SharePreference sharePreference;
+    private ToggleButton simpleToggleButton;
+    private int toggleValue = 1;
 
 
     private Activity activity;
@@ -71,29 +80,42 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     private CurrentOrderFrag currentOrderFrag = new CurrentOrderFrag();
     private PastOrderFrag pastOrderFrag = new PastOrderFrag();
 
+
+
     public OrdersFrag() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView= inflater.inflate(R.layout.fragment_orders, container, false);
-        activity=getActivity();
+        mView = inflater.inflate(R.layout.fragment_orders, container, false);
+        activity = getActivity();
         dialog = UiUtils.showProgress(activity);
+        sharePreference = new SharePreference(activity);
 
-        tabLayout=mView.findViewById(R.id.tablayout);
-        tabActive=mView.findViewById(R.id.tabActiveOrder);
-        tabCurrent=mView.findViewById(R.id.tabCurrentOrders);
-        tabPast=mView.findViewById(R.id.tabPastOrders);
-        viewPager=mView.findViewById(R.id.viewPager);
+        tabLayout = mView.findViewById(R.id.tablayout);
+        tabActive = mView.findViewById(R.id.tabActiveOrder);
+        tabCurrent = mView.findViewById(R.id.tabCurrentOrders);
+        tabPast = mView.findViewById(R.id.tabPastOrders);
+        viewPager = mView.findViewById(R.id.viewPager);
+        simpleToggleButton = mView.findViewById(R.id.chkState);
 
-        notificationImage=mView.findViewById(R.id.img_notification);
+        notificationImage = mView.findViewById(R.id.img_notification);
 
         notificationImage.setOnClickListener(this);
+        simpleToggleButton.setOnClickListener(this);
+
+        System.out.println("Check_Value" + sharePreference.GetProviderAvailable());
+
+        if (sharePreference.GetProviderAvailable() == true) {
+            simpleToggleButton.setChecked(true);
+            toggleValue = 1;
+        } else {
+            simpleToggleButton.setChecked(false);
+            toggleValue = 0;
+        }
 
 
         pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
@@ -122,12 +144,12 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
         locationSendViewModel = ViewModelProviders.of(this).get(LocationSendViewModel.class);
+        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         // restrict refresh fragments
         viewPager.setOffscreenPageLimit(2);
 
-        if (Singleton.getInstance().isProfileUpdated()==false)
-        {
+        if (Singleton.getInstance().isProfileUpdated() == false) {
             getOrderList();
         }
 
@@ -163,11 +185,31 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         handler.postDelayed(r, 1000);
 
 
-
-
-
         return mView;
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+
+            if (intent.getStringExtra("ORDERSTATUS").equals("Accepted")) {
+                int count = 0;
+                int orderID = Integer.parseInt(intent.getStringExtra("ORDERID"));
+                Singleton.getInstance().setORDERID(orderID);
+                Singleton.getInstance().setOrderaccept(true);
+
+                System.out.println("Mangaldip" + "Check");
+
+                if (count == 0) {
+                    callAcceptOrder();
+                }
+                count++;
+
+            }
+
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -177,6 +219,21 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
                 Intent notification = new Intent(activity, NotificationActivity.class);
                 startActivity(notification);
                 break;
+            case R.id.chkState:
+                if (simpleToggleButton.isChecked()) {
+                    //System.out.println("Check"+"Y");
+                    toggleValue = 1;
+                    ProviderAvailableToggle();
+
+                } else {
+                    //System.out.println("Check"+"N");
+                    toggleValue = 0;
+                    ProviderAvailableToggle();
+
+
+                }
+
+                break;
 
             default:
                 break;
@@ -184,26 +241,24 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         //OnResume Fragment
 
-        if (Singleton.getInstance().isOrderaccept()==true)
-        {
+        if (Singleton.getInstance().isOrderaccept() == true) {
 
-            Singleton.getInstance().setOrderaccept(false);
+            //Singleton.getInstance().setOrderaccept(false);
             getOrderList();
-            Singleton.getInstance().setOrderaccept(false);
+            //Singleton.getInstance().setOrderaccept(false);
         }/*else if (Singleton.getInstance().isItemcomplete()==true)
         {
             Singleton.getInstance().setItemcomplete(false);
             getOrderList();
             Singleton.getInstance().setItemcomplete(false);
-        }*/else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
-        {
-            Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
+        }*/ else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true) {
+            //Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
             getOrderList();
-            Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
+            //Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
         }
 
         if (gpsTracker.canGetLocation()) {
@@ -214,33 +269,10 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
             CallLocationAPI();
         }
     }
-    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-
-            if (intent.getStringExtra("ORDERSTATUS").equals("Accepted"))
-            {
-                int count=0;
-                int orderID= Integer.parseInt(intent.getStringExtra("ORDERID"));
-                Singleton.getInstance().setORDERID(orderID);
-
-                //System.out.println("Mangaldip"+"Check");
-
-                if (count==0)
-                {
-                    callAcceptOrder();
-                }
-                count++;
-
-            }
-
-        }
-    };
 
     public void CallLocationAPI() {
 
-        System.out.println("Mangaldip"+"Hello");
+        System.out.println("Mangaldip" + "Hello");
 
         LocationRequestSendModel locationRequestSendModel = new LocationRequestSendModel();
         locationRequestSendModel.setLatitude(provider_lat);
@@ -258,7 +290,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
     }
 
-    public  void getOrderList() {
+    public void getOrderList() {
         dialog.show();
         orderListViewModel.getOrderListData().observe(this, new Observer<ListOrderResponseDataModel>() {
             @Override
@@ -270,12 +302,23 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
                 // set data
-                if (listOrderDataModel.getData().getAvailable()!=null)
-                {
+                if (listOrderDataModel.getData().getAvailable() != null) {
                     activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                     currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
                     pastOrderFrag.setData(listOrderDataModel.getData().getPast());
 
+                }
+
+                if (Singleton.getInstance().isOrderaccept()) {
+                    //System.out.println("Mangaldip"+"Hello");
+                    Singleton.getInstance().setOrderaccept(false);
+                    viewPager.setCurrentItem(1, true);
+                }
+
+                if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+                {
+                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
+                    viewPager.setCurrentItem(1, true);
                 }
 
 
@@ -292,7 +335,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
             if (acceptOrderResponseDataModel.getStatus() == 200) {
 
-                UiUtils.showAlert(activity,"Order Accept",getString(R.string.order_accept_message));
+                //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.order_accept_message));
 
                 //System.out.println("Mangaldip"+"CallAccept");
                 getOrderList();
@@ -305,9 +348,59 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
     }
 
+    public void ProviderAvailableToggle() {
+
+        dialog.show();
+
+        ProviderAvailabilityAPIModel providerAvailabilityAPIModel = new ProviderAvailabilityAPIModel();
+        providerAvailabilityAPIModel.setIs_available(toggleValue);
+
+
+        profileViewModel.isAvailableCall(providerAvailabilityAPIModel).observe(this, providerAvailabilityDatamodel -> {
+
+            dialog.dismiss();
+
+            if (providerAvailabilityDatamodel != null) {
+                if (providerAvailabilityDatamodel.getStatus() == 200) {
+
+
+                    sharePreference.setProviderAvailable(providerAvailabilityDatamodel.getData().getIsAvailable());
+
+                }
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.network_error));
+            }
+
+
+        });
+    }
+
+   /* public void callGetProfile() {
 
 
 
+        profileViewModel.gerProfile().observe(this, new Observer<ProfileGetResponseDataModel>() {
+            @Override
+            public void onChanged(ProfileGetResponseDataModel profileGetResponseDataModel) {
+
+
+
+
+
+                if (profileGetResponseDataModel.getData().getUser().getIsAvailable()==true)
+                {
+                     simpleToggleButton.setChecked(true);
+                    sharePreference.setProviderAvailable(true);
+                }else {
+                    simpleToggleButton.setChecked(false);
+                    sharePreference.setProviderAvailable(false);
+                }
+
+
+            }
+        });
+
+    }*/
 
     public class PageAdapter extends FragmentPagerAdapter {
 

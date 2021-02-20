@@ -1,8 +1,10 @@
 package com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,8 +13,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
@@ -55,14 +61,19 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
 
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_registrationactivity);
 
+
+
     //Check the location permission
     final PermissionUtils permissionUtils = new PermissionUtils(this);
     permissionUtils.checkPermissions();
+
+
 
     dialog = UiUtils.showProgress(Registrationactivity.this);
     sharePreference = new SharePreference(Registrationactivity.this);
@@ -296,6 +307,9 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
       return true;
     }
   }
+
+
+
 
 
 }

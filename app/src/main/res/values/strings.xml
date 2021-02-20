@@ -64,7 +64,7 @@
     <string name="logout_aleart_message">Do you want to logout?</string>
     <string name="aleart_otp">Please put your OTP</string>
     <string name="aleart_signature_upload">Signature is uploaded successfully.</string>
-    <string name="aleart_orderitem_complete">Order is completed.</string>
+    <string name="aleart_orderitem_complete">Task is completed.</string>
     <string name="payment_msg_1">Please collect ₹</string>
     <string name="payment_msg_2"> from customer and tap the accept below.</string>
     <string name="aleart_accept_payment">Your payment has been accepted.</string>
@@ -81,7 +81,7 @@
     <string name="profile_edit_aleart">Your profile is updated successfully.</string>
     <string name="aleart_name">Please enter your name.</string>
     <string name="alert_otp">OTP submitted successfully.</string>
-    <string name="signature_submit">image uploaded successfully</string>
+    <string name="signature_submit">Parcel image is uploaded successfully</string>
     <string name="other_document">Other Documents</string>
 
     //Upload validation aleart
@@ -148,7 +148,7 @@
     //Otp verification aleart
     <string name="otp_failed">OTP verification is failed.</string>
     <string name="profile_already_verified">Profile is already verified</string>
-    <string name="network_error">Network is not available</string>
+    <string name="network_error">Network is not available.Please try again later</string>
     <string name="alert_email">Email should not be empty</string>
     <string name="droppoints_complete_validation">OTP and Capture image need to verified.</string>
     <string name="otp_image_verification">Kindly verify OTP and Signature</string>
@@ -160,6 +160,19 @@
 
     //Profile verification
     <string name="profile_verification_aleart">Your profile is under review. Please wait until we complete the verification and approve your profile.</string>
+    <string name="distance">Total Diatance: </string>
+    <string name="special_instruction_heading"><b>Special Instructions:</b> </string>
+
+    <string name="payment_collection_pickup_point">at Pickup point</string>
+    <string name="payment_collection_drop_point">at Drop point</string>
+    <string name="profile_invalid">The given data was invalid.</string>
+
+    <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
+
+    //Version name
+    <string name="version_name">Version 1.0.6</string>
+
+
 
 
 </resources>

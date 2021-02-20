@@ -185,7 +185,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/_25sdp"
         android:paddingRight="@dimen/_20sdp"
-        android:text="Version 1.0.1"
+        android:text="@string/version_name"
         android:fontFamily="@font/montserrat"
         android:textSize="@dimen/_9sdp"
         android:textColor="@android:color/black"

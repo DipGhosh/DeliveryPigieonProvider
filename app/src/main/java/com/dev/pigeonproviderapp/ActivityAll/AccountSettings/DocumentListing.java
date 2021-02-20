@@ -461,6 +461,12 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
 
         documentsUploadViewModel.sendaddDocumentImage(addDocumentAPIModel).observe(this, documentsUploadViewModel -> {
 
+            if (documentsUploadViewModel != null) {
+               //image uploaded successfully
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
+            }
+
         });
     }
 

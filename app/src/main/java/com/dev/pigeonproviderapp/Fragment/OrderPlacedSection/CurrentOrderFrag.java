@@ -132,6 +132,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 current_order_arraylist.clear();
+                blankImage.setVisibility(View.GONE);
 
                 for (ListOrderResponseDataModel.Current current : listOrderDataModel.getData().getCurrent()) {
 

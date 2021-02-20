@@ -108,6 +108,10 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (v.getId()) {
             case R.id.ll_back:
+                if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true)
+                {
+                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
+                }
                 finish();
 
                 break;
@@ -147,6 +151,10 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true)
+                                {
+                                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(true);
+                                }
                                 finish();
                             }
                         });
