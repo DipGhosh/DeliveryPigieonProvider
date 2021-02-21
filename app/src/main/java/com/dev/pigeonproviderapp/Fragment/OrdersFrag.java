@@ -188,6 +188,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         return mView;
     }
 
+
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -199,7 +200,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
                 Singleton.getInstance().setORDERID(orderID);
                 Singleton.getInstance().setOrderaccept(true);
 
-                System.out.println("Mangaldip" + "Check");
+                System.out.println("Mangaldipcount" + count);
 
                 if (count == 0) {
                     callAcceptOrder();
@@ -333,15 +334,19 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         orderListViewModel.acceptOrderData().observe(this, acceptOrderResponseDataModel -> {
             dialog.dismiss();
 
-            if (acceptOrderResponseDataModel.getStatus() == 200) {
+            if (acceptOrderResponseDataModel != null) {
+                if (acceptOrderResponseDataModel.getStatus() == 200) {
 
-                //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.order_accept_message));
+                    getOrderList();
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
 
-                //System.out.println("Mangaldip"+"CallAccept");
-                getOrderList();
-            } else {
+                }
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
 
             }
+
 
         });
 

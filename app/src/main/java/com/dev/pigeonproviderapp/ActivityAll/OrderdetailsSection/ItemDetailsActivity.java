@@ -314,7 +314,15 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
         if (bundle != null) {
             pointName.setText(bundle.getString(Utility.DROPPOINT_TYPE));
-            pointDeliveryComment.setText("Note: "+bundle.getString(Utility.COMMENT_KEY));
+
+            if (bundle.getString(Utility.COMMENT_KEY)!=null)
+            {
+                pointDeliveryComment.setText("Note: "+bundle.getString(Utility.COMMENT_KEY));
+            }
+            else {
+                pointDeliveryComment.setText("Note: "+"");
+            }
+
 
             if (bundle.getString(Utility.TIME_KEY)!=null)
             {

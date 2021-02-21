@@ -77,8 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-
-            >
+            android:visibility="gone">
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -100,13 +99,13 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_pickup_point_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ll_pickup_point_view"
-                        android:background="@drawable/white_shadowshape"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
+                        android:background="@drawable/white_shadowshape"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -143,19 +142,18 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/order_flatNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/order_flatNumber"
                                 android:layout_marginLeft="@dimen/_15sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
+                                android:fontFamily="@font/montserrat"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_3sdp"
                                 android:text="@string/dummy_example"
                                 android:textColor="@color/fadeBlackColor"
-                                android:textSize="@dimen/_10sdp"
-                                android:paddingBottom="@dimen/_3sdp"
-                                android:paddingTop="@dimen/_5sdp"
-                                android:fontFamily="@font/montserrat"
-                                >
-                            </TextView>
+                                android:textSize="@dimen/_10sdp"></TextView>
+
                             <TextView
                                 android:id="@+id/tv_pickup_address"
                                 android:layout_width="match_parent"
@@ -172,19 +170,20 @@
 
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:layout_weight="0.15">
+                            android:layout_weight="0.15"
+                            android:gravity="center">
+
                             <ImageView
                                 android:layout_width="@dimen/_15sdp"
                                 android:layout_height="@dimen/_15sdp"
+                                android:layout_alignParentRight="true"
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginRight="@dimen/_5sdp"
-                                android:layout_alignParentRight="true"
-                                android:src="@drawable/arrow_forward"
-                                />
+                                android:src="@drawable/arrow_forward" />
                         </LinearLayout>
 
 
@@ -368,6 +367,7 @@
 
                         </TextView>
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/tv_instruction"
                         android:layout_width="match_parent"
@@ -376,8 +376,8 @@
                         android:background="@drawable/white_shadowshape"
                         android:fontFamily="@font/montserrat"
                         android:paddingLeft="@dimen/_15sdp"
-                        android:paddingRight="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/_10sdp">
@@ -386,6 +386,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/ll_payment_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"

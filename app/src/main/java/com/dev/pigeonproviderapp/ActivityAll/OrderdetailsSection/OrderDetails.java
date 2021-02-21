@@ -71,7 +71,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     OrderListViewModel orderListViewModel;
 
     private Activity activity = OrderDetails.this;
-    private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick;
+    private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick,paymentInfoLayout;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus,orderPaymentAccept,packageType,totalDistanceNeedtocover,pickupFlatnumber,instructionMessage;
     private int pickupPointID,orderItemStatus;
     private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment,paymentstatusMessage,pickupflatName,pickupAddresstoreach,totalDistanceShowinMap,paymentcollectionpoint;
@@ -112,6 +112,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         totalDistanceNeedtocover=findViewById(R.id.tv_total_distance);
         pickupFlatnumber=findViewById(R.id.order_flatNumber);
         instructionMessage = findViewById(R.id.tv_instruction);
+        paymentInfoLayout=findViewById(R.id.ll_payment_info);
 
 
 
@@ -216,6 +217,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 }else if (orderStatus==2&&orderPaymentStatus==0)
                 {
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
+                }else if (orderStatus==2&&orderPaymentStatus==1)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
                 }else if (orderStatus==4&&orderPaymentStatus==1)
                 {
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
@@ -271,148 +275,157 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             public void onChanged(OrderDetailsResponseDatamodel orderDetailsResponseDatamodel) {
                 dialog.dismiss();
 
-                if (orderDetailsResponseDatamodel.getStatus() == 200) {
-                    mainLayout.setVisibility(View.VISIBLE);
+                if (orderDetailsResponseDatamodel != null) {
 
-                    //Store the order status
-                    orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus();
-                    Singleton.getInstance().setORDERSTATUSCODE(orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus());
+                    if (orderDetailsResponseDatamodel.getStatus() == 200) {
+                        mainLayout.setVisibility(View.VISIBLE);
 
-                    //store order payment status in singletin class
-                    Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
+                        //Store the order status
+                        orderStatus = orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus();
+                        Singleton.getInstance().setORDERSTATUSCODE(orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus());
 
-                    //Store user info for rating
-                    Singleton.getInstance().setUSERNAME(orderDetailsResponseDatamodel.getData().getUser().getName());
-                    Singleton.getInstance().setUSERIMAGE(orderDetailsResponseDatamodel.getData().getUser().getProfileImageUrl());
-                    Singleton.getInstance().setORDERRATING(orderDetailsResponseDatamodel.getData().getRating().getRate());
-                    Singleton.getInstance().setRATECOMMENT(orderDetailsResponseDatamodel.getData().getRating().getComment());
+                        //store order payment status in singletin class
+                        Singleton.getInstance().setPAYMENTSTATUS(orderDetailsResponseDatamodel.getData().getPayment().getStatus());
 
-
-                    pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
-
-                    pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
-
-                    //Show order weight & package type
-                    if (orderDetailsResponseDatamodel.getData().getWeight()==2.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "0-2" + "KG");
-                    }else if (orderDetailsResponseDatamodel.getData().getWeight()==4.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "2-4" + "KG");
-                    }
-                    else if (orderDetailsResponseDatamodel.getData().getWeight()==6.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "4-6" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==8.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "6-8" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==10.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "8-10" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==12.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "10-12" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==14.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "12-14" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==16.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "14-16" + " KG");
-                    } else if (orderDetailsResponseDatamodel.getData().getWeight()==18.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "16-18" + " KG");
-                    }else if (orderDetailsResponseDatamodel.getData().getWeight()==20.0)
-                    {
-                        orderWeight.setText("Weight: Upto " + "18-20" + " KG");
-                    }
-
-                    packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
-                    totalDistanceNeedtocover.setText("Total Distance: "+orderDetailsResponseDatamodel.getData().getDistance()+" KM");
-                    totalDistanceShowinMap= String.valueOf(orderDetailsResponseDatamodel.getData().getDistance());
-
-                    //show payment status message in order details screen
-                    paymentstatusMessage=orderDetailsResponseDatamodel.getData().getPayment().getMessage();
+                        //Store user info for rating
+                        Singleton.getInstance().setUSERNAME(orderDetailsResponseDatamodel.getData().getUser().getName());
+                        Singleton.getInstance().setUSERIMAGE(orderDetailsResponseDatamodel.getData().getUser().getProfileImageUrl());
+                        Singleton.getInstance().setORDERRATING(orderDetailsResponseDatamodel.getData().getRating().getRate());
+                        Singleton.getInstance().setRATECOMMENT(orderDetailsResponseDatamodel.getData().getRating().getComment());
 
 
-                    //store payment status in local variable
-                    orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
+                        pickupStatus.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getMessage());
 
-                    //Payment collection point
-                    paymentcollectionpoint = orderDetailsResponseDatamodel.getData().getPaymentPoint();
+                        pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
+
+                        //Show order weight & package type
+                        if (orderDetailsResponseDatamodel.getData().getWeight()==2.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "0-2" + "KG");
+                        }else if (orderDetailsResponseDatamodel.getData().getWeight()==4.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "2-4" + "KG");
+                        }
+                        else if (orderDetailsResponseDatamodel.getData().getWeight()==6.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "4-6" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==8.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "6-8" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==10.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "8-10" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==12.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "10-12" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==14.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "12-14" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==16.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "14-16" + " KG");
+                        } else if (orderDetailsResponseDatamodel.getData().getWeight()==18.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "16-18" + " KG");
+                        }else if (orderDetailsResponseDatamodel.getData().getWeight()==20.0)
+                        {
+                            orderWeight.setText("Weight: Upto " + "18-20" + " KG");
+                        }
+
+                        packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
+                        totalDistanceNeedtocover.setText("Total Distance: "+orderDetailsResponseDatamodel.getData().getDistance()+" KM");
+                        totalDistanceShowinMap= String.valueOf(orderDetailsResponseDatamodel.getData().getDistance());
+
+                        //show payment status message in order details screen
+                        paymentstatusMessage=orderDetailsResponseDatamodel.getData().getPayment().getMessage();
 
 
-                    if (orderDetailsResponseDatamodel.getData().getInstruction() != null) {
-                        instructionMessage.setText(getString(R.string.special_instruction_heading)+" "+orderDetailsResponseDatamodel.getData().getInstruction());
-                    } else {
-                        instructionMessage.setVisibility(View.GONE);
-                    }
-                    //Set data in pickup points view
-                    pickupPointID = orderDetailsResponseDatamodel.getData().getPickupPoint().getId();
-                    pickupPointAddress = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress();
-                    pickuPointPaymentStatus = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
-                    orderItemStatus = orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getStatus();
-                    pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
-                    pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
-                    pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
-                    pickupflatName=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname();
-                    pickupAddresstoreach=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupReachaddressNote();
+                        //store payment status in local variable
+                        orderPaymentStatus=orderDetailsResponseDatamodel.getData().getPayment().getStatus();
 
-                    if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname()!=null)
-                    {
-                        pickupFlatnumber.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname());
+                        //Payment collection point
+                        paymentcollectionpoint = orderDetailsResponseDatamodel.getData().getPaymentPoint();
+
+
+                        if (orderDetailsResponseDatamodel.getData().getInstruction() != null) {
+                            instructionMessage.setText(getString(R.string.special_instruction_heading)+" "+orderDetailsResponseDatamodel.getData().getInstruction());
+                        } else {
+                            instructionMessage.setVisibility(View.GONE);
+                        }
+                        //Set data in pickup points view
+                        pickupPointID = orderDetailsResponseDatamodel.getData().getPickupPoint().getId();
+                        pickupPointAddress = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress();
+                        pickuPointPaymentStatus = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
+                        orderItemStatus = orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getStatus();
+                        pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
+                        pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
+                        pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
+                        pickupflatName=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname();
+                        pickupAddresstoreach=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupReachaddressNote();
+
+                        if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname()!=null)
+                        {
+                            pickupFlatnumber.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname());
+                        }else {
+                            pickupFlatnumber.setVisibility(View.GONE);
+                        }
+
+                        pickpoint_lat=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat();
+                        pickpoint_long=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong();
+
+                        Singleton.getInstance().setORDERAMOUNT(orderDetailsResponseDatamodel.getData().getPayment().getAmount());
+
+                        // add  coordinates to polyline draw for pickup point
+                        coordList.add(new LatLng(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat(),orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong()));
+
+
+
+
+                        order_detailsList_arraylist.clear();
+
+                        for (OrderDetailsResponseDatamodel.DropPoint dropPoint : orderDetailsResponseDatamodel.getData().getDropPoints()) {
+
+                            DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
+
+                            deliveryPointListingDatamodel.orderpoint_name = getString(R.string.drop_points);
+                            deliveryPointListingDatamodel.order_droppoint_status = dropPoint.getOrderStatus().getStatus();
+                            deliveryPointListingDatamodel.delivery_order_id = dropPoint.getId();
+                            deliveryPointListingDatamodel.order_point_address = dropPoint.getDropAddress().getAddress();
+                            deliveryPointListingDatamodel.payment_status = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
+                            deliveryPointListingDatamodel.delivery_time = dropPoint.getDropTime();
+                            deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
+                            deliveryPointListingDatamodel.droppoint_status_message=dropPoint.getOrderStatus().getMessage();
+                            deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
+                            deliveryPointListingDatamodel.droppoint_lat=dropPoint.getDropAddress().getLat();
+                            deliveryPointListingDatamodel.droppoint_long=dropPoint.getDropAddress().getLong();
+                            deliveryPointListingDatamodel.flatName=dropPoint.getDropAddress().getDropFlatname();
+                            deliveryPointListingDatamodel.addressToReach=dropPoint.getDropAddress().getDropReachaddressNote();
+
+                            order_detailsList_arraylist.add(deliveryPointListingDatamodel);
+                            // add coordinates to polyline draw for drop point
+                            coordList.add(new LatLng(dropPoint.getDropAddress().getLat(),dropPoint.getDropAddress().getLong()));
+
+
+                        }
+
+                        adapter = new OrderDetailsAdapter(activity, order_detailsList_arraylist);
+                        orderDetailsListing_recyclerview.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+
+                        calMapRouteDraw();
+
+                        AllFieldVisibility();
+
+
                     }else {
-                        pickupFlatnumber.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.GONE);
                     }
-
-                    pickpoint_lat=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat();
-                    pickpoint_long=orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong();
-
-                    Singleton.getInstance().setORDERAMOUNT(orderDetailsResponseDatamodel.getData().getPayment().getAmount());
-
-                    // add  coordinates to polyline draw for pickup point
-                    coordList.add(new LatLng(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLat(),orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getLong()));
-
-
-
-
-                    order_detailsList_arraylist.clear();
-
-                    for (OrderDetailsResponseDatamodel.DropPoint dropPoint : orderDetailsResponseDatamodel.getData().getDropPoints()) {
-
-                        DeliveryPointListingDatamodel deliveryPointListingDatamodel = new DeliveryPointListingDatamodel();
-
-                        deliveryPointListingDatamodel.orderpoint_name = getString(R.string.drop_points);
-                        deliveryPointListingDatamodel.order_droppoint_status = dropPoint.getOrderStatus().getStatus();
-                        deliveryPointListingDatamodel.delivery_order_id = dropPoint.getId();
-                        deliveryPointListingDatamodel.order_point_address = dropPoint.getDropAddress().getAddress();
-                        deliveryPointListingDatamodel.payment_status = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
-                        deliveryPointListingDatamodel.delivery_time = dropPoint.getDropTime();
-                        deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
-                        deliveryPointListingDatamodel.droppoint_status_message=dropPoint.getOrderStatus().getMessage();
-                        deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
-                        deliveryPointListingDatamodel.droppoint_lat=dropPoint.getDropAddress().getLat();
-                        deliveryPointListingDatamodel.droppoint_long=dropPoint.getDropAddress().getLong();
-                        deliveryPointListingDatamodel.flatName=dropPoint.getDropAddress().getDropFlatname();
-                        deliveryPointListingDatamodel.addressToReach=dropPoint.getDropAddress().getDropReachaddressNote();
-
-                        order_detailsList_arraylist.add(deliveryPointListingDatamodel);
-                        // add coordinates to polyline draw for drop point
-                        coordList.add(new LatLng(dropPoint.getDropAddress().getLat(),dropPoint.getDropAddress().getLong()));
-
-
-                    }
-
-                    adapter = new OrderDetailsAdapter(activity, order_detailsList_arraylist);
-                    orderDetailsListing_recyclerview.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-
-                    calMapRouteDraw();
-
-                    AllFieldVisibility();
-
-
+                }else {
+                    mainLayout.setVisibility(View.GONE);
                 }
+
+
 
             }
         });
@@ -426,14 +439,17 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         dialog.show();
         orderListViewModel.acceptOrderData().observe(this, acceptOrderResponseDataModel -> {
             dialog.dismiss();
+                    if (acceptOrderResponseDataModel != null) {
+                        if (acceptOrderResponseDataModel.getStatus() == 200) {
+                            Singleton.getInstance().setOrderaccept(true);
+                            getOrderDetails();
+                        } else {
 
-            if (acceptOrderResponseDataModel.getStatus() == 200) {
-                Singleton.getInstance().setOrderaccept(true);
-                //finish();
-                getOrderDetails();
-            } else {
+                        }
+                    }else {
+                        UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
 
-            }
+                    }
 
         });
 
@@ -448,10 +464,17 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         orderListViewModel.startOrderData().observe(this, startOrderResponseDataModel -> {
             dialog.dismiss();
 
-            if (startOrderResponseDataModel.getStatus() == 200) {
-                UiUtils.showAlert(activity, "Start Order", getString(R.string.aleart_order_start));
-                getOrderDetails();
+            if (startOrderResponseDataModel != null) {
+                if (startOrderResponseDataModel.getStatus() == 200) {
+                    UiUtils.showAlert(activity, "Start Order", getString(R.string.aleart_order_start));
+                    getOrderDetails();
+                }
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
+
             }
+
+
         });
 
     }
@@ -503,11 +526,13 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
     public void AllFieldVisibility() {
         if (orderStatus==1) {
-            acceptOrder.setVisibility(View.VISIBLE);
+            acceptOrder.setVisibility(View.GONE);
             startOrder.setVisibility(View.GONE);
             startedOrder.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
             redirectRatingScreen.setVisibility(View.INVISIBLE);
+            paymentInfoLayout.setVisibility(View.INVISIBLE);
+
 
 
         } else if (orderStatus==3) {
@@ -516,6 +541,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             startedOrder.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
             redirectRatingScreen.setVisibility(View.VISIBLE);
+            paymentInfoLayout.setVisibility(View.VISIBLE);
 
 
 
@@ -525,6 +551,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             startedOrder.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
             redirectRatingScreen.setVisibility(View.VISIBLE);
+            paymentInfoLayout.setVisibility(View.VISIBLE);
 
 
         } else if (orderStatus==2) {
@@ -533,6 +560,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             startedOrder.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
             redirectRatingScreen.setVisibility(View.INVISIBLE);
+            paymentInfoLayout.setVisibility(View.VISIBLE);
 
         }
 
@@ -583,15 +611,21 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             dialog.dismiss();
 
-            if (acceptPaymentResponseModel.getStatus()==200)
-            {
-                orderPaymentStatus=3;
+            if (acceptPaymentResponseModel != null) {
+                if (acceptPaymentResponseModel.getStatus()==200)
+                {
+                    orderPaymentStatus=3;
+                    orderPaymentAccept.setText(getString(R.string.accepted_payment));
+                    paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
 
-                orderPaymentAccept.setText(getString(R.string.accepted_payment));
-                paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
+                    UiUtils.showAlert(activity,"Payment",getString(R.string.aleart_accept_payment));
+                }
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
 
-                UiUtils.showAlert(activity,"Payment",getString(R.string.aleart_accept_payment));
             }
+
+
         });
     }
 

@@ -51,7 +51,7 @@ public class OrderListViewModel extends ViewModel {
         /*if (acceptOrderDataModelMutableLiveData == null) {
             acceptOrderDataModelMutableLiveData = new NetworkCall().getAcceptOrder();
         }*/
-        acceptOrderDataModelMutableLiveData = new NetworkCall().getAcceptOrder();
+       acceptOrderDataModelMutableLiveData = new NetworkCall().getAcceptOrder();
         return acceptOrderDataModelMutableLiveData;
     }
 
