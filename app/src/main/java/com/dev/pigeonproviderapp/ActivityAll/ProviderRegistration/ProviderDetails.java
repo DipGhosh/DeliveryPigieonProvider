@@ -134,11 +134,6 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         mainLayout.setOnClickListener(this);
 
 
-
-        System.out.println("SHAREPREFERENCECHECK"+sharePreference.GetVerified());
-
-
-
     }
 
     @Override
@@ -200,13 +195,21 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
                 dialog.dismiss();
 
-                if (profileUpdateResponseDataModel.getStatus()==200)
-                {
-                    sharePreference.SetIsloogedIn(true);
-                    //sharePreference.setToken(Singleton.getInstance().getTOKEN());
-                    Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
-                    startActivity(intent);
+                if (profileUpdateResponseDataModel != null) {
+
+                    if (profileUpdateResponseDataModel.getStatus()==200)
+                    {
+                        sharePreference.SetIsloogedIn(true);
+                        //sharePreference.setToken(Singleton.getInstance().getTOKEN());
+                        Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
+                        startActivity(intent);
+                    }
+
+                }else {
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_invalid));
                 }
+
+
 
 
             });

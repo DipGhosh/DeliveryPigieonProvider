@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
   <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">3.136.37.47</domain>
+    <domain includeSubdomains="true">deliverypigeon.in</domain>
   </domain-config>
 </network-security-config>

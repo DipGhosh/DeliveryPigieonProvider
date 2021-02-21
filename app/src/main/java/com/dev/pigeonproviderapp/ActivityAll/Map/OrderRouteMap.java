@@ -43,7 +43,7 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
     ArrayList<LatLng> coordList;
     static LatLng co_ordinate;
 
-    private TextView cancel;
+    private TextView cancel,totaldistance;
 
     LatLng startLatLng = null;
     LatLng endLatLng = null;
@@ -53,15 +53,17 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_route_map);
 
+
+        cancel = findViewById(R.id.tv_cancel);
+        totaldistance=findViewById(R.id.tv_map_diatance_val);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
             coordList = getIntent().getParcelableArrayListExtra("coordinates");
+            totaldistance.setText(getString(R.string.distance)+" "+bundle.getString("distance")+" KM");
 
         }
-
-
-        cancel = findViewById(R.id.tv_cancel);
 
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().
@@ -139,7 +141,7 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         downloadTask.execute(url);
 
 
-       mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
+       mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 13));
 
 
     }

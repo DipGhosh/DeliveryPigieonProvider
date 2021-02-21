@@ -80,24 +80,40 @@
             </LinearLayout>
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/tv_item_address"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:background="@drawable/white_shadowshape"
-            android:fontFamily="@font/montserrat"
-            android:gravity="left|center"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingRight="@dimen/_15sdp"
-            android:textColor="@color/fadeBlackColor"
-            android:textSize="@dimen/_10sdp">
+            android:orientation="vertical"
+            android:background="@drawable/white_shadowshape">
+            <TextView
+                android:id="@+id/tv_item_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="left|center"
+               android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp">
 
-        </TextView>
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_addrees_to_reach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp">
+
+            </TextView>
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,12 +174,14 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:fontFamily="@font/montserrat"
-                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_5sdp"
                         android:text="Pickup completed"
                         android:textColor="@color/fadeBlackColor"
                         android:textSize="@dimen/_10sdp">
 
                     </TextView>
+
 
                 </LinearLayout>
 

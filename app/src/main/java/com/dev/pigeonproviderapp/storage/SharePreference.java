@@ -13,6 +13,7 @@ public class SharePreference {
   private boolean isLoggedin;
   private String token;
   private boolean isProfileverified;
+  private boolean isProviderAvailable;
 
 
   public SharePreference(Activity activity) {
@@ -68,6 +69,16 @@ public class SharePreference {
   public void setMobileNumber(String mobileNumber) {
     editor.putString("mobile", mobileNumber);
     editor.commit();
+  }
+
+  public void setProviderAvailable(boolean providerAvailable) {
+    editor.putBoolean("isProviderAvailable", providerAvailable);
+    editor.commit();
+  }
+
+  public boolean GetProviderAvailable() {
+    isProviderAvailable = sharedPreferences.getBoolean("isProviderAvailable", false);
+    return isProviderAvailable;
   }
 
 

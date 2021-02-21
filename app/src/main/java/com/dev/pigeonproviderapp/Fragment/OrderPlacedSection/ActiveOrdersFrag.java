@@ -72,16 +72,16 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
 
 
-        createList();
+        //createList();
 
         return mview;
     }
 
-    private void createList() {
+   /* private void createList() {
 
         adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
         activeorderlist_recyclerview.setAdapter(adapter);
-    }
+    }*/
 
     public void setData(List<ListOrderResponseDataModel.Available> availableList) {
 
@@ -89,6 +89,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
         if (availableList.size() > 0) {
 
+            activeorderlist_recyclerview.setVisibility(View.VISIBLE);
             blankImage.setVisibility(View.GONE);
             
             for (ListOrderResponseDataModel.Available available : availableList) {
@@ -107,11 +108,13 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 active_order_arraylist.add(orderActiveDatamodel);
 
             }
+            adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
+            activeorderlist_recyclerview.setAdapter(adapter);
 
             adapter.notifyDataSetChanged();
 
         } else {
-
+            activeorderlist_recyclerview.setVisibility(View.GONE);
             blankImage.setVisibility(View.VISIBLE);
         }
 
@@ -120,8 +123,10 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        getOrderList();
         mSwipeRefreshLayout.setRefreshing(true);
+        getOrderList();
+        active_order_arraylist.clear();
+
     }
 
     public void getOrderList() {
@@ -133,29 +138,44 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 mSwipeRefreshLayout.setRefreshing(false);
                 active_order_arraylist.clear();
 
-                for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
 
-                    OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-                    orderActiveDatamodel.activeorder_id = available.getId();
-                    orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
-                    orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
-                    orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
-                    orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
-                    orderActiveDatamodel.provider_bonus = available.getProviderBonus();
-                    orderActiveDatamodel.earnAmount = available.getEarn();
+                if (listOrderDataModel.getData().getAvailable().size() > 0)
+                {
+                    activeorderlist_recyclerview.setVisibility(View.VISIBLE);
+                    blankImage.setVisibility(View.GONE);
 
+                    for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
 
-                    active_order_arraylist.add(orderActiveDatamodel);
+                        OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
+                        orderActiveDatamodel.activeorder_id = available.getId();
+                        orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
+                        orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
+                        orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
+                        orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
+                        orderActiveDatamodel.provider_bonus = available.getProviderBonus();
+                        orderActiveDatamodel.earnAmount = available.getEarn();
 
+                        active_order_arraylist.add(orderActiveDatamodel);
+
+                    }
+                    adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
+                    activeorderlist_recyclerview.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }else {
+
+                    active_order_arraylist.clear();
+                    activeorderlist_recyclerview.setVisibility(View.GONE);
+                    blankImage.setVisibility(View.VISIBLE);
                 }
 
-                if (listOrderDataModel.getData().getAvailable().size() > 0) {
+
+                /*if (listOrderDataModel.getData().getAvailable().size() > 0) {
                     blankImage.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 } else {
 
                     blankImage.setVisibility(View.VISIBLE);
-                }
+                }*/
 
             }
         });

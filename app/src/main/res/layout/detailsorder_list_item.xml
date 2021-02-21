@@ -9,39 +9,82 @@
         android:id="@+id/ll_drop_item_click"
         android:background="@drawable/white_shadowshape"
         android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical">
+        android:weightSum="1"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_item_point"
-            android:paddingTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:text="@string/pickup_point"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/_12sdp"
-            android:fontFamily="@font/montserrat"
-            >
+            android:layout_weight="0.85"
+            android:orientation="vertical">
 
-        </TextView>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_pickup_address"
+                android:id="@+id/tv_item_point"
+                android:paddingTop="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:text="Pickup completed"
-                android:textColor="@color/fadeBlackColor"
-                android:textSize="@dimen/_10sdp"
+                android:text="@string/pickup_point"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12sdp"
                 android:fontFamily="@font/montserrat"
                 >
 
             </TextView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_pickup_address"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:text="Pickup completed"
+                    android:textColor="@color/fadeBlackColor"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat"
+                    >
+
+                </TextView>
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/order_flatNumber"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:text="@string/dummy_example"
+                android:paddingBottom="@dimen/_3sdp"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat"
+                >
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/order_address_details"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="@string/dummy_example"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat"
+                >
+            </TextView>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="0.15">
             <ImageView
                 android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
@@ -50,21 +93,9 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/arrow_forward"
                 />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/order_address_details"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:text="@string/dummy_example"
-            android:textColor="@color/fadeBlackColor"
-            android:textSize="@dimen/_10sdp"
-            android:fontFamily="@font/montserrat"
-            >
-        </TextView>
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>
