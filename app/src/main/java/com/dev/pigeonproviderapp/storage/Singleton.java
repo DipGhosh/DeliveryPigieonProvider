@@ -24,6 +24,8 @@ public class Singleton {
     private String USERIMAGE;
     private float ORDERRATING;
     private String RATECOMMENT;
+    private String PAYMENTPOINT;
+    private String PAYMENTSTATUSMESSAGE;
 
 
 
@@ -196,5 +198,21 @@ public class Singleton {
 
     public void setRATECOMMENT(String RATECOMMENT) {
         this.RATECOMMENT = RATECOMMENT;
+    }
+
+    public String getPAYMENTPOINT() {
+        return PAYMENTPOINT;
+    }
+
+    public void setPAYMENTPOINT(String PAYMENTPOINT) {
+        this.PAYMENTPOINT = PAYMENTPOINT;
+    }
+
+    public String getPAYMENTSTATUSMESSAGE() {
+        return PAYMENTSTATUSMESSAGE;
+    }
+
+    public void setPAYMENTSTATUSMESSAGE(String PAYMENTSTATUSMESSAGE) {
+        this.PAYMENTSTATUSMESSAGE = PAYMENTSTATUSMESSAGE;
     }
 }

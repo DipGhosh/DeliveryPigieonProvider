@@ -255,6 +255,15 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         {
             finish();
         }
+
+        if (Singleton.getInstance().getPAYMENTSTATUS()==3)
+        {
+            orderPaymentStatus=3;
+            //AllFieldVisibility();
+            paymentStatus.setText(getString(R.string.accepted_payment));
+            orderPaymentAccept.setText(getString(R.string.payment_complete));
+            Singleton.getInstance().setPAYMENTSTATUSMESSAGE(getString(R.string.accepted_payment));
+        }
     }
 
 
@@ -345,6 +354,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
                         //Payment collection point
                         paymentcollectionpoint = orderDetailsResponseDatamodel.getData().getPaymentPoint();
+                        Singleton.getInstance().setPAYMENTPOINT(paymentcollectionpoint);
+                        Singleton.getInstance().setPAYMENTSTATUSMESSAGE(paymentstatusMessage);
 
 
                         if (orderDetailsResponseDatamodel.getData().getInstruction() != null) {
