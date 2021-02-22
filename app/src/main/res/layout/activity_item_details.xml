@@ -294,6 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:id="@+id/ll_payment_info"
                     android:visibility="gone"
                     android:background="@drawable/white_shadowshape"
                     android:orientation="vertical">

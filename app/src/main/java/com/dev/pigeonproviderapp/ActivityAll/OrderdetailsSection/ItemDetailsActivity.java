@@ -68,7 +68,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     LatLng endLatLng = null;
     double provider_lat, provider_long, drop_point_lat, drop_point_long;
     private Activity activity = ItemDetailsActivity.this;
-    private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted;
+    private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted,paymentInfoLayout;
     private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider,addressToReach;
     private EditText providerComment;
     private ImageView itemPhoneNumber, mapIconClick;
@@ -97,6 +97,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         mapIconClick = findViewById(R.id.ic_map_icon);
         constrainmain = findViewById(R.id.constrainmain);
         addressToReach=findViewById(R.id.tv_addrees_to_reach);
+        paymentInfoLayout=findViewById(R.id.ll_payment_info);
 
         gpsTracker = new GPSTracker(activity);
 
@@ -177,6 +178,37 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                     completeOrderItem();
                 } else {
                     UiUtils.showAlert(activity, getString(R.string.order_complete_header), getString(R.string.accept_order_beforecompmete_aleart));
+                }
+
+
+                break;
+            case R.id.tv_accept_payment_item:
+
+              /*  if (Singleton.getInstance().getORDERITEMSTATUS()==5 )
+                {
+
+                }else {
+                    acceptOrderPaymentByProvider();
+                }*/
+                if (Singleton.getInstance().getORDERITEMSTATUS()==1&& Singleton.getInstance().getPAYMENTSTATUS()==0)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.accept_order_before_payment));
+                }else if (Singleton.getInstance().getORDERITEMSTATUS()==2&& Singleton.getInstance().getPAYMENTSTATUS()==0)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
+                }else if (Singleton.getInstance().getORDERITEMSTATUS()==2 && Singleton.getInstance().getPAYMENTSTATUS()==1)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
+                }else if (Singleton.getInstance().getORDERITEMSTATUS()==4 && Singleton.getInstance().getPAYMENTSTATUS()==1)
+                {
+                    UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.order_start_before_payment));
+                }else if (Singleton.getInstance().getPAYMENTSTATUS()==1)
+                {
+                    if (Singleton.getInstance().getORDERITEMSTATUS()==3||Singleton.getInstance().getORDERITEMSTATUS()==5)
+                    {
+                        acceptOrderPaymentByProvider();
+                    }
+
                 }
 
 
@@ -285,6 +317,36 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
+    public void acceptOrderPaymentByProvider() {
+
+        dialog.show();
+
+        AcceptPaymentAPIModel acceptPaymentAPIModel = new AcceptPaymentAPIModel();
+        acceptPaymentAPIModel.setOrderid(Singleton.getInstance().getORDERID());
+
+
+        orderListViewModel.paymentAcceptData(acceptPaymentAPIModel).observe(this, acceptPaymentResponseModel -> {
+
+            dialog.dismiss();
+            if (acceptPaymentResponseModel != null) {
+
+                if (acceptPaymentResponseModel.getStatus() == 200) {
+                    acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+                    paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+
+                    Singleton.getInstance().setPAYMENTSTATUS(3);
+                    //Singleton.getInstance().setItemcomplete(true);
+
+                    UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
+                }
+            }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
+
+            }
+
+        });
+    }
+
 
     public void AllFieldVisibility() {
 
@@ -355,7 +417,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
         }
 
-        if (Singleton.getInstance().getPAYMENTSTATUS() == 1) {
+       /* if (Singleton.getInstance().getPAYMENTSTATUS() == 1) {
             acceptPaymentByProvider.setText(getString(R.string.accept_payment));
             paymentStatus.setText(getString(R.string.payment_msg_1) + " " + Singleton.getInstance().getORDERAMOUNT() + " " + getString(R.string.payment_msg_2));
 
@@ -367,6 +429,55 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         } else if (Singleton.getInstance().getPAYMENTSTATUS() == 3) {
             acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
             paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+        }*/
+        if (Singleton.getInstance().getPAYMENTSTATUS()==1 && Singleton.getInstance().getPAYMENTPOINT().equals("pickup") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Pickup Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_pickup_point));
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        } else if (Singleton.getInstance().getPAYMENTSTATUS()==1 && Singleton.getInstance().getPAYMENTPOINT().equals("drop") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Drop Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_drop_point));
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==2 && Singleton.getInstance().getPAYMENTPOINT().equals("pickup") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Pickup Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==2 && Singleton.getInstance().getPAYMENTPOINT().equals("drop")  && bundle.getString(Utility.DROPPOINT_TYPE).equals("Drop Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==3 && Singleton.getInstance().getPAYMENTPOINT().equals("pickup") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Pickup Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==3 && Singleton.getInstance().getPAYMENTPOINT().equals("drop") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Drop Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==0 && Singleton.getInstance().getPAYMENTPOINT().equals("pickup") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Pickup Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_pickup_point));
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
+        }else if (Singleton.getInstance().getPAYMENTSTATUS()==0 && Singleton.getInstance().getPAYMENTPOINT().equals("drop") && bundle.getString(Utility.DROPPOINT_TYPE).equals("Drop Point"))
+        {
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + getString(R.string.payment_collection_drop_point));
+            acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentInfoLayout.setVisibility(View.VISIBLE);
+
         }
 
 
