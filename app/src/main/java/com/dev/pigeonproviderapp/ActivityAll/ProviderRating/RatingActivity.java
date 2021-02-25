@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.ItemDetailsActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderRatingAPIModel;
@@ -117,8 +118,16 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_reviewSubmit:
                 if (isValid()) {
-                    rateOrderSubmit();
-                    Singleton.getInstance().setRATECOMMENT(providerComment.getText().toString());
+
+                    if (NetworkUtils.isNetworkAvailable(activity)) {
+
+                        rateOrderSubmit();
+                        Singleton.getInstance().setRATECOMMENT(providerComment.getText().toString());
+
+                    }else {
+                        UiUtils.showToast(this, getString(R.string.network_error));
+                    }
+
                 }
 
                 break;

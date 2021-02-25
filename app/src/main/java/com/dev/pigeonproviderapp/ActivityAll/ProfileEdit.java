@@ -46,6 +46,7 @@ import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
 import com.dev.pigeonproviderapp.datamodel.UploadDocumentImageResponseModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -89,11 +90,14 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
 
     private ProfileViewModel profileViewModel;
     private Dialog dialog;
+    private SharePreference sharePreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
+
+        sharePreference=new SharePreference(activity);
 
         edit_back = findViewById(R.id.img_back);
         userNameProfileEdit = findViewById(R.id.et_userName_profileEdit);
@@ -163,6 +167,12 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             Picasso.with(activity).load(R.drawable.dummy_image).into(profileEditImageUpload);
         }
 
+        if (sharePreference.GetVerified()==true)
+        {
+            userNameProfileEdit.setFocusable(false);
+            userNameProfileEdit.setClickable(true);
+        }
+
 
     }
 
@@ -226,13 +236,13 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         if (TextUtils.isEmpty(userNameProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.aleart_name));
             return false;
-        } else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
+        } /*else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_email));
             return false;
         } else if (!CommonUtils.isValidEmail(emailProfileEdit.getText().toString().trim())) {
             UiUtils.showToast(this, getString(R.string.alert_valid_email));
             return false;
-        } else {
+        }*/ else {
             return true;
         }
     }
@@ -254,7 +264,11 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            uploadFile(selectedImageUri);
+            if (NetworkUtils.isNetworkAvailable(activity))
+            {
+                uploadFile(selectedImageUri);
+            }
+
 
         } else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA) {
             Uri selectedImageUri = camuri;
@@ -283,23 +297,15 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
 
             profileEditImageUpload.setImageBitmap(bitmap);
-            uploadFile(selectedImageUri);
+
+            if (NetworkUtils.isNetworkAvailable(activity))
+            {
+                uploadFile(selectedImageUri);
+            }
         }
     }
 
- /* public byte[] getBytes(InputStream is) throws IOException {
-    ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
 
-    int buffSize = 1024;
-    byte[] buff = new byte[buffSize];
-
-    int len = 0;
-    while ((len = is.read(buff)) != -1) {
-      byteBuff.write(buff, 0, len);
-    }
-
-    return byteBuff.toByteArray();
-  }*/
 
     private void uploadFile(Uri fileUri) {
 

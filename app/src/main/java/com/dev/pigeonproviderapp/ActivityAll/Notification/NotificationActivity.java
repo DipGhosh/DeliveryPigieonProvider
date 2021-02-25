@@ -17,6 +17,7 @@ import com.dev.pigeonproviderapp.ActivityAll.AccountSettings.AccountSetting;
 import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.PaymentHistoryActivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -66,7 +67,15 @@ public class NotificationActivity extends BaseActivity implements View.OnClickLi
 
         back.setOnClickListener(this);
 
-        getAllNotificationAPICall();
+        if (NetworkUtils.isNetworkAvailable(activity))
+        {
+            getAllNotificationAPICall();
+
+        }else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
+
+
 
     }
 

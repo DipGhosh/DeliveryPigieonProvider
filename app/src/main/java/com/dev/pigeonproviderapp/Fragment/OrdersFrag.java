@@ -109,13 +109,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
 
         System.out.println("Check_Value" + sharePreference.GetProviderAvailable());
 
-        if (sharePreference.GetProviderAvailable() == true) {
-            simpleToggleButton.setChecked(true);
-            toggleValue = 1;
-        } else {
-            simpleToggleButton.setChecked(false);
-            toggleValue = 0;
-        }
+
 
 
         pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
@@ -148,6 +142,15 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
 
         // restrict refresh fragments
         viewPager.setOffscreenPageLimit(2);
+
+        if (sharePreference.GetProviderAvailable() == true) {
+            simpleToggleButton.setChecked(true);
+            toggleValue = 1;
+        } else {
+            simpleToggleButton.setChecked(false);
+            toggleValue = 0;
+            callGetProfile();
+        }
 
         if (Singleton.getInstance().isProfileUpdated() == false) {
             getOrderList();
@@ -273,7 +276,6 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
 
     public void CallLocationAPI() {
 
-        System.out.println("Mangaldip" + "Hello");
 
         LocationRequestSendModel locationRequestSendModel = new LocationRequestSendModel();
         locationRequestSendModel.setLatitude(provider_lat);
@@ -380,7 +382,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         });
     }
 
-   /* public void callGetProfile() {
+    public void callGetProfile() {
 
 
 
@@ -405,7 +407,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
             }
         });
 
-    }*/
+    }
 
     public class PageAdapter extends FragmentPagerAdapter {
 

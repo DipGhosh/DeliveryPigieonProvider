@@ -24,6 +24,7 @@ import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.ActiveOrdersFrag;
 import com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag;
 import com.dev.pigeonproviderapp.Fragment.OrdersFrag;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
@@ -96,7 +97,14 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
         back.setOnClickListener(this);
 
-        paymentHistoryCall();
+
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+
+            paymentHistoryCall();
+
+        }else {
+            UiUtils.showToast(this, getString(R.string.network_error));
+        }
     }
 
     public  void paymentHistoryCall() {

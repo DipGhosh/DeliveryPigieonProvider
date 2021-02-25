@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.OrderItemOTPVerifyModel;
@@ -67,8 +68,17 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.tv_verify:
                 if (isValid()) {
-                    verifyOrderOtp();
+
+                    if (NetworkUtils.isNetworkAvailable(activity))
+                    {
+                        verifyOrderOtp();
+
+                    }else {
+                        UiUtils.showToast(activity, getString(R.string.network_error));
+                    }
+
                 }
+
                 break;
             case R.id.constrainmain:
                 UiUtils.hideSoftKeyBoard(activity,constrainmain);

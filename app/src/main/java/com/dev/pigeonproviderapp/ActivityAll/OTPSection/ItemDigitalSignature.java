@@ -35,6 +35,7 @@ import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.UpdateProfilePIctureDataModel;
@@ -116,9 +117,15 @@ public class ItemDigitalSignature extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
 
-               if (submitValidation())
+               if (submitValidation() )
                {
-                   verifyOrderOtp();
+                   if (NetworkUtils.isNetworkAvailable(activity))
+                   {
+                       verifyOrderOtp();
+                   }else {
+                       UiUtils.showToast(activity, getString(R.string.network_error));
+                   }
+
                }
 
             }

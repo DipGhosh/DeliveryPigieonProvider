@@ -35,6 +35,7 @@ import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
@@ -111,7 +112,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
         dialog = UiUtils.showProgress(activity);
 
-        callGetProfile();
+
 
         //Registered click listener
         profileEdit.setOnClickListener(this);
@@ -123,7 +124,13 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         PaymentHistoryClick.setOnClickListener(this);
         simpleToggleButton.setOnClickListener(this);
 
+        if (NetworkUtils.isNetworkAvailable(activity))
+        {
+            callGetProfile();
 
+        }else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
 
 
 
@@ -308,19 +315,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void ProviderAvailableToggle() {
 
-        dialog.show();
-
-        ProviderAvailabilityAPIModel providerAvailabilityAPIModel = new ProviderAvailabilityAPIModel();
-        providerAvailabilityAPIModel.setIs_available(toggleValue);
-
-
-        profileViewModel.isAvailableCall(providerAvailabilityAPIModel).observe(this, providerAvailabilityDatamodel -> {
-
-            dialog.dismiss();
-        });
-    }
 
     private void loadImageFile(String url, ImageView imageView, ProgressBar progressBar)
     {

@@ -26,6 +26,7 @@ public class Singleton {
     private String RATECOMMENT;
     private String PAYMENTPOINT;
     private String PAYMENTSTATUSMESSAGE;
+    private boolean isCollectPayment;
 
 
 
@@ -214,5 +215,13 @@ public class Singleton {
 
     public void setPAYMENTSTATUSMESSAGE(String PAYMENTSTATUSMESSAGE) {
         this.PAYMENTSTATUSMESSAGE = PAYMENTSTATUSMESSAGE;
+    }
+
+    public boolean isCollectPayment() {
+        return isCollectPayment;
+    }
+
+    public void setCollectPayment(boolean collectPayment) {
+        isCollectPayment = collectPayment;
     }
 }

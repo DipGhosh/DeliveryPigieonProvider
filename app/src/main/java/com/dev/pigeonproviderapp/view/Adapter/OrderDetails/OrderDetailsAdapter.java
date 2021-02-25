@@ -68,6 +68,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Singleton.getInstance().setORDERITEMSTATUS(deliveryPointListingDatamodel.order_droppoint_status);
                 Singleton.getInstance().setPHONENUMBER(deliveryPointListingDatamodel.item_phone_number);
                 Singleton.getInstance().setItemcomplete(false);
+                Singleton.getInstance().setCollectPayment(deliveryPointListingDatamodel.drop_collect_apyment);
 
                 Intent itemdetails=new Intent(activity, ItemDetailsActivity.class);
                 itemdetails.putExtra(Utility.DROPPOINT_TYPE,deliveryPointListingDatamodel.orderpoint_name);

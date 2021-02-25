@@ -33,6 +33,7 @@ import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.Utility.CommonUtils;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -141,35 +142,46 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
         switch (v.getId() /*to get clicked view id**/) {
             case R.id.btn_providersubmit:
-                callProfileInfoUpdate();
+
+                if (NetworkUtils.isNetworkAvailable(activity)) {
+                    callProfileInfoUpdate();
+                }else {
+                    UiUtils.showToast(this, getString(R.string.network_error));
+                }
 
                 break;
             case R.id.ic_adharcard_fontsideImageUpload:
+
                 selectImage();
                 position="1";
                 typeofImageUpload="Documents";
                 break;
             case R.id.ic_adharcard_backsideImageUpload:
+
                 selectImage();
                 position="2";
                 typeofImageUpload="Documents";
                 break;
             case R.id.ic_pandcardImageUpload:
+
                 selectImage();
                 position="3";
                 typeofImageUpload="Documents";
                 break;
             case R.id.ic_others_documentImageUpload:
+
                 selectImage();
                 position="4";
                 typeofImageUpload="Documents";
                 break;
             case R.id.rl_profile_image_upload:
+
                 selectProfileImage();
                 position="5";
                 typeofImageUpload="Profile";
                 break;
             case R.id.ll_add_bank_details:
+
                Intent intent=new Intent(ProviderDetails.this, AddBankDetails.class);
                startActivity(intent);
 
@@ -177,6 +189,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             case R.id.layout_main:
 
                 UiUtils.hideSoftKeyBoard(activity,mainLayout);
+
                 break;
             default:
                 break;
@@ -203,6 +216,9 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                         //sharePreference.setToken(Singleton.getInstance().getTOKEN());
                         Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
                         startActivity(intent);
+                    }else if (profileUpdateResponseDataModel.getStatus()==400)
+                    {
+                        UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_invalid));
                     }
 
                 }else {
@@ -232,10 +248,10 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         }*/else if (adharcardFontsideImageUpload.getDrawable() == null) {
             UiUtils.showToast(this, getString(R.string.aleart_upload_addressproof));
             return false;
-        }/*else if (adharcardBacksideImageUpload.getDrawable() == null) {
+        }else if (adharcardBacksideImageUpload.getDrawable() == null) {
             UiUtils.showToast(this, getString(R.string.aleart_upload_adharback));
             return false;
-        } */else if (panCardImageupload.getDrawable() == null) {
+        } else if (panCardImageupload.getDrawable() == null) {
             UiUtils.showToast(this, getString(R.string.aleart_upload_pancard));
             return false;
         } else {
@@ -282,7 +298,13 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             }
 
-            uploadFile(selectedImageUri);
+            if (NetworkUtils.isNetworkAvailable(activity)) {
+                uploadFile(selectedImageUri);
+            }else {
+                UiUtils.showToast(this, getString(R.string.network_error));
+            }
+
+
 
 
         }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
@@ -334,7 +356,12 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             {
                 providerImageUpload.setImageBitmap(bitmap);
             }
-            uploadFile(selectedImageUri);
+
+            if (NetworkUtils.isNetworkAvailable(activity)) {
+                uploadFile(selectedImageUri);
+            }else {
+                UiUtils.showToast(this, getString(R.string.network_error));
+            }
         }
     }
 
