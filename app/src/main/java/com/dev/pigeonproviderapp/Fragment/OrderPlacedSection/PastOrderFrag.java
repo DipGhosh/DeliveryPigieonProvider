@@ -19,6 +19,8 @@ import android.widget.ImageView;
 
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
+import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Adapter.PastOrder.PastOrderListAdapter;
@@ -126,7 +128,15 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        getOrderList();
+
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+
+            getOrderList();
+
+        } else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
+
         mSwipeRefreshLayout.setRefreshing(true);
     }
 

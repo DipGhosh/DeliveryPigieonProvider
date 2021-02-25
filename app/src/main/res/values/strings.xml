@@ -18,7 +18,7 @@
     <string name="email">Email(Optional)</string>
     <string name="document_uplaod">Address proof</string>
     <string name="front_side_info">Front side of Aadhar card/Votar ID/ Driving License </string>
-    <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License(Optional) </string>
+    <string name="back_side_info">Back side of Aadhar card/Votar ID/ Driving License </string>
     <string name="others_document">Other documents</string>
     <string name="add_bankdetails">Add Bank Details</string>
     <string name="pan_card">Front side of PAN Card</string>
@@ -37,6 +37,7 @@
     <string name="dummy_example">122 Regent Street, Kolkata 700014</string>
     <string name="view_details">View Details</string>
     <string name="price_text">₹40</string>
+    <string name="phone_number_restriction_validation">Your account has been restricted. Kindly contact with the Administrator.</string>
     <string name="order_details">Order Details</string>
     <string name="heading_signature">Add Signature</string>
     <string name="capture_image_heading">Capture Image</string>
@@ -170,7 +171,7 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 1.0.8</string>
+    <string name="version_name">Version 1.1.2</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
 
 

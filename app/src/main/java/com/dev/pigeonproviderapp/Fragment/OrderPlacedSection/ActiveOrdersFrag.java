@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.Fragment.OrdersFrag;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
+import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
@@ -124,7 +126,13 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
-        getOrderList();
+
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+            getOrderList();
+        } else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
+
         active_order_arraylist.clear();
 
     }
@@ -169,13 +177,6 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 }
 
 
-                /*if (listOrderDataModel.getData().getAvailable().size() > 0) {
-                    blankImage.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                } else {
-
-                    blankImage.setVisibility(View.VISIBLE);
-                }*/
 
             }
         });

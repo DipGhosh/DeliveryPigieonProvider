@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.PermissionUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
@@ -134,15 +135,29 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
     switch (v.getId()) {
       case R.id.tv_getOtp:
-        CallGetOTP();
+
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+          CallGetOTP();
+        }else {
+          UiUtils.showToast(this, getString(R.string.network_error));
+        }
 
         break;
       case R.id.tv_resendOtp:
-        CallGetOTP();
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+          CallGetOTP();
+        }else {
+          UiUtils.showToast(this, getString(R.string.network_error));
+        }
 
         break;
       case R.id.btn_registration:
-        CallVerifyOTP();
+
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+          CallVerifyOTP();
+        }else {
+          UiUtils.showToast(this, getString(R.string.network_error));
+        }
 
         break;
       case R.id.checkTerms:
@@ -179,13 +194,22 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onChanged(OTPSendResponseDataModel otpSendResponseDataModel) {
               dialog.dismiss();
-              if (otpSendResponseDataModel.getStatus() == 200) {
-                int data = otpSendResponseDataModel.getData();
-                if (data > 0) {
-                  getOtp.setVisibility(View.GONE);
-                  resendOtp.setVisibility(View.VISIBLE);
-                  //otpField.setText("" + data);
+
+              if (otpSendResponseDataModel != null) {
+
+                if (otpSendResponseDataModel.getStatus() == 200) {
+                  int data = otpSendResponseDataModel.getData();
+                  if (data > 0) {
+                    getOtp.setVisibility(View.GONE);
+                    resendOtp.setVisibility(View.VISIBLE);
+                    //otpField.setText("" + data);
+                  }
+                }else if (otpSendResponseDataModel.getStatus() == 400) {
+                  UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.phone_number_restriction_validation));
                 }
+
+              }else {
+                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.phone_number_restriction_validation));
               }
 
 

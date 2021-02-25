@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
@@ -115,7 +116,15 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
         panCardImageupload.setOnClickListener(this);
         otherDetailsImageupload.setOnClickListener(this);
 
-        callDocumentListingCall();
+        if (NetworkUtils.isNetworkAvailable(activity)) {
+
+            callDocumentListingCall();
+
+        }else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
+
+
     }
 
     @Override
@@ -287,7 +296,15 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             }
 
-            uploadFile(selectedImageUri);
+            if (NetworkUtils.isNetworkAvailable(activity)) {
+
+                uploadFile(selectedImageUri);
+
+            }else {
+                UiUtils.showToast(activity, getString(R.string.network_error));
+            }
+
+
 
 
         }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
@@ -336,7 +353,14 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
                 rlOthersUpload.setVisibility(View.GONE);
                 rlOthersEdit.setVisibility(View.VISIBLE);
             }
-            uploadFile(selectedImageUri);
+
+            if (NetworkUtils.isNetworkAvailable(activity)) {
+
+                uploadFile(selectedImageUri);
+
+            }else {
+                UiUtils.showToast(activity, getString(R.string.network_error));
+            }
         }
     }
 
@@ -371,22 +395,40 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
                             {
                                 documentsName= Utility.ADDRESSPROOF_FONT;
                                 docId=Utility.ADDRESS_FONT_ID;
-                                AddDocumentImage();
+
+                                if (NetworkUtils.isNetworkAvailable(activity)) {
+                                    AddDocumentImage();
+                                }else {
+                                    UiUtils.showToast(activity, getString(R.string.network_error));
+                                }
+
                             }else if (position.equals("2"))
                             {
                                 documentsName=Utility.ADDRESSPROOF_BACK;
                                 docId=Utility.ADDRESS_BACK_ID;
-                                AddDocumentImage();
+                                if (NetworkUtils.isNetworkAvailable(activity)) {
+                                    AddDocumentImage();
+                                }else {
+                                    UiUtils.showToast(activity, getString(R.string.network_error));
+                                }
                             }else if(position.equals("3"))
                             {
                                 documentsName=Utility.ADDRESSPROOF_PAN;
                                 docId=Utility.ADDRESS_PAN_ID;
-                                AddDocumentImage();
+                                if (NetworkUtils.isNetworkAvailable(activity)) {
+                                    AddDocumentImage();
+                                }else {
+                                    UiUtils.showToast(activity, getString(R.string.network_error));
+                                }
                             }else if(position.equals("4"))
                             {
                                 documentsName=Utility.ADDRESSPROOF_OTHERS;
                                 docId=Utility.ADDRESS_OTHERS_ID;
-                                AddDocumentImage();
+                                if (NetworkUtils.isNetworkAvailable(activity)) {
+                                    AddDocumentImage();
+                                }else {
+                                    UiUtils.showToast(activity, getString(R.string.network_error));
+                                }
                             }
 
                         }
@@ -417,7 +459,7 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"From Camera", "From Cameraroll", "Cancel"};
+        final CharSequence[] items = {"From Camera", "Cancel"};
 
         androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(DocumentListing.this);
         builder.setTitle("Add Photo");

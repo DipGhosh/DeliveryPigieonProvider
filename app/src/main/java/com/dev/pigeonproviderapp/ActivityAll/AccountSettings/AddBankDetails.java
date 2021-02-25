@@ -19,6 +19,7 @@ import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.CommonUtils;
+import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.AcceptPaymentResponseModel;
 import com.dev.pigeonproviderapp.datamodel.BankDetailsGetModelResponse;
@@ -77,7 +78,13 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
         back.setOnClickListener(this);
         saveBankDetails.setOnClickListener(this);
 
-        callGetBankDetails();
+        if (NetworkUtils.isNetworkAvailable(activity))
+        {
+            callGetBankDetails();
+
+        }else {
+            UiUtils.showToast(activity, getString(R.string.network_error));
+        }
 
         mainLayoutClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +105,15 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.tv_save_bank_details:
 
-                CallBankdetailsCreate();
+                if (NetworkUtils.isNetworkAvailable(activity))
+                {
+                    CallBankdetailsCreate();
+
+                }else {
+                    UiUtils.showToast(activity, getString(R.string.network_error));
+                }
+
+
                 break;
             default:
                 break;

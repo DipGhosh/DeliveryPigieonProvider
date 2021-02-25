@@ -312,6 +312,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("phone")
     @Expose
     private long phone;
+    @SerializedName("is_collect_payment")
+    @Expose
+    private Boolean isCollectPayment;
 
     public Integer getId() {
       return id;
@@ -383,6 +386,13 @@ public class OrderDetailsResponseDatamodel {
 
     public void setPhone(long phone) {
       this.phone = phone;
+    }
+    public Boolean getIsCollectPayment() {
+      return isCollectPayment;
+    }
+
+    public void setIsCollectPayment(Boolean isCollectPayment) {
+      this.isCollectPayment = isCollectPayment;
     }
 
   }
@@ -485,6 +495,10 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("address")
+    @Expose
+    private String address;
+
 
     public Float getAmount() {
       return amount;
@@ -516,6 +530,13 @@ public class OrderDetailsResponseDatamodel {
 
     public void setMessage(String message) {
       this.message = message;
+    }
+    public String getAddress() {
+      return address;
+    }
+
+    public void setAddress(String address) {
+      this.address = address;
     }
 
   }
@@ -610,6 +631,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("phone")
     @Expose
     private long phone;
+    @SerializedName("is_collect_payment")
+    @Expose
+    private Boolean isCollectPayment;
 
     public Integer getId() {
       return id;
@@ -681,6 +705,14 @@ public class OrderDetailsResponseDatamodel {
 
     public void setPhone(long phone) {
       this.phone = phone;
+    }
+
+    public Boolean getIsCollectPayment() {
+      return isCollectPayment;
+    }
+
+    public void setIsCollectPayment(Boolean isCollectPayment) {
+      this.isCollectPayment = isCollectPayment;
     }
 
   }
