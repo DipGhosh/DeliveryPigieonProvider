@@ -53,6 +53,7 @@ public class EarnHistoryFrag extends Fragment {
         earnHistory_recyclerview
                 .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
+        createList();
         return mview;
     }
 

@@ -171,7 +171,7 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 1.1.2</string>
+    <string name="version_name">Version 1.1.3</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
 
 

@@ -130,8 +130,8 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
             bankDetailsSubmitAPIModel.setAccount_no(bankAccountNumber.getText().toString());
             bankDetailsSubmitAPIModel.setAccount_type(bankAccountType.getText().toString());
             bankDetailsSubmitAPIModel.setIfsc(bankIfscCode.getText().toString());
-            bankDetailsSubmitAPIModel.setBank_address("Kolkata");
-            bankDetailsSubmitAPIModel.setBank_name("SBI");
+            bankDetailsSubmitAPIModel.setBank_address("");
+            bankDetailsSubmitAPIModel.setBank_name("");
 
 
             profileViewModel.addBankDetails(bankDetailsSubmitAPIModel).observe(this, new Observer<AcceptPaymentResponseModel>() {
@@ -142,7 +142,7 @@ public class AddBankDetails extends BaseActivity implements View.OnClickListener
                     if (bankdetailsresponseDatamodel != null) {
                         if( bankdetailsresponseDatamodel.getStatus()==200)
                         {
-                            UiUtils.showAlert(activity,"Add Bank Details Edit",getString(R.string.aleart_add_bankdetails));
+                            UiUtils.showAlert(activity,getString(R.string.app_name),getString(R.string.aleart_add_bankdetails));
                         }
                     }else {
                         UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_invalid));
