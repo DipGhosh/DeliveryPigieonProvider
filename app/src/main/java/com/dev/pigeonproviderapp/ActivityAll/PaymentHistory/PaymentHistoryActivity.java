@@ -94,6 +94,9 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         // ViewModel Object
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
+        // restrict refresh fragments
+        viewPager.setOffscreenPageLimit(2);
+
 
         back.setOnClickListener(this);
 
