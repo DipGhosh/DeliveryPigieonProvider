@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -104,6 +105,18 @@ public class ItemDigitalSignature extends AppCompatActivity  {
             }
         });
 
+        String fileName = "new-photo-name.jpg";
+        //create parameters for Intent with filename
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, fileName);
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+        //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+        camuri = ItemDigitalSignature.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        //create new Intent
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        startActivityForResult(intent, REQUEST_CAMERA);
 
 
         captureImageClickListener.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +146,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -175,7 +189,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
             options.inJustDecodeBounds = false;
 
             bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
-
+            captureImageImageview.setVisibility(View.VISIBLE);
             captureImageImageview.setImageBitmap(bitmap);
             uploadFile(selectedImageUri);
         }
@@ -204,7 +218,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
                         filename = uploadDocumentImageResponseModel.getData();
 
                         Log.d("Aslam", "Filename: " + filename);
-                        //verifyOrderOtp();
+                        verifyOrderOtp();
 
                     }
                 });
@@ -246,6 +260,8 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
             if (otpVerifyResponseDataModel != null) {
                 if (otpVerifyResponseDataModel.getStatus() == 200) {
+                    Singleton.getInstance().setIdSignatureVerified(true);
+
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
                     builder.setTitle(getResources().getString(R.string.app_name));
                     builder.setIcon(R.mipmap.ic_launcher);
@@ -318,6 +334,11 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+        finish();
+
+    }
 
 }

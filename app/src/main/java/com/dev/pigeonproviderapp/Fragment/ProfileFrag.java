@@ -63,9 +63,9 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
    View view;
-   private ImageView profileEdit,profileImage;
+   private ImageView profileImage;
    private Activity activity;
-   private TextView userPhoneNumber,userEmailId,userName,approvalStatus;
+   private TextView userPhoneNumber,userEmailId,userName,approvalStatus,profileEdit;
    private ProgressBar profileFragProgress;
    private String profile_pic_url;
    private LinearLayout logout,privacyPolicyClick,aboutUsClik,termsofServicesClick,accountSettingClick,PaymentHistoryClick;

@@ -374,7 +374,7 @@ public class DocumentListing extends BaseActivity implements View.OnClickListene
         Log.d("Picture Path", "" + path);
 
         //pass it like this
-        File file = new File(path);
+        File file = Utility.saveBitmapToFile(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
             multipartBody = MultipartBody.Part

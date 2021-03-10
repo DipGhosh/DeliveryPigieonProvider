@@ -72,7 +72,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
     private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted,paymentInfoLayout;
     private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider,addressToReach;
     private EditText providerComment;
-    private ImageView itemPhoneNumber, mapIconClick;
+    private ImageView itemPhoneNumber, mapIconClick,paymentCOmpleteSign,verifyOtpSignImage,captureImageSign;
     private Dialog dialog;
     private String orderType;
     private ConstraintLayout constrainmain;
@@ -99,6 +99,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         constrainmain = findViewById(R.id.constrainmain);
         addressToReach=findViewById(R.id.tv_addrees_to_reach);
         paymentInfoLayout=findViewById(R.id.ll_payment_info);
+        paymentCOmpleteSign=findViewById(R.id.et_payment_complete_sign);
+        verifyOtpSignImage=findViewById(R.id.et_verify_otpcomplete_sign);
+        captureImageSign=findViewById(R.id.et_capture_image_sign);
 
         gpsTracker = new GPSTracker(activity);
 
@@ -257,6 +260,22 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (Singleton.getInstance().isOtpverified())
+        {
+            verifyOtpSignImage.setVisibility(View.VISIBLE);
+
+        }
+
+        if (Singleton.getInstance().isIdSignatureVerified())
+        {
+            captureImageSign.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void completeOrderItem() {
 
         dialog.show();
@@ -275,6 +294,10 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             {
                 completeorderSubmit.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
+
+                Singleton.getInstance().setOtpverified(false);
+                Singleton.getInstance().setIdSignatureVerified(false);
+
                 if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true) {
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
                     builder.setTitle(getResources().getString(R.string.app_name));
@@ -340,6 +363,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
                 if (acceptPaymentResponseModel.getStatus() == 200) {
                     acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+                    paymentCOmpleteSign.setVisibility(View.VISIBLE);
                     paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
 
                     Singleton.getInstance().setPAYMENTSTATUS(3);
@@ -375,10 +399,22 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         } else if (Singleton.getInstance().getORDERITEMSTATUS() == 5) {
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.VISIBLE);
+            verifyOtpSignImage.setVisibility(View.VISIBLE);
+            captureImageSign.setVisibility(View.VISIBLE);
 
         } else {
             completeorderSubmit.setVisibility(View.VISIBLE);
             orderCompleted.setVisibility(View.GONE);
+        }
+
+        if ( Singleton.getInstance().isDropotpVerified())
+        {
+            verifyOtpSignImage.setVisibility(View.VISIBLE);
+        }
+
+        if (Singleton.getInstance().isDropImageVerified())
+        {
+            captureImageSign.setVisibility(View.VISIBLE);
         }
 
 
@@ -430,24 +466,28 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         {
             paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + "at "+bundle.getString(Utility.ADDRESS_KEY));
             acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentCOmpleteSign.setVisibility(View.GONE);
             paymentInfoLayout.setVisibility(View.VISIBLE);
 
         } else if (Singleton.getInstance().getPAYMENTSTATUS()==2 && Singleton.getInstance().isCollectPayment()==true)
         {
             paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
             acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentCOmpleteSign.setVisibility(View.VISIBLE);
             paymentInfoLayout.setVisibility(View.VISIBLE);
 
         }else if (Singleton.getInstance().getPAYMENTSTATUS()==3 && Singleton.getInstance().isCollectPayment()==true)
         {
             paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
             acceptPaymentByProvider.setText(getString(R.string.payment_complete));
+            paymentCOmpleteSign.setVisibility(View.VISIBLE);
             paymentInfoLayout.setVisibility(View.VISIBLE);
 
         }else if (Singleton.getInstance().getPAYMENTSTATUS()==0 && Singleton.getInstance().isCollectPayment()==true)
         {
             paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" : "+"₹"+ Singleton.getInstance().getORDERAMOUNT()+ " " + "at "+bundle.getString(Utility.ADDRESS_KEY));
             acceptPaymentByProvider.setText(getString(R.string.accept_payment));
+            paymentCOmpleteSign.setVisibility(View.GONE);
             paymentInfoLayout.setVisibility(View.VISIBLE);
 
         }

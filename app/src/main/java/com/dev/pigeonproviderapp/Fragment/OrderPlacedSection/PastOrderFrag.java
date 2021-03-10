@@ -110,6 +110,7 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
                 pastOrderDatamodel.pastorder_id = past.getId();
                 pastOrderDatamodel.provider_bonus=past.getProviderBonus();
                 pastOrderDatamodel.earnAmount=past.getEarn();
+                pastOrderDatamodel.orderId=past.getOrderNo();
 
                 past_order_arraylist.add(pastOrderDatamodel);
 
@@ -161,6 +162,7 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
                     pastOrderDatamodel.pastorder_id = past.getId();
                     pastOrderDatamodel.provider_bonus=past.getProviderBonus();
                     pastOrderDatamodel.earnAmount=past.getEarn();
+                    pastOrderDatamodel.orderId=past.getOrderNo();
 
                     past_order_arraylist.add(pastOrderDatamodel);
 

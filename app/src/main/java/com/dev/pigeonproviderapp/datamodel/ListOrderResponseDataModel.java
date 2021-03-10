@@ -57,6 +57,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("id")
         @Expose
         private Integer id;
+        @SerializedName("order_no")
+        @Expose
+        private String orderNo;
         @SerializedName("status")
         @Expose
         private String status;
@@ -91,6 +94,13 @@ public class ListOrderResponseDataModel {
 
         public void setId(Integer id) {
             this.id = id;
+        }
+        public String getOrderNo() {
+            return orderNo;
+        }
+
+        public void setOrderNo(String orderNo) {
+            this.orderNo = orderNo;
         }
 
         public String getStatus() {
@@ -172,6 +182,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("id")
         @Expose
         private Integer id;
+        @SerializedName("order_no")
+        @Expose
+        private String orderNo;
         @SerializedName("status")
         @Expose
         private String status;
@@ -206,6 +219,13 @@ public class ListOrderResponseDataModel {
 
         public void setId(Integer id) {
             this.id = id;
+        }
+        public String getOrderNo() {
+            return orderNo;
+        }
+
+        public void setOrderNo(String orderNo) {
+            this.orderNo = orderNo;
         }
 
         public String getStatus() {
@@ -324,6 +344,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("id")
         @Expose
         private Integer id;
+        @SerializedName("order_no")
+        @Expose
+        private String orderNo;
         @SerializedName("status")
         @Expose
         private String status;
@@ -367,6 +390,13 @@ public class ListOrderResponseDataModel {
 
         public void setId(Integer id) {
             this.id = id;
+        }
+        public String getOrderNo() {
+            return orderNo;
+        }
+
+        public void setOrderNo(String orderNo) {
+            this.orderNo = orderNo;
         }
 
         public String getStatus() {

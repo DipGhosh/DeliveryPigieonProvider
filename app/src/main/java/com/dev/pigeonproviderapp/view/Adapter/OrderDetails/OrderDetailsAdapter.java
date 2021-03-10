@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,13 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         handler.orderstatus.setText(deliveryPointListingDatamodel.droppoint_status_message);
+        if (deliveryPointListingDatamodel.droppoint_status_message.equals("Completed"))
+        {
+            handler.completeSignImage.setVisibility(View.VISIBLE);
+        }else {
+            handler.completeSignImage.setVisibility(View.GONE);
+        }
+
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
 
         if (deliveryPointListingDatamodel.flatName!=null)
@@ -69,6 +77,8 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Singleton.getInstance().setPHONENUMBER(deliveryPointListingDatamodel.item_phone_number);
                 Singleton.getInstance().setItemcomplete(false);
                 Singleton.getInstance().setCollectPayment(deliveryPointListingDatamodel.drop_collect_apyment);
+                Singleton.getInstance().setDropotpVerified(deliveryPointListingDatamodel.is_otp_verified);
+                Singleton.getInstance().setDropImageVerified(deliveryPointListingDatamodel.is_signature_verified);
 
                 Intent itemdetails=new Intent(activity, ItemDetailsActivity.class);
                 itemdetails.putExtra(Utility.DROPPOINT_TYPE,deliveryPointListingDatamodel.orderpoint_name);
@@ -102,6 +112,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     {
         TextView orderPointName,orderstatus,orderAddress,order_flatNumber;
         LinearLayout dropItemClick;
+        ImageView completeSignImage;
 
 
         public MyHolder(View row)
@@ -112,6 +123,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             orderAddress=(TextView)row.findViewById(R.id.order_address_details);
             dropItemClick=(LinearLayout)row.findViewById(R.id.ll_drop_item_click);
             order_flatNumber=row.findViewById(R.id.order_flatNumber);
+            completeSignImage=row.findViewById(R.id.et_complete_sign);
 
 
 

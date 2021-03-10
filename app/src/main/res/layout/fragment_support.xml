@@ -22,7 +22,7 @@
             <TextView
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
-              android:text="Chat"
+              android:text="Support"
               android:gravity="center_vertical"
               android:textSize="@dimen/_14sdp"
               android:paddingBottom="@dimen/_5sdp"

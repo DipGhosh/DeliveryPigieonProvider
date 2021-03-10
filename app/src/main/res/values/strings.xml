@@ -57,6 +57,7 @@
     <string name="label_ok">Yes</string>
     <string name="label_no">No</string>
     <string name="aleart_ok">OK</string>
+    <string name="aleart_later">LATER</string>
     <string name="alert_no_data_message">No data available to show.</string>
     <string name="alert_create_phone">Please enter valid 10 digit phone number.</string>
     <string name="alert_create_otpvalidation">OTP field should not empty.</string>
@@ -84,6 +85,8 @@
     <string name="alert_otp">OTP submitted successfully.</string>
     <string name="signature_submit">Parcel image is uploaded successfully</string>
     <string name="other_document">Other Documents</string>
+    <string name="update_aleart">Kindly update your app from the Google Playstore.</string>
+    <string name="edit">Edit</string>
 
     //Upload validation aleart
     <string name="aleart_upload_addressproof">Please upload your font side of Adhar Card</string>
@@ -171,7 +174,7 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 1.1.3</string>
+    <string name="version_name">Version 1.1.6</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
 
 

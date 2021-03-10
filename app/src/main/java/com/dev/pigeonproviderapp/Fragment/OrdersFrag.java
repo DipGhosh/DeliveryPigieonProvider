@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -143,9 +146,16 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         // restrict refresh fragments
         viewPager.setOffscreenPageLimit(2);
 
+
+
         if (sharePreference.GetProviderAvailable() == true) {
             simpleToggleButton.setChecked(true);
             toggleValue = 1;
+            if(!Singleton.getInstance().isAlreadyExecuted()) {
+                callGetProfile();
+                Singleton.getInstance().setAlreadyExecuted(true);
+            }
+
         } else {
             simpleToggleButton.setChecked(false);
             toggleValue = 0;
@@ -172,20 +182,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
 
 
 
-       /* Handler handler = new Handler();
-        handler.postDelayed(
-                new Runnable() {
-                    public void run() {
-                        CallLocationAPI();
-                    }
-                }, 1000);*/
-        Handler handler = new Handler();
-        Runnable r = new Runnable() {
-            public void run() {
-                CallLocationAPI();
-            }
-        };
-        handler.postDelayed(r, 1000);
+
 
 
         return mView;
@@ -402,6 +399,44 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
                     simpleToggleButton.setChecked(false);
                     sharePreference.setProviderAvailable(false);
                 }
+
+                if (profileGetResponseDataModel.getData().getUser().getProviderAppAndroidVersion()!=null)
+                {
+                    int latestAppVersion= Integer.parseInt(profileGetResponseDataModel.getData().getUser().getProviderAppAndroidVersion());
+
+
+                    if (Utility.APP_VERSION<latestAppVersion)
+                    {
+                        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                        builder.setTitle(getResources().getString(R.string.app_name));
+                        builder.setIcon(R.mipmap.ic_launcher);
+                        builder.setMessage(R.string.update_aleart);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(R.string.label_ok,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent buinesspartnerIntent = new Intent(Intent.ACTION_VIEW);
+                                        buinesspartnerIntent.setData(Uri.parse(Utility.DELIVERYPARTNER_LINK));
+                                        startActivity(buinesspartnerIntent);
+
+                                    }
+                                });
+                        builder.setNegativeButton(R.string.aleart_later, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        final android.app.AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                }
+
+
+
+
 
 
             }

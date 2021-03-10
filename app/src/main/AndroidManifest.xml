@@ -62,7 +62,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityAll.ProviderDashboard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".ActivityAll.SpalshActivity"
             android:noHistory="true"

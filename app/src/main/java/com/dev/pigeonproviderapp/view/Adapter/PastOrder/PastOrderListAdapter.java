@@ -62,6 +62,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
         handler.currentOrderPickupAddress.setText(pastOrderDatamodel.pastorder_pickup_address);
         handler.currentOrderDeliveryAddress.setText(pastOrderDatamodel.pastorder_delivery_address);
         handler.currentOrderPrice.setText("Earn: "+"₹ "+pastOrderDatamodel.earnAmount);
+        handler.orderId.setText("Order "+pastOrderDatamodel.orderId);
 
         if (pastOrderDatamodel.provider_bonus<=0)
         {
@@ -94,7 +95,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,bonusPrice;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,bonusPrice,orderId;
 
 
         public MyHolder(View row)
@@ -106,6 +107,7 @@ public class PastOrderListAdapter extends RecyclerView.Adapter<RecyclerView.View
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
             bonusPrice=row.findViewById(R.id.tvbonus_bounus);
+            orderId=row.findViewById(R.id.tv_order_id);
 
 
         }

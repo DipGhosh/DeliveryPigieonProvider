@@ -127,7 +127,7 @@
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_160sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_margin="@dimen/_5sdp" />
 
         </LinearLayout>
@@ -208,7 +208,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.85"
                             android:gravity="center|left"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -220,6 +220,14 @@
                                 android:textSize="@dimen/_12sdp">
 
                             </TextView>
+
+                            <ImageView
+                                android:layout_width="@dimen/_22sdp"
+                                android:layout_height="@dimen/_22sdp"
+                                android:visibility="invisible"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:id="@+id/et_verify_otpcomplete_sign"
+                                android:background="@drawable/ico_complete"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -258,7 +266,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.85"
                             android:gravity="center|left"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -270,6 +278,13 @@
                                 android:textSize="@dimen/_12sdp">
 
                             </TextView>
+                            <ImageView
+                                android:layout_width="@dimen/_22sdp"
+                                android:layout_height="@dimen/_22sdp"
+                                android:visibility="invisible"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:id="@+id/et_capture_image_sign"
+                                android:background="@drawable/ico_complete"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -299,18 +314,36 @@
                     android:background="@drawable/white_shadowshape"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:fontFamily="@font/montserrat"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:text="Payment information"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/_12sdp">
 
-                    </TextView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:orientation="horizontal"
+                        android:gravity="center|left">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:text="Payment information"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_12sdp">
+
+                        </TextView>
+                        <ImageView
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:visibility="invisible"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_alignRight="@+id/tv_pickup_address"
+                            android:id="@+id/et_payment_complete_sign"
+                            android:background="@drawable/ico_complete"/>
+
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/tv_item_paymentstatus"
@@ -338,7 +371,10 @@
                         android:paddingTop="@dimen/_5sdp"
                         android:text="@string/accept_payment"
                         android:textColor="@color/otptextColor"
-                        android:textSize="@dimen/_12sdp"></TextView>
+                        android:textSize="@dimen/_12sdp">
+
+
+                    </TextView>
                 </LinearLayout>
 
 
@@ -354,7 +390,7 @@
                     <EditText
                         android:id="@+id/et_provider_comment"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_120sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_15sdp"
@@ -382,13 +418,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_60sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_order_item_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_20sdp"
                         android:background="@drawable/white_shadowshape"
                         android:orientation="horizontal"
                         android:visibility="invisible"
@@ -404,7 +440,7 @@
                             android:fontFamily="@font/montserrat"
                             android:gravity="center"
                             android:text="@string/complete"
-                            android:textColor="@color/otptextColor"
+                            android:textColor="@color/header_color"
                             android:textSize="@dimen/_12sdp">
 
                         </TextView>
@@ -414,7 +450,6 @@
                         android:id="@+id/ll_order_item_completed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_20sdp"
                         android:background="@drawable/white_shadowshape"
                         android:orientation="horizontal"
                         android:visibility="gone"
@@ -430,8 +465,10 @@
                             android:fontFamily="@font/montserrat"
                             android:gravity="center"
                             android:text="@string/completed"
-                            android:textColor="@color/otptextColor"
-                            android:textSize="@dimen/_12sdp"></TextView>
+                            android:textColor="@color/header_color"
+                            android:textSize="@dimen/_12sdp">
+
+                        </TextView>
                     </LinearLayout>
                 </RelativeLayout>
 

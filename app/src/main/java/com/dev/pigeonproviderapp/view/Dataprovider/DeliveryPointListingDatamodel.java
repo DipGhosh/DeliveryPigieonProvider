@@ -5,5 +5,5 @@ public class DeliveryPointListingDatamodel {
     public int delivery_order_id,order_droppoint_status;
     public double droppoint_lat,droppoint_long;
     public long item_phone_number;
-    public boolean drop_collect_apyment;
+    public boolean drop_collect_apyment,is_signature_verified,is_otp_verified;
 }

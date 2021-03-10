@@ -105,6 +105,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
                 orderActiveDatamodel.provider_bonus = available.getProviderBonus();
                 orderActiveDatamodel.earnAmount = available.getEarn();
+                orderActiveDatamodel.orderId=available.getOrderNo();
 
 
                 active_order_arraylist.add(orderActiveDatamodel);
@@ -162,6 +163,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                         orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
                         orderActiveDatamodel.provider_bonus = available.getProviderBonus();
                         orderActiveDatamodel.earnAmount = available.getEarn();
+                        orderActiveDatamodel.orderId=available.getOrderNo();
 
                         active_order_arraylist.add(orderActiveDatamodel);
 
