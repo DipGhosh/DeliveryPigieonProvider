@@ -18,20 +18,39 @@
             android:layout_weight="0.85"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_item_point"
-                android:paddingTop="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:text="@string/pickup_point"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat"
-                >
+                android:layout_height="@dimen/_35sdp"
+                android:orientation="horizontal"
+                android:gravity="center|left">
 
-            </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_item_point"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:text="@string/pickup_point"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:fontFamily="@font/montserrat"
+                    >
+
+                </TextView>
+
+                <ImageView
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_alignRight="@+id/tv_pickup_address"
+                    android:id="@+id/et_complete_sign"
+                    android:background="@drawable/ico_complete"/>
+
+            </LinearLayout>
+
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

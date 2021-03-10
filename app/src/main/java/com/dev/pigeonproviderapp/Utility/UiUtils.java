@@ -128,6 +128,7 @@ public class UiUtils {
     public static void showAlert(Activity mActivity, String mTitle, String mMessage) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 mActivity);
+        alertDialogBuilder.setIcon(R.mipmap.ic_launcher);
         alertDialogBuilder.setTitle(mTitle);
         if (mMessage == null || TextUtils.isEmpty(mMessage))
             mMessage = "Poor internet!";

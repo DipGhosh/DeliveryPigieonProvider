@@ -61,6 +61,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
         handler.currentOrderPickupAddress.setText(currentOrderDatamodel.currentorder_pickup_address);
         handler.currentOrderDeliveryAddress.setText(currentOrderDatamodel.currentorder_delivery_address);
         handler.currentOrderPrice.setText("Earn: "+"₹ "+currentOrderDatamodel.earnAmount);
+        handler.orderId.setText("Order "+currentOrderDatamodel.orderId);
 
         if (currentOrderDatamodel.provider_bonus<=0)
         {
@@ -94,7 +95,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,bonusPrice;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,bonusPrice,orderId;
 
 
         public MyHolder(View row)
@@ -106,6 +107,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
             currentOrderPrice=(TextView)row.findViewById(R.id.tv_price);
             vieworderDetailsClick=(TextView)row.findViewById(R.id.tv_view_details);
             bonusPrice=row.findViewById(R.id.tvbonus_bounus);
+            orderId=row.findViewById(R.id.tv_order_id);
 
 
         }

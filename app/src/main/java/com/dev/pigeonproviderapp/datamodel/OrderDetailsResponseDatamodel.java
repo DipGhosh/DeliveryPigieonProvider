@@ -91,6 +91,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("amountEarn")
     @Expose
     private float amountEarn;
+    @SerializedName("provider_bonus")
+    @Expose
+    private Integer providerBonus;
     @SerializedName("distance")
     @Expose
     private double distance;
@@ -218,6 +221,13 @@ public class OrderDetailsResponseDatamodel {
     public void setPaymentPoint(String paymentPoint) {
       this.paymentPoint = paymentPoint;
     }
+    public Integer getProviderBonus() {
+      return providerBonus;
+    }
+
+    public void setProviderBonus(Integer providerBonus) {
+      this.providerBonus = providerBonus;
+    }
 
   }
 
@@ -315,6 +325,12 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("is_collect_payment")
     @Expose
     private Boolean isCollectPayment;
+    @SerializedName("is_signature_verified")
+    @Expose
+    private Boolean isSignatureVerified;
+    @SerializedName("is_otp_verified")
+    @Expose
+    private Boolean isOtpVerified;
 
     public Integer getId() {
       return id;
@@ -393,6 +409,22 @@ public class OrderDetailsResponseDatamodel {
 
     public void setIsCollectPayment(Boolean isCollectPayment) {
       this.isCollectPayment = isCollectPayment;
+    }
+
+    public Boolean getIsSignatureVerified() {
+      return isSignatureVerified;
+    }
+
+    public void setIsSignatureVerified(Boolean isSignatureVerified) {
+      this.isSignatureVerified = isSignatureVerified;
+    }
+
+    public Boolean getIsOtpVerified() {
+      return isOtpVerified;
+    }
+
+    public void setIsOtpVerified(Boolean isOtpVerified) {
+      this.isOtpVerified = isOtpVerified;
     }
 
   }
@@ -634,6 +666,12 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("is_collect_payment")
     @Expose
     private Boolean isCollectPayment;
+    @SerializedName("is_signature_verified")
+    @Expose
+    private Boolean isSignatureVerified;
+    @SerializedName("is_otp_verified")
+    @Expose
+    private Boolean isOtpVerified;
 
     public Integer getId() {
       return id;
@@ -713,6 +751,21 @@ public class OrderDetailsResponseDatamodel {
 
     public void setIsCollectPayment(Boolean isCollectPayment) {
       this.isCollectPayment = isCollectPayment;
+    }
+    public Boolean getIsSignatureVerified() {
+      return isSignatureVerified;
+    }
+
+    public void setIsSignatureVerified(Boolean isSignatureVerified) {
+      this.isSignatureVerified = isSignatureVerified;
+    }
+
+    public Boolean getIsOtpVerified() {
+      return isOtpVerified;
+    }
+
+    public void setIsOtpVerified(Boolean isOtpVerified) {
+      this.isOtpVerified = isOtpVerified;
     }
 
   }

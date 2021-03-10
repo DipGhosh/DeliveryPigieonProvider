@@ -27,10 +27,11 @@ public class Singleton {
     private String PAYMENTPOINT;
     private String PAYMENTSTATUSMESSAGE;
     private boolean isCollectPayment;
-
-
-
-
+    private boolean alreadyExecuted;
+    private boolean isOtpverified;
+    private boolean idSignatureVerified;
+    private boolean dropotpVerified;
+    private boolean dropImageVerified;
     private String OTPVERIFYMESSAGE;
 
     private boolean isProfileUpdated;
@@ -223,5 +224,43 @@ public class Singleton {
 
     public void setCollectPayment(boolean collectPayment) {
         isCollectPayment = collectPayment;
+    }
+
+    public boolean isAlreadyExecuted() {
+        return alreadyExecuted;
+    }
+
+    public void setAlreadyExecuted(boolean alreadyExecuted) {
+        this.alreadyExecuted = alreadyExecuted;
+    }
+    public boolean isOtpverified() {
+        return isOtpverified;
+    }
+
+    public void setOtpverified(boolean otpverified) {
+        isOtpverified = otpverified;
+    }
+
+    public boolean isIdSignatureVerified() {
+        return idSignatureVerified;
+    }
+
+    public void setIdSignatureVerified(boolean idSignatureVerified) {
+        this.idSignatureVerified = idSignatureVerified;
+    }
+
+    public boolean isDropotpVerified() {
+        return dropotpVerified;
+    }
+
+    public void setDropotpVerified(boolean dropotpVerified) {
+        this.dropotpVerified = dropotpVerified;
+    }
+    public boolean isDropImageVerified() {
+        return dropImageVerified;
+    }
+
+    public void setDropImageVerified(boolean dropImageVerified) {
+        this.dropImageVerified = dropImageVerified;
     }
 }

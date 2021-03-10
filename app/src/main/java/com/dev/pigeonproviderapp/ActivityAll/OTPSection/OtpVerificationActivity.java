@@ -118,6 +118,8 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
                 if (Singleton.getInstance().getERRORSTATUS() == 400) {
                     UiUtils.showAlert(activity, "OTP Verification",Singleton.getInstance().getOTPVERIFYMESSAGE());
                 } else if (Singleton.getInstance().getERRORSTATUS() == 200) {
+                    Singleton.getInstance().setOtpverified(true);
+
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
                     builder.setTitle(getResources().getString(R.string.app_name));
                     builder.setIcon(R.mipmap.ic_launcher);
@@ -126,6 +128,7 @@ public class OtpVerificationActivity extends BaseActivity implements View.OnClic
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+
                                    finish();
                                 }
                             });

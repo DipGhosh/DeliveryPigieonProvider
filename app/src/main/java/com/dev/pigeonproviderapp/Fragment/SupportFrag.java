@@ -128,6 +128,12 @@ public class SupportFrag extends Fragment {
           Log.i("chat", "message: " + chatModel.getMessage());
         }
 
+        if (customAdapter.getItemCount()>1)
+        {
+          mMessageRecyclerView.smoothScrollToPosition(customAdapter.getItemCount()-1);
+        }
+
+
         customAdapter.notifyDataSetChanged();
       }
 

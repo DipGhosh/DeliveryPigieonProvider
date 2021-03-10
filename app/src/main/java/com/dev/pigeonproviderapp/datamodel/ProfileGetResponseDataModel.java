@@ -120,6 +120,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("isValid")
         @Expose
         private Boolean isValid;
+        @SerializedName("provider_app_android_version")
+        @Expose
+        private String providerAppAndroidVersion;
 
         public Integer getId() {
             return id;
@@ -223,6 +226,14 @@ public class ProfileGetResponseDataModel {
 
         public void setIsValid(Boolean isValid) {
             this.isValid = isValid;
+        }
+
+        public String getProviderAppAndroidVersion() {
+            return providerAppAndroidVersion;
+        }
+
+        public void setProviderAppAndroidVersion(String providerAppAndroidVersion) {
+            this.providerAppAndroidVersion = providerAppAndroidVersion;
         }
 
 

@@ -32,12 +32,14 @@ public class Utility {
   public static String ADDRESSPROOF_BACK = "Address Proof Back";
   public static String ADDRESSPROOF_PAN = "PAN";
   public static String ADDRESSPROOF_OTHERS = "Others";
+  public static String DELIVERYPARTNER_LINK = "https://play.google.com/store/apps/details?id=com.dev.pigeonproviderapp";
 
   //Documents ID
   public static int ADDRESS_FONT_ID = 1;
   public static int ADDRESS_BACK_ID = 2;
   public static int ADDRESS_PAN_ID = 3;
   public static int ADDRESS_OTHERS_ID = 4;
+  public static int APP_VERSION=15;
 
   // Intent Result
   public static String EDIT_NAME = "EDIT_NAME";

@@ -104,6 +104,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
                 currentOrderDatamodel.currentorder_id=current.getId();
                 currentOrderDatamodel.provider_bonus=current.getProviderBonus();
                 currentOrderDatamodel.earnAmount=current.getEarn();
+                currentOrderDatamodel.orderId=current.getOrderNo();
 
                 current_order_arraylist.add(currentOrderDatamodel);
 
@@ -155,6 +156,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
                     currentOrderDatamodel.currentorder_id=current.getId();
                     currentOrderDatamodel.provider_bonus=current.getProviderBonus();
                     currentOrderDatamodel.earnAmount=current.getEarn();
+                    currentOrderDatamodel.orderId=current.getOrderNo();
 
                     current_order_arraylist.add(currentOrderDatamodel);
                 }

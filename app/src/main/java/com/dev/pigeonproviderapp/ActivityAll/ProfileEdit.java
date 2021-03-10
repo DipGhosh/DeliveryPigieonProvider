@@ -33,6 +33,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.ItemDigitalSignature;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.ProviderDetails;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseActivity;
 import com.dev.pigeonproviderapp.BuildConfig;
 import com.dev.pigeonproviderapp.R;
@@ -208,7 +209,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
     }
 
     public void callProfileInfoUpdate() {
-        if (isValid()) {
+
 
             dialog.show();
 
@@ -222,30 +223,51 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                         dialog.dismiss();
 
                         if (profileUpdateResponseDataModel.getStatus() == 200) {
-                            UiUtils.showAlert(activity, "Profile Edit", getString(R.string.profile_edit_aleart));
+
+                            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                            builder.setTitle(getResources().getString(R.string.app_name));
+                            builder.setIcon(R.mipmap.ic_launcher);
+                            builder.setMessage(R.string.profile_edit_aleart);
+                            builder.setPositiveButton(R.string.label_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent = getIntent();
+                                            intent.putExtra(Utility.EDIT_NAME, userNameProfileEdit.getText().toString());
+                                            intent.putExtra(Utility.EDIT_EMAIL, emailProfileEdit.getText().toString());
+                                            intent.putExtra(Utility.EDIT_PIC, profileImageUrl);
+                                            setResult(RESULT_OK, intent);
+                                            finish();
+
+                                        }
+                                    });
+
+                            final android.app.AlertDialog alert = builder.create();
+                            alert.show();
                         }
 
 
                     });
-        }
+
 
     }
 
 
-    private boolean isValid() {
+   /* private boolean isValid() {
         if (TextUtils.isEmpty(userNameProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.aleart_name));
             return false;
-        } /*else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
+        } *//*else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
             UiUtils.showToast(this, getString(R.string.alert_email));
             return false;
         } else if (!CommonUtils.isValidEmail(emailProfileEdit.getText().toString().trim())) {
             UiUtils.showToast(this, getString(R.string.alert_valid_email));
             return false;
-        }*/ else {
+        }*//* else {
             return true;
         }
-    }
+    }*/
 
 
     @Override
