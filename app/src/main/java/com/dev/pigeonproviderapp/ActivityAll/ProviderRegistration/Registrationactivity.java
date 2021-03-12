@@ -198,12 +198,10 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
               if (otpSendResponseDataModel != null) {
 
                 if (otpSendResponseDataModel.getStatus() == 200) {
-                  int data = otpSendResponseDataModel.getData();
-                  if (data > 0) {
-                    getOtp.setVisibility(View.GONE);
-                    resendOtp.setVisibility(View.VISIBLE);
-                    //otpField.setText("" + data);
-                  }
+
+                  getOtp.setVisibility(View.GONE);
+                  resendOtp.setVisibility(View.VISIBLE);
+
                 }else if (otpSendResponseDataModel.getStatus() == 400) {
                   UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.phone_number_restriction_validation));
                 }

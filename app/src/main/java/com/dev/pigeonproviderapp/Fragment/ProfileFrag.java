@@ -62,56 +62,52 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
-   View view;
-   private ImageView profileImage;
-   private Activity activity;
-   private TextView userPhoneNumber,userEmailId,userName,approvalStatus,profileEdit;
-   private ProgressBar profileFragProgress;
-   private String profile_pic_url;
-   private LinearLayout logout,privacyPolicyClick,aboutUsClik,termsofServicesClick,accountSettingClick,PaymentHistoryClick;
-   private SharePreference sharePreference;
-   private Dialog dialog;
-   private ToggleButton simpleToggleButton;
-   private int toggleValue=1;
-
-   ProfileViewModel profileViewModel;
-
-   private int INTENT_REQUEST_ORDERTYPE = 3;
+    View view;
+    ProfileViewModel profileViewModel;
+    private ImageView profileImage;
+    private Activity activity;
+    private TextView userPhoneNumber, userEmailId, userName, approvalStatus, profileEdit;
+    private ProgressBar profileFragProgress;
+    private String profile_pic_url;
+    private LinearLayout logout, privacyPolicyClick, aboutUsClik, termsofServicesClick, accountSettingClick, PaymentHistoryClick;
+    private SharePreference sharePreference;
+    private Dialog dialog;
+    private ToggleButton simpleToggleButton;
+    private int toggleValue = 1;
+    private int INTENT_REQUEST_ORDERTYPE = 3;
 
     public ProfileFrag() {
         // Required empty public constructor
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_profile, container, false);
-        activity=getActivity();
-        sharePreference=new SharePreference(activity);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        activity = getActivity();
+        sharePreference = new SharePreference(activity);
 
-        profileEdit=view.findViewById(R.id.img_edit);
-        profileImage=view.findViewById(R.id.ic_profile_img);
-        userPhoneNumber=view.findViewById(R.id.tv_phoneNumber);
-        userEmailId=view.findViewById(R.id.tv_emailId);
-        userName=view.findViewById(R.id.tv_userName);
-        profileFragProgress=view.findViewById(R.id.profile_frag_image_progress);
-        logout=view.findViewById(R.id.ll_logout);
-        privacyPolicyClick=view.findViewById(R.id.ll_privacy_policy);
-        aboutUsClik=view.findViewById(R.id.ll_about_us);
-        termsofServicesClick=view.findViewById(R.id.ll_terms_of_services);
-        accountSettingClick=view.findViewById(R.id.ll_account_settingsClick);
-        PaymentHistoryClick=view.findViewById(R.id.ll_payment_historyClick);
-        approvalStatus=view.findViewById(R.id.tv_profile_approval_status);
-        simpleToggleButton =view.findViewById(R.id.chkState);
+        profileEdit = view.findViewById(R.id.img_edit);
+        profileImage = view.findViewById(R.id.ic_profile_img);
+        userPhoneNumber = view.findViewById(R.id.tv_phoneNumber);
+        userEmailId = view.findViewById(R.id.tv_emailId);
+        userName = view.findViewById(R.id.tv_userName);
+        profileFragProgress = view.findViewById(R.id.profile_frag_image_progress);
+        logout = view.findViewById(R.id.ll_logout);
+        privacyPolicyClick = view.findViewById(R.id.ll_privacy_policy);
+        aboutUsClik = view.findViewById(R.id.ll_about_us);
+        termsofServicesClick = view.findViewById(R.id.ll_terms_of_services);
+        accountSettingClick = view.findViewById(R.id.ll_account_settingsClick);
+        PaymentHistoryClick = view.findViewById(R.id.ll_payment_historyClick);
+        approvalStatus = view.findViewById(R.id.tv_profile_approval_status);
+        simpleToggleButton = view.findViewById(R.id.chkState);
 
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         dialog = UiUtils.showProgress(activity);
-
 
 
         //Registered click listener
@@ -124,15 +120,12 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         PaymentHistoryClick.setOnClickListener(this);
         simpleToggleButton.setOnClickListener(this);
 
-        if (NetworkUtils.isNetworkAvailable(activity))
-        {
+        if (NetworkUtils.isNetworkAvailable(activity)) {
             callGetProfile();
 
-        }else {
+        } else {
             UiUtils.showToast(activity, getString(R.string.network_error));
         }
-
-
 
 
         return view;
@@ -144,10 +137,10 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.img_edit:
 
-                Intent profileEdit=new Intent(activity, ProfileEdit.class);
+                Intent profileEdit = new Intent(activity, ProfileEdit.class);
                 profileEdit.putExtra("NAME", userName.getText().toString());
-                profileEdit.putExtra("EMAIL",userEmailId.getText().toString());
-                profileEdit.putExtra("URL",profile_pic_url);
+                profileEdit.putExtra("EMAIL", userEmailId.getText().toString());
+                profileEdit.putExtra("URL", profile_pic_url);
                 startActivityForResult(profileEdit, INTENT_REQUEST_ORDERTYPE);
                 break;
 
@@ -162,7 +155,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 sharePreference.LogOut();
-                                Intent logout=new Intent(activity, Registrationactivity.class);
+                                Intent logout = new Intent(activity, Registrationactivity.class);
                                 startActivity(logout);
                             }
                         });
@@ -178,32 +171,32 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
                 break;
             case R.id.ll_privacy_policy:
-                Intent privacyPolicyIntent=new Intent(activity, WebserviceActivity.class);
-                privacyPolicyIntent.putExtra(Utility.HEADER_KEY,Utility.PRIVACY_POLICY_HEADER);
-                privacyPolicyIntent.putExtra(Utility.LINK_KEY,Utility.PRIVACYPOLICY_LINK);
+                Intent privacyPolicyIntent = new Intent(activity, WebserviceActivity.class);
+                privacyPolicyIntent.putExtra(Utility.HEADER_KEY, Utility.PRIVACY_POLICY_HEADER);
+                privacyPolicyIntent.putExtra(Utility.LINK_KEY, Utility.PRIVACYPOLICY_LINK);
                 startActivity(privacyPolicyIntent);
 
                 break;
             case R.id.ll_about_us:
-                Intent aboutusIntent=new Intent(activity, WebserviceActivity.class);
-                aboutusIntent.putExtra(Utility.HEADER_KEY,Utility.ABOUTUS_HEADER);
-                aboutusIntent.putExtra(Utility.LINK_KEY,Utility.ABOUTUS_LINK);
+                Intent aboutusIntent = new Intent(activity, WebserviceActivity.class);
+                aboutusIntent.putExtra(Utility.HEADER_KEY, Utility.ABOUTUS_HEADER);
+                aboutusIntent.putExtra(Utility.LINK_KEY, Utility.ABOUTUS_LINK);
                 startActivity(aboutusIntent);
 
                 break;
             case R.id.ll_terms_of_services:
-                Intent termsIntent=new Intent(activity, WebserviceActivity.class);
-                termsIntent.putExtra(Utility.HEADER_KEY,Utility.TERMRS_OF_SERVICE_HEADER);
-                termsIntent.putExtra(Utility.LINK_KEY,Utility.TERMSSERVICES_LINK);
+                Intent termsIntent = new Intent(activity, WebserviceActivity.class);
+                termsIntent.putExtra(Utility.HEADER_KEY, Utility.TERMRS_OF_SERVICE_HEADER);
+                termsIntent.putExtra(Utility.LINK_KEY, Utility.TERMSSERVICES_LINK);
                 startActivity(termsIntent);
 
                 break;
             case R.id.ll_account_settingsClick:
-                Intent accountsettings=new Intent(activity, AccountSetting.class);
+                Intent accountsettings = new Intent(activity, AccountSetting.class);
                 startActivity(accountsettings);
                 break;
             case R.id.ll_payment_historyClick:
-                Intent paymentHistory=new Intent(activity, PaymentHistoryActivity.class);
+                Intent paymentHistory = new Intent(activity, PaymentHistoryActivity.class);
                 startActivity(paymentHistory);
 
                 break;
@@ -231,7 +224,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
     public void callGetProfile() {
 
-         dialog.show();
+        dialog.show();
 
         profileViewModel.gerProfile().observe(this, new Observer<ProfileGetResponseDataModel>() {
             @Override
@@ -239,24 +232,25 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
 
                 dialog.dismiss();
 
-                long number=profileGetResponseDataModel.getData().getUser().getPhone();
+                long number = profileGetResponseDataModel.getData().getUser().getPhone();
 
 
-               userPhoneNumber.setText(""+number);
-               userEmailId.setText(profileGetResponseDataModel.getData().getUser().getEmail());
-               userName.setText(profileGetResponseDataModel.getData().getUser().getName());
+                userPhoneNumber.setText("" + number);
+                userEmailId.setText(profileGetResponseDataModel.getData().getUser().getEmail());
+                userName.setText(profileGetResponseDataModel.getData().getUser().getName());
 
-               profile_pic_url=profileGetResponseDataModel.getData().getUser().getProfilePicture();
+                profile_pic_url = profileGetResponseDataModel.getData().getUser().getProfilePicture();
+                Singleton.getInstance().setProfileImageUrl(profileGetResponseDataModel.getData().getUser().getProfilePicture());
 
-               //Profile update boolean value set in Singleton class
-                if (profileGetResponseDataModel.getData().getUser().getIsValid()==true)
-                {
+
+                //Profile update boolean value set in Singleton class
+                if (profileGetResponseDataModel.getData().getUser().getIsValid() == true) {
                     sharePreference.setProfileverified(true);
                     Singleton.getInstance().setProfileUpdated(false);
-                }else {
+                } else {
                     sharePreference.setProfileverified(false);
                     Singleton.getInstance().setProfileUpdated(false);
-                    UiUtils.showAlert(activity,getString(R.string.app_name),getString(R.string.profile_verification_aleart));
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_verification_aleart));
                 }
 
 
@@ -264,21 +258,19 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 approvalStatus.setText(profileGetResponseDataModel.getData().getUser().getStatus());
 
                 //Avilable button check/uncheck
-               if (profileGetResponseDataModel.getData().getUser().getIsAvailable()==true)
-               {
-                  // simpleToggleButton.setChecked(true);
-                   sharePreference.setProviderAvailable(true);
-               }else {
-                   //simpleToggleButton.setChecked(false);
-                   sharePreference.setProviderAvailable(false);
-               }
+                if (profileGetResponseDataModel.getData().getUser().getIsAvailable() == true) {
+                    // simpleToggleButton.setChecked(true);
+                    sharePreference.setProviderAvailable(true);
+                } else {
+                    //simpleToggleButton.setChecked(false);
+                    sharePreference.setProviderAvailable(false);
+                }
 
-               //Image download and show
-                if (profile_pic_url != null)
-                {
+                //Image download and show
+                if (profile_pic_url != null) {
                     loadImageFile(profile_pic_url, profileImage, profileFragProgress);
 
-                }else {
+                } else {
                     Picasso.with(activity).load(R.drawable.dummy_image).into(profileImage);
                     profileFragProgress.setVisibility(View.GONE);
                 }
@@ -287,7 +279,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
             }
         });
 
-        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -299,8 +291,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 userName.setText(data.getStringExtra(Utility.EDIT_NAME));
 
                 //Image download and show
-                if (data.getStringExtra(Utility.EDIT_PIC) != null)
-                {
+                if (data.getStringExtra(Utility.EDIT_PIC) != null) {
                     loadImageFile(data.getStringExtra(Utility.EDIT_PIC), profileImage, profileFragProgress);
 
                 }
@@ -316,9 +307,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
     }
 
 
-
-    private void loadImageFile(String url, ImageView imageView, ProgressBar progressBar)
-    {
+    private void loadImageFile(String url, ImageView imageView, ProgressBar progressBar) {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -353,9 +342,6 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                     }
                 });
     }
-
-
-
 
 
 }

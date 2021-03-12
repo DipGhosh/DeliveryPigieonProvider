@@ -132,6 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkTerms"
+            android:padding="@dimen/_5sdp"
             android:button="@drawable/checkbox_selector_trainer_gen"
             android:layout_marginLeft="@dimen/_10sdp"
             android:textSize="@dimen/_10sdp"

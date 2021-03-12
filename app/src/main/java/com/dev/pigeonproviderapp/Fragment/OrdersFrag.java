@@ -399,6 +399,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
                     simpleToggleButton.setChecked(false);
                     sharePreference.setProviderAvailable(false);
                 }
+                Singleton.getInstance().setProfileImageUrl(profileGetResponseDataModel.getData().getUser().getProfilePicture());
+
 
                 if (profileGetResponseDataModel.getData().getUser().getProviderAppAndroidVersion()!=null)
                 {

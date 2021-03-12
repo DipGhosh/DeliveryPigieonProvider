@@ -33,6 +33,7 @@ public class Singleton {
     private boolean dropotpVerified;
     private boolean dropImageVerified;
     private String OTPVERIFYMESSAGE;
+    private String profileImageUrl;
 
     private boolean isProfileUpdated;
 
@@ -262,5 +263,13 @@ public class Singleton {
 
     public void setDropImageVerified(boolean dropImageVerified) {
         this.dropImageVerified = dropImageVerified;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

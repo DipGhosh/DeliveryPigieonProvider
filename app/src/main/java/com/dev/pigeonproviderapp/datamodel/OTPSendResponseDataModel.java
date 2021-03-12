@@ -12,9 +12,6 @@ public class OTPSendResponseDataModel {
   @SerializedName("errorMessage")
   @Expose
   private Object errorMessage;
-  @SerializedName("data")
-  @Expose
-  private Integer data;
   @SerializedName("errors")
   @Expose
   private List<Object> errors = null;
@@ -35,13 +32,6 @@ public class OTPSendResponseDataModel {
     this.errorMessage = errorMessage;
   }
 
-  public Integer getData() {
-    return data;
-  }
-
-  public void setData(Integer data) {
-    this.data = data;
-  }
 
   public List<Object> getErrors() {
     return errors;

@@ -5,20 +5,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.storage.Singleton;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
   public List<UserChatModel> mData;
   private LayoutInflater mInflater;
+  static Context context;
 
   // data is passed into the constructor
   public ChatAdapter(Context context, List<UserChatModel> data) {
     this.mInflater = LayoutInflater.from(context);
     this.mData = data;
+    this.context=context;
   }
 
   // inflates the row layout from xml when needed
@@ -40,6 +48,18 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
   public void onBindViewHolder(ViewHolder holder, int position) {
     String msg = mData.get(position).getMessage();
     holder.myTextView.setText(msg);
+
+    if (Singleton.getInstance().getProfileImageUrl() != null)
+    {
+      Glide.with(context)
+              .load(Singleton.getInstance().getProfileImageUrl() )
+              .error(R.drawable.dummy_image)
+              .into(holder.myProfilePic);
+
+    }else {
+      Picasso.with(context).load(R.drawable.dummy_image).into(holder.myProfilePic);
+
+    }
   }
 
   // total number of rows
@@ -61,10 +81,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
   public class ViewHolder extends RecyclerView.ViewHolder {
 
     TextView myTextView;
+    ImageView myProfilePic;
 
     ViewHolder(View itemView) {
       super(itemView);
       myTextView = itemView.findViewById(R.id.message_body);
+      myProfilePic=itemView.findViewById(R.id.ic_image);
+
     }
 
   }
