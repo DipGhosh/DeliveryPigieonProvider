@@ -354,6 +354,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                         String filename = updateProfilePIctureDataModel.getData().getUser()
                                 .getProfilePicture();
                         profileImageUrl = filename;
+                        Singleton.getInstance().setProfileImageUrl(profileImageUrl);
                         Log.d("Aslam", "Filename: " + filename);
 
                     }
