@@ -73,14 +73,10 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
     ProfileViewModel profileViewModel;
     DocumentsUploadViewModel documentsUploadViewModel;
 
-    /*private static final int SELECT_PICTURE = 0;
+    private static final int SELECT_PICTURE = 0;
     private final int REQUEST_CAMERA = 1;
     private Uri camuri;
-    private Bitmap bitmap;*/
-    private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private static final int SELECT_PICTURE = 0;
+    private Bitmap bitmap;
     MultipartBody.Part multipartBody;
 
     private Button btnSubmit;
@@ -190,8 +186,8 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_add_bank_details:
 
-               Intent intent=new Intent(ProviderDetails.this, AddBankDetails.class);
-               startActivity(intent);
+                Intent intent=new Intent(ProviderDetails.this, AddBankDetails.class);
+                startActivity(intent);
 
                 break;
             case R.id.layout_main:
@@ -315,10 +311,30 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
 
 
 
-        }else if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST)
+        }else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA)
         {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            Uri selectedImageUri = getImageUri(getApplicationContext(), bitmap);
+            Uri selectedImageUri = camuri;
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            CursorLoader cursorLoader = new android.content.CursorLoader(this, selectedImageUri, projection, null, null,
+                    null);
+            Cursor cursor = cursorLoader.loadInBackground();
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            cursor.moveToFirst();
+
+            String selectedImagePath = cursor.getString(column_index);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(selectedImagePath, options);
+            final int REQUIRED_SIZE = 200;
+            int scale = 1;
+            while (options.outWidth / scale / 2 >= REQUIRED_SIZE
+                    && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
+            options.inSampleSize = scale;
+            options.inJustDecodeBounds = false;
+
+            bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
 
             if (position.equals("1"))
             {
@@ -353,13 +369,6 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         }
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
     private void uploadFile(Uri fileUri) {
 
         dialog.show();
@@ -369,7 +378,6 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         String path = getRealPathFromURI(selectedImageUri);
         Log.d("Picture Path", "" + path);
 
-        //pass it like this
         //pass it like this
         File file = Utility.saveBitmapToFile(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -390,14 +398,14 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                         @Override
                         public void onChanged(UploadDocumentImageResponseModel uploadDocumentImageResponseModel) {
 
-                           dialog.dismiss();
+                            dialog.dismiss();
 
                             filename = uploadDocumentImageResponseModel.getData();
 
                             if (position.equals("1"))
                             {
-                               documentsName=Utility.ADDRESSPROOF_FONT;
-                               docId=Utility.ADDRESS_FONT_ID;
+                                documentsName=Utility.ADDRESSPROOF_FONT;
+                                docId=Utility.ADDRESS_FONT_ID;
                                 AddDocumentImage();
                             }else if (position.equals("2"))
                             {
@@ -470,10 +478,26 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("From Camera")) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
-                }  else if (items[item].equals("Cancel")) {
+                    String fileName = "new-photo-name.jpg";
+                    //create parameters for Intent with filename
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                    //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+                    camuri = ProviderDetails.this.getContentResolver()
+                            .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    //create new Intent
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("From Cameraroll")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, SELECT_PICTURE);
+
+                } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -492,9 +516,20 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("From Camera")) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
+                    String fileName = "new-photo-name.jpg";
+                    //create parameters for Intent with filename
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                    //imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
+                    camuri = ProviderDetails.this.getContentResolver()
+                            .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    //create new Intent
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, camuri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    startActivityForResult(intent, REQUEST_CAMERA);
                 } else if (items[item].equals("From Cameraroll")) {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -520,25 +555,6 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
         documentsUploadViewModel.sendaddDocumentImage(addDocumentAPIModel).observe(this, documentsUploadViewModel -> {
 
         });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-            else
-            {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
 

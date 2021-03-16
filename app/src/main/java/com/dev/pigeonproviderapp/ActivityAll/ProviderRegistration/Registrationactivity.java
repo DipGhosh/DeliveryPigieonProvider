@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   private Dialog dialog;
   private SharePreference sharePreference;
   private String token;
-  private ConstraintLayout mainLayout;
+  private LinearLayout mainLayout;
 
 
 
@@ -304,10 +305,10 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   // method will validate the fields
   private boolean isValid() {
     if (TextUtils.isEmpty(providerPhoneNumber.getText().toString())) {
-      UiUtils.showToast(this, getString(R.string.alert_create_phone));
+      UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.alert_create_phone));
       return false;
     } else if (!providerPhoneNumber.getText().toString().matches(MobilePattern)) {
-      UiUtils.showToast(this, getString(R.string.alert_create_phone));
+      UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.alert_create_phone));
       return false;
     } else {
       return true;
@@ -317,13 +318,13 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   // method will validate the fields
   private boolean isotpVerifiedValidation() {
     if (TextUtils.isEmpty(providerPhoneNumber.getText().toString())) {
-      UiUtils.showToast(this, getString(R.string.alert_create_phone));
+      UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.alert_create_phone));
       return false;
     } else if (TextUtils.isEmpty(otpField.getText().toString())) {
-      UiUtils.showToast(this, getString(R.string.alert_create_otpvalidation));
+      UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.alert_create_otpvalidation));
       return false;
     } else if (checkTerms.isChecked() == false) {
-      UiUtils.showToast(this, getString(R.string.alert_terms_condition));
+      UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.alert_terms_condition));
       return false;
     } else {
       return true;
