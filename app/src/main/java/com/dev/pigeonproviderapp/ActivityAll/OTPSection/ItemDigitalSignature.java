@@ -1,11 +1,15 @@
 package com.dev.pigeonproviderapp.ActivityAll.OTPSection;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -13,6 +17,7 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,6 +58,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -80,6 +87,8 @@ public class ItemDigitalSignature extends AppCompatActivity  {
     //SignaturePad mSignaturePad;
     private Dialog dialog;
     private String filename;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +155,8 @@ public class ItemDigitalSignature extends AppCompatActivity  {
 
 
     }
+
+
 
 
     @Override
@@ -340,5 +351,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         finish();
 
     }
+
+
 
 }

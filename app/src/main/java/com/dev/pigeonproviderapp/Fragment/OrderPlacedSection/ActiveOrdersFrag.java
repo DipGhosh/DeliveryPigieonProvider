@@ -98,6 +98,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
 
                 OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
+                orderActiveDatamodel.pickuptime=available.getPickupDate()+"  "+available.getPickupTime();
                 orderActiveDatamodel.activeorder_id = available.getId();
                 orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
                 orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
@@ -146,37 +147,46 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 active_order_arraylist.clear();
+                if (listOrderDataModel != null ) {
 
+                    if(listOrderDataModel.getStatus() == 200)
+                    {
+                        if (listOrderDataModel.getData().getAvailable().size() > 0)
+                        {
+                            activeorderlist_recyclerview.setVisibility(View.VISIBLE);
+                            blankImage.setVisibility(View.GONE);
 
-                if (listOrderDataModel.getData().getAvailable().size() > 0)
-                {
-                    activeorderlist_recyclerview.setVisibility(View.VISIBLE);
-                    blankImage.setVisibility(View.GONE);
+                            for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
 
-                    for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
+                                OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
+                                orderActiveDatamodel.pickuptime=available.getPickupDate()+"  "+available.getPickupTime();
+                                orderActiveDatamodel.activeorder_id = available.getId();
+                                orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
+                                orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
+                                orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
+                                orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
+                                orderActiveDatamodel.provider_bonus = available.getProviderBonus();
+                                orderActiveDatamodel.earnAmount = available.getEarn();
+                                orderActiveDatamodel.orderId=available.getOrderNo();
 
-                        OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-                        orderActiveDatamodel.activeorder_id = available.getId();
-                        orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
-                        orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
-                        orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
-                        orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
-                        orderActiveDatamodel.provider_bonus = available.getProviderBonus();
-                        orderActiveDatamodel.earnAmount = available.getEarn();
-                        orderActiveDatamodel.orderId=available.getOrderNo();
+                                active_order_arraylist.add(orderActiveDatamodel);
 
-                        active_order_arraylist.add(orderActiveDatamodel);
+                            }
+                            adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
+                            activeorderlist_recyclerview.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }else {
 
+                            active_order_arraylist.clear();
+                            activeorderlist_recyclerview.setVisibility(View.GONE);
+                            blankImage.setVisibility(View.VISIBLE);
+                        }
                     }
-                    adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
-                    activeorderlist_recyclerview.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }else {
 
-                    active_order_arraylist.clear();
-                    activeorderlist_recyclerview.setVisibility(View.GONE);
-                    blankImage.setVisibility(View.VISIBLE);
+
                 }
+
+
 
 
 

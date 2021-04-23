@@ -151,6 +151,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:layout_weight="0.9">
                 <TextView
                     android:layout_width="match_parent"
@@ -162,6 +163,18 @@
                     android:text="@string/dummy_example"
                     android:textColor="@color/fadeBlackColor"
                     android:textSize="@dimen/_10sdp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:id="@+id/tv_pickup_time"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/fadeBlackColor"
+                    android:textSize="@dimen/_10sdp">
+
+                </TextView>
 
             </LinearLayout>
 

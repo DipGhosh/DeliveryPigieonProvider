@@ -42,11 +42,13 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
     SupportMapFragment mapFragment;
     ArrayList<LatLng> coordList;
     static LatLng co_ordinate;
-
     private TextView cancel,totaldistance;
+    ArrayList<String> addressList=new ArrayList<String>();
 
     LatLng startLatLng = null;
     LatLng endLatLng = null;
+
+    private List<LatLng> latLngList=new ArrayList<LatLng>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         if (bundle != null) {
 
             coordList = getIntent().getParcelableArrayListExtra("coordinates");
+            addressList=getIntent().getStringArrayListExtra("storeaddress");
             totaldistance.setText(getString(R.string.distance)+" "+bundle.getString("distance")+" KM");
 
         }
@@ -115,12 +118,25 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
             Double lati = coordList.get(i).latitude;
             Double longi = coordList.get(i).longitude;
 
-            mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                    .title("Delivery Pigieon")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            if (i==0)
+            {
+                mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                        .snippet(addressList.get(i))
+                        .title("This is Pick Up point")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }else {
+                mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                        .snippet(addressList.get(i))
+                        .title("This is Drop point")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }
+
+
 
             LatLng latlng = new LatLng(lati,
                     longi);
+
+            latLngList.add(latlng);
             if (i == 0) {
                 startLatLng = latlng;
             }
@@ -128,20 +144,21 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
                 endLatLng = latlng;
             }
 
+
+        }
+
+        for(int i=0;i<latLngList.size()-1;i++)
+        {
+            String url = getDirectionsUrl(latLngList.get(i), latLngList.get(i+1));
+            DownloadTask downloadTask = new DownloadTask();
+
+            // Start downloading json data from Google Directions API
+            downloadTask.execute(url);
         }
 
 
 
-        // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(startLatLng, endLatLng);
-
-        DownloadTask downloadTask = new DownloadTask();
-
-        // Start downloading json data from Google Directions API
-        downloadTask.execute(url);
-
-
-       mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 13));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 13));
 
 
     }

@@ -68,6 +68,8 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     com.google.android.gms.maps.GoogleMap mMap;
     SupportMapFragment mapFragment;
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
+    ArrayList<String> addressStoreList = new ArrayList<String>();
+    private List<LatLng> latLngList=new ArrayList<LatLng>();
     OrderListViewModel orderListViewModel;
     int orderPaymentStatus, orderStatus;
     LatLng startLatLng = null;
@@ -75,9 +77,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     private double pickpoint_lat, pickpoint_long;
     private Activity activity = OrderDetails.this;
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick, paymentInfoLayout;
-    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus, orderPaymentAccept, packageType, totalDistanceNeedtocover, pickupFlatnumber, instructionMessage, earnPrice, bonusPrice,paymentMode;
+    private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus, orderPaymentAccept, packageType, totalDistanceNeedtocover, pickupFlatnumber, instructionMessage, earnPrice, bonusPrice,paymentMode,pickupTimeShow;
     private int pickupPointID, orderItemStatus;
-    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, paymentstatusMessage, pickupflatName, pickupAddresstoreach, totalDistanceShowinMap, paymentcollectionpoint, paymentpointaddress;
+    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, paymentstatusMessage, pickupflatName, pickupAddresstoreach, totalDistanceShowinMap, paymentcollectionpoint, paymentpointaddress,paymentCollectiontime="";
     private long pickupPhonenUmber;
     private Dialog dialog;
     private boolean pickupiscollected;
@@ -86,11 +88,14 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     private RecyclerView orderDetailsListing_recyclerview;
     private ArrayList<DeliveryPointListingDatamodel> order_detailsList_arraylist = new ArrayList<>();
     private OrderDetailsAdapter adapter;
+    private Intent getordertypeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_order_details);
+
+        getordertypeIntent=getIntent();
 
         back = findViewById(R.id.ll_back);
         pickupStatus = findViewById(R.id.tv_pickup_status);
@@ -118,6 +123,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         paymentMode=findViewById(R.id.tv_paymentMode);
         cashPayIcon=findViewById(R.id.ic_cash_payment);
         onlinePayIcon=findViewById(R.id.ic_online_payment);
+        pickupTimeShow=findViewById(R.id.tv_pickup_time);
 
 
         dialog = UiUtils.showProgress(OrderDetails.this);
@@ -217,6 +223,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                 Intent mapRoute = new Intent(OrderDetails.this, OrderRouteMap.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("coordinates", coordList);
+                bundle.putStringArrayList("storeaddress",addressStoreList);
                 bundle.putString("distance", totalDistanceShowinMap);
                 mapRoute.putExtras(bundle);
                 startActivity(mapRoute);
@@ -335,29 +342,18 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         }
 
                         pickupAddress.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
+                        addressStoreList.add(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getAddress());
 
-                        //Show order weight & package type
-                        if (orderDetailsResponseDatamodel.getData().getWeight() == 2.0) {
-                            orderWeight.setText("Weight: Upto " + "0-2" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 4.0) {
-                            orderWeight.setText("Weight: Upto " + "2-4" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 6.0) {
-                            orderWeight.setText("Weight: Upto " + "4-6" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 8.0) {
-                            orderWeight.setText("Weight: Upto " + "6-8" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 10.0) {
-                            orderWeight.setText("Weight: Upto " + "8-10" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 12.0) {
-                            orderWeight.setText("Weight: Upto " + "10-12" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 14.0) {
-                            orderWeight.setText("Weight: Upto " + "12-14" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 16.0) {
-                            orderWeight.setText("Weight: Upto " + "14-16" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 18.0) {
-                            orderWeight.setText("Weight: Upto " + "16-18" + " KG");
-                        } else if (orderDetailsResponseDatamodel.getData().getWeight() == 20.0) {
-                            orderWeight.setText("Weight: Upto " + "18-20" + " KG");
+                        if (getordertypeIntent.getStringExtra("TypeOfOrder").equals("pastorder"))
+                        {
+                            pickupTimeShow.setVisibility(View.GONE);
+                        }else {
+                            pickupTimeShow.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupDate()+" "+orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime());
+
                         }
+
+                        int originalWeight=orderDetailsResponseDatamodel.getData().getWeight()-2;
+                        orderWeight.setText("Weight: Upto " + originalWeight+"-" +orderDetailsResponseDatamodel.getData().getWeight()+ " KG");
 
                         packageType.setText(orderDetailsResponseDatamodel.getData().getPackageTypes());
                         totalDistanceNeedtocover.setText("Total Distance: " + orderDetailsResponseDatamodel.getData().getDistance() + " KM");
@@ -391,8 +387,16 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
                         //Payment collection point
                         paymentcollectionpoint = orderDetailsResponseDatamodel.getData().getPaymentPoint();
+
+                        if (orderDetailsResponseDatamodel.getData().getPayment().getPaymentTime()!=null)
+                        {
+                            paymentCollectiontime=" at "+orderDetailsResponseDatamodel.getData().getPayment().getPaymentTime();
+
+                            Singleton.getInstance().setCashcollectiontime(paymentCollectiontime);
+                        }
                         Singleton.getInstance().setPAYMENTPOINT(paymentcollectionpoint);
                         Singleton.getInstance().setPAYMENTSTATUSMESSAGE(paymentstatusMessage);
+                        Singleton.getInstance().setPAYMENTSTATUS(orderPaymentStatus);
 
 
                         if (orderDetailsResponseDatamodel.getData().getInstruction() != null) {
@@ -413,6 +417,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         pickupiscollected = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsCollectPayment();
                         droppointVerified = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsOtpVerified();
                         imageVerified = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsSignatureVerified();
+
 
 
                         if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname() != null) {
@@ -456,6 +461,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                             order_detailsList_arraylist.add(deliveryPointListingDatamodel);
                             // add coordinates to polyline draw for drop point
                             coordList.add(new LatLng(dropPoint.getDropAddress().getLat(), dropPoint.getDropAddress().getLong()));
+                            addressStoreList.add(dropPoint.getDropAddress().getAddress());
 
 
                         }
@@ -618,12 +624,12 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         } else if (orderPaymentStatus == 2) {
             //paymentStatus.setText(getString(R.string.alert_complete_payment_msg)+" "+ Singleton.getInstance().getORDERAMOUNT());
-            paymentStatus.setText(paymentstatusMessage);
+            paymentStatus.setText(paymentstatusMessage+paymentCollectiontime);
             orderPaymentAccept.setText(getString(R.string.payment_complete));
             paymentCOmpleteSign.setVisibility(View.VISIBLE);
 
         } else if (orderPaymentStatus == 3) {
-            paymentStatus.setText(paymentstatusMessage);
+            paymentStatus.setText(paymentstatusMessage+ paymentCollectiontime);
             orderPaymentAccept.setText(getString(R.string.payment_complete));
             paymentCOmpleteSign.setVisibility(View.VISIBLE);
 
@@ -650,8 +656,11 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
             if (acceptPaymentResponseModel != null) {
                 if (acceptPaymentResponseModel.getStatus() == 200) {
                     orderPaymentStatus = 3;
+                    Singleton.getInstance().setPAYMENTSTATUS(orderPaymentStatus);
                     orderPaymentAccept.setText(getString(R.string.accepted_payment));
                     paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+                    Singleton.getInstance().setCashcollectiontime("");
+                    Singleton.getInstance().setPAYMENTSTATUSMESSAGE(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
                     paymentCOmpleteSign.setVisibility(View.VISIBLE);
 
                     UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
@@ -665,181 +674,58 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    public void calMapRouteDraw() {
+    public void calMapRouteDraw()
+    {
+        ArrayList points = new ArrayList();
+        PolylineOptions lineOptions = new PolylineOptions();
 
-        for (int i = 0; i < coordList.size(); i++) {
+        for (int i = 0; i < coordList.size(); i++)
+        {
+
             // add coordinates to point marker for drop point
-            co_ordinate = new LatLng(coordList.get(i).latitude, coordList.get(i).longitude);
+            co_ordinate=new LatLng(coordList.get(i).latitude,coordList.get(i).longitude);
 
             Double lati = coordList.get(i).latitude;
             Double longi = coordList.get(i).longitude;
 
-            mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                    .title("Delivery Pigieon")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            if (i==0)
+            {
+                mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                        .title("This is Pick Up point")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }else {
+                mMap.addMarker(new MarkerOptions().position(co_ordinate)
+                        .title("This is Drop point")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }
+
+
 
             LatLng latlng = new LatLng(lati,
                     longi);
+            points.add(latlng);
+
             if (i == 0) {
                 startLatLng = latlng;
             }
-            if (i == coordList.size() - 1) {
-                endLatLng = latlng;
-            }
+
+
 
         }
+        lineOptions.addAll(points);
+        lineOptions.width(12);
+        lineOptions.color(Color.RED);
+        lineOptions.geodesic(true);
 
-
-        // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(startLatLng, endLatLng);
-
-        DownloadTask downloadTask = new DownloadTask();
-
-        // Start downloading json data from Google Directions API
-        downloadTask.execute(url);
-
+        if (points.size() != 0)
+        {
+            mMap.addPolyline(lineOptions);
+        }
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
 
 
     }
 
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
-
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-        //setting transportation mode
-        String mode = "mode=driving";
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode;
-
-        // Output format
-        String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyBPosa7I3iL3LGInh5dfNadtCAaPi_41jo";
-
-        return url;
-    }
-
-    /**
-     * A method to download json data from url
-     */
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL(strUrl);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            urlConnection.connect();
-
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-            data = sb.toString();
-
-            br.close();
-
-        } catch (Exception e) {
-            Log.d("Exception", e.toString());
-        } finally {
-            iStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
-
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            String data = "";
-
-            try {
-                data = downloadUrl(url[0]);
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(result);
-        }
-    }
-
-    /**
-     * A class to parse the JSON format
-     */
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DataParser parser = new DataParser();
-
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList points = new ArrayList();
-            PolylineOptions lineOptions = new PolylineOptions();
-
-            for (int i = 0; i < result.size(); i++) {
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
-
-            }
-
-            // Drawing polyline in the Google Map
-            if (points.size() != 0)
-                mMap.addPolyline(lineOptions);
-        }
-    }
 
 }

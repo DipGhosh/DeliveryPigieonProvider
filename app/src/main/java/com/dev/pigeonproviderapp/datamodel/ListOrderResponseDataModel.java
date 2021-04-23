@@ -72,6 +72,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("pickupTime")
         @Expose
         private String pickupTime;
+        @SerializedName("pickupDate")
+        @Expose
+        private String pickupDate;
         @SerializedName("dropPoint")
         @Expose
         private String dropPoint;
@@ -133,6 +136,13 @@ public class ListOrderResponseDataModel {
 
         public void setPickupTime(String pickupTime) {
             this.pickupTime = pickupTime;
+        }
+        public String getPickupDate() {
+            return pickupDate;
+        }
+
+        public void setPickupDate(String pickupDate) {
+            this.pickupDate = pickupDate;
         }
 
         public String getDropPoint() {
@@ -197,6 +207,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("pickupTime")
         @Expose
         private String pickupTime;
+        @SerializedName("pickupDate")
+        @Expose
+        private String pickupDate;
         @SerializedName("dropPoint")
         @Expose
         private String dropPoint;
@@ -297,6 +310,14 @@ public class ListOrderResponseDataModel {
 
         public void setProviderBonus(Integer providerBonus) {
             this.providerBonus = providerBonus;
+        }
+
+        public String getPickupDate() {
+            return pickupDate;
+        }
+
+        public void setPickupDate(String pickupDate) {
+            this.pickupDate = pickupDate;
         }
 
     }

@@ -217,6 +217,7 @@ public class ProviderDetails extends BaseActivity implements View.OnClickListene
                     if (profileUpdateResponseDataModel.getStatus()==200)
                     {
                         sharePreference.SetIsloogedIn(true);
+
                         //sharePreference.setToken(Singleton.getInstance().getTOKEN());
                         Intent intent = new Intent(ProviderDetails.this, ProviderDashboard.class);
                         startActivity(intent);

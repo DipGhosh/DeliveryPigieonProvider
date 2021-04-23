@@ -60,10 +60,10 @@
                 android:textSize="@dimen/_10sdp" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_bonus_history"
+                android:id="@+id/tab_incentive_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bonus_history"
+                android:text="@string/incentive_history"
                 android:textSize="@dimen/_10sdp" />
 
             <com.google.android.material.tabs.TabItem
@@ -72,6 +72,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/from_admin"
                 android:textSize="@dimen/_10sdp" />
+            <!--<com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_bonus_historynew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bonus_history"
+                android:textSize="@dimen/_10sdp" />-->
 
 
         </com.google.android.material.tabs.TabLayout>

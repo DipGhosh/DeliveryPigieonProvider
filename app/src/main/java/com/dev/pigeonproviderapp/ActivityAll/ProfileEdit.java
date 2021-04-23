@@ -2,15 +2,19 @@ package com.dev.pigeonproviderapp.ActivityAll;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -59,6 +63,8 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
@@ -92,6 +98,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
     private ProfileViewModel profileViewModel;
     private Dialog dialog;
     private SharePreference sharePreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,20 +261,6 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
     }
 
 
-   /* private boolean isValid() {
-        if (TextUtils.isEmpty(userNameProfileEdit.getText().toString())) {
-            UiUtils.showToast(this, getString(R.string.aleart_name));
-            return false;
-        } *//*else if (TextUtils.isEmpty(emailProfileEdit.getText().toString())) {
-            UiUtils.showToast(this, getString(R.string.alert_email));
-            return false;
-        } else if (!CommonUtils.isValidEmail(emailProfileEdit.getText().toString().trim())) {
-            UiUtils.showToast(this, getString(R.string.alert_valid_email));
-            return false;
-        }*//* else {
-            return true;
-        }
-    }*/
 
 
     @Override
@@ -286,11 +279,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (NetworkUtils.isNetworkAvailable(activity))
-            {
-                uploadFile(selectedImageUri);
-            }
-
+            uploadFile(selectedImageUri);
 
         } else if (resultCode == RESULT_OK && requestCode == REQUEST_CAMERA) {
             Uri selectedImageUri = camuri;
@@ -319,11 +308,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
             bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
 
             profileEditImageUpload.setImageBitmap(bitmap);
-
-            if (NetworkUtils.isNetworkAvailable(activity))
-            {
-                uploadFile(selectedImageUri);
-            }
+            uploadFile(selectedImageUri);
         }
     }
 
@@ -355,6 +340,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
                                 .getProfilePicture();
                         profileImageUrl = filename;
                         Singleton.getInstance().setProfileImageUrl(profileImageUrl);
+
                         Log.d("Aslam", "Filename: " + filename);
 
                     }
@@ -382,6 +368,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         }
         return result;
     }
+
 
     private void selectImage() {
 
@@ -420,5 +407,4 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         });
         builder.show();
     }
-
 }
