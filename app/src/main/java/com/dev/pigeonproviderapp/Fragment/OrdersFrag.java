@@ -297,29 +297,40 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
             public void onChanged(ListOrderResponseDataModel listOrderDataModel) {
                 dialog.dismiss();
 
-                pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-                viewPager.setAdapter(pageAdapter);
-                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                if (listOrderDataModel != null) {
 
-                // set data
-                if (listOrderDataModel.getData().getAvailable() != null) {
-                    activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
-                    currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
-                    pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+                    if(listOrderDataModel.getStatus() == 200){
+
+                        pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+                        viewPager.setAdapter(pageAdapter);
+                        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+                        // set data
+                        if (listOrderDataModel.getData().getAvailable() != null) {
+                            activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
+                            currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
+                            pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+
+                        }
+
+                        if (Singleton.getInstance().isOrderaccept()) {
+                            //System.out.println("Mangaldip"+"Hello");
+                            Singleton.getInstance().setOrderaccept(false);
+                            viewPager.setCurrentItem(1, true);
+                        }
+
+                        if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+                        {
+                            Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
+                            viewPager.setCurrentItem(1, true);
+                        }
+
+                    }
+
 
                 }
 
-                if (Singleton.getInstance().isOrderaccept()) {
-                    //System.out.println("Mangaldip"+"Hello");
-                    Singleton.getInstance().setOrderaccept(false);
-                    viewPager.setCurrentItem(1, true);
-                }
 
-                if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
-                {
-                    Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
-                    viewPager.setCurrentItem(1, true);
-                }
 
 
             }

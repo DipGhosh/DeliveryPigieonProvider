@@ -353,7 +353,7 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:fontFamily="@font/montserrat"
                         android:paddingTop="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_25sdp"
+                        android:paddingRight="@dimen/_5sdp"
                         android:text="Please collect Rs.40"
                         android:textColor="@color/fadeBlackColor"
                         android:textSize="@dimen/_10sdp">

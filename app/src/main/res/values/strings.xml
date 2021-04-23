@@ -120,7 +120,8 @@
     <string name="payment_history">Payment History</string>
     <string name="earning_history">Earning History</string>
     <string name="from_admin">From Admin</string>
-    <string name="bonus_history">Bonus History</string>
+    <string name="bonus_history">Bonus</string>
+    <string name="incentive_history">Bonus History</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -161,7 +162,6 @@
     <string name="rate_app_validation">Please complete the order before giving rating.</string>
 
 
-
     //Profile verification
     <string name="profile_verification_aleart">Your profile is under review. Please wait until we complete the verification and approve your profile.</string>
     <string name="distance">Total Diatance: </string>
@@ -174,10 +174,9 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 2.1.0</string>
+    <string name="version_name">Version 2.1.3</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
-
-
+    <string name="alert_permission">Permission is necessary to proceed further</string>
 
 
 </resources>

@@ -261,6 +261,8 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
                       Singleton.getInstance().setProfileUpdated(true);
                       sharePreference.setProfileverified(false);
                     }
+                    // used for chat registeration and login
+                    sharePreference.setMobileNumber(mobileNumber);
 
                     Intent providerDetails = new Intent(Registrationactivity.this,
                             ProviderDetails.class);

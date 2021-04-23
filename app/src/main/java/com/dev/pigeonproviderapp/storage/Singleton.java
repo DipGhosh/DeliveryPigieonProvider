@@ -34,6 +34,8 @@ public class Singleton {
     private boolean dropImageVerified;
     private String OTPVERIFYMESSAGE;
     private String profileImageUrl;
+    private String cashcollectiontime;
+
 
     private boolean isProfileUpdated;
 
@@ -272,4 +274,12 @@ public class Singleton {
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
+    public String getCashcollectiontime() {
+        return cashcollectiontime;
+    }
+
+    public void setCashcollectiontime(String cashcollectiontime) {
+        this.cashcollectiontime = cashcollectiontime;
+    }
+
 }

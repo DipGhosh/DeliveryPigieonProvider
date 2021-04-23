@@ -19,15 +19,18 @@ package com.dev.pigeonproviderapp.Firebase;
  * Created by krish on 28/09/16.
  */
 
+import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
@@ -39,7 +42,11 @@ import com.dev.pigeonproviderapp.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.List;
 import java.util.Map;
+
+import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
+import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -95,9 +102,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         /*Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + getApplicationContext().getPackageName() + "/raw/notification");*/
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
+            Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.pushnotificaton_alarm);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), sound);
+                r.play();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,6 +137,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         mNotifyManager.notify(count, mBuilder.build());
         count++;
+
+
     }
 
 }

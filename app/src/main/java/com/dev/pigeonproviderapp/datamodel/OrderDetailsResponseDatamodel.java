@@ -75,7 +75,7 @@ public class OrderDetailsResponseDatamodel {
     private OrderStatus orderStatus;
     @SerializedName("weight")
     @Expose
-    private Float weight;
+    private int weight;
     @SerializedName("provider")
     @Expose
     private Provider provider;
@@ -152,11 +152,11 @@ public class OrderDetailsResponseDatamodel {
       this.orderStatus = orderStatus;
     }
 
-    public Float getWeight() {
+    public int getWeight() {
       return weight;
     }
 
-    public void setWeight(Float weight) {
+    public void setWeight(int weight) {
       this.weight = weight;
     }
 
@@ -530,6 +530,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("payment_time")
+    @Expose
+    private String paymentTime;
 
 
     public Float getAmount() {
@@ -569,6 +572,14 @@ public class OrderDetailsResponseDatamodel {
 
     public void setAddress(String address) {
       this.address = address;
+    }
+
+    public String getPaymentTime() {
+      return paymentTime;
+    }
+
+    public void setPaymentTime(String paymentTime) {
+      this.paymentTime = paymentTime;
     }
 
   }

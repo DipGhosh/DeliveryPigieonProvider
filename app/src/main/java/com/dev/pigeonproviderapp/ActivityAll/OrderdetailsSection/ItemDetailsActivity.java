@@ -471,14 +471,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
         } else if (Singleton.getInstance().getPAYMENTSTATUS()==2 && Singleton.getInstance().isCollectPayment()==true)
         {
-            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" "+Singleton.getInstance().getCashcollectiontime());
             acceptPaymentByProvider.setText(getString(R.string.payment_complete));
             paymentCOmpleteSign.setVisibility(View.VISIBLE);
             paymentInfoLayout.setVisibility(View.VISIBLE);
 
         }else if (Singleton.getInstance().getPAYMENTSTATUS()==3 && Singleton.getInstance().isCollectPayment()==true)
         {
-            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE());
+            paymentStatus.setText(Singleton.getInstance().getPAYMENTSTATUSMESSAGE()+" "+Singleton.getInstance().getCashcollectiontime());
             acceptPaymentByProvider.setText(getString(R.string.payment_complete));
             paymentCOmpleteSign.setVisibility(View.VISIBLE);
             paymentInfoLayout.setVisibility(View.VISIBLE);

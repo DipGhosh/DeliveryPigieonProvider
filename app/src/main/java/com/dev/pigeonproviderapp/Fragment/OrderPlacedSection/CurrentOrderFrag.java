@@ -96,7 +96,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
             for (ListOrderResponseDataModel.Current current : currents) {
 
                 CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
-
+                currentOrderDatamodel.pickuptime=current.getPickupDate()+"  "+current.getPickupTime();
                 currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
                 currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
                 currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
@@ -145,29 +145,35 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
                 current_order_arraylist.clear();
                 blankImage.setVisibility(View.GONE);
 
-                for (ListOrderResponseDataModel.Current current : listOrderDataModel.getData().getCurrent()) {
+                if (listOrderDataModel != null && listOrderDataModel.getStatus() == 200){
 
-                    CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
 
-                    currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
-                    currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
-                    currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
-                    currentOrderDatamodel.currentorder_total_ammount = "₹ " + current.getAmount();
-                    currentOrderDatamodel.currentorder_id=current.getId();
-                    currentOrderDatamodel.provider_bonus=current.getProviderBonus();
-                    currentOrderDatamodel.earnAmount=current.getEarn();
-                    currentOrderDatamodel.orderId=current.getOrderNo();
+                    for (ListOrderResponseDataModel.Current current : listOrderDataModel.getData().getCurrent()) {
 
-                    current_order_arraylist.add(currentOrderDatamodel);
+                        CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
+                        currentOrderDatamodel.pickuptime=current.getPickupDate()+"  "+current.getPickupTime();
+                        currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
+                        currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
+                        currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
+                        currentOrderDatamodel.currentorder_total_ammount = "₹ " + current.getAmount();
+                        currentOrderDatamodel.currentorder_id=current.getId();
+                        currentOrderDatamodel.provider_bonus=current.getProviderBonus();
+                        currentOrderDatamodel.earnAmount=current.getEarn();
+                        currentOrderDatamodel.orderId=current.getOrderNo();
+
+                        current_order_arraylist.add(currentOrderDatamodel);
+                    }
+
+                    if (listOrderDataModel.getData().getCurrent().size() > 0) {
+                        blankImage.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                    } else {
+
+                        blankImage.setVisibility(View.VISIBLE);
+                    }
                 }
 
-                if (listOrderDataModel.getData().getCurrent().size() > 0) {
-                    blankImage.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                } else {
 
-                    blankImage.setVisibility(View.VISIBLE);
-                }
 
             }
         });

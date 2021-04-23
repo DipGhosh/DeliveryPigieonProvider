@@ -70,6 +70,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         handler.currentOrderDeliveryAddress.setText(orderActiveDatamodel.activeorder_delivery_address);
         handler.currentOrderPrice.setText("Earn: "+"₹ "+orderActiveDatamodel.earnAmount);
         handler.orderId.setText("Order "+orderActiveDatamodel.orderId);
+        handler.pickupTime.setText("Pickup Time: "+orderActiveDatamodel.pickuptime);
 
         if (orderActiveDatamodel.provider_bonus<=0)
         {
@@ -83,6 +84,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(activity, OrderDetails.class);
+                intent.putExtra("TypeOfOrder","activeorder");
                 activity.startActivity(intent);
                 Singleton.getInstance().setORDERID(orderActiveDatamodel.activeorder_id);
                 Singleton.getInstance().setOrderaccept(false);
@@ -133,7 +135,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public static class MyHolder extends RecyclerView.ViewHolder
     {
-        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder,bonusPrice,orderId;
+        TextView deliveryType,currentOrderPickupAddress,currentOrderDeliveryAddress,currentOrderPrice,vieworderDetailsClick,acceptOrder,bonusPrice,orderId,pickupTime;
 
 
         public MyHolder(View row)
@@ -147,6 +149,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             acceptOrder=row.findViewById(R.id.tv_accept_order);
             bonusPrice=row.findViewById(R.id.tvbonus_bounus);
             orderId=row.findViewById(R.id.tv_order_id);
+            pickupTime=row.findViewById(R.id.tv_pickup_time);
 
 
 

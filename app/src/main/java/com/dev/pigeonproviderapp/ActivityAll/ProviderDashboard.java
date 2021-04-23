@@ -42,7 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class ProviderDashboard extends AppCompatActivity {
+public class ProviderDashboard extends AppCompatActivity  {
 
     private static int loginAttempt = 0;
     BottomNavigationView navView;
