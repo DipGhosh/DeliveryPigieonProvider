@@ -348,7 +348,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         {
                             pickupTimeShow.setVisibility(View.GONE);
                         }else {
-                            pickupTimeShow.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupDate()+" "+orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime());
+                            pickupTimeShow.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupDateNew()+" "+orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime());
 
                         }
 

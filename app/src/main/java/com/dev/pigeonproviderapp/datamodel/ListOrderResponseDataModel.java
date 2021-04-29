@@ -75,6 +75,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("pickupDate")
         @Expose
         private String pickupDate;
+        @SerializedName("pickupDate_new")
+        @Expose
+        private String pickupDateNew;
         @SerializedName("dropPoint")
         @Expose
         private String dropPoint;
@@ -184,7 +187,13 @@ public class ListOrderResponseDataModel {
             this.providerBonus = providerBonus;
         }
 
+        public String getPickupDateNew() {
+            return pickupDateNew;
+        }
 
+        public void setPickupDateNew(String pickupDateNew) {
+            this.pickupDateNew = pickupDateNew;
+        }
     }
 
     public class Current {
@@ -210,6 +219,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("pickupDate")
         @Expose
         private String pickupDate;
+        @SerializedName("pickupDate_new")
+        @Expose
+        private String pickupDateNew;
         @SerializedName("dropPoint")
         @Expose
         private String dropPoint;
@@ -319,6 +331,13 @@ public class ListOrderResponseDataModel {
         public void setPickupDate(String pickupDate) {
             this.pickupDate = pickupDate;
         }
+        public String getPickupDateNew() {
+            return pickupDateNew;
+        }
+
+        public void setPickupDateNew(String pickupDateNew) {
+            this.pickupDateNew = pickupDateNew;
+        }
 
     }
 
@@ -383,6 +402,9 @@ public class ListOrderResponseDataModel {
         @SerializedName("pickupDate")
         @Expose
         private String pickupDate;
+        @SerializedName("pickupDate_new")
+        @Expose
+        private String pickupDateNew;
         @SerializedName("dropPoint")
         @Expose
         private String dropPoint;
@@ -458,6 +480,13 @@ public class ListOrderResponseDataModel {
 
         public void setPickupDate(String pickupDate) {
             this.pickupDate = pickupDate;
+        }
+        public String getPickupDateNew() {
+            return pickupDateNew;
+        }
+
+        public void setPickupDateNew(String pickupDateNew) {
+            this.pickupDateNew = pickupDateNew;
         }
 
         public String getDropPoint() {

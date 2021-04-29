@@ -96,7 +96,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
             for (ListOrderResponseDataModel.Current current : currents) {
 
                 CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
-                currentOrderDatamodel.pickuptime=current.getPickupDate()+"  "+current.getPickupTime();
+                currentOrderDatamodel.pickuptime=current.getPickupDateNew()+"  "+current.getPickupTime();
                 currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
                 currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
                 currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
@@ -151,7 +151,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
                     for (ListOrderResponseDataModel.Current current : listOrderDataModel.getData().getCurrent()) {
 
                         CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
-                        currentOrderDatamodel.pickuptime=current.getPickupDate()+"  "+current.getPickupTime();
+                        currentOrderDatamodel.pickuptime=current.getPickupDateNew()+"  "+current.getPickupTime();
                         currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
                         currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
                         currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();

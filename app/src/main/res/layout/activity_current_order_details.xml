@@ -253,7 +253,6 @@
                                 android:layout_marginLeft="@dimen/_15sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
                                 android:fontFamily="@font/montserrat"
-                                android:text="@string/pickup_point"
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_10sdp">
 

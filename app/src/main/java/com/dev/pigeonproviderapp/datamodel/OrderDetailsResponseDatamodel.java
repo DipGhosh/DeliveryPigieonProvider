@@ -659,6 +659,9 @@ public class OrderDetailsResponseDatamodel {
     @SerializedName("pickupDate")
     @Expose
     private String pickupDate;
+    @SerializedName("pickupDate_new")
+    @Expose
+    private String pickupDateNew;
     @SerializedName("comments")
     @Expose
     private String comments;
@@ -714,6 +717,14 @@ public class OrderDetailsResponseDatamodel {
 
     public void setPickupDate(String pickupDate) {
       this.pickupDate = pickupDate;
+    }
+
+    public String getPickupDateNew() {
+      return pickupDateNew;
+    }
+
+    public void setPickupDateNew(String pickupDateNew) {
+      this.pickupDateNew = pickupDateNew;
     }
 
     public String getComments() {
