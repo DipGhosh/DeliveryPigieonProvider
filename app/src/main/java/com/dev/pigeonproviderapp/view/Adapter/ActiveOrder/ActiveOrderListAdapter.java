@@ -29,17 +29,21 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     View myView;
     private LayoutInflater inflater;
     public static List<OrderActiveDatamodel> data= Collections.emptyList();
+    private onActiveOrderClickListener mListener;
 
 
-    public ActiveOrderListAdapter(Activity activity, List<OrderActiveDatamodel> data)  /**/
+    public ActiveOrderListAdapter(Activity activity, List<OrderActiveDatamodel> data,onActiveOrderClickListener mListener)  /**/
     {
         if (activity!=null)
         {
             this.activity = activity;
             inflater = LayoutInflater.from(activity);
             this.data = data;
+            this.mListener = mListener;
 
         }
+
+
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -70,7 +74,7 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         handler.currentOrderDeliveryAddress.setText(orderActiveDatamodel.activeorder_delivery_address);
         handler.currentOrderPrice.setText("Earn: "+"₹ "+orderActiveDatamodel.earnAmount);
         handler.orderId.setText("Order "+orderActiveDatamodel.orderId);
-        handler.pickupTime.setText("Pickup Time: "+orderActiveDatamodel.pickuptime);
+        handler.pickupTime.setText("Date & Time: "+orderActiveDatamodel.pickuptime);
 
         if (orderActiveDatamodel.provider_bonus<=0)
         {
@@ -102,16 +106,16 @@ public class ActiveOrderListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String orderID= String.valueOf(orderActiveDatamodel.activeorder_id);
-                                Intent intent = new Intent("custom-message");
-                                intent.putExtra("ORDERSTATUS" ,"Accepted");
-                                intent.putExtra("ORDERID",orderID);
-                                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+
+                                mListener.onActiveOrderItemClick(orderActiveDatamodel.activeorder_id);
+
+
                             }
                         });
                 builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         dialog.dismiss();
                     }
                 });

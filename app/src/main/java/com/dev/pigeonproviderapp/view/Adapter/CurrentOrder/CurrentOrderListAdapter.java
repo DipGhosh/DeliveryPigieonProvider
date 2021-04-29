@@ -62,7 +62,7 @@ public class CurrentOrderListAdapter extends RecyclerView.Adapter<RecyclerView.V
         handler.currentOrderDeliveryAddress.setText(currentOrderDatamodel.currentorder_delivery_address);
         handler.currentOrderPrice.setText("Earn: "+"₹ "+currentOrderDatamodel.earnAmount);
         handler.orderId.setText("Order "+currentOrderDatamodel.orderId);
-        handler.pickupTime.setText("Pickup Time: "+currentOrderDatamodel.pickuptime);
+        handler.pickupTime.setText("Date & Time: "+currentOrderDatamodel.pickuptime);
 
         if (currentOrderDatamodel.provider_bonus<=0)
         {

@@ -46,8 +46,10 @@ import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.LocationRequestSendModel;
 import com.dev.pigeonproviderapp.httpRequest.ProviderAvailabilityAPIModel;
+import com.dev.pigeonproviderapp.interfaces.onActiveOrderClickListener;
 import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
+import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.viewmodel.LocationSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
@@ -56,7 +58,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 
-public class OrdersFrag extends BaseFragment implements View.OnClickListener {
+public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
     GPSTracker gpsTracker;
     double provider_lat, provider_long;
@@ -167,8 +169,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         }
 
 
-        LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-message"));
+
 
         gpsTracker = new GPSTracker(activity);
 
@@ -181,7 +182,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         }
 
 
-
+        LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-message"));
 
 
 
@@ -189,28 +191,32 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
     }
 
 
+
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
 
             if (intent.getStringExtra("ORDERSTATUS").equals("Accepted")) {
-                int count = 0;
-                int orderID = Integer.parseInt(intent.getStringExtra("ORDERID"));
-                Singleton.getInstance().setORDERID(orderID);
+
                 Singleton.getInstance().setOrderaccept(true);
 
-                System.out.println("Mangaldipcount" + count);
+                for (int count = 0;count<1;count++) {
 
-                if (count == 0) {
-                    callAcceptOrder();
+                    getOrderList();
+
                 }
-                count++;
+
 
             }
 
+
         }
+
+
     };
+
 
     @Override
     public void onClick(View v) {
@@ -245,6 +251,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         //OnResume Fragment
+
+
 
         if (Singleton.getInstance().isOrderaccept() == true) {
 
@@ -337,31 +345,6 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         });
     }
 
-    //Call ACcept Prder API
-    public void callAcceptOrder() {
-
-        dialog.show();
-        orderListViewModel.acceptOrderData().observe(this, acceptOrderResponseDataModel -> {
-            dialog.dismiss();
-
-            if (acceptOrderResponseDataModel != null) {
-                if (acceptOrderResponseDataModel.getStatus() == 200) {
-
-                    getOrderList();
-                }else {
-                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
-
-                }
-            }else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
-
-            }
-
-
-        });
-
-
-    }
 
     public void ProviderAvailableToggle() {
 
@@ -456,6 +439,9 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener {
         });
 
     }
+
+
+
 
     public class PageAdapter extends FragmentPagerAdapter {
 

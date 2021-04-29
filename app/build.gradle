@@ -10,8 +10,8 @@ android {
         applicationId "com.dev.pigeonproviderapp"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 23
-        versionName "2.1.4"
+        versionCode 25
+        versionName "2.1.6"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
