@@ -101,9 +101,10 @@ public class UiUtils {
         return noOfColumns;
     }
 
-    private void showAlert(Context context, String title, String message) {
+    public static void showAlert(Context context, String title, String message) {
         //Uncomment the below code to Set the message and title from the strings.xml file
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setIcon(R.mipmap.ic_launcher);
 
         //Setting message manually and performing action on button click
         builder.setMessage(message)

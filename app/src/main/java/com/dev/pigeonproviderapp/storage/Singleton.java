@@ -35,6 +35,7 @@ public class Singleton {
     private String OTPVERIFYMESSAGE;
     private String profileImageUrl;
     private String cashcollectiontime;
+    private String messageType;
 
 
     private boolean isProfileUpdated;
@@ -281,5 +282,13 @@ public class Singleton {
     public void setCashcollectiontime(String cashcollectiontime) {
         this.cashcollectiontime = cashcollectiontime;
     }
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
 
 }

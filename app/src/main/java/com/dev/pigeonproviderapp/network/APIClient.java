@@ -1,6 +1,6 @@
 package com.dev.pigeonproviderapp.network;
 
-import com.dev.pigeonproviderapp.BuildConfig;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,7 +17,7 @@ public class APIClient {
     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
     retrofit = new Retrofit.Builder()
-        .baseUrl(BuildConfig.SERVER_URL)
+        .baseUrl("https://deliverypigeon.in")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build();

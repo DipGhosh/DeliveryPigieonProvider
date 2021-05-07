@@ -2,10 +2,16 @@ package com.dev.pigeonproviderapp.Utility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.format.DateFormat;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utility {
 
@@ -27,6 +33,16 @@ public class Utility {
   public static String HEADER_KEY = "HEADER_VAL";
   public static String LINK_KEY = "LINK_VAL";
 
+  //Intent IDCard
+  public static String IDCARD_IMAGE = "IMAGE";
+  public static String IDCARD_NAME = "NAME";
+  public static String IDCARD_ID = "ID";
+  public static String IDCARD_CITY="CITY";
+  public static String IDCARD_PROVIDER_PHONE="PROVIDERPHONENUMBER";
+  public static String IDCARD_COMPANY_PHONE="COMPANYPHONE";
+  public static String IDCARD_COMPANY_EMAIL="COMPANYEMAIL";
+  public static String IDCARD_PDF_LINK="PDF";
+
   //Documents Upload
   public static String ADDRESSPROOF_FONT = "Address Proof Front";
   public static String ADDRESSPROOF_BACK = "Address Proof Back";
@@ -39,7 +55,7 @@ public class Utility {
   public static int ADDRESS_BACK_ID = 2;
   public static int ADDRESS_PAN_ID = 3;
   public static int ADDRESS_OTHERS_ID = 4;
-  public static int APP_VERSION=25;
+  public static int APP_VERSION=26;
 
   // Intent Result
   public static String EDIT_NAME = "EDIT_NAME";
@@ -103,5 +119,56 @@ public class Utility {
       return null;
     }
   }
+
+  public static long getMillis(String givenTime) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    try {
+      Date mDate = sdf.parse(givenTime);
+      long timeInMilliseconds = mDate.getTime();
+      System.out.println("Date in milli :: " + timeInMilliseconds);
+      return timeInMilliseconds;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public static String getMyPrettyDate(long neededTimeMilis) {
+    Calendar nowTime = Calendar.getInstance();
+    Calendar neededTime = Calendar.getInstance();
+    neededTime.setTimeInMillis(neededTimeMilis);
+
+    if ((neededTime.get(Calendar.YEAR) == nowTime.get(Calendar.YEAR))) {
+
+      if ((neededTime.get(Calendar.MONTH) == nowTime.get(Calendar.MONTH))) {
+
+        if (neededTime.get(Calendar.DATE) - nowTime.get(Calendar.DATE) == 1) {
+          //here return like "Tomorrow at 12:00"
+          return "Tomorrow " + DateFormat.format("HH:mm aa", neededTime);
+
+        } else if (nowTime.get(Calendar.DATE) == neededTime.get(Calendar.DATE)) {
+          //here return like "Today at 12:00"
+          return "Today " + DateFormat.format("HH:mm aa", neededTime);
+
+        } else if (nowTime.get(Calendar.DATE) - neededTime.get(Calendar.DATE) == 1) {
+          //here return like "Yesterday at 12:00"
+          return "Yesterday " + DateFormat.format("HH:mm aa", neededTime);
+
+        } else {
+          //here return like "May 31, 12:00"
+          return DateFormat.format("MMMM d, HH:mm aa", neededTime).toString();
+        }
+
+      } else {
+        //here return like "May 31, 12:00"
+        return DateFormat.format("MMMM d, HH:mm aa", neededTime).toString();
+      }
+
+    } else {
+      //here return like "May 31 2010, 12:00" - it's a different year we need to show it
+      return DateFormat.format("MMMM dd yyyy, HH:mm aa", neededTime).toString();
+    }
+  }
+
 
 }

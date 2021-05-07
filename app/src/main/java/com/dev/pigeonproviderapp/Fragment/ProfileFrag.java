@@ -30,6 +30,7 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.pigeonproviderapp.ActivityAll.AccountSettings.AccountSetting;
+import com.dev.pigeonproviderapp.ActivityAll.IdentityCard.IDCardActivity;
 import com.dev.pigeonproviderapp.ActivityAll.PaymentHistory.PaymentHistoryActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProfileEdit;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
@@ -68,8 +69,8 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
     private Activity activity;
     private TextView userPhoneNumber, userEmailId, userName, approvalStatus, profileEdit;
     private ProgressBar profileFragProgress;
-    private String profile_pic_url;
-    private LinearLayout logout, privacyPolicyClick, aboutUsClik, termsofServicesClick, accountSettingClick, PaymentHistoryClick;
+    private String profile_pic_url,cardNumber,city,providerPhonenumber,companyPhonenumber,companyEmailid,idcard_pdflink;
+    private LinearLayout logout, privacyPolicyClick, aboutUsClik, termsofServicesClick, accountSettingClick, PaymentHistoryClick, idcardClick;
     private SharePreference sharePreference;
     private Dialog dialog;
     private ToggleButton simpleToggleButton;
@@ -103,6 +104,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         PaymentHistoryClick = view.findViewById(R.id.ll_payment_historyClick);
         approvalStatus = view.findViewById(R.id.tv_profile_approval_status);
         simpleToggleButton = view.findViewById(R.id.chkState);
+        idcardClick=view.findViewById(R.id.ll_idcard);
 
 
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -119,6 +121,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         accountSettingClick.setOnClickListener(this);
         PaymentHistoryClick.setOnClickListener(this);
         simpleToggleButton.setOnClickListener(this);
+        idcardClick.setOnClickListener(this);
 
         if (NetworkUtils.isNetworkAvailable(activity)) {
             callGetProfile();
@@ -200,19 +203,27 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 startActivity(paymentHistory);
 
                 break;
+            case R.id.ll_idcard:
+
+                if (sharePreference.GetVerified()==true)
+                {
+                    Intent idcard = new Intent(activity, IDCardActivity.class);
+                    idcard.putExtra(Utility.IDCARD_IMAGE, profile_pic_url);
+                    idcard.putExtra(Utility.IDCARD_NAME, userName.getText().toString());
+                    idcard.putExtra(Utility.IDCARD_ID, cardNumber);
+                    idcard.putExtra(Utility.IDCARD_CITY, city);
+                    idcard.putExtra(Utility.IDCARD_PROVIDER_PHONE, providerPhonenumber);
+                    idcard.putExtra(Utility.IDCARD_COMPANY_PHONE, companyPhonenumber);
+                    idcard.putExtra(Utility.IDCARD_COMPANY_EMAIL, companyEmailid);
+                    idcard.putExtra(Utility.IDCARD_PDF_LINK, idcard_pdflink);
+
+                    startActivity(idcard);
+                }
+
+
+                break;
             case R.id.chkState:
-                /*if (simpleToggleButton.isChecked()) {
-                    //System.out.println("Check"+"Y");
-                    toggleValue=1;
-                    ProviderAvailableToggle();
 
-                } else {
-                    //System.out.println("Check"+"N");
-                    toggleValue=0;
-                    ProviderAvailableToggle();
-
-
-                }*/
 
                 break;
 
@@ -240,8 +251,13 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 userName.setText(profileGetResponseDataModel.getData().getUser().getName());
 
                 profile_pic_url = profileGetResponseDataModel.getData().getUser().getProfilePicture();
+                cardNumber=profileGetResponseDataModel.getData().getUser().getProviderId();
+                city=profileGetResponseDataModel.getData().getUser().getCity();
+                providerPhonenumber= String.valueOf(profileGetResponseDataModel.getData().getUser().getPhone());
+                companyPhonenumber=profileGetResponseDataModel.getData().getUser().getCompanyPhone();
+                companyEmailid=profileGetResponseDataModel.getData().getUser().getCompanyEmail();
+                idcard_pdflink=profileGetResponseDataModel.getData().getUser().getIdentityCard();
                 Singleton.getInstance().setProfileImageUrl(profileGetResponseDataModel.getData().getUser().getProfilePicture());
-
 
                 //Profile update boolean value set in Singleton class
                 if (profileGetResponseDataModel.getData().getUser().getIsValid() == true) {

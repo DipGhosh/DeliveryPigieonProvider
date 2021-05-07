@@ -35,7 +35,7 @@ import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
-public class PaymentHistoryActivity extends BaseActivity implements View.OnClickListener{
+public class PaymentHistoryActivity extends BaseActivity implements View.OnClickListener {
 
     private Activity activity = PaymentHistoryActivity.this;
 
@@ -43,7 +43,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     private TabItem tabPaymentHistory;
     private TabItem tabEarnHistory;
     private TabItem tabIncentiveHistory;
-   // private TabItem tabBonusHistory;
+    private TabItem tabBonusHistory;
     private ViewPager viewPager;
     private PageAdapter pageAdapter;
 
@@ -52,7 +52,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     private PaymentHistoryFrag payHistoryFrag = new PaymentHistoryFrag();
     private EarnHistoryFrag earnHistoryFrag = new EarnHistoryFrag();
     private BonusHistoryFrag incentiveHistoryFrag = new BonusHistoryFrag();
-    //private BonusFragment bonusFragment=new BonusFragment();
+    private BonusFragment bonusFragment = new BonusFragment();
 
 
     private ImageView back;
@@ -65,12 +65,12 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
         dialog = UiUtils.showProgress(activity);
 
-        tabLayout=findViewById(R.id.tablayout);
-        tabPaymentHistory=findViewById(R.id.tab_payment_history);
-        tabEarnHistory=findViewById(R.id.tab_earning_history);
-        tabIncentiveHistory=findViewById(R.id.tab_incentive_history);
+        tabLayout = findViewById(R.id.tablayout);
+        tabPaymentHistory = findViewById(R.id.tab_payment_history);
+        tabEarnHistory = findViewById(R.id.tab_earning_history);
+        tabIncentiveHistory = findViewById(R.id.tab_incentive_history);
         //tabBonusHistory=findViewById(R.id.tab_bonus_historynew);
-        viewPager=findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
         back = findViewById(R.id.img_back);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -109,12 +109,12 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
             paymentHistoryCall();
 
-        }else {
+        } else {
             UiUtils.showToast(this, getString(R.string.network_error));
         }
     }
 
-    public  void paymentHistoryCall() {
+    public void paymentHistoryCall() {
 
         dialog.show();
 
@@ -126,20 +126,19 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
                 if (paymentHistoryDataModel != null) {
 
-                    if(paymentHistoryDataModel.getStatus() == 200){
+                    if (paymentHistoryDataModel.getStatus() == 200) {
                         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
                         viewPager.setAdapter(pageAdapter);
                         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
                         // restrict refresh fragments
-                        viewPager.setOffscreenPageLimit(2);
+                        viewPager.setOffscreenPageLimit(3);
 
                         // set data
-                        if (paymentHistoryDataModel.getData().getPaymentHistory()!=null)
-                        {
+                        if (paymentHistoryDataModel.getData().getPaymentHistory() != null) {
                             payHistoryFrag.setData(paymentHistoryDataModel.getData().getPaymentHistory());
                             incentiveHistoryFrag.setData(paymentHistoryDataModel.getData().getBonusHistory());
+                            bonusFragment.setData(paymentHistoryDataModel.getData().getNewbonusHistory());
                             earnHistoryFrag.setData(paymentHistoryDataModel.getData().getEarningHistory());
-                            //bonusFragment.setData(paymentHistoryDataModel.getData().getEarningHistory());
 
 
                         }
@@ -148,12 +147,21 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
                 }
 
 
-
-
-
-
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId() /*to get clicked view id**/) {
+            case R.id.img_back:
+                finish();
+                break;
+
+            default:
+                break;
+        }
     }
 
     public class PageAdapter extends FragmentPagerAdapter {
@@ -173,9 +181,9 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
                 case 1:
                     return incentiveHistoryFrag;
                 case 2:
+                    return bonusFragment;
+                case 3:
                     return earnHistoryFrag;
-                /*case 3:
-                    return bonusFragment;*/
                 default:
                     return null;
             }
@@ -184,19 +192,6 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         @Override
         public int getCount() {
             return numOfTabs;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId() /*to get clicked view id**/) {
-            case R.id.img_back:
-                finish();
-                break;
-
-            default:
-                break;
         }
     }
 

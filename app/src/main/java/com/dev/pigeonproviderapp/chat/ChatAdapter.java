@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.squareup.picasso.Picasso;
 
@@ -49,6 +50,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     String msg = mData.get(position).getMessage();
     holder.myTextView.setText(msg);
 
+    if (mData.get(position).getDateTime()!=null)
+    {
+      long miliSecsDate = Utility.getMillis (mData.get(position).getDateTime());
+      String date=Utility.getMyPrettyDate(miliSecsDate);
+      holder.tvTimestamp.setText(date.replace("am", "AM").replace("pm","PM"));
+      System.out.println("Mangaldip : "+date.replace("am", "AM").replace("pm","PM"));
+      //holder.tvTimestamp.setText(date);
+
+    }
+
     if (Singleton.getInstance().getProfileImageUrl() != null)
     {
       Glide.with(context)
@@ -80,13 +91,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
   // stores and recycles views as they are scrolled off screen
   public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView myTextView;
+    TextView myTextView, tvTimestamp;
     ImageView myProfilePic;
 
     ViewHolder(View itemView) {
       super(itemView);
       myTextView = itemView.findViewById(R.id.message_body);
       myProfilePic=itemView.findViewById(R.id.ic_image);
+      tvTimestamp=itemView.findViewById(R.id.message_timestamp);
 
     }
 

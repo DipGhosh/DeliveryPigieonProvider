@@ -118,10 +118,10 @@
 
     //Payment History
     <string name="payment_history">Payment History</string>
-    <string name="earning_history">Earning History</string>
-    <string name="from_admin">From Admin</string>
+    <string name="earning_history">Earning</string>
+    <string name="from_admin">Settlement</string>
     <string name="bonus_history">Bonus</string>
-    <string name="incentive_history">Bonus History</string>
+    <string name="incentive_history">Incentive</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -174,9 +174,13 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 2.1.6</string>
+    <string name="version_name">Version 2.1.7</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
     <string name="alert_permission">Permission is necessary to proceed further</string>
+
+    <string name="identity_disclaimer">Print the documents above and always keep them with you. In case the police stop you, show them these documents. These documents allow you to deliver food and medicine.</string>
+
+    <string name="aleart_pdf_download">PDF file is saved into the phone\'s  download folder.</string>
 
 
 </resources>
