@@ -36,7 +36,7 @@ public class BonusAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         myView = inflater.inflate(R.layout.payment_history_layout, parent, false);
-        BonusHistoryAdapter.MyHolder holder = new BonusHistoryAdapter.MyHolder(myView);
+        BonusAdapter.MyHolder holder = new BonusAdapter.MyHolder(myView);
         return holder;
     }
 

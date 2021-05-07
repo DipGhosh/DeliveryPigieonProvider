@@ -112,7 +112,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         notificationImage.setOnClickListener(this);
         simpleToggleButton.setOnClickListener(this);
 
-        System.out.println("Check_Value" + sharePreference.GetProviderAvailable());
+
 
 
 
@@ -164,7 +164,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
             callGetProfile();
         }
 
-        if (Singleton.getInstance().isProfileUpdated() == false) {
+        if (Singleton.getInstance().isProfileUpdated() == false && Singleton.getInstance().getMessageType().equals("")) {
             getOrderList();
         }
 

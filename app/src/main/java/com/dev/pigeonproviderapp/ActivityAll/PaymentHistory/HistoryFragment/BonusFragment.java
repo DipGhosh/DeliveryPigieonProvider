@@ -66,28 +66,30 @@ public class BonusFragment extends Fragment {
         bonusHistory_recyclerview.setAdapter(adapter);
     }
 
-    /*public void setData(List<PaymentHistoryDataModel.EarningHistory> earningHistoryList) {
+    public void setData(List<PaymentHistoryDataModel.NewbonusHistory> newbonusHistoryList) {
 
         bonus_arraylist.clear();
 
-        if (earningHistoryList.size()>0){
+        System.out.println("Size"+newbonusHistoryList.size());
+
+        if (newbonusHistoryList.size()>0){
 
 
-            for (PaymentHistoryDataModel.EarningHistory earningHistory : earningHistoryList) {
+            for (PaymentHistoryDataModel.NewbonusHistory newbonusHistory : newbonusHistoryList) {
 
 
 
                 BonusDataprovider bonusDataprovider = new BonusDataprovider();
-                bonusDataprovider.paymentType=earningHistory.getPaymentType();
-                bonusDataprovider.paymentAmount =earningHistory.getAmount();
-                bonusDataprovider.paymentDate = earningHistory.getDate();
+                bonusDataprovider.paymentType=newbonusHistory.getNote();
+                bonusDataprovider.paymentAmount =newbonusHistory.getAmount();
+                bonusDataprovider.paymentDate = newbonusHistory.getDate();
 
 
                 bonus_arraylist.add(bonusDataprovider);
 
             }
 
-            adapter.notifyDataSetChanged();
+            //adapter.notifyDataSetChanged();
 
         }else {
 
@@ -96,6 +98,6 @@ public class BonusFragment extends Fragment {
 
 
 
-    }*/
+    }
 
 }

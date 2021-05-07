@@ -164,6 +164,13 @@ public class ProviderDashboard extends AppCompatActivity  {
             view.performClick();
         }
 
+        if (Singleton.getInstance().getMessageType().equals("support"))
+        {
+            View viewsupport = navView.findViewById(R.id.navigation_suport);
+            viewsupport.performClick();
+            Singleton.getInstance().setMessageType("");
+        }
+
     }
 
 

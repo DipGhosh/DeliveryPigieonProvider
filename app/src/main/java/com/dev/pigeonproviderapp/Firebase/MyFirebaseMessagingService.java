@@ -54,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static int count = 0;
     private static final String CHANNEL_NAME = "FCM";
     private static final String CHANNEL_DESC = "Firebase Cloud Messaging";
+    String notification_type;
 
 
 
@@ -71,6 +72,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             //sendNotification(remoteMessage);
+
+            notification_type=remoteMessage.getData().get("notification_msg_type");
         }
 
         if (remoteMessage.getData().size() > 0)
@@ -93,6 +96,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String title, String messageBody) {
         Intent intent = new Intent(getApplicationContext(), SpalshActivity.class);
+        intent.putExtra("pushnotification",notification_type);
 //you can use your launcher Activity insted of SplashActivity, But if the Activity you used here is not launcher Activty than its not work when App is in background.
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //Add Any key-value to pass extras to intent

@@ -123,6 +123,21 @@ public class ProfileGetResponseDataModel {
         @SerializedName("provider_app_android_version")
         @Expose
         private String providerAppAndroidVersion;
+        @SerializedName("provider_id")
+        @Expose
+        private String providerId;
+        @SerializedName("city")
+        @Expose
+        private String city;
+        @SerializedName("company_phone")
+        @Expose
+        private String companyPhone;
+        @SerializedName("company_email")
+        @Expose
+        private String companyEmail;
+        @SerializedName("identity_card")
+        @Expose
+        private String identityCard;
 
         public Integer getId() {
             return id;
@@ -234,6 +249,46 @@ public class ProfileGetResponseDataModel {
 
         public void setProviderAppAndroidVersion(String providerAppAndroidVersion) {
             this.providerAppAndroidVersion = providerAppAndroidVersion;
+        }
+
+        public String getProviderId() {
+            return providerId;
+        }
+
+        public void setProviderId(String providerId) {
+            this.providerId = providerId;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getCompanyPhone() {
+            return companyPhone;
+        }
+
+        public void setCompanyPhone(String companyPhone) {
+            this.companyPhone = companyPhone;
+        }
+
+        public String getCompanyEmail() {
+            return companyEmail;
+        }
+
+        public void setCompanyEmail(String companyEmail) {
+            this.companyEmail = companyEmail;
+        }
+
+        public String getIdentityCard() {
+            return identityCard;
+        }
+
+        public void setIdentityCard(String identityCard) {
+            this.identityCard = identityCard;
         }
 
 

@@ -26,7 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -51,6 +54,10 @@ public class SupportFrag extends Fragment {
 
   private List<UserChatModel> data = new ArrayList<>();
 
+  Calendar c;
+  SimpleDateFormat sdf;
+  private String currentTimestamp;
+
 
   public SupportFrag() {
     // Required empty public constructor
@@ -70,6 +77,8 @@ public class SupportFrag extends Fragment {
     // Initialize Firebase Auth
     mFirebaseAuth = FirebaseAuth.getInstance();
     mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+
 
     if (mFirebaseUser == null) {
       Toast.makeText(getActivity(),"Please restart app to automatically sign in chat section",Toast.LENGTH_LONG).show();
@@ -118,14 +127,14 @@ public class SupportFrag extends Fragment {
 
           if (chatModel.getSenderUid().equals(mFirebaseAuth.getUid())) {
             UserChatModel listUserChatModel = new UserChatModel(chatModel.getSenderUid(),
-                chatModel.getMessage(), 1);
+                chatModel.getMessage(), 1,chatModel.getDateTime(),chatModel.getRead());
             data.add(listUserChatModel);
           } else {
             UserChatModel listUserChatModel = new UserChatModel(chatModel.getSenderUid(),
-                chatModel.getMessage(), 2);
+                chatModel.getMessage(), 2,chatModel.getDateTime(),chatModel.getRead());
             data.add(listUserChatModel);
           }
-          Log.i("chat", "message: " + chatModel.getMessage());
+          Log.i("chat", "message: " + chatModel.getDateTime());
         }
 
         if (customAdapter.getItemCount()>1)
@@ -166,9 +175,13 @@ public class SupportFrag extends Fragment {
       @Override
       public void onClick(View view) {
 
+        c = Calendar.getInstance();
+        sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        currentTimestamp = sdf.format(c.getTime());
+
         if (adminUser != null && mFirebaseAuth != null) {
           ChatModel chatModel = new ChatModel(mFirebaseAuth.getUid(),
-              mMessageEditText.getText().toString());
+              mMessageEditText.getText().toString(), currentTimestamp, "0");
           mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(mFirebaseAuth.getUid()).push()
               .setValue(chatModel);
           mFirebaseDatabaseReference.child(MESSAGES_CHATS).child(adminUser.getUid()).push()
@@ -213,6 +226,7 @@ public class SupportFrag extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
+
   }
 
 }

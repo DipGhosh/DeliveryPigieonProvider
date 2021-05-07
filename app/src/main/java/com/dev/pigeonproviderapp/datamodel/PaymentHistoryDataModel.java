@@ -60,6 +60,9 @@ public class PaymentHistoryDataModel {
         @SerializedName("earningHistory")
         @Expose
         private List<EarningHistory> earningHistory = null;
+        @SerializedName("newbonusHistory")
+        @Expose
+        private List<NewbonusHistory> newbonusHistory = null;
         @SerializedName("totalPayment")
         @Expose
         private Double totalPayment;
@@ -107,6 +110,13 @@ public class PaymentHistoryDataModel {
 
         public void setBonusHistory(List<BonusHistory> bonusHistory) {
             this.bonusHistory = bonusHistory;
+        }
+        public List<NewbonusHistory> getNewbonusHistory() {
+            return newbonusHistory;
+        }
+
+        public void setNewbonusHistory(List<NewbonusHistory> newbonusHistory) {
+            this.newbonusHistory = newbonusHistory;
         }
 
     }
@@ -221,6 +231,44 @@ public class PaymentHistoryDataModel {
 
         public void setDate(String date) {
             this.date = date;
+        }
+
+    }
+
+    public class NewbonusHistory {
+
+        @SerializedName("amount")
+        @Expose
+        private String amount;
+        @SerializedName("date")
+        @Expose
+        private String date;
+        @SerializedName("note")
+        @Expose
+        private String note;
+
+        public String getAmount() {
+            return amount;
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getNote() {
+            return note;
+        }
+
+        public void setNote(String note) {
+            this.note = note;
         }
 
     }

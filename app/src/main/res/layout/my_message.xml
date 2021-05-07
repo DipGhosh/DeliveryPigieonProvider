@@ -26,5 +26,17 @@
       android:text="Placeholder message"
       android:textColor="#fff"
       android:textSize="18dp" />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="right"
+      android:textColor="@android:color/black"
+      android:id="@+id/message_timestamp"
+      android:paddingTop="@dimen/_3sdp"
+      android:textSize="@dimen/_10sdp"
+      android:layout_marginRight="@dimen/_32sdp"
+      android:layout_below="@+id/message_body">
+
+  </TextView>
 
 </RelativeLayout>
