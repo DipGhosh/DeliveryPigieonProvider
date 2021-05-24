@@ -26,7 +26,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rl_past_orderList">
+                android:id="@+id/parent_recyclerview">
 
             </androidx.recyclerview.widget.RecyclerView>
 

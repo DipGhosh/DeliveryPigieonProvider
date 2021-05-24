@@ -21,6 +21,7 @@ import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PastOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
@@ -334,6 +335,39 @@ public class NetworkCall {
         });
 
         return listOrderDataModelMutableLiveData;
+    }
+
+    //PastOrder List
+
+    public MutableLiveData<PastOrderResponseDataModel> getPastOrderListData() {
+
+        MutableLiveData<PastOrderResponseDataModel> listPastOrderDataModelMutableLiveData = new MutableLiveData<PastOrderResponseDataModel>();
+
+        Call<PastOrderResponseDataModel> getPastOrderListCall = apiInterface
+                .getPastOrderListCall(Singleton.getInstance().getTOKEN(), Utility.USERTYPE);
+
+        getPastOrderListCall.enqueue(new Callback<PastOrderResponseDataModel>() {
+            @Override
+            public void onResponse(Call<PastOrderResponseDataModel> call,
+                                   Response<PastOrderResponseDataModel> response) {
+
+                if (response.isSuccessful()) {
+                    listPastOrderDataModelMutableLiveData.postValue(response.body());
+                    Log.d("Aslam", response.body().toString());
+                } else {
+                    Log.d("Aslam Not success", response.errorBody().toString());
+                    listPastOrderDataModelMutableLiveData.postValue(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<PastOrderResponseDataModel> call, Throwable t) {
+                Log.d("Aslam++", t.getMessage());
+            }
+        });
+
+        return listPastOrderDataModelMutableLiveData;
     }
 
 

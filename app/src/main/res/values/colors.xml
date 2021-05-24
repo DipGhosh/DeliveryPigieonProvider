@@ -23,5 +23,6 @@
     <color name="colorSemiTransparentBlack">#1A000000</color>
     <color name="progress_bar_color">#a30809</color>
     <color name="logout_color">#ED5E60</color>
+    <color name="edittext_bordercolor">#757575</color>
 
 </resources>

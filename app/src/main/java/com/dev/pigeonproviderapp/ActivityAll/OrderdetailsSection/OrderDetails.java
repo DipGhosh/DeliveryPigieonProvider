@@ -410,7 +410,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                         pickuPointPaymentStatus = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
                         orderItemStatus = orderDetailsResponseDatamodel.getData().getPickupPoint().getOrderStatus().getStatus();
                         pickupTime = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupTime();
-                        pickupComment = orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
+                        pickupComment = orderDetailsResponseDatamodel.getData().getInstruction();
                         pickupPhonenUmber = orderDetailsResponseDatamodel.getData().getPickupPoint().getPhone();
                         pickupflatName = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname();
                         pickupAddresstoreach = orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupReachaddressNote();
@@ -420,7 +420,10 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-                        if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname() != null) {
+                        //Client requirement was untill order will be not accepted by the provider flat number will be not showing
+                        if (orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname() != null && orderDetailsResponseDatamodel.getData().getOrderStatus().getStatus() >1)
+                        {
+                            pickupFlatnumber.setVisibility(View.VISIBLE);
                             pickupFlatnumber.setText(orderDetailsResponseDatamodel.getData().getPickupPoint().getPickupAddress().getPickupFlatname());
                         } else {
                             pickupFlatnumber.setVisibility(View.GONE);
@@ -447,7 +450,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                             deliveryPointListingDatamodel.order_point_address = dropPoint.getDropAddress().getAddress();
                             deliveryPointListingDatamodel.payment_status = orderDetailsResponseDatamodel.getData().getPayment().getMessage();
                             deliveryPointListingDatamodel.delivery_time = dropPoint.getDropTime();
-                            deliveryPointListingDatamodel.delivery_comments = dropPoint.getComments();
+                            deliveryPointListingDatamodel.delivery_comments = orderDetailsResponseDatamodel.getData().getInstruction();
                             deliveryPointListingDatamodel.droppoint_status_message = dropPoint.getOrderStatus().getMessage();
                             deliveryPointListingDatamodel.item_phone_number = dropPoint.getPhone();
                             deliveryPointListingDatamodel.droppoint_lat = dropPoint.getDropAddress().getLat();
@@ -456,6 +459,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                             deliveryPointListingDatamodel.addressToReach = dropPoint.getDropAddress().getDropReachaddressNote();
                             deliveryPointListingDatamodel.drop_collect_apyment = dropPoint.getIsCollectPayment();
                             deliveryPointListingDatamodel.is_otp_verified = dropPoint.getIsOtpVerified();
+                            deliveryPointListingDatamodel.order_status=orderStatus;
                             deliveryPointListingDatamodel.is_signature_verified = dropPoint.getIsSignatureVerified();
 
                             order_detailsList_arraylist.add(deliveryPointListingDatamodel);

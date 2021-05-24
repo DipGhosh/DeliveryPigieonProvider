@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_mobile_navigation"
+    app:startDestination="@+id/navigation_currentorder">
+
+    <fragment
+        android:id="@+id/navigation_activeorder"
+        android:name="com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.ActiveOrdersFrag"
+        android:label="@string/tab_order"
+        tools:layout="@layout/fragment_active_orders" />
+
+    <fragment
+        android:id="@+id/navigation_currentorder"
+        android:name="com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.CurrentOrderFrag"
+        android:label="@string/current_orders"
+        tools:layout="@layout/fragment_current_order" />
+    <fragment
+        android:id="@+id/navigation_pastorder"
+        android:name="com.dev.pigeonproviderapp.Fragment.OrderPlacedSection.PastOrderFrag"
+        android:label="@string/past_orders"
+        tools:layout="@layout/fragment_past_order" />
+
+
+
+
+</navigation>

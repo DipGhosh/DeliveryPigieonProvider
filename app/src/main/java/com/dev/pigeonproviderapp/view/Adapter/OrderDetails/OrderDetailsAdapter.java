@@ -63,12 +63,15 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         handler.orderAddress.setText(deliveryPointListingDatamodel.order_point_address);
 
-        if (deliveryPointListingDatamodel.flatName!=null)
+        //Client requirement was untill order will be not accepted by the provider flat number will be not showing
+        if (deliveryPointListingDatamodel.flatName!=null && deliveryPointListingDatamodel.order_status>1)
         {
             handler.order_flatNumber.setText(deliveryPointListingDatamodel.flatName);
         }else {
             handler.order_flatNumber.setVisibility(View.GONE);
         }
+
+
         handler.dropItemClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,6 +12,7 @@ import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PastOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.PaymentHistoryDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileGetResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ProfileUpdateResponseDataModel;
@@ -85,11 +86,14 @@ public interface APIInterface {
   @GET("/api/me")
   Call<ProfileGetResponseDataModel> getProfile(@Header("Authorization") String authorization,@Header("UserType") int usertype);
 
-  @GET("/api/orders")
+  @GET("/api/order_list")
   Call<ListOrderResponseDataModel> getOrderListCall(@Header("Authorization") String authorization,@Header("UserType") int usertype);
 
+  @GET("/api/order_list")
+  Call<PastOrderResponseDataModel> getPastOrderListCall(@Header("Authorization") String authorization,@Header("UserType") int usertype);
+
   @GET("/api/orders/{id}}")
-  Call<OrderDetailsResponseDatamodel> getOrderDetails(@Header("Authorization") String authorization, @Path("id") int id,@Header("UserType") int usertype);
+  Call<OrderDetailsResponseDatamodel> getOrderDetails(@Header("Authorization") String authorization, @Path("id") int id, @Header("UserType") int usertype);
 
   @Headers({"Accept: application/json"})
   @POST("/api/accept_order/{id}}")

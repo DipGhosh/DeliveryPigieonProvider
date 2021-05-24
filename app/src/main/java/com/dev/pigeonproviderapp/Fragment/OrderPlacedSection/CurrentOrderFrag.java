@@ -21,6 +21,7 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Dataprovider.CurrentOrderDatamodel;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
@@ -43,6 +44,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
     private ImageView blankImage;
 
     private OrderListViewModel orderListViewModel;
+    private ListOrderResponseDataModel listOrderDataModel;
 
     public CurrentOrderFrag() {
         // Required empty public constructor
@@ -73,20 +75,51 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
+        listOrderDataModel= Singleton.getInstance().getListOrderDataModel();
+
+        adapter = new CurrentOrderListAdapter(activity, current_order_arraylist);
+        currentorderlist_recyclerview.setAdapter(adapter);
 
 
-        createList();
+        createList(listOrderDataModel.getData().getCurrent());
 
         return mview;
     }
 
-    private void createList() {
+    private void createList(List<ListOrderResponseDataModel.Current> currents) {
 
-        adapter = new CurrentOrderListAdapter(activity, current_order_arraylist);
-        currentorderlist_recyclerview.setAdapter(adapter);
+        current_order_arraylist.clear();
+
+        if (currents.size()>0){
+            blankImage.setVisibility(View.GONE);
+
+            for (ListOrderResponseDataModel.Current current : currents) {
+
+                CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
+                currentOrderDatamodel.pickuptime=current.getPickupDateNew()+"  "+current.getPickupTime();
+                currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
+                currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
+                currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
+                currentOrderDatamodel.currentorder_total_ammount = "₹ " + current.getAmount();
+                currentOrderDatamodel.currentorder_id=current.getId();
+                currentOrderDatamodel.provider_bonus=current.getProviderBonus();
+                currentOrderDatamodel.earnAmount=current.getEarn();
+                currentOrderDatamodel.orderId=current.getOrderNo();
+
+                current_order_arraylist.add(currentOrderDatamodel);
+
+            }
+
+            adapter.notifyDataSetChanged();
+
+        }else {
+            blankImage.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
-    public void setData(List<ListOrderResponseDataModel.Current> currents) {
+   /* public void setData(List<ListOrderResponseDataModel.Current> currents) {
 
         current_order_arraylist.clear();
 
@@ -119,7 +152,7 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
 
 
 
-    }
+    }*/
 
     @Override
     public void onRefresh() {
