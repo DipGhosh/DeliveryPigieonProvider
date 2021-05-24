@@ -22,10 +22,14 @@ import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PastOrderResponseDataModel;
 import com.dev.pigeonproviderapp.view.Adapter.CurrentOrder.CurrentOrderListAdapter;
+import com.dev.pigeonproviderapp.view.Adapter.PastOrder.ParentItemAdapter;
 import com.dev.pigeonproviderapp.view.Adapter.PastOrder.PastOrderListAdapter;
+import com.dev.pigeonproviderapp.view.Dataprovider.ChildItem;
 import com.dev.pigeonproviderapp.view.Dataprovider.CurrentOrderDatamodel;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
+import com.dev.pigeonproviderapp.view.Dataprovider.ParentItem;
 import com.dev.pigeonproviderapp.view.Dataprovider.PastOrderDatamodel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 
@@ -38,13 +42,12 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
     View mview;
     private Activity activity;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private RecyclerView pastorderlist_recyclerview;
-    private ArrayList<PastOrderDatamodel> past_order_arraylist = new ArrayList<>();
-    private PastOrderListAdapter adapter;
+    private RecyclerView parentRecyclerview;
     private ImageView blankImage;
-
+    private ParentItemAdapter parentItemAdapter;
     private OrderListViewModel orderListViewModel;
+
+    List<ParentItem> itemList = new ArrayList<>();
 
     public PastOrderFrag() {
         // Required empty public constructor
@@ -59,10 +62,9 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
         activity = getActivity();
 
         blankImage =mview.findViewById(R.id.blank_img);
-        pastorderlist_recyclerview = mview.findViewById(R.id.rl_past_orderList);
-        pastorderlist_recyclerview.setLayoutManager(new LinearLayoutManager(activity));
-        pastorderlist_recyclerview
-                .addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
+        parentRecyclerview = mview.findViewById(R.id.parent_recyclerview);
+        parentRecyclerview.setLayoutManager(new LinearLayoutManager(activity));
+        parentRecyclerview.addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) mview.findViewById(R.id.swipe_container);
@@ -75,110 +77,74 @@ public class PastOrderFrag extends BaseFragment implements SwipeRefreshLayout.On
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
 
+        parentItemAdapter = new ParentItemAdapter(activity,itemList);
+
+        parentRecyclerview.setAdapter(parentItemAdapter);
+
+        getOrderList();
+        mSwipeRefreshLayout.setRefreshing(true);
 
 
-        createList();
+
+
 
         return mview;
     }
 
-    private void createList() {
-
-        adapter = new PastOrderListAdapter(activity, past_order_arraylist);
-        pastorderlist_recyclerview.setAdapter(adapter);
 
 
-    }
-
-    public void setData(List<ListOrderResponseDataModel.Past> pasts) {
-
-        past_order_arraylist.clear();
-
-        if (pasts.size() > 0) {
-
-            blankImage.setVisibility(View.GONE);
-
-            for (ListOrderResponseDataModel.Past past : pasts) {
-
-
-                PastOrderDatamodel pastOrderDatamodel = new PastOrderDatamodel();
-
-                pastOrderDatamodel.pastorder_type = String.valueOf(past.getOrderType());
-                pastOrderDatamodel.pastorder_pickup_address = past.getPickupPoint();
-                pastOrderDatamodel.pastorder_delivery_address = past.getDropPoint();
-                pastOrderDatamodel.pastorder_total_ammount = "₹" + past.getAmount();
-                pastOrderDatamodel.pastorder_id = past.getId();
-                pastOrderDatamodel.provider_bonus=past.getProviderBonus();
-                pastOrderDatamodel.earnAmount=past.getEarn();
-                pastOrderDatamodel.orderId=past.getOrderNo();
-
-                past_order_arraylist.add(pastOrderDatamodel);
-
-            }
-            adapter.notifyDataSetChanged();
-
-        } else {
-           blankImage.setVisibility(View.VISIBLE);
-
-        }
-
-
-
-
-    }
 
     @Override
     public void onRefresh() {
-
-        if (NetworkUtils.isNetworkAvailable(activity)) {
-
-            getOrderList();
-
-        } else {
-            UiUtils.showToast(activity, getString(R.string.network_error));
-        }
-
+        getOrderList();
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    public  void getOrderList() {
+    public void getOrderList() {
 
-        orderListViewModel.getOrderListData().observe(this, new Observer<ListOrderResponseDataModel>() {
+        itemList.clear();
+
+        orderListViewModel.getPastOrderListData().observe(this, new Observer<PastOrderResponseDataModel>() {
             @Override
-            public void onChanged(ListOrderResponseDataModel listOrderDataModel) {
-
+            public void onChanged(PastOrderResponseDataModel listOrderDataModel) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                past_order_arraylist.clear();
-                blankImage.setVisibility(View.GONE);
 
-                for (ListOrderResponseDataModel.Past past : listOrderDataModel.getData().getPast()) {
+                for (PastOrderResponseDataModel.PastNew past : listOrderDataModel.getData().getPastNew()) {
 
-                    PastOrderDatamodel pastOrderDatamodel = new PastOrderDatamodel();
+                    List<ChildItem> ChildItemList = new ArrayList<>();
+                    ParentItem parentItem = new ParentItem();
+                    ;
+                    parentItem.setParentItemTitle(past.getDate());
 
-                    pastOrderDatamodel.pastorder_type = String.valueOf(past.getOrderType());
-                    pastOrderDatamodel.pastorder_pickup_address = past.getPickupPoint();
-                    pastOrderDatamodel.pastorder_delivery_address = past.getDropPoint();
-                    pastOrderDatamodel.pastorder_total_ammount = "₹" + past.getAmount();
-                    pastOrderDatamodel.pastorder_id = past.getId();
-                    pastOrderDatamodel.provider_bonus=past.getProviderBonus();
-                    pastOrderDatamodel.earnAmount=past.getEarn();
-                    pastOrderDatamodel.orderId=past.getOrderNo();
+                    for (PastOrderResponseDataModel.Order order: past.getOrders())
+                    {
+                        ChildItem childItem=new ChildItem();
+                        childItem.setPlacedorder_type(String.valueOf(order.getOrderType()));
+                        childItem.setOrderplace_pickup_address(order.getPickupPoint());
+                        childItem.setOrderplace_delivery_address(order.getDropPoint());
+                        childItem.setPlaceorder_total_ammount("₹ " + order.getAmount());
+                        childItem.setCurrentorder_id(order.getId());
+                        childItem.setOrderId(order.getOrderNo());
+                        childItem.setEarnAmount(order.getEarn());
+                        childItem.setProvider_bonus(order.getProviderBonus());
+                        childItem.setOrder_status_message(order.getStatus());
 
-                    past_order_arraylist.add(pastOrderDatamodel);
-
+                        ChildItemList.add(childItem);
+                    }
+                    parentItem.setChildItemList(ChildItemList);
+                    itemList.add(parentItem);
 
                 }
 
-                if (listOrderDataModel.getData().getPast().size() > 0) {
 
-                    blankImage.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                } else {
+                if (listOrderDataModel.getData().getPastNew().size() > 0) {
+                    parentItemAdapter.notifyDataSetChanged();
+                }else {
 
                     blankImage.setVisibility(View.VISIBLE);
                 }
-
             }
         });
     }
+
 }

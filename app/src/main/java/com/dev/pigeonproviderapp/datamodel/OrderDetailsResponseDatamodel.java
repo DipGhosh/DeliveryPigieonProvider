@@ -66,7 +66,7 @@ public class OrderDetailsResponseDatamodel {
     private String packageTypes;
     @SerializedName("instruction")
     @Expose
-    private Object instruction;
+    private String instruction;
     @SerializedName("rating")
     @Expose
     private Rating rating;
@@ -128,11 +128,11 @@ public class OrderDetailsResponseDatamodel {
       this.packageTypes = packageTypes;
     }
 
-    public Object getInstruction() {
+    public String getInstruction() {
       return instruction;
     }
 
-    public void setInstruction(Object instruction) {
+    public void setInstruction(String instruction) {
       this.instruction = instruction;
     }
 

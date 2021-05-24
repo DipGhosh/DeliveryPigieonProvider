@@ -195,12 +195,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 break;
             case R.id.tv_accept_payment_item:
 
-              /*  if (Singleton.getInstance().getORDERITEMSTATUS()==5 )
-                {
 
-                }else {
-                    acceptOrderPaymentByProvider();
-                }*/
                 if (Singleton.getInstance().getORDERITEMSTATUS()==1&& Singleton.getInstance().getPAYMENTSTATUS()==0)
                 {
                     UiUtils.showAlert(activity,getString(R.string.payment_header),getString(R.string.accept_order_before_payment));
@@ -387,6 +382,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
+            itemPhoneNumber.setVisibility(View.GONE);
+
 
         } else if (Singleton.getInstance().getORDERITEMSTATUS() == 3) {
             completeorderSubmit.setVisibility(View.VISIBLE);
@@ -395,6 +392,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         } else if (Singleton.getInstance().getORDERITEMSTATUS() == 2) {
             completeorderSubmit.setVisibility(View.GONE);
             orderCompleted.setVisibility(View.GONE);
+
 
         } else if (Singleton.getInstance().getORDERITEMSTATUS() == 5) {
             completeorderSubmit.setVisibility(View.GONE);
@@ -433,16 +431,22 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             if (bundle.getString(Utility.TIME_KEY)!=null)
             {
                 pointDeliveryTime.setText(bundle.getString(Utility.TIME_KEY));
+
             }else {
                 pointDeliveryTime.setVisibility(View.GONE);
             }
 
-            if (bundle.getString(Utility.FLATNAME_KEY)!=null)
+            //Client requirement was untill order will be not accepted by the provider flat number will be not showing
+            if (bundle.getString(Utility.FLATNAME_KEY)!=null && Singleton.getInstance().getORDERITEMSTATUS() == 1)
             {
+                pointAddress.setText(bundle.getString(Utility.ADDRESS_KEY));
+
+            }else if(bundle.getString(Utility.FLATNAME_KEY)!=null && Singleton.getInstance().getORDERITEMSTATUS() >1){
                 pointAddress.setText(bundle.getString(Utility.FLATNAME_KEY)+ System.getProperty ("line.separator")+bundle.getString(Utility.ADDRESS_KEY));
             }else {
                 pointAddress.setText(bundle.getString(Utility.ADDRESS_KEY));
             }
+
             if (bundle.getString(Utility.REACHADDRESS_KEY)!=null)
             {
                 addressToReach.setText(bundle.getString(Utility.REACHADDRESS_KEY));
@@ -460,7 +464,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             coordList.add(new LatLng(bundle.getDouble(Utility.LAT_KEY), bundle.getDouble(Utility.LONG_KEY)));
 
         }
-        System.out.println("Mangaldip+check "+Singleton.getInstance().isCollectPayment());
+
 
         if (Singleton.getInstance().getPAYMENTSTATUS()==1 && Singleton.getInstance().isCollectPayment()==true)
         {

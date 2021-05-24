@@ -54,7 +54,7 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.tabs.TabLayout
+       <!-- <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabTextAppearance="@style/MyCustomTextAppearance"
@@ -91,7 +91,31 @@
             android:layout_height="match_parent"
             android:id="@+id/viewPager">
 
-        </androidx.viewpager.widget.ViewPager>
+        </androidx.viewpager.widget.ViewPager>-->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/otptextColor"
+            android:fitsSystemWindows="true"
+            app:itemIconTint="@drawable/tabitem_selectcolor"
+            app:itemTextColor="@drawable/tabitem_selectcolor"
+            app:labelVisibilityMode="labeled"
+            android:paddingBottom="@dimen/_10sdp"
+            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView"
+            app:elevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:menu="@menu/top_nav_menu" />
+
+        <fragment
+            android:id="@+id/nav_host_fragment_new"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </LinearLayout>
 
 

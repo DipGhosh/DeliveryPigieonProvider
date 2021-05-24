@@ -10,6 +10,7 @@ import com.dev.pigeonproviderapp.datamodel.CompleteOrderPointResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OtpVerifyResponseDataModel;
+import com.dev.pigeonproviderapp.datamodel.PastOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.StartOrderResponseDataModel;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
@@ -28,6 +29,7 @@ public class OrderListViewModel extends ViewModel {
     private MutableLiveData<CompleteOrderPointResponseDataModel> completeOrderDataModelMutableLiveData;
     private MutableLiveData<AcceptPaymentResponseModel> acceptPaymentDataModelMutableLiveData;
     private MutableLiveData<AcceptPaymentResponseModel> orderRatingDataModelMutableLiveData;
+    private MutableLiveData<PastOrderResponseDataModel> pastOrderDataModelMutableLiveData;
 
     public LiveData<ListOrderResponseDataModel> getOrderListData() {
 
@@ -35,7 +37,11 @@ public class OrderListViewModel extends ViewModel {
         return rderListDataModelMutableLiveData;
     }
 
+    public LiveData<PastOrderResponseDataModel> getPastOrderListData() {
 
+        pastOrderDataModelMutableLiveData = new NetworkCall().getPastOrderListData();
+        return pastOrderDataModelMutableLiveData;
+    }
 
     public LiveData<OrderDetailsResponseDatamodel> getOrderDetailsData() {
 

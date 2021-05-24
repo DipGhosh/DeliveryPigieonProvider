@@ -12,17 +12,21 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,6 +57,7 @@ import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter
 import com.dev.pigeonproviderapp.viewmodel.LocationSendViewModel;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.dev.pigeonproviderapp.viewmodel.ProfileViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
@@ -64,27 +69,17 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     double provider_lat, provider_long;
     LocationSendViewModel locationSendViewModel;
     private View mView;
-    private TabLayout tabLayout;
-    private TabItem tabActive;
-    private TabItem tabCurrent;
-    private TabItem tabPast;
-    private ViewPager viewPager;
-    private PageAdapter pageAdapter;
     private ImageView notificationImage;
     private OrderListViewModel orderListViewModel;
     private ProfileViewModel profileViewModel;
     private SharePreference sharePreference;
     private ToggleButton simpleToggleButton;
     private int toggleValue = 1;
-
-
     private Activity activity;
     private Dialog dialog;
 
-    private ActiveOrdersFrag activeOrdersFrag = new ActiveOrdersFrag();
-    private CurrentOrderFrag currentOrderFrag = new CurrentOrderFrag();
-    private PastOrderFrag pastOrderFrag = new PastOrderFrag();
-
+    BottomNavigationView navView;
+    AppBarConfiguration appBarConfiguration;
 
 
     public OrdersFrag() {
@@ -98,13 +93,9 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         mView = inflater.inflate(R.layout.fragment_orders, container, false);
         activity = getActivity();
         dialog = UiUtils.showProgress(activity);
+        navView = mView.findViewById(R.id.nav_view_top);
         sharePreference = new SharePreference(activity);
 
-        tabLayout = mView.findViewById(R.id.tablayout);
-        tabActive = mView.findViewById(R.id.tabActiveOrder);
-        tabCurrent = mView.findViewById(R.id.tabCurrentOrders);
-        tabPast = mView.findViewById(R.id.tabPastOrders);
-        viewPager = mView.findViewById(R.id.viewPager);
         simpleToggleButton = mView.findViewById(R.id.chkState);
 
         notificationImage = mView.findViewById(R.id.img_notification);
@@ -112,41 +103,41 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
         notificationImage.setOnClickListener(this);
         simpleToggleButton.setOnClickListener(this);
 
-
-
-
-
-
-        pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pageAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
         locationSendViewModel = ViewModelProviders.of(this).get(LocationSendViewModel.class);
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        // restrict refresh fragments
-        viewPager.setOffscreenPageLimit(2);
+        navView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                        Fragment fragment;
+                        switch (item.getItemId()) {
+                            case R.id.navigation_activeorder:
+
+                                fragment = new ActiveOrdersFrag();
+                                loadFragment(fragment);
+                                return true;
+                            case R.id.navigation_currentorder:
+
+                                fragment = new CurrentOrderFrag();
+                                loadFragment(fragment);
+
+                                return true;
+                            case R.id.navigation_pastorder:
+
+                                fragment = new PastOrderFrag();
+                                loadFragment(fragment);
+
+                                return true;
+
+                        }
+                        return false;
+                    }
+                });
+
 
 
 
@@ -250,31 +241,21 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        //OnResume Fragment
-
-
 
         if (Singleton.getInstance().isOrderaccept() == true) {
 
-            //Singleton.getInstance().setOrderaccept(false);
             getOrderList();
-            //Singleton.getInstance().setOrderaccept(false);
-        }/*else if (Singleton.getInstance().isItemcomplete()==true)
-        {
-            Singleton.getInstance().setItemcomplete(false);
+
+        } else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true) {
+
             getOrderList();
-            Singleton.getInstance().setItemcomplete(false);
-        }*/ else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE() == true) {
-            //Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
-            getOrderList();
-            //Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
+
         }
 
         if (gpsTracker.canGetLocation()) {
             provider_lat = gpsTracker.getLatitude();
             provider_long = gpsTracker.getLongitude();
 
-            System.out.println("LAt" + provider_lat);
             CallLocationAPI();
         }
     }
@@ -309,28 +290,40 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
                     if(listOrderDataModel.getStatus() == 200){
 
-                        pageAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-                        viewPager.setAdapter(pageAdapter);
-                        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-                        // set data
+                        Singleton.getInstance().setListOrderDataModel(listOrderDataModel);
+                       /* // set data
                         if (listOrderDataModel.getData().getAvailable() != null) {
                             activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
                             currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
-                            pastOrderFrag.setData(listOrderDataModel.getData().getPast());
+                            pastOrderFrag.setData(listOrderDataModel.getData().getPastNew());
 
-                        }
+                        }*/
 
                         if (Singleton.getInstance().isOrderaccept()) {
                             //System.out.println("Mangaldip"+"Hello");
                             Singleton.getInstance().setOrderaccept(false);
-                            viewPager.setCurrentItem(1, true);
-                        }
+                            //viewPager.setCurrentItem(1, true);
 
-                        if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
+                            View viewsupport = navView.findViewById(R.id.navigation_currentorder);
+                            viewsupport.performClick();
+
+                            Fragment fragment1;
+                            fragment1 = new CurrentOrderFrag();
+                            loadFragment(fragment1);
+                        }else if (Singleton.getInstance().isALLDROPPOINTCOMPLETE()==true)
                         {
                             Singleton.getInstance().setALLDROPPOINTCOMPLETE(false);
-                            viewPager.setCurrentItem(1, true);
+                            //viewPager.setCurrentItem(1, true);
+                            View viewsupport = navView.findViewById(R.id.navigation_currentorder);
+                            viewsupport.performClick();
+
+                            Fragment fragment1;
+                            fragment1 = new CurrentOrderFrag();
+                            loadFragment(fragment1);
+                        }else {
+                            Fragment fragment;
+                            fragment = new ActiveOrdersFrag();
+                            loadFragment(fragment);
                         }
 
                     }
@@ -387,7 +380,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
                 if (profileGetResponseDataModel.getData().getUser().getIsAvailable()==true)
                 {
-                     simpleToggleButton.setChecked(true);
+                    simpleToggleButton.setChecked(true);
                     sharePreference.setProviderAvailable(true);
                 }else {
                     simpleToggleButton.setChecked(false);
@@ -440,35 +433,11 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
     }
 
-
-
-
-    public class PageAdapter extends FragmentPagerAdapter {
-
-        private int numOfTabs;
-
-        PageAdapter(FragmentManager fm, int numOfTabs) {
-            super(fm);
-            this.numOfTabs = numOfTabs;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return activeOrdersFrag;
-                case 1:
-                    return currentOrderFrag;
-                case 2:
-                    return pastOrderFrag;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return numOfTabs;
-        }
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_new, fragment);
+        transaction.commit();
     }
+
 }

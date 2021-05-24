@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
+
 public class Singleton {
     private static Singleton singleton = new Singleton();
     private String TOKEN;
@@ -36,6 +38,7 @@ public class Singleton {
     private String profileImageUrl;
     private String cashcollectiontime;
     private String messageType;
+    private ListOrderResponseDataModel listOrderDataModel;
 
 
     private boolean isProfileUpdated;
@@ -290,5 +293,11 @@ public class Singleton {
         this.messageType = messageType;
     }
 
+    public ListOrderResponseDataModel getListOrderDataModel() {
+        return listOrderDataModel;
+    }
 
+    public void setListOrderDataModel(ListOrderResponseDataModel listOrderDataModel) {
+        this.listOrderDataModel = listOrderDataModel;
+    }
 }
