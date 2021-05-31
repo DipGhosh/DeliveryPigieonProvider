@@ -291,13 +291,7 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
                     if(listOrderDataModel.getStatus() == 200){
 
                         Singleton.getInstance().setListOrderDataModel(listOrderDataModel);
-                       /* // set data
-                        if (listOrderDataModel.getData().getAvailable() != null) {
-                            activeOrdersFrag.setData(listOrderDataModel.getData().getAvailable());
-                            currentOrderFrag.setData(listOrderDataModel.getData().getCurrent());
-                            pastOrderFrag.setData(listOrderDataModel.getData().getPastNew());
 
-                        }*/
 
                         if (Singleton.getInstance().isOrderaccept()) {
                             //System.out.println("Mangaldip"+"Hello");
@@ -321,6 +315,10 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
                             fragment1 = new CurrentOrderFrag();
                             loadFragment(fragment1);
                         }else {
+
+                            View viewsupport = navView.findViewById(R.id.navigation_activeorder);
+                            viewsupport.performClick();
+
                             Fragment fragment;
                             fragment = new ActiveOrdersFrag();
                             loadFragment(fragment);
@@ -356,6 +354,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
 
                     sharePreference.setProviderAvailable(providerAvailabilityDatamodel.getData().getIsAvailable());
+
+                    getOrderList();
 
                 }
             }else {
@@ -422,6 +422,15 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
                         alert.show();
                     }
                 }
+
+                if (profileGetResponseDataModel.getData().getUser().getBan()==true)
+                {
+                    sharePreference.LogOut();
+                    Intent logout = new Intent(activity, Registrationactivity.class);
+                    startActivity(logout);
+                }
+
+
 
 
 

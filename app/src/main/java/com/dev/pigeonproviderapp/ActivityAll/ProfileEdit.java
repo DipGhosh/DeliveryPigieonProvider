@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,6 +117,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         profileEditImageProgress = findViewById(R.id.profile_edit_image_progress);
         mainLayoutClick=findViewById(R.id.ll_main);
 
+
         dialog = UiUtils.showProgress(ProfileEdit.this);
 
         Bundle bundle = getIntent().getExtras();
@@ -179,6 +181,7 @@ public class ProfileEdit extends BaseActivity implements View.OnClickListener {
         {
             userNameProfileEdit.setFocusable(false);
             userNameProfileEdit.setClickable(true);
+            selectEditImage.setVisibility(View.INVISIBLE);
         }
 
 

@@ -269,8 +269,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         orderListViewModel.verifySignatureData(signatureAPIModel).observe(this, otpVerifyResponseDataModel -> {
             dialog.dismiss();
 
-            if (otpVerifyResponseDataModel != null) {
-                if (otpVerifyResponseDataModel.getStatus() == 200) {
+                if (Singleton.getInstance().getERRORSTATUS() == 200) {
                     Singleton.getInstance().setIdSignatureVerified(true);
 
                     final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
@@ -287,12 +286,24 @@ public class ItemDigitalSignature extends AppCompatActivity  {
                     final android.app.AlertDialog alert = builder.create();
                     alert.show();
 
-                } else if (otpVerifyResponseDataModel.getStatus() == 400) {
-                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_image_verification));
+                } else if (Singleton.getInstance().getERRORSTATUS() == 400) {
+
+                    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                    builder.setTitle(getResources().getString(R.string.app_name));
+                    builder.setIcon(R.mipmap.ic_launcher);
+                    builder.setMessage(Singleton.getInstance().getOTPVERIFYMESSAGE());
+                    builder.setPositiveButton(R.string.aleart_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                    final android.app.AlertDialog alert = builder.create();
+                    alert.show();
                 }
-            } else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_image_verification));
-            }
+
+
 
 
 

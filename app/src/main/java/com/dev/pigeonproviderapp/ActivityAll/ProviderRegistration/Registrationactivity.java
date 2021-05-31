@@ -236,68 +236,75 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
             dialog.dismiss();
 
+            if (Singleton.getInstance().getERRORSTATUS() == 200) {
 
+              String token = verifyOtpResponseDataModel.getData().getToken();
+              Log.d("Mangal", token);
+              Singleton.getInstance().setTOKEN(token);
 
-            if (verifyOtpResponseDataModel != null) {
-              if (verifyOtpResponseDataModel.getStatus() == 200) {
+              if (token != "") {
 
-                String token = verifyOtpResponseDataModel.getData().getToken();
-                Log.d("Mangal", token);
                 Singleton.getInstance().setTOKEN(token);
 
-                if (token != "") {
+                if (verifyOtpResponseDataModel.getData().getUserFirstLogin() == true) {
+                  sharePreference.setToken(token);
 
-                  Singleton.getInstance().setTOKEN(token);
+                  //User Verification check
+                  if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
+                  {
+                    Singleton.getInstance().setProfileUpdated(false);
+                    sharePreference.setProfileverified(true);
+                  }else {
+                    Singleton.getInstance().setProfileUpdated(true);
+                    sharePreference.setProfileverified(false);
+                  }
+                  // used for chat registeration and login
+                  sharePreference.setMobileNumber(mobileNumber);
 
-                  if (verifyOtpResponseDataModel.getData().getUserFirstLogin() == true) {
-                    sharePreference.setToken(token);
+                  Intent providerDetails = new Intent(Registrationactivity.this,
+                          ProviderDetails.class);
+                  startActivity(providerDetails);
+                } else {
+                  sharePreference.SetIsloogedIn(true);
+                  sharePreference.setToken(token);
 
-                    //User Verification check
-                    if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
-                    {
-                      Singleton.getInstance().setProfileUpdated(false);
-                      sharePreference.setProfileverified(true);
-                    }else {
-                      Singleton.getInstance().setProfileUpdated(true);
-                      sharePreference.setProfileverified(false);
-                    }
-                    // used for chat registeration and login
-                    sharePreference.setMobileNumber(mobileNumber);
+                  // used for chat registeration and login
+                  sharePreference.setMobileNumber(mobileNumber);
 
-                    Intent providerDetails = new Intent(Registrationactivity.this,
-                            ProviderDetails.class);
-                    startActivity(providerDetails);
-                  } else {
-                    sharePreference.SetIsloogedIn(true);
-                    sharePreference.setToken(token);
-
-                    // used for chat registeration and login
-                    sharePreference.setMobileNumber(mobileNumber);
-
-                    //User Verification check
-                    if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
-                    {
-                      Singleton.getInstance().setProfileUpdated(false);
-                      sharePreference.setProfileverified(true);
-                    }else {
-                      Singleton.getInstance().setProfileUpdated(true);
-                      sharePreference.setProfileverified(false);
-                    }
-
-
-                    Intent providerDetails = new Intent(Registrationactivity.this,
-                            ProviderDashboard.class);
-                    startActivity(providerDetails);
+                  //User Verification check
+                  if (verifyOtpResponseDataModel.getData().getUserVerified()==true)
+                  {
+                    Singleton.getInstance().setProfileUpdated(false);
+                    sharePreference.setProfileverified(true);
+                  }else {
+                    Singleton.getInstance().setProfileUpdated(true);
+                    sharePreference.setProfileverified(false);
                   }
 
 
+                  Intent providerDetails = new Intent(Registrationactivity.this,
+                          ProviderDashboard.class);
+                  startActivity(providerDetails);
                 }
+
+
+              }
+
+            }else if (Singleton.getInstance().getERRORSTATUS() == 400)
+            {
+              UiUtils.showAlert(activity, getString(R.string.app_name),Singleton.getInstance().getOTPVERIFYMESSAGE());
+            }
+
+           /* if (verifyOtpResponseDataModel != null) {
+              if (verifyOtpResponseDataModel.getStatus() == 200) {
+
+
               } else if (verifyOtpResponseDataModel.getStatus() == 400) {
                 UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_failed));
               }
             } else {
               UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.otp_failed));
-            }
+            }*/
 
           });
     }

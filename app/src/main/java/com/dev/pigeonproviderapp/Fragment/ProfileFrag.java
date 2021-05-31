@@ -260,13 +260,20 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 Singleton.getInstance().setProfileImageUrl(profileGetResponseDataModel.getData().getUser().getProfilePicture());
 
                 //Profile update boolean value set in Singleton class
-                if (profileGetResponseDataModel.getData().getUser().getIsValid() == true) {
+                if (profileGetResponseDataModel.getData().getUser().getIsValid() == false) {
+
+                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_verification_aleart));
+
+                }
+
+                if (profileGetResponseDataModel.getData().getUser().getVerified()==true)
+                {
                     sharePreference.setProfileverified(true);
                     Singleton.getInstance().setProfileUpdated(false);
-                } else {
+
+                }else {
                     sharePreference.setProfileverified(false);
                     Singleton.getInstance().setProfileUpdated(false);
-                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.profile_verification_aleart));
                 }
 
 
@@ -277,6 +284,7 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
                 if (profileGetResponseDataModel.getData().getUser().getIsAvailable() == true) {
                     // simpleToggleButton.setChecked(true);
                     sharePreference.setProviderAvailable(true);
+
                 } else {
                     //simpleToggleButton.setChecked(false);
                     sharePreference.setProviderAvailable(false);

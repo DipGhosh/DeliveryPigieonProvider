@@ -174,7 +174,7 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 2.2.0</string>
+    <string name="version_name">Version 2.2.1</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
     <string name="alert_permission">Permission is necessary to proceed further</string>
 
