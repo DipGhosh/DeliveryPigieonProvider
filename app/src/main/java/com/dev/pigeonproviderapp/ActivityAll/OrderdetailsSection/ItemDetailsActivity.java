@@ -354,7 +354,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         orderListViewModel.paymentAcceptData(acceptPaymentAPIModel).observe(this, acceptPaymentResponseModel -> {
 
             dialog.dismiss();
-            if (acceptPaymentResponseModel != null) {
+           /* if (acceptPaymentResponseModel != null) {
 
                 if (acceptPaymentResponseModel.getStatus() == 200) {
                     acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
@@ -369,7 +369,24 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             }else {
                 UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
 
+            }*/
+
+            if(Singleton.getInstance().getERRORSTATUS()==200)
+            {
+                acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
+                paymentCOmpleteSign.setVisibility(View.VISIBLE);
+                paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+
+                Singleton.getInstance().setPAYMENTSTATUS(3);
+                //Singleton.getInstance().setItemcomplete(true);
+
+                UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
+
+            }else if(Singleton.getInstance().getERRORSTATUS()==400)
+            {
+                UiUtils.showAlert(activity, getString(R.string.app_name),Singleton.getInstance().getOTPVERIFYMESSAGE());
             }
+
 
         });
     }

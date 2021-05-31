@@ -530,7 +530,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
                     getOrderDetails();
                 }
             } else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
+                UiUtils.showAlert(activity, getString(R.string.app_name), Singleton.getInstance().getOTPVERIFYMESSAGE());
 
             }
 
@@ -657,21 +657,30 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             dialog.dismiss();
 
-            if (acceptPaymentResponseModel != null) {
+           /* if (acceptPaymentResponseModel != null) {
                 if (acceptPaymentResponseModel.getStatus() == 200) {
-                    orderPaymentStatus = 3;
-                    Singleton.getInstance().setPAYMENTSTATUS(orderPaymentStatus);
-                    orderPaymentAccept.setText(getString(R.string.accepted_payment));
-                    paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
-                    Singleton.getInstance().setCashcollectiontime("");
-                    Singleton.getInstance().setPAYMENTSTATUSMESSAGE(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
-                    paymentCOmpleteSign.setVisibility(View.VISIBLE);
 
-                    UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
                 }
             } else {
                 UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
 
+            }*/
+
+            if(Singleton.getInstance().getERRORSTATUS()==200)
+            {
+                orderPaymentStatus = 3;
+                Singleton.getInstance().setPAYMENTSTATUS(orderPaymentStatus);
+                orderPaymentAccept.setText(getString(R.string.accepted_payment));
+                paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+                Singleton.getInstance().setCashcollectiontime("");
+                Singleton.getInstance().setPAYMENTSTATUSMESSAGE(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
+                paymentCOmpleteSign.setVisibility(View.VISIBLE);
+
+                UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
+
+            }else if(Singleton.getInstance().getERRORSTATUS()==400)
+            {
+                UiUtils.showAlert(activity, getString(R.string.app_name),Singleton.getInstance().getOTPVERIFYMESSAGE());
             }
 
 

@@ -17,6 +17,7 @@ import com.dev.pigeonproviderapp.datamodel.DroppointVerifyErrorPojoClass;
 import com.dev.pigeonproviderapp.datamodel.GetUserDocumentResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.LocationDatamodel;
+import com.dev.pigeonproviderapp.datamodel.LoginOtpErrprPojoClass;
 import com.dev.pigeonproviderapp.datamodel.NotificationDatamodel;
 import com.dev.pigeonproviderapp.datamodel.OTPSendResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
@@ -100,10 +101,30 @@ public class NetworkCall {
             public void onResponse(Call<VerifyOtpResponseDataModel> call, Response<VerifyOtpResponseDataModel> response) {
 
                 if (response.isSuccessful()) {
+
                     otpverifyDataModelLiveData.postValue(response.body());
+
+                    if (response.code() == 200) {
+                        Singleton.getInstance().setERRORSTATUS(200);
+                    }
                     Log.d("Mangal", response.body().toString());
                 } else {
                     Log.d("Mangal", response.errorBody().toString());
+
+                    if (response.code() == 400) {
+                        if (!response.isSuccessful()) {
+                            Gson gson = new GsonBuilder().create();
+                            LoginOtpErrprPojoClass mError = new LoginOtpErrprPojoClass();
+                            try {
+                                mError = gson.fromJson(response.errorBody().string(), LoginOtpErrprPojoClass.class);
+                                Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
+                            } catch (IOException e) {
+                                // handle failure to read error
+                            }
+                        }
+                    }
+
                     otpverifyDataModelLiveData.postValue(response.body());
                 }
             }
@@ -458,6 +479,19 @@ public class NetworkCall {
                     Log.d("Aslam", response.body().toString());
                 } else {
                     Log.d("Aslam", response.errorBody().toString());
+                    if (response.code() == 400) {
+                        if (!response.isSuccessful()) {
+                            Gson gson = new GsonBuilder().create();
+                            DroppointVerifyErrorPojoClass mError = new DroppointVerifyErrorPojoClass();
+                            try {
+                                mError = gson.fromJson(response.errorBody().string(), DroppointVerifyErrorPojoClass.class);
+                                Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
+                            } catch (IOException e) {
+                                // handle failure to read error
+                            }
+                        }
+                    }
                     startOrderDataModelMutableLiveData.postValue(response.body());
                 }
 
@@ -501,7 +535,6 @@ public class NetworkCall {
                             DroppointVerifyErrorPojoClass mError = new DroppointVerifyErrorPojoClass();
                             try {
                                 mError = gson.fromJson(response.errorBody().string(), DroppointVerifyErrorPojoClass.class);
-                                Log.d("Mangaldip", String.valueOf(mError.getStatus()));
                                 Singleton.getInstance().setERRORSTATUS(mError.getStatus());
                                 Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
                             } catch (IOException e) {
@@ -540,6 +573,10 @@ public class NetworkCall {
 
                 if (response.isSuccessful()) {
                     verifySignatureDataModelMutableLiveData.postValue(response.body());
+                    if (response.code() == 200) {
+                        Singleton.getInstance().setERRORSTATUS(200);
+                    }
+
                     Log.d("Aslam Success", response.body().toString());
                 } else {
                     Log.d("Aslam Not", response.errorBody().toString());
@@ -551,6 +588,7 @@ public class NetworkCall {
                                 mError = gson.fromJson(response.errorBody().string(), DroppointVerifyErrorPojoClass.class);
                                 Log.d("Mangaldip", String.valueOf(mError.getStatus()));
                                 Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
                             } catch (IOException e) {
                                 // handle failure to read error
                             }
@@ -589,8 +627,6 @@ public class NetworkCall {
                     if (response.code() == 200) {
                         if (response.isSuccessful()) {
 
-                            System.out.println("CrashCheck"+response.body().getStatus());
-                            System.out.println("CrashCheck"+response.body().getData().getIsAllDropPointsCompleted());
                             Singleton.getInstance().setERRORSTATUS(response.body().getStatus());
                             Singleton.getInstance().setALLDROPPOINTCOMPLETE(response.body().getData().getIsAllDropPointsCompleted());
                             //Singleton.getInstance().setALLDROPPOINTCOMPLETE(response.body().getData().getIsAllDropPointsCompleted());
@@ -643,9 +679,25 @@ public class NetworkCall {
 
                 if (response.isSuccessful()) {
                     acceptPaymentDataModelLiveData.postValue(response.body());
+                    if (response.code() == 200) {
+                        Singleton.getInstance().setERRORSTATUS(200);
+                    }
                     Log.d("Mangal", response.body().toString());
                 } else {
                     Log.d("Mangal", response.errorBody().toString());
+                    if (response.code() == 400) {
+                        if (!response.isSuccessful()) {
+                            Gson gson = new GsonBuilder().create();
+                            DroppointVerifyErrorPojoClass mError = new DroppointVerifyErrorPojoClass();
+                            try {
+                                mError = gson.fromJson(response.errorBody().string(), DroppointVerifyErrorPojoClass.class);
+                                Singleton.getInstance().setERRORSTATUS(mError.getStatus());
+                                Singleton.getInstance().setOTPVERIFYMESSAGE(mError.getErrorMessage());
+                            } catch (IOException e) {
+                                // handle failure to read error
+                            }
+                        }
+                    }
                     acceptPaymentDataModelLiveData.postValue(response.body());
                 }
             }

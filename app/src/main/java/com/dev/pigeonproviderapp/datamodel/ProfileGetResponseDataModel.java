@@ -120,6 +120,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("isValid")
         @Expose
         private Boolean isValid;
+        @SerializedName("ban")
+        @Expose
+        private Boolean ban;
         @SerializedName("provider_app_android_version")
         @Expose
         private String providerAppAndroidVersion;
@@ -138,6 +141,9 @@ public class ProfileGetResponseDataModel {
         @SerializedName("identity_card")
         @Expose
         private String identityCard;
+        @SerializedName("verified")
+        @Expose
+        private Boolean verified;
 
         public Integer getId() {
             return id;
@@ -290,7 +296,21 @@ public class ProfileGetResponseDataModel {
         public void setIdentityCard(String identityCard) {
             this.identityCard = identityCard;
         }
+        public Boolean getVerified() {
+            return verified;
+        }
 
+        public void setVerified(Boolean verified) {
+            this.verified = verified;
+        }
+
+        public Boolean getBan() {
+            return ban;
+        }
+
+        public void setBan(Boolean ban) {
+            this.ban = ban;
+        }
 
     }
 }

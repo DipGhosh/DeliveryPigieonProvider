@@ -130,46 +130,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
     }
 
-    /*public void setData(List<ListOrderResponseDataModel.Available> availableList) {
 
-        active_order_arraylist.clear();
-
-        if (availableList.size() > 0) {
-
-            activeorderlist_recyclerview.setVisibility(View.VISIBLE);
-            blankImage.setVisibility(View.GONE);
-            
-            for (ListOrderResponseDataModel.Available available : availableList) {
-
-
-                OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-                orderActiveDatamodel.pickuptime=available.getPickupDateNew()+"  "+available.getPickupTime();
-                orderActiveDatamodel.activeorder_id = available.getId();
-                orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
-                orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
-                orderActiveDatamodel.activeorder_delivery_address = available.getDropPoint();
-                orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
-                orderActiveDatamodel.provider_bonus = available.getProviderBonus();
-                orderActiveDatamodel.earnAmount = available.getEarn();
-                orderActiveDatamodel.orderId=available.getOrderNo();
-
-
-                active_order_arraylist.add(orderActiveDatamodel);
-
-            }
-            *//*adapter = new ActiveOrderListAdapter(activity, active_order_arraylist,this);
-            activeorderlist_recyclerview.setAdapter(adapter);*//*
-
-            adapter.notifyDataSetChanged();
-
-        } else {
-            activeorderlist_recyclerview.setVisibility(View.GONE);
-            blankImage.setVisibility(View.VISIBLE);
-        }
-
-
-    }
-*/
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);

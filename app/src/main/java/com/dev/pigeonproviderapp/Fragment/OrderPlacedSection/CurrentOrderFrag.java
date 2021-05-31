@@ -91,6 +91,8 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
         current_order_arraylist.clear();
 
         if (currents.size()>0){
+
+            currentorderlist_recyclerview.setVisibility(View.VISIBLE);
             blankImage.setVisibility(View.GONE);
 
             for (ListOrderResponseDataModel.Current current : currents) {
@@ -113,46 +115,14 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
             adapter.notifyDataSetChanged();
 
         }else {
+            currentorderlist_recyclerview.setVisibility(View.GONE);
             blankImage.setVisibility(View.VISIBLE);
         }
 
 
     }
 
-   /* public void setData(List<ListOrderResponseDataModel.Current> currents) {
 
-        current_order_arraylist.clear();
-
-        if (currents.size()>0){
-            blankImage.setVisibility(View.GONE);
-
-            for (ListOrderResponseDataModel.Current current : currents) {
-
-                CurrentOrderDatamodel currentOrderDatamodel = new CurrentOrderDatamodel();
-                currentOrderDatamodel.pickuptime=current.getPickupDateNew()+"  "+current.getPickupTime();
-                currentOrderDatamodel.currentorder_type = String.valueOf(current.getOrderType());
-                currentOrderDatamodel.currentorder_pickup_address = current.getPickupPoint();
-                currentOrderDatamodel.currentorder_delivery_address = current.getDropPoint();
-                currentOrderDatamodel.currentorder_total_ammount = "₹ " + current.getAmount();
-                currentOrderDatamodel.currentorder_id=current.getId();
-                currentOrderDatamodel.provider_bonus=current.getProviderBonus();
-                currentOrderDatamodel.earnAmount=current.getEarn();
-                currentOrderDatamodel.orderId=current.getOrderNo();
-
-                current_order_arraylist.add(currentOrderDatamodel);
-
-            }
-
-            adapter.notifyDataSetChanged();
-
-        }else {
-            blankImage.setVisibility(View.VISIBLE);
-        }
-
-
-
-
-    }*/
 
     @Override
     public void onRefresh() {
@@ -198,10 +168,11 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
                     }
 
                     if (listOrderDataModel.getData().getCurrent().size() > 0) {
+                        currentorderlist_recyclerview.setVisibility(View.VISIBLE);
                         blankImage.setVisibility(View.GONE);
                         adapter.notifyDataSetChanged();
                     } else {
-
+                        currentorderlist_recyclerview.setVisibility(View.GONE);
                         blankImage.setVisibility(View.VISIBLE);
                     }
                 }
