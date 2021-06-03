@@ -216,7 +216,7 @@ public class ItemDigitalSignature extends AppCompatActivity  {
         Log.d("Picture Path", "" + path);
 
         //pass it like this
-        File file = Utility.saveBitmapToFile(new File(path));
+        File file = Utility.saveBitmapToFileComprase(new File(path));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part
                 .createFormData("file", file.getName(), requestFile);

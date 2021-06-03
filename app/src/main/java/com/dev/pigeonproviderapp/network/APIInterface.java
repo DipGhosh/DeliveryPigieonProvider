@@ -86,11 +86,11 @@ public interface APIInterface {
   @GET("/api/me")
   Call<ProfileGetResponseDataModel> getProfile(@Header("Authorization") String authorization,@Header("UserType") int usertype);
 
-  @GET("/api/order_list")
+  @GET("/api/order_list_available_upcoming")
   Call<ListOrderResponseDataModel> getOrderListCall(@Header("Authorization") String authorization,@Header("UserType") int usertype);
 
-  @GET("/api/order_list")
-  Call<PastOrderResponseDataModel> getPastOrderListCall(@Header("Authorization") String authorization,@Header("UserType") int usertype);
+  @GET("/api/order_list_past/{id}")
+  Call<PastOrderResponseDataModel> getPastOrderListCall(@Header("Authorization") String authorization,@Header("UserType") int usertype, @Path("id") int count);
 
   @GET("/api/orders/{id}}")
   Call<OrderDetailsResponseDatamodel> getOrderDetails(@Header("Authorization") String authorization, @Path("id") int id, @Header("UserType") int usertype);

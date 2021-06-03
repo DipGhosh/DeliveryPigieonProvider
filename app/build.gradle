@@ -10,22 +10,22 @@ android {
         applicationId "com.dev.pigeonproviderapp"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 30
-        versionName "2.2.1"
+        versionCode 31
+        versionName "2.2.2"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    /*http://3.129.12.105
+    /*http://18.216.46.148
       https://deliverypigeon.in*/
     buildTypes {
 
         debug {
-            buildConfigField "String", "SERVER_URL", "\"https://deliverypigeon.in\""
+            buildConfigField "String", "SERVER_URL", "\"http://18.216.46.148\""
         }
 
         release {
-            buildConfigField "String", "SERVER_URL", "\"https://deliverypigeon.in\""
+            buildConfigField "String", "SERVER_URL", "\"http://18.216.46.148\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
