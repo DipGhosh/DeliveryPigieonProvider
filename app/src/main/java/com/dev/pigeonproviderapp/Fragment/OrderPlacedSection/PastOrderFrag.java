@@ -45,12 +45,9 @@ import java.util.List;
 public class PastOrderFrag extends BaseFragment {
 
     View mview;
-    SwipeRefreshLayout mSwipeRefreshLayout;
     List<ParentItem> itemList = new ArrayList<>();
     List<ParentItem> itemFinalList = new ArrayList<>();
     int count = 1;
-    int CurrentItems, TotalItems, ScrolloutItems;
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
     private Activity activity;
     private RecyclerView parentRecyclerview;
     private ImageView blankImage;
@@ -60,9 +57,7 @@ public class PastOrderFrag extends BaseFragment {
     private LinearLayoutManager mLayoutManagerMissingList = new LinearLayoutManager(getActivity());
     private Dialog dialog;
     private boolean ischecked;
-    /* private boolean isLoading = false;
-     private boolean isLastPage = false;*/
-    private boolean loading = true;
+
 
     public PastOrderFrag() {
         // Required empty public constructor
@@ -104,20 +99,7 @@ public class PastOrderFrag extends BaseFragment {
 
         if (nsvMain != null) {
             nsvMain.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                /*if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
-                        scrollY > oldScrollY) {
-                    CurrentItems = mLayoutManagerMissingList.getChildCount();
-                    ScrolloutItems = mLayoutManagerMissingList.getItemCount();
-                    TotalItems = mLayoutManagerMissingList.findFirstVisibleItemPosition();
-                    if ((CurrentItems + ScrolloutItems) >= TotalItems) {
-                        //fetchData(true);
-                        count++;
-                        Log.d("Count", String.valueOf(count));
 
-
-                    }
-
-                }*/
                if (scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
                {
                    count++;
@@ -186,7 +168,7 @@ public class PastOrderFrag extends BaseFragment {
 
                         parentItemAdapter = new ParentItemAdapter(activity, itemFinalList);
                         parentRecyclerview.setAdapter(parentItemAdapter);
-                        // parentItemAdapter.notifyDataSetChanged();
+
 
 
 
@@ -203,23 +185,6 @@ public class PastOrderFrag extends BaseFragment {
         });
     }
 
-   /* private void fetchData(boolean isDown) {
 
-        new Handler().postDelayed(() -> {
-            if (isDown) {
-                count = count + 1;
-            }
-            Log.d("Count", String.valueOf(count));
-            if (count == 2) {
-
-                Singleton.getInstance().setPageCount(count);
-                getOrderList();
-                parentItemAdapter.notifyDataSetChanged();
-            }
-
-
-        }, 2000);
-
-    }*/
 
 }
