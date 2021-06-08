@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,18 +63,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrderDetails extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class OrderDetails extends AppCompatActivity implements View.OnClickListener {
 
-    static LatLng co_ordinate;
-    com.google.android.gms.maps.GoogleMap mMap;
-    SupportMapFragment mapFragment;
+
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
     ArrayList<String> addressStoreList = new ArrayList<String>();
-    private List<LatLng> latLngList=new ArrayList<LatLng>();
+
     OrderListViewModel orderListViewModel;
     int orderPaymentStatus, orderStatus;
-    LatLng startLatLng = null;
-    LatLng endLatLng = null;
+
     private double pickpoint_lat, pickpoint_long;
     private Activity activity = OrderDetails.this;
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick, paymentInfoLayout;
@@ -89,6 +87,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<DeliveryPointListingDatamodel> order_detailsList_arraylist = new ArrayList<>();
     private OrderDetailsAdapter adapter;
     private Intent getordertypeIntent;
+    private Uri uri_redirect_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +127,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         dialog = UiUtils.showProgress(OrderDetails.this);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().
-                findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
@@ -220,13 +217,9 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.ll_map_icon_click:
 
-                Intent mapRoute = new Intent(OrderDetails.this, OrderRouteMap.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("coordinates", coordList);
-                bundle.putStringArrayList("storeaddress",addressStoreList);
-                bundle.putString("distance", totalDistanceShowinMap);
-                mapRoute.putExtras(bundle);
-                startActivity(mapRoute);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri_redirect_map);
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
 
                 break;
 
@@ -300,12 +293,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-
-    }
 
     public void getOrderDetails() {
         dialog.show();
@@ -657,14 +645,7 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
             dialog.dismiss();
 
-           /* if (acceptPaymentResponseModel != null) {
-                if (acceptPaymentResponseModel.getStatus() == 200) {
 
-                }
-            } else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
-
-            }*/
 
             if(Singleton.getInstance().getERRORSTATUS()==200)
             {
@@ -689,53 +670,24 @@ public class OrderDetails extends AppCompatActivity implements OnMapReadyCallbac
 
     public void calMapRouteDraw()
     {
-        ArrayList points = new ArrayList();
-        PolylineOptions lineOptions = new PolylineOptions();
 
-        for (int i = 0; i < coordList.size(); i++)
+        Log.d("TAG", String.valueOf(coordList.size()));
+
+        if (coordList.size()==2)
         {
+            uri_redirect_map =Uri.parse("http://maps.google.com/maps?saddr=" + coordList.get(0).latitude + "," + coordList.get(0).longitude+"&daddr=" +  coordList.get(1).latitude + "," + coordList.get(1).longitude + "");
+        }
+        else if (coordList.size()==3)
+        {
+            uri_redirect_map =Uri.parse("http://maps.google.com/maps?saddr=" + coordList.get(0).latitude + "," + coordList.get(0).longitude+"&daddr=" +  coordList.get(1).latitude + "," + coordList.get(1).longitude + "+to:"+  coordList.get(2).latitude + "," + coordList.get(2).longitude+"");
 
-            // add coordinates to point marker for drop point
-            co_ordinate=new LatLng(coordList.get(i).latitude,coordList.get(i).longitude);
-
-            Double lati = coordList.get(i).latitude;
-            Double longi = coordList.get(i).longitude;
-
-            if (i==0)
-            {
-                mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                        .title("This is Pick Up point")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            }else {
-                mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                        .title("This is Drop point")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            }
-
-
-
-            LatLng latlng = new LatLng(lati,
-                    longi);
-            points.add(latlng);
-
-            if (i == 0) {
-                startLatLng = latlng;
-            }
-
-
+        }else if (coordList.size()==4)
+        {
+            uri_redirect_map =Uri.parse("http://maps.google.com/maps?saddr=" + coordList.get(0).latitude + "," + coordList.get(0).longitude+"&daddr=" +  coordList.get(1).latitude + "," + coordList.get(1).longitude + "+to:"+  coordList.get(2).latitude + "," + coordList.get(2).longitude+ "+to:"+  coordList.get(3).latitude + "," + coordList.get(3).longitude+"");
 
         }
-        lineOptions.addAll(points);
-        lineOptions.width(12);
-        lineOptions.color(Color.RED);
-        lineOptions.geodesic(true);
 
-        if (points.size() != 0)
-        {
-            mMap.addPolyline(lineOptions);
-        }
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
 
 
     }

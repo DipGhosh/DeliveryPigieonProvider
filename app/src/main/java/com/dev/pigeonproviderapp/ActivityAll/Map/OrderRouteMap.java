@@ -147,14 +147,14 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
 
         }
 
-        for(int i=0;i<latLngList.size()-1;i++)
+       /* for(int i=0;i<latLngList.size()-1;i++)
         {
             String url = getDirectionsUrl(latLngList.get(i), latLngList.get(i+1));
             DownloadTask downloadTask = new DownloadTask();
 
             // Start downloading json data from Google Directions API
             downloadTask.execute(url);
-        }
+        }*/
 
 
 
@@ -163,7 +163,7 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
-    private class DownloadTask extends AsyncTask<String, Void, String> {
+   /* private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... url) {
@@ -186,9 +186,9 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    /**
+    *//**
      * A class to parse the JSON format
-     */
+     *//*
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         // Parsing the data in non-ui thread
@@ -264,9 +264,9 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         return url;
     }
 
-    /**
+    *//**
      * A method to download json data from url
-     */
+     *//*
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -301,6 +301,6 @@ public class OrderRouteMap extends AppCompatActivity implements OnMapReadyCallba
         }
         return data;
     }
-
+*/
 
 }

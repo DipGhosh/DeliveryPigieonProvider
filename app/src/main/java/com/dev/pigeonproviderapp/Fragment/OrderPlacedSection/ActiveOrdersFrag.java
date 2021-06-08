@@ -2,6 +2,7 @@ package com.dev.pigeonproviderapp.Fragment.OrderPlacedSection;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.Fragment.OrdersFrag;
 import com.dev.pigeonproviderapp.R;
@@ -202,7 +204,6 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onActiveOrderItemClick(int id) {
-        System.out.println("IDDD"+id);
         Singleton.getInstance().setORDERID(id);
         callAcceptOrder();
     }
@@ -222,11 +223,14 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                     LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
 
                 }else {
-                    UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
+                    //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
+
+                    dialogueShow();
 
                 }
             }else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
+                //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
+                dialogueShow();
 
             }
 
@@ -234,5 +238,28 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
         });
 
 
+    }
+
+
+    private void dialogueShow()
+    {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+        builder.setTitle(getResources().getString(R.string.app_name));
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage(R.string.job_already_accepted);
+        builder.setPositiveButton(R.string.label_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        mSwipeRefreshLayout.setRefreshing(true);
+
+                        getOrderList();
+
+                    }
+                });
+
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 }

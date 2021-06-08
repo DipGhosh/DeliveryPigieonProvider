@@ -56,11 +56,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemDetailsActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class ItemDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     static LatLng co_ordinate;
-    com.google.android.gms.maps.GoogleMap mMap;
-    SupportMapFragment mapFragment;
     ArrayList<LatLng> coordList = new ArrayList<LatLng>();
     GPSTracker gpsTracker;
     OrderListViewModel orderListViewModel;
@@ -113,9 +111,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
 
         dialog = UiUtils.showProgress(ItemDetailsActivity.this);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().
-                findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
@@ -123,6 +118,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         bundle = getIntent().getExtras();
 
         AllFieldVisibility();
+        calMapRouteDraw();
 
 
         back.setOnClickListener(this);
@@ -235,7 +231,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
                 break;
             case R.id.ic_map_icon:
                 Uri uri_redirect_map = Uri.parse("http://maps.google.com/maps?saddr=" + provider_lat + "," + provider_long + "&daddr=" + drop_point_lat + "," + drop_point_long + "");
-
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri_redirect_map);
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
@@ -246,14 +241,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        calMapRouteDraw();
-
-
-    }
 
     @Override
     public void onResume() {
@@ -354,22 +342,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
         orderListViewModel.paymentAcceptData(acceptPaymentAPIModel).observe(this, acceptPaymentResponseModel -> {
 
             dialog.dismiss();
-           /* if (acceptPaymentResponseModel != null) {
 
-                if (acceptPaymentResponseModel.getStatus() == 200) {
-                    acceptPaymentByProvider.setText(getString(R.string.accepted_payment));
-                    paymentCOmpleteSign.setVisibility(View.VISIBLE);
-                    paymentStatus.setText(getString(R.string.alert_complete_payment_msg) + " " + Singleton.getInstance().getORDERAMOUNT());
-
-                    Singleton.getInstance().setPAYMENTSTATUS(3);
-                    //Singleton.getInstance().setItemcomplete(true);
-
-                    UiUtils.showAlert(activity, "Payment", getString(R.string.aleart_accept_payment));
-                }
-            }else {
-                UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.wrong_data_aleart));
-
-            }*/
 
             if(Singleton.getInstance().getERRORSTATUS()==200)
             {
@@ -528,172 +501,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements OnMapReady
             drop_point_lat = coordList.get(i).latitude;
             drop_point_long = coordList.get(i).longitude;
 
-            mMap.addMarker(new MarkerOptions().position(co_ordinate)
-                    .title("Delivery Pigieon")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-            LatLng latlng = new LatLng(lati,
-                    longi);
-            if (i == 0) {
-                startLatLng = latlng;
-            }
-            if (i == coordList.size() - 1) {
-                endLatLng = latlng;
-            }
 
         }
 
 
-        // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(startLatLng, endLatLng);
 
-        DownloadTask downloadTask = new DownloadTask();
-
-        // Start downloading json data from Google Directions API
-        downloadTask.execute(url);
-
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 10));
 
 
     }
 
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-        //setting transportation mode
-        String mode = "mode=driving";
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode;
-
-        // Output format
-        String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyBPosa7I3iL3LGInh5dfNadtCAaPi_41jo";
-
-        return url;
-    }
-
-    /**
-     * A method to download json data from url
-     */
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL(strUrl);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            urlConnection.connect();
-
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-            data = sb.toString();
-
-            br.close();
-
-        } catch (Exception e) {
-            Log.d("Exception", e.toString());
-        } finally {
-            iStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
-
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            String data = "";
-
-            try {
-                data = downloadUrl(url[0]);
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(result);
-        }
-    }
-
-    /**
-     * A class to parse the JSON format
-     */
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DataParser parser = new DataParser();
-
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList points = new ArrayList();
-            PolylineOptions lineOptions = new PolylineOptions();
-
-            for (int i = 0; i < result.size(); i++) {
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    System.out.println("POINT" + lat);
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
-
-            }
-
-            // Drawing polyline in the Google Map
-            if (points.size() != 0)
-                mMap.addPolyline(lineOptions);
-        }
-    }
 }

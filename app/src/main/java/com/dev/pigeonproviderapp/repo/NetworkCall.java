@@ -365,7 +365,7 @@ public class NetworkCall {
         MutableLiveData<PastOrderResponseDataModel> listPastOrderDataModelMutableLiveData = new MutableLiveData<PastOrderResponseDataModel>();
 
         Call<PastOrderResponseDataModel> getPastOrderListCall = apiInterface
-                .getPastOrderListCall(Singleton.getInstance().getTOKEN(), Utility.USERTYPE);
+                .getPastOrderListCall(Singleton.getInstance().getTOKEN(), Utility.USERTYPE,Singleton.getInstance().getPageCount());
 
         getPastOrderListCall.enqueue(new Callback<PastOrderResponseDataModel>() {
             @Override

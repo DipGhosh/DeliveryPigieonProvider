@@ -294,9 +294,8 @@ public class OrdersFrag extends BaseFragment implements View.OnClickListener{
 
 
                         if (Singleton.getInstance().isOrderaccept()) {
-                            //System.out.println("Mangaldip"+"Hello");
+
                             Singleton.getInstance().setOrderaccept(false);
-                            //viewPager.setCurrentItem(1, true);
 
                             View viewsupport = navView.findViewById(R.id.navigation_currentorder);
                             viewsupport.performClick();

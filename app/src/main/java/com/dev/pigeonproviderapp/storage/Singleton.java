@@ -39,6 +39,7 @@ public class Singleton {
     private String cashcollectiontime;
     private String messageType;
     private ListOrderResponseDataModel listOrderDataModel;
+    private int pageCount;
 
 
     private boolean isProfileUpdated;
@@ -299,5 +300,13 @@ public class Singleton {
 
     public void setListOrderDataModel(ListOrderResponseDataModel listOrderDataModel) {
         this.listOrderDataModel = listOrderDataModel;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 }

@@ -10,13 +10,13 @@ android {
         applicationId "com.dev.pigeonproviderapp"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 30
-        versionName "2.2.1"
+        versionCode 34
+        versionName "2.2.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    /*http://3.129.12.105
+    /*http://18.216.46.148
       https://deliverypigeon.in*/
     buildTypes {
 
