@@ -51,9 +51,8 @@
             android:id="@+id/tv_otpReceive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margine_size"
+            android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/margine_size"
             android:fontFamily="@font/montserrat"
             android:text="@string/otp_receive"
             android:textColor="@android:color/black"
@@ -62,6 +61,7 @@
         </TextView>
         <EditText
             android:id="@+id/et_otp"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginLeft="@dimen/margine_size"
@@ -122,6 +122,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:orientation="horizontal"
             android:gravity="center"
+            android:visibility="invisible"
             android:id="@+id/ll_termsofUse"
             app:layout_constraintTop_toBottomOf="@id/rl_otp">
             <CheckBox
@@ -156,6 +157,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
+            android:visibility="invisible"
             android:id="@+id/btn_registration"
             android:background="@drawable/login_button"
             android:text="@string/submit"

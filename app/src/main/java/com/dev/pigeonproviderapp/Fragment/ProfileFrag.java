@@ -90,6 +90,10 @@ public class ProfileFrag extends BaseFragment implements View.OnClickListener {
         activity = getActivity();
         sharePreference = new SharePreference(activity);
 
+        //*******GPS allow check*******//
+        //UiUtils.GpsPermission(activity);
+
+
         profileEdit = view.findViewById(R.id.img_edit);
         profileImage = view.findViewById(R.id.ic_profile_img);
         userPhoneNumber = view.findViewById(R.id.tv_phoneNumber);

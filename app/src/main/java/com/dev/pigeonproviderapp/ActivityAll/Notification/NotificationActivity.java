@@ -55,6 +55,10 @@ public class NotificationActivity extends BaseActivity implements View.OnClickLi
 
         dialog = UiUtils.showProgress(activity);
 
+        //*******GPS allow check*******//
+        //UiUtils.GpsPermission(activity);
+
+
         back=findViewById(R.id.tv_cancel);
         blankImage=findViewById(R.id.blank_img);
         notification_recyclerview = findViewById(R.id.rl_notification);

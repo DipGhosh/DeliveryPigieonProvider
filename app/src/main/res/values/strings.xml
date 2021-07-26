@@ -4,7 +4,7 @@
     <string name="otp">OTP code *</string>
     <string name="login">LOGIN</string>
     <string name="signup">Don`t have an account? <b>Signup</b></string>
-    <string name="getOtp">GET OTP</string>
+    <string name="getOtp">SEND OTP</string>
     <string name="reserOtp">RESEND OTP</string>
     <string name="otp_invalid_aleart">The provided OTP is incorrect</string>
     <string name="chekbox_str">I agree with <font color='#1FA7D1'>Terms of use</font> of Delivery Pigeon</string>
@@ -41,12 +41,12 @@
     <string name="order_details">Order Details</string>
     <string name="heading_signature">Add Signature</string>
     <string name="capture_image_heading">Capture Image</string>
-    <string name="start_order">Start Order</string>
+    <string name="start_order">Press to Start Order</string>
     <string name="drop_points">Drop Point</string>
 
     <string name="verify_otp">Verify OTP</string>
     <string name="add_signature">Capture Parcel Image</string>
-    <string name="complete">Complete Task</string>
+    <string name="complete">Press to Complete Task</string>
     <string name="completed">Task Completed</string>
     <string name="comments">Comments</string>
     <string name="rating">Rating This Customer</string>
@@ -87,6 +87,7 @@
     <string name="other_document">Other Documents</string>
     <string name="update_aleart">Kindly update your app from the Google Playstore.</string>
     <string name="edit">Edit</string>
+    <string name="device_gps_message">Please allow GPS on your device</string>
 
     //Upload validation aleart
     <string name="aleart_upload_addressproof">Please upload your font side of Adhar Card</string>
@@ -174,7 +175,7 @@
     <string name="wrong_data_aleart">Something is going to wrong. Please try again later.</string>
 
     //Version name
-    <string name="version_name">Version 2.2.3</string>
+    <string name="version_name">Version 2.2.8</string>
     <string name="job_already_accepted">This job has been accepeted by others provider</string>
     <string name="alert_permission">Permission is necessary to proceed further</string>
 

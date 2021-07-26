@@ -59,6 +59,9 @@ public class CurrentOrderFrag extends BaseFragment implements SwipeRefreshLayout
         mview=inflater.inflate(R.layout.fragment_current_order, container, false);
         activity=getActivity();
 
+        //*******GPS allow check*******//
+        UiUtils.GpsPermission(activity);
+
         blankImage=mview.findViewById(R.id.blank_img);
         currentorderlist_recyclerview = mview.findViewById(R.id.rl_current_orderList);
         currentorderlist_recyclerview.setLayoutManager(new LinearLayoutManager(activity));

@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +61,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
   private Dialog dialog;
   private SharePreference sharePreference;
   private String token;
-  private LinearLayout mainLayout;
+  private LinearLayout mainLayout,termsofuseLayout;
 
 
 
@@ -89,6 +91,7 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
     checkTerms = findViewById(R.id.checkTerms);
     termsandcondition = findViewById(R.id.tv_terms_condition);
     mainLayout=findViewById(R.id.ConstraintLayoutRoot);
+    termsofuseLayout=findViewById(R.id.ll_termsofUse);
 
     otpSendViewModel = ViewModelProviders.of(this).get(OtpSendViewModel.class);
     verifyOtpViewModel = ViewModelProviders.of(this).get(VerifyOtpViewModel.class);
@@ -139,6 +142,19 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
         if (NetworkUtils.isNetworkAvailable(activity)) {
           CallGetOTP();
+          new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+              getOtp.setClickable(false);
+              getOtp.setTextColor(Color.DKGRAY);
+            }
+
+            public void onFinish() {
+              getOtp.setClickable(true);
+              getOtp.setTextColor(Color.parseColor("#1FA7D1"));
+            }
+          }.start();
+
         }else {
           UiUtils.showToast(this, getString(R.string.network_error));
         }
@@ -147,6 +163,18 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
       case R.id.tv_resendOtp:
         if (NetworkUtils.isNetworkAvailable(activity)) {
           CallGetOTP();
+          new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+              resendOtp.setClickable(false);
+              resendOtp.setTextColor(Color.DKGRAY);
+            }
+
+            public void onFinish() {
+              resendOtp.setClickable(true);
+              resendOtp.setTextColor(Color.parseColor("#1FA7D1"));
+            }
+          }.start();
         }else {
           UiUtils.showToast(this, getString(R.string.network_error));
         }
@@ -202,6 +230,10 @@ public class Registrationactivity extends BaseActivity implements View.OnClickLi
 
                   getOtp.setVisibility(View.GONE);
                   resendOtp.setVisibility(View.VISIBLE);
+                  termsofuseLayout.setVisibility(View.VISIBLE);
+                  btnRegistration.setVisibility(View.VISIBLE);
+                  otpField.setVisibility(View.VISIBLE);
+                  otpField.requestFocus();
 
                 }else if (otpSendResponseDataModel.getStatus() == 400) {
                   UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.phone_number_restriction_validation));

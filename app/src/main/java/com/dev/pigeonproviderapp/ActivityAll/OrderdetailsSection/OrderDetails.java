@@ -1,16 +1,20 @@
 package com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +28,7 @@ import android.widget.TextView;
 
 import com.dev.pigeonproviderapp.ActivityAll.Map.DataParser;
 import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderDashboard;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRating.RatingActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
@@ -35,6 +40,7 @@ import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.datamodel.OrderDetailsResponseDatamodel;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.ProfileUpdateAPI;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Adapter.OrderDetails.OrderDetailsAdapter;
@@ -77,7 +83,7 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
     private LinearLayout back, mainLayout, startOrder, acceptOrder, startedOrder, redirectRatingScreen, pickuppointViewLinear, orderCompleted, mapIconClick, paymentInfoLayout;
     private TextView pickupStatus, pickupAddress, orderWeight, paymentStatus, orderPaymentAccept, packageType, totalDistanceNeedtocover, pickupFlatnumber, instructionMessage, earnPrice, bonusPrice,paymentMode,pickupTimeShow;
     private int pickupPointID, orderItemStatus;
-    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, paymentstatusMessage, pickupflatName, pickupAddresstoreach, totalDistanceShowinMap, paymentcollectionpoint, paymentpointaddress,paymentCollectiontime="";
+    private String pickupPointAddress, pickuPointPaymentStatus, pickupTime, pickupComment, paymentstatusMessage, pickupflatName, pickupAddresstoreach, totalDistanceShowinMap, paymentcollectionpoint, paymentpointaddress,paymentCollectiontime="",pickupNote;
     private long pickupPhonenUmber;
     private Dialog dialog;
     private boolean pickupiscollected;
@@ -88,6 +94,8 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
     private OrderDetailsAdapter adapter;
     private Intent getordertypeIntent;
     private Uri uri_redirect_map;
+    private SharePreference sharePreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +103,12 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_current_order_details);
 
         getordertypeIntent=getIntent();
+        sharePreference = new SharePreference(OrderDetails.this);
+
+        //*******GPS allow check*******//
+        UiUtils.GpsPermission(activity);
+
+
 
         back = findViewById(R.id.ll_back);
         pickupStatus = findViewById(R.id.tv_pickup_status);
@@ -194,6 +208,7 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
                 itemdetails.putExtra(Utility.LONG_KEY, pickpoint_long);
                 itemdetails.putExtra(Utility.FLATNAME_KEY, pickupflatName);
                 itemdetails.putExtra(Utility.REACHADDRESS_KEY, pickupAddresstoreach);
+                itemdetails.putExtra(Utility.PICKUPCOMMENT_KEY, pickupNote);
                 activity.startActivity(itemdetails);
                 break;
 
@@ -405,6 +420,7 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
                         pickupiscollected = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsCollectPayment();
                         droppointVerified = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsOtpVerified();
                         imageVerified = orderDetailsResponseDatamodel.getData().getPickupPoint().getIsSignatureVerified();
+                        pickupNote=orderDetailsResponseDatamodel.getData().getPickupPoint().getComments();
 
 
 
@@ -449,6 +465,7 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
                             deliveryPointListingDatamodel.is_otp_verified = dropPoint.getIsOtpVerified();
                             deliveryPointListingDatamodel.order_status=orderStatus;
                             deliveryPointListingDatamodel.is_signature_verified = dropPoint.getIsSignatureVerified();
+                            deliveryPointListingDatamodel.pickupNote=dropPoint.getComments();
 
                             order_detailsList_arraylist.add(deliveryPointListingDatamodel);
                             // add coordinates to polyline draw for drop point
@@ -691,6 +708,7 @@ public class OrderDetails extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
 
 
 }

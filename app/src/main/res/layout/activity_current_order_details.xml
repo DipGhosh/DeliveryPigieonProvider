@@ -77,9 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
-
+            android:visibility="gone">
 
 
             <RelativeLayout
@@ -90,9 +88,11 @@
                     android:id="@+id/ll_start_order_orderdetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/white_shadowshape"
+                    android:background="@drawable/submitbtn_background"
                     android:orientation="horizontal"
                     android:visibility="gone"
                     android:weightSum="2">
@@ -106,16 +106,15 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/montserrat"
                         android:gravity="center"
-                        android:textStyle="bold"
                         android:text="@string/start_order"
-                        android:textColor="@color/header_color"
-                        android:textSize="@dimen/_12sdp">
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold">
 
                     </TextView>
 
 
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -126,6 +125,8 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/white_shadowshape"
                     android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
                     android:visibility="gone"
                     android:weightSum="2">
 
@@ -138,10 +139,10 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:fontFamily="@font/montserrat"
                         android:gravity="center"
-                        android:textStyle="bold"
                         android:text="@string/order_started"
                         android:textColor="@color/header_color"
-                        android:textSize="@dimen/_12sdp">
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold">
 
                     </TextView>
 
@@ -211,33 +212,32 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_35sdp"
-                                android:orientation="horizontal"
-                                android:gravity="center|left">
+                                android:gravity="center|left"
+                                android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/tv_frompickup"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/tv_frompickup"
-                                    android:paddingTop="@dimen/_10sdp"
                                     android:layout_marginLeft="@dimen/_15sdp"
                                     android:layout_marginRight="@dimen/_5sdp"
+                                    android:fontFamily="@font/montserrat"
+                                    android:paddingTop="@dimen/_10sdp"
                                     android:text="@string/pickup_point"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:fontFamily="@font/montserrat"
-                                    >
+                                    android:textSize="@dimen/_12sdp">
 
                                 </TextView>
 
 
                                 <ImageView
+                                    android:id="@+id/et_complete_sign"
                                     android:layout_width="@dimen/_22sdp"
                                     android:layout_height="@dimen/_22sdp"
-                                    android:visibility="gone"
-                                    android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_alignRight="@+id/tv_pickup_address"
-                                    android:id="@+id/et_complete_sign"
-                                    android:background="@drawable/ico_complete"/>
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/ico_complete"
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 
@@ -347,9 +347,9 @@
                             android:fontFamily="@font/montserrat"
                             android:gravity="center"
                             android:text="@string/accept_order"
-                            android:textStyle="bold"
                             android:textColor="@color/header_color"
-                            android:textSize="@dimen/_12sdp">
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold">
 
                         </TextView>
 
@@ -362,6 +362,7 @@
                         android:layout_marginTop="@dimen/_20sdp"
                         android:background="@drawable/white_shadowshape"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_earnprice"
                             android:layout_width="wrap_content"
@@ -373,9 +374,9 @@
                             android:paddingTop="@dimen/_10sdp"
                             android:paddingBottom="@dimen/_5sdp"
                             android:text="@string/price_text"
-                            android:textStyle="bold"
                             android:textColor="@color/header_color"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvbonus_bounus"
@@ -386,11 +387,11 @@
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:fontFamily="@font/montserrat"
-                            android:text="@string/price_text"
-                            android:textStyle="bold"
                             android:paddingBottom="@dimen/_10sdp"
+                            android:text="@string/price_text"
                             android:textColor="@color/header_color"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -431,8 +432,6 @@
                         </TextView>
 
 
-
-
                         <TextView
                             android:id="@+id/tv_total_distance"
                             android:layout_width="match_parent"
@@ -468,32 +467,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:gravity="left|center"
                         android:background="@drawable/white_shadowshape"
+                        android:gravity="left|center"
                         android:orientation="horizontal">
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <ImageView
-                                android:layout_width="@dimen/_25sdp"
-                                android:layout_height="@dimen/_25sdp"
                                 android:id="@+id/ic_cash_payment"
-                                android:visibility="invisible"
-                                android:layout_marginLeft="@dimen/_13sdp"
-                                android:background="@drawable/cash_payment"/>
-
-                            <ImageView
                                 android:layout_width="@dimen/_25sdp"
                                 android:layout_height="@dimen/_25sdp"
-                                android:id="@+id/ic_online_payment"
-                                android:visibility="invisible"
                                 android:layout_marginLeft="@dimen/_13sdp"
+                                android:background="@drawable/cash_payment"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/ic_online_payment"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginLeft="@dimen/_13sdp"
+                                android:background="@drawable/online_payment"
                                 android:backgroundTint="#21E2AE"
-                                android:background="@drawable/online_payment"/>
+                                android:visibility="invisible" />
                         </RelativeLayout>
-
-
 
 
                         <TextView
@@ -502,13 +500,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_6sdp"
                             android:fontFamily="@font/montserrat"
-                            android:textStyle="bold"
                             android:textColor="@color/header_color"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -523,8 +520,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_35sdp"
-                            android:orientation="horizontal"
-                            android:gravity="center|left">
+                            android:gravity="center|left"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -538,14 +535,15 @@
                                 android:textSize="@dimen/_12sdp">
 
                             </TextView>
+
                             <ImageView
+                                android:id="@+id/et_payment_complete_sign"
                                 android:layout_width="@dimen/_22sdp"
                                 android:layout_height="@dimen/_22sdp"
-                                android:visibility="invisible"
-                                android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_alignRight="@+id/tv_pickup_address"
-                                android:id="@+id/et_payment_complete_sign"
-                                android:background="@drawable/ico_complete"/>
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/ico_complete"
+                                android:visibility="invisible" />
 
                         </LinearLayout>
 

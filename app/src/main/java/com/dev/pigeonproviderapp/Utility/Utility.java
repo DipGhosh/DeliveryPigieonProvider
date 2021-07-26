@@ -55,7 +55,7 @@ public class Utility {
   public static int ADDRESS_BACK_ID = 2;
   public static int ADDRESS_PAN_ID = 3;
   public static int ADDRESS_OTHERS_ID = 4;
-  public static int APP_VERSION=34;
+  public static int APP_VERSION=37;
 
   // Intent Result
   public static String EDIT_NAME = "EDIT_NAME";
@@ -64,6 +64,7 @@ public class Utility {
 
   public static String FLATNAME_KEY="flatname";
   public static String REACHADDRESS_KEY="addresstoreach";
+  public static String PICKUPCOMMENT_KEY="pickupcomment";
 
   public static String ADDRESS_KEY = "address";
   public static String TIME_KEY = "time";

@@ -1,11 +1,15 @@
 package com.dev.pigeonproviderapp.Fragment.OrderPlacedSection;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection.OrderDetails;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.Baseclass.BaseFragment;
 import com.dev.pigeonproviderapp.Fragment.OrdersFrag;
@@ -27,6 +32,7 @@ import com.dev.pigeonproviderapp.Utility.NetworkUtils;
 import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.datamodel.ListOrderResponseDataModel;
 import com.dev.pigeonproviderapp.interfaces.onActiveOrderClickListener;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.view.Adapter.ActiveOrder.ActiveOrderListAdapter;
 import com.dev.pigeonproviderapp.view.Dataprovider.OrderActiveDatamodel;
@@ -50,6 +56,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
     private OrderListViewModel orderListViewModel;
     private ListOrderResponseDataModel listOrderDataModel;
+    private SharePreference sharePreference;
 
 
 
@@ -65,6 +72,11 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
         mview = inflater.inflate(R.layout.fragment_active_orders, container, false);
         activity = getActivity();
         dialog = UiUtils.showProgress(activity);
+        sharePreference = new SharePreference(activity);
+
+        
+//*******GPS allow check*******//
+        UiUtils.GpsPermission(activity);
 
         blankImage = mview.findViewById(R.id.blank_img);
         activeorderlist_recyclerview = mview.findViewById(R.id.rl_active_orderList);
@@ -82,9 +94,9 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
         // ViewModel Object
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
-        listOrderDataModel= Singleton.getInstance().getListOrderDataModel();
+        listOrderDataModel = Singleton.getInstance().getListOrderDataModel();
 
-        adapter = new ActiveOrderListAdapter(activity, active_order_arraylist,this);
+        adapter = new ActiveOrderListAdapter(activity, active_order_arraylist, this);
         activeorderlist_recyclerview.setAdapter(adapter);
 
 
@@ -106,7 +118,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
 
                 OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-                orderActiveDatamodel.pickuptime=available.getPickupDateNew()+"  "+available.getPickupTime();
+                orderActiveDatamodel.pickuptime = available.getPickupDateNew() + "  " + available.getPickupTime();
                 orderActiveDatamodel.activeorder_id = available.getId();
                 orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
                 orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
@@ -114,7 +126,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
                 orderActiveDatamodel.provider_bonus = available.getProviderBonus();
                 orderActiveDatamodel.earnAmount = available.getEarn();
-                orderActiveDatamodel.orderId=available.getOrderNo();
+                orderActiveDatamodel.orderId = available.getOrderNo();
 
 
                 active_order_arraylist.add(orderActiveDatamodel);
@@ -155,19 +167,17 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 active_order_arraylist.clear();
-                if (listOrderDataModel != null ) {
+                if (listOrderDataModel != null) {
 
-                    if(listOrderDataModel.getStatus() == 200)
-                    {
-                        if (listOrderDataModel.getData().getAvailable().size() > 0)
-                        {
+                    if (listOrderDataModel.getStatus() == 200) {
+                        if (listOrderDataModel.getData().getAvailable().size() > 0) {
                             activeorderlist_recyclerview.setVisibility(View.VISIBLE);
                             blankImage.setVisibility(View.GONE);
 
                             for (ListOrderResponseDataModel.Available available : listOrderDataModel.getData().getAvailable()) {
 
                                 OrderActiveDatamodel orderActiveDatamodel = new OrderActiveDatamodel();
-                                orderActiveDatamodel.pickuptime=available.getPickupDateNew()+"  "+available.getPickupTime();
+                                orderActiveDatamodel.pickuptime = available.getPickupDateNew() + "  " + available.getPickupTime();
                                 orderActiveDatamodel.activeorder_id = available.getId();
                                 orderActiveDatamodel.activeorder_type = String.valueOf(available.getOrderType());
                                 orderActiveDatamodel.activeorder_pickup_address = available.getPickupPoint();
@@ -175,7 +185,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                                 orderActiveDatamodel.activeorder_total_ammount = "₹" + available.getAmount();
                                 orderActiveDatamodel.provider_bonus = available.getProviderBonus();
                                 orderActiveDatamodel.earnAmount = available.getEarn();
-                                orderActiveDatamodel.orderId=available.getOrderNo();
+                                orderActiveDatamodel.orderId = available.getOrderNo();
 
                                 active_order_arraylist.add(orderActiveDatamodel);
 
@@ -183,7 +193,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                             /*adapter = new ActiveOrderListAdapter(activity, active_order_arraylist);
                             activeorderlist_recyclerview.setAdapter(adapter);*/
                             adapter.notifyDataSetChanged();
-                        }else {
+                        } else {
 
                             active_order_arraylist.clear();
                             activeorderlist_recyclerview.setVisibility(View.GONE);
@@ -193,9 +203,6 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
 
 
                 }
-
-
-
 
 
             }
@@ -219,16 +226,16 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
                 if (acceptOrderResponseDataModel.getStatus() == 200) {
 
                     Intent intent = new Intent("custom-message");
-                    intent.putExtra("ORDERSTATUS" ,"Accepted");
+                    intent.putExtra("ORDERSTATUS", "Accepted");
                     LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
 
-                }else {
+                } else {
                     //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
 
                     dialogueShow();
 
                 }
-            }else {
+            } else {
                 //UiUtils.showAlert(activity, getString(R.string.app_name), getString(R.string.job_already_accepted));
                 dialogueShow();
 
@@ -241,8 +248,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
     }
 
 
-    private void dialogueShow()
-    {
+    private void dialogueShow() {
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
         builder.setTitle(getResources().getString(R.string.app_name));
         builder.setIcon(R.mipmap.ic_launcher);
@@ -262,4 +268,7 @@ public class ActiveOrdersFrag extends BaseFragment implements SwipeRefreshLayout
         final android.app.AlertDialog alert = builder.create();
         alert.show();
     }
+
+
+
 }
