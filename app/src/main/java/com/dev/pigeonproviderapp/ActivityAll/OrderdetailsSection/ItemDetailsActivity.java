@@ -2,12 +2,16 @@ package com.dev.pigeonproviderapp.ActivityAll.OrderdetailsSection;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +28,7 @@ import com.dev.pigeonproviderapp.ActivityAll.Map.OrderRouteMap;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.ItemDigitalSignature;
 import com.dev.pigeonproviderapp.ActivityAll.OTPSection.OtpVerificationActivity;
 import com.dev.pigeonproviderapp.ActivityAll.ProviderRating.RatingActivity;
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
 import com.dev.pigeonproviderapp.Utility.GPSTracker;
 import com.dev.pigeonproviderapp.Utility.NetworkUtils;
@@ -31,6 +36,7 @@ import com.dev.pigeonproviderapp.Utility.UiUtils;
 import com.dev.pigeonproviderapp.Utility.Utility;
 import com.dev.pigeonproviderapp.httpRequest.AcceptPaymentAPIModel;
 import com.dev.pigeonproviderapp.httpRequest.CompleteOrderAPIModel;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.dev.pigeonproviderapp.storage.Singleton;
 import com.dev.pigeonproviderapp.viewmodel.OrderListViewModel;
 import com.google.android.gms.maps.CameraUpdate;
@@ -68,17 +74,25 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
     double provider_lat, provider_long, drop_point_lat, drop_point_long;
     private Activity activity = ItemDetailsActivity.this;
     private LinearLayout back, verifyOTP, addSignature, completeorderSubmit, orderCompleted,paymentInfoLayout;
-    private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider,addressToReach;
+    private TextView pointName, pointDeliveryTime, pointAddress, paymentStatus, pointDeliveryComment, acceptPaymentByProvider,addressToReach,pickupComment;
     private EditText providerComment;
     private ImageView itemPhoneNumber, mapIconClick,paymentCOmpleteSign,verifyOtpSignImage,captureImageSign;
     private Dialog dialog;
     private String orderType;
     private ConstraintLayout constrainmain;
+    private SharePreference sharePreference;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
+
+        //*******GPS allow check*******//
+        UiUtils.GpsPermission(activity);
+        sharePreference = new SharePreference(ItemDetailsActivity.this);
+
 
         back = findViewById(R.id.ll_back);
         verifyOTP = findViewById(R.id.ll_verify_otp);
@@ -100,6 +114,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         paymentCOmpleteSign=findViewById(R.id.et_payment_complete_sign);
         verifyOtpSignImage=findViewById(R.id.et_verify_otpcomplete_sign);
         captureImageSign=findViewById(R.id.et_capture_image_sign);
+        pickupComment=findViewById(R.id.tv_pickup_comment);
+
 
         gpsTracker = new GPSTracker(activity);
 
@@ -411,10 +427,10 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
 
             if (bundle.getString(Utility.COMMENT_KEY)!=null)
             {
-                pointDeliveryComment.setText("Note: "+bundle.getString(Utility.COMMENT_KEY));
+                pointDeliveryComment.setText("Special Instruction: "+bundle.getString(Utility.COMMENT_KEY));
             }
             else {
-                pointDeliveryComment.setText("Note: "+"");
+                pointDeliveryComment.setText("Special Instruction: "+"");
             }
 
 
@@ -426,12 +442,17 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
                 pointDeliveryTime.setVisibility(View.GONE);
             }
 
-            //Client requirement was untill order will be not accepted by the provider flat number will be not showing
-            if (bundle.getString(Utility.FLATNAME_KEY)!=null && Singleton.getInstance().getORDERITEMSTATUS() == 1)
+            if (bundle.getString(Utility.PICKUPCOMMENT_KEY)!=null)
             {
-                pointAddress.setText(bundle.getString(Utility.ADDRESS_KEY));
+                pickupComment.setText(bundle.getString(Utility.PICKUPCOMMENT_KEY));
+            }else {
+                pickupComment.setVisibility(View.GONE);
+            }
 
-            }else if(bundle.getString(Utility.FLATNAME_KEY)!=null && Singleton.getInstance().getORDERITEMSTATUS() >1){
+            Log.d("IDDD", String.valueOf(Singleton.getInstance().getORDERITEMSTATUS()));
+
+            //Client requirement was untill order will be not accepted by the provider flat number will be not showing
+            if(bundle.getString(Utility.FLATNAME_KEY)!=null && Singleton.getInstance().getORDERITEMSTATUS() >1){
                 pointAddress.setText(bundle.getString(Utility.FLATNAME_KEY)+ System.getProperty ("line.separator")+bundle.getString(Utility.ADDRESS_KEY));
             }else {
                 pointAddress.setText(bundle.getString(Utility.ADDRESS_KEY));
@@ -504,11 +525,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
 
         }
 
-
-
-
-
     }
+
+
 
 
 }

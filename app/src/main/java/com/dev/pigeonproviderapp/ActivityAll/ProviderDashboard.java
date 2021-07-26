@@ -1,14 +1,19 @@
 package com.dev.pigeonproviderapp.ActivityAll;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -40,7 +45,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProviderDashboard extends AppCompatActivity  {
 
@@ -60,11 +67,27 @@ public class ProviderDashboard extends AppCompatActivity  {
     private String chatpassword;
     private int mMenuId;
 
+
+    public static final int MULTIPLE_PERMISSIONS = 10;
+    String[] permissions = new String[]{
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            Intent i = activity.getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage(activity.getBaseContext().getPackageName() );
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            activity.finish();
+        }
         setContentView(R.layout.activity_provider_dashboard);
         navView = findViewById(R.id.nav_view);
+
+
 
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_order, R.id.navigation_suport, R.id.navigation_profile)
@@ -73,8 +96,6 @@ public class ProviderDashboard extends AppCompatActivity  {
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-   /* navView.setOnNavigationItemSelectedListener(this);
-    navView.getMenu().findItem(R.id.navigation_profile).setChecked(true);*/
         locationSendViewModel = ViewModelProviders.of(this).get(LocationSendViewModel.class);
 
         sharePreference = new SharePreference(ProviderDashboard.this);
@@ -94,6 +115,8 @@ public class ProviderDashboard extends AppCompatActivity  {
             Log.d("Aslam", "ex: " + ex.getMessage());
         }
 
+
+        checkPermissions();
     }
 
 
@@ -171,6 +194,40 @@ public class ProviderDashboard extends AppCompatActivity  {
             Singleton.getInstance().setMessageType("");
         }
 
+
+
+    }
+
+    public boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(activity, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permissions granted.
+
+
+                }else {
+                    sharePreference.LogOut();
+                    Intent logout = new Intent(activity, Registrationactivity.class);
+                    startActivity(logout);
+                }
+                return;
+            }
+        }
     }
 
 

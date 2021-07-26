@@ -106,6 +106,18 @@
                 android:paddingLeft="@dimen/_15sdp"
                 android:paddingRight="@dimen/_15sdp"
                 android:fontFamily="@font/montserrat"
+                android:paddingBottom="@dimen/_5sdp"
+                android:textColor="@color/fadeBlackColor"
+                android:textSize="@dimen/_10sdp">
+
+            </TextView>
+            <TextView
+                android:id="@+id/tv_pickup_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textColor="@color/fadeBlackColor"
                 android:textSize="@dimen/_10sdp">
@@ -425,9 +437,11 @@
                         android:id="@+id/ll_order_item_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/white_shadowshape"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:background="@drawable/submitbtn_background"
                         android:orientation="horizontal"
-                        android:visibility="invisible"
+                        android:visibility="gone"
                         android:weightSum="2">
 
                         <TextView
@@ -440,7 +454,7 @@
                             android:fontFamily="@font/montserrat"
                             android:gravity="center"
                             android:text="@string/complete"
-                            android:textColor="@color/header_color"
+                            android:textColor="@android:color/white"
                             android:textSize="@dimen/_12sdp">
 
                         </TextView>

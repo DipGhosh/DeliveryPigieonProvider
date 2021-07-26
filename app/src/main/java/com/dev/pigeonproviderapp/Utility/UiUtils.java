@@ -1,5 +1,6 @@
 package com.dev.pigeonproviderapp.Utility;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,12 +8,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,7 +27,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+
+import com.dev.pigeonproviderapp.ActivityAll.ProviderRegistration.Registrationactivity;
 import com.dev.pigeonproviderapp.R;
+import com.dev.pigeonproviderapp.storage.SharePreference;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -37,6 +44,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 public class UiUtils {
@@ -218,6 +227,57 @@ public class UiUtils {
         progressBar.getIndeterminateDrawable().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         dialog.setCancelable(false);
         return dialog;
+    }
+
+    // progress bar handling
+    public static void GpsPermission(Activity activity) {
+        SharePreference sharePreference=new SharePreference(activity);
+        ActivityCompat.requestPermissions(activity,new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION},123);
+
+        if (ActivityCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
+                == PackageManager.PERMISSION_GRANTED )
+        {
+            LocationManager locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            {
+                //Toast.makeText(activity, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+
+            }
+            else
+            {
+
+                final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+                builder.setTitle(activity.getResources().getString(R.string.app_name));
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setMessage(R.string.device_gps_message);
+                builder.setPositiveButton(R.string.label_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                activity.startActivity(callGPSSettingIntent);
+                            }
+                        });
+                builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        sharePreference.LogOut();
+                        Intent logout = new Intent(activity, Registrationactivity.class);
+                        activity.startActivity(logout);
+                    }
+                });
+                final android.app.AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }
+        else{
+
+            //Toast.makeText(activity, "Give permission to GPS access for further access", Toast.LENGTH_LONG).show();
+        }
     }
 
 

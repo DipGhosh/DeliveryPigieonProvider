@@ -24,16 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAll.IdentityCard.IDCardActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
+        <activity android:name=".ActivityAll.Statistics.Statistics"></activity>
+        <activity
+            android:name=".ActivityAll.IdentityCard.IDCardActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityAll.Notification.NotificationActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityAll.PaymentHistory.PaymentHistoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -82,7 +79,6 @@
                 <action android:name="OPEN_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-
             </intent-filter>
         </activity>
         <activity
@@ -126,8 +122,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

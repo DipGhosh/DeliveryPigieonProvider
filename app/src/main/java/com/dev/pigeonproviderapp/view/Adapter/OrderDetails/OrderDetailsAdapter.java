@@ -92,6 +92,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 itemdetails.putExtra(Utility.LONG_KEY, deliveryPointListingDatamodel.droppoint_long);
                 itemdetails.putExtra(Utility.FLATNAME_KEY, deliveryPointListingDatamodel.flatName);
                 itemdetails.putExtra(Utility.REACHADDRESS_KEY, deliveryPointListingDatamodel.addressToReach);
+                itemdetails.putExtra(Utility.PICKUPCOMMENT_KEY, deliveryPointListingDatamodel.pickupNote);
                 activity.startActivity(itemdetails);
             }
         });

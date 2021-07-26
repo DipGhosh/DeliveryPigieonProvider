@@ -65,6 +65,10 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
         dialog = UiUtils.showProgress(activity);
 
+        //*******GPS allow check*******//
+        //UiUtils.GpsPermission(activity);
+
+
         tabLayout = findViewById(R.id.tablayout);
         tabPaymentHistory = findViewById(R.id.tab_payment_history);
         tabEarnHistory = findViewById(R.id.tab_earning_history);

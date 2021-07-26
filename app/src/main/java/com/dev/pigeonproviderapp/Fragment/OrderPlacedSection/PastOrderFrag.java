@@ -72,6 +72,10 @@ public class PastOrderFrag extends BaseFragment {
         activity = getActivity();
         dialog = UiUtils.showProgress(activity);
 
+        //*******GPS allow check*******//
+        UiUtils.GpsPermission(activity);
+
+
         blankImage = mview.findViewById(R.id.blank_img);
         nsvMain = mview.findViewById(R.id.form_m_list_fragment_nsvMain);
         parentRecyclerview = mview.findViewById(R.id.parent_recyclerview);
@@ -103,7 +107,6 @@ public class PastOrderFrag extends BaseFragment {
                if (scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
                {
                    count++;
-                   Log.d("Count", String.valueOf(count));
 
                    Singleton.getInstance().setPageCount(count);
                    getOrderList();
